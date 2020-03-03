@@ -11,6 +11,15 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 
+=== Terminfindung und Abstimmung
+Um einen gemeinsamen Termin mit mehreren Personen abzustimmen, kann man in diesem System ein Eintrag angelegt werden. Ein Eintrag besteht aus einem Titel, einem Ort, einer optionalen Beschreibung und  Vorschlägen für Termine. Die Terminvorschläge sollen sowohl über eine einfach zu bedienende graphische Oberfläche (hier könnte doodle.com oder auch terminplaner.dfn.de als Vorbild genommen werden) eingegeben, als auch über ein Textfile importiert werden können. Es soll auch die Option geben über Fragen abzustimmen. Auch Kommentare sollen abgegeben werden können.
+
+Terminfindung und Abstimmung können mit einer Gruppe verknüpft werden. Dann können nur Gruppenmitglieder teilnehmen. Alternativ kann der Zugang per Link erfolgen. Jede Person, die den Link kennt, kann dann abstimmen.
+
+Die Abstimmung kann unter dem Klarnamen oder Pseudonym erfolgen.
+
+Für alle Terminfindungs- und Abstimmungsprozesse soll ein Datum angegeben werden, an dem die den Prozess betreffenden Daten automatisch gelöscht werden.
+
 == Gruppenbildung
 
 Für das Abschlussprojekt bilden Sie bitte eine Gruppe im GitHub Classroom, die
@@ -143,15 +152,6 @@ Für manuelle Einreichungen benötigen Korrektorinnen eine Schnittstelle, wo sie
 Das System soll Organisatorinnen eine schnelle (buchstäblich!!!) Übersicht über die Situation im Übungsbetrieb geben. Dazu müssen die aktuellen Punktstände für Studierende angezeigt werden können (inklusive der Informationen, welche Punkte gesichert sind, d.h. wenn Punkte eingetragen, aber die Korrektur noch nicht abgeschlossen ist, sollen diese unsicheren Punkte unterscheidbar dargestellt werden).
 
 Hier brauchen wir auch Visualisierungen für aggregierte Daten durchschnittliche Punktzahl, Abweichungen, Punkte nach Blättern, Punkte nach Aufgaben etc. Hier sind Darstellungen gefragt, die uns Problem im Übungsbetrieb aufzeigen können gefragt.
-
-=== Terminfindung und Abstimmung
-Um einen gemeinsamen Termin mit mehreren Personen abzustimmen, kann man in diesem System ein Eintrag angelegt werden. Ein Eintrag besteht aus einem Titel, einem Ort, einer optionalen Beschreibung und  Vorschlägen für Termine. Die Terminvorschläge sollen sowohl über eine einfach zu bedienende graphische Oberfläche (hier könnte doodle.com oder auch terminplaner.dfn.de als Vorbild genommen werden) eingegeben, als auch über ein Textfile importiert werden können. Es soll auch die Option geben über Fragen abzustimmen. Auch Kommentare sollen abgegeben werden können.
-
-Terminfindung und Abstimmung können mit einer Gruppe verknüpft werden. Dann können nur Gruppenmitglieder teilnehmen. Alternativ kann der Zugang per Link erfolgen. Jede Person, die den Link kennt, kann dann abstimmen.
-
-Die Abstimmung kann unter dem Klarnamen oder Pseudonym erfolgen.
-
-Für alle Terminfindungs- und Abstimmungsprozesse soll ein Datum angegeben werden, an dem die den Prozess betreffenden Daten automatisch gelöscht werden.
 
 === Java in der Praxis: Selfservice
 Für Veranstaltungen der rheinjug können Kreditpunkte erworben werden. Für je 0.5 CP werden drei normale Abendveranstaltungen oder eine Entwickelbar Veranstaltung besucht und pro Veranstaltung eine kurze Zusammenfassung geschrieben. Die Veranstaltungstermine können über die API von meetup.com abgerufen werden.
