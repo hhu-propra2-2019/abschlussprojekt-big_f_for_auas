@@ -76,7 +76,10 @@ test {
 	useJUnitPlatform()
 }
 
-checkstyle { toolVersion '8.28' }
+checkstyle {
+	toolVersion = '8.28'
+	configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+}
 
 pmd {
 	ruleSets = [
