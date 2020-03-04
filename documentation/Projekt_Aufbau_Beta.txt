@@ -1,0 +1,10 @@
+- Art der Abstimmungserstellung wird noch entschieden
+- User hat mehrere Optionen bei der Terminfindungsabstimmung (z.B. Ja, Nein, Enthaltung/Vielleicht/Wenn es sein muss)
+- Am Ende Auswertung anzeigen
+
+- Optionen sind: Unabänderbare Terminabstimmung, Abänderbare Terminabstimmung
+
+- wir brauchen von den GROUPIES: 1. In welchen Gruppen ist ein User? 2. Ist dieser User in dieser Gruppe? 3. Welche User sind in einer Gruppe?
+
+
+LUKAS MINUS 6 MINUTEN
