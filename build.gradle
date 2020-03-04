@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 	id 'checkstyle'
+	id 'pmd'
 }
 
 group = 'termine1'
@@ -60,3 +61,16 @@ test {
 }
 
 checkstyle { toolVersion '8.28' }
+
+pmd {
+	ruleSets = [
+			"category/java/errorprone.xml",
+			"category/java/bestpractices.xml",
+			"category/java/codestyle.xml",
+			"category/java/design.xml",
+			"category/java/documentation.xml",
+			"category/java/multithreading.xml",
+			"category/java/performance.xml",
+			"category/java/security.xml"
+	]
+}
