@@ -1,9 +1,10 @@
-version: "3.7"
+version: "3.3"
 services:
   database:
-    image: mysql:5.7
+    image: mariadb:10
     volumes:
       - ./mysql/db/entrypoint:/docker-entrypoint-initdb.d/
+      - ./mysql/db/config.cnf:/etc/mysql/conf.d/config.cnf
     ports:
       - "13306:3306"
     environment:
