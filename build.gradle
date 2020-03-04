@@ -20,6 +20,11 @@ configurations {
 	}
 }
 
+// Do not compile if warnings are present.
+/* compileJava{
+	options.compilerArgs << "-Werror"
+} */
+
 repositories {
 	maven {
 		url="https://s3.cs.hhu.de/public/mops/"
