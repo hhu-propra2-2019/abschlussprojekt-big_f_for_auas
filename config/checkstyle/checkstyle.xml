@@ -51,7 +51,7 @@
 
     <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
     <module name="SuppressionFilter">
-        <property name="file" value="${org.checkstyle.sun.suppressionfilter.config}"
+        <property name="file" value="${config_loc}/checkstyle-suppressions.xml"
                   default="checkstyle-suppressions.xml" />
         <property name="optional" value="true"/>
     </module>
@@ -73,6 +73,7 @@
     <module name="FileLength"/>
     <module name="LineLength">
         <property name="fileExtensions" value="java"/>
+        <property name="max" value="120"/>
     </module>
 
     <!-- Checks for whitespace                               -->
