@@ -4,6 +4,8 @@ plugins {
 	id 'org.springframework.boot' version '2.2.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'checkstyle'
+	id 'pmd'
 	id "com.github.spotbugs" version "3.0.0"
 }
 
@@ -26,7 +28,18 @@ configurations {
 	}
 }
 
+// Do not compile if warnings are present.
+/* compileJava{
+	options.compilerArgs << "-Werror"
+} */
+
 repositories {
+	maven {
+		url="https://s3.cs.hhu.de/public/mops/"
+		metadataSources {
+			artifact()
+		}
+	}
 	mavenCentral()
 }
 
@@ -43,6 +56,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation "mops:styleguide:2.0.0"
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -60,4 +74,19 @@ dependencyManagement {
 
 test {
 	useJUnitPlatform()
+}
+
+checkstyle { toolVersion '8.28' }
+
+pmd {
+	ruleSets = [
+			"category/java/errorprone.xml",
+			"category/java/bestpractices.xml",
+			"category/java/codestyle.xml",
+			"category/java/design.xml",
+			"category/java/documentation.xml",
+			"category/java/multithreading.xml",
+			"category/java/performance.xml",
+			"category/java/security.xml"
+	]
 }

@@ -16,11 +16,12 @@ build/
 
 ### IntelliJ IDEA ###
 .ideag
-.idea/
+.idea/*
 *.iws
 *.iml
 *.ipr
 out/
+!.idea/checkstyle-idea.xml
 
 ### NetBeans ###
 /nbproject/private/
