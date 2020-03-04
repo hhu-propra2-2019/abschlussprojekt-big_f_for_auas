@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.2.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'checkstyle'
 }
 
 group = 'termine1'
@@ -19,6 +20,12 @@ configurations {
 }
 
 repositories {
+	maven {
+		url="https://s3.cs.hhu.de/public/mops/"
+		metadataSources {
+			artifact()
+		}
+	}
 	mavenCentral()
 }
 
@@ -35,6 +42,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation "mops:styleguide:2.0.0"
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -50,3 +58,5 @@ dependencyManagement {
 test {
 	useJUnitPlatform()
 }
+
+checkstyle { toolVersion '8.28' }
