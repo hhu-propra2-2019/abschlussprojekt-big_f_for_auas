@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Dieser Service dient zur Erstellung einer Terminfindung (DatePoll).
+ * Dieser Service dient zur Erstellung eines(!) Terminfindungs-Objekt (DatePoll).
  * Der Service erhaelt die Daten zur Termindung durch den User (creator).
  * Die Terminfingung wird dann durch einen Lombok-Builder erzeugt. Dieser durchlaueft mehrere Methoden.
  *
