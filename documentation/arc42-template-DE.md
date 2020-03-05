@@ -19,6 +19,37 @@ Aufgabenstellung {#_aufgabenstellung}
 
 Qualitätsziele {#_qualit_tsziele}
 --------------
+**Wartbarkeit:**
+
+Unser wichtigstes Qualitätsziel ist **Wartbarkeit**, da wir nachdem wir das Projekt ausliefern nicht mehr dafür verantwortlich sind.
+Daraus resultiert, dass unser Projekt möglichst gut **testbar** und **anlysierbar** sein soll.
+
+**Benutzbarkeit:**
+
+Ein weiteres wichtiges Qualitätsziel ist **Benutzbarkeit**. Unseren Service stellen wir allen Angehörigen der
+Heinrich-Heine-Universität Düsseldorf bereit. Aufgrund der verschiedenen Backgrounds der Benutzerbasis soll unser Service
+ohne Vorkenntnisse einfach und intuitiv benutzbar sein. Es soll keine Lernkurve geben müssen. Man soll den Service sofort
+verstehen und nutzen können. Außerdem wollen wir vermeiden, dass Benutzer unabsichtlich Fehler machen.
+
+**Performance:**
+
+**Performance** ist wichtig, damit jeder Nutzer Terminfindung und Abstimmung möglichst schnell erstellen bzw. durchführen
+kann und dabei nicht frustriert wird. Daraus resultiert, dass wir uns vornehmen, dass jede Operation höchstens 2 Sekunden
+Antwortzeit hat.
+
+**Sicherheit:**
+
+Die Datensicherheit soll sichergestellt werden. Bei den Daten zu Terminfindung und Abstimmungen handelt es sich um
+personenbezogene Daten, die in keinem Fall von nicht berechtigten Benutzern oder Angreifern eingesehen werden dürfen.
+
+<br>
+
+Weniger wichtig sind folgende Qualitätsziele:
+
+**Zuverlässigkeit:**
+Natürlich ist es uns wichtig, dass unser System ordnungsgemäß funktioniert. Es ist allerdings nicht kritisch für den Alltag
+an der Universität, wenn Teilsysteme unseres Services für kurze Zeit ausfallen oder kleinere Bugs auftreten, welche
+nicht sicherheitskritisch sind. 
 
 
 
@@ -35,6 +66,9 @@ Stakeholder {#_stakeholder}
 
 Randbedingungen {#section-architecture-constraints}
 ===============
+
+Unser Service ist ein Self-Contained-System, welches im Mops-System integriert werden soll und im ZiM über ein
+Docker-File betrieben wird.
 
 Kontextabgrenzung {#section-system-scope-and-context}
 =================
