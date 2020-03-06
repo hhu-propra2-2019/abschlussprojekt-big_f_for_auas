@@ -2,11 +2,50 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
 <head>
-    <meta charset="utf-8"></meta>
+    <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
-        <!-- Links, Skripts, Styles hier einfügen! -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function(){
+                initDatepicker();
+            })
+        </script>
+        <script>
+            let endModified = false;
+
+            function initDatepicker(){
+                let today = new Date().toISOString().slice(0, 16);
+                let day = today.split("T")[0];
+                let time = today.split("T")[1];
+                document.getElementById("termin-startDate").value = day;
+                document.getElementById("termin-startTime").value = time;
+                document.getElementById("termin-startDate").min = day;
+                document.getElementById("termin-endDate").min = day;
+                document.getElementById("termin-endTime").value = time;
+                document.getElementById("termin-endDate").value = addOneMonth(today);
+            }
+
+            function updateEndDate() {
+                if (!endModified) {
+                    let startDate = document.getElementById("termin-startDate").value;
+                    document.getElementById("termin-endDate").value = addOneMonth(startDate);
+                    document.getElementById("termin-endDate").min = addOneDay(startDate);
+                }
+            }
+
+            function addOneMonth(dateString){
+                let date = new Date(dateString);
+                date.setMonth(date.getMonth()+1);
+                return date.toISOString().split("T")[0];
+            }
+
+            function addOneDay(dateString){
+                let date= new Date(dateString);
+                date.setDate(date.getDate()+1);
+                return date.toISOString().split("T")[0];
+            }
+        </script>
     </th:block>
 </head>
 <body>
@@ -20,15 +59,27 @@
         <form>
             <div class="form-group">
                 <label>Start</label>
-                <input class="form-control" id="termin-startDate" placeholder="Start (Datepicker)">
+                <div class="row">
+                    <div class="col">
+                        <input class="form-control" type="date" id="termin-startDate" onchange="updateEndDate()">
+                    </div>
+                    <div class="col">
+                        <input class="form-control" type="time" id="termin-startTime">
+                    </div>
+                </div>
+
+
             </div>
             <div class="form-group">
                 <label>Ende</label>
-                <input class="form-control" id="termin-endDate" placeholder="Ende (Datepicker)">
-            </div>
-            <div class="form-group">
-                <label>Löschung</label>
-                <input class="form-control" id="termin-deleteDate" placeholder="Löschung (Datepicker)">
+                <div class="row">
+                    <div class="col">
+                        <input class="form-control" type="date" id="termin-endDate" onchange="endModified=true">
+                    </div>
+                    <div class="col">
+                        <input class="form-control" type="time" id="termin-endTime">
+                    </div>
+                </div>
             </div>
 
             <label>Sichtbarkeit des Namens</label>
@@ -49,11 +100,5 @@
         </form>
     </div>
 </main>
-
-<script>
-    $('.datepicker').datepicker({
-        format: 'mm/dd/yyyy',
-    });
-</script>
 </body>
 </html>
