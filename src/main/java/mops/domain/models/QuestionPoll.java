@@ -1,21 +1,23 @@
 package mops.domain.models;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import lombok.Builder;
 import lombok.Singular;
-import org.springframework.lang.Nullable;
 
 @Builder
 public class QuestionPoll {
-  private final String title;
   private final User owner;
-
-  @Nullable
-  private final String description;
-
+  private final QuestionPollHeader header;
   private boolean visibility;
   private boolean pollingMode;
 
-  @Singular("choice")
-  private List<QuestionPollEntry> choices;
+  @Singular("questionPollEntry")
+  private List<QuestionPollEntry> entries;
+
+  @Singular("voter")
+  private final List<User> allowedVoters;
+
+  private final QuestionPollBallot ballot;
 }
