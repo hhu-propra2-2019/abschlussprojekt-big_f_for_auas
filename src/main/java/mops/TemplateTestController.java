@@ -9,6 +9,6 @@ public final class TemplateTestController {
 
     @GetMapping("/")
     public String returnDashboard() {
-        return "webflows/scheduling/mobileSchedulingNameSettings.xhtml";
+        return "webflows/scheduling/mobileSchedulingAccessSettings.html";
     }
 }
