@@ -9,7 +9,10 @@ import java.util.List;
 /**
  * Dieser Service dient zur Erstellung eines(!) Terminfindungs-Objekt (DatePoll).
  * Der Service erhaelt die Daten zur Termindung durch den User (creator).
- * Die Terminfingung wird dann durch einen Lombok-Builder erzeugt. Dieser durchlaueft mehrere Methoden.
+ * Das DatePoll Objekt enthaelt ein DatePollConfig Objekt, welches nach bestimmten Konfigurationsschritten
+ * geupdated wird.
+ * Die Terminfingung wird dann durch einen Lombok-Builder erzeugt, der sich in der Klasse
+ * DatePollBuilderAndView befindet. Dieser durchlaueft mehrere Methoden.
  *
  * @author Niclas, Tim, Lukas
  */
@@ -18,7 +21,7 @@ public class DatePollCreateService {
     /**
      *Initiale Methode zur Erstellung der Terminfindung.
      * @param creator User der die Terminfindung erstellt.
-     * @return Lombok-Builder DatePoll Objekt.
+     * @return DatePollBuilderAndView Objekt (enthaelt: DatePollBuilder, DatePoll, DatePollConfig).
      */
     public DatePollBuilderAndView initializeDatePoll(final User creator) {
         DatePollConfig config = new DatePollConfig();
@@ -27,16 +30,15 @@ public class DatePollCreateService {
         datePollBuilder.datePollID(datePollID);
         datePollBuilder.creator(creator);
         datePollBuilder.datePollConfig(config);
-        return new DatePollBuilderAndView(datePollBuilder,config);
+        return new DatePollBuilderAndView(datePollBuilder, config);
     }
 
     /**
-     * Zweite Instanz zur Erstellung der Terminfindung.
      * Hinzufuegen der Meta-Informationen: Titel, Ort, Beschreibung.
      *
-     * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
+     * @param datePollBuilderAndView DatePollBuilderAndView Objekt aus initializeDatePoll.
      * @param datePollMetaInf Meta-Informationen: Titel, Ort, Beschreibund.
-     * @return Lombok-Builder DatePoll Objekt.
+     * @return DatePollBuilderAndView Objekt (enthaelt: DatePollBuilder, DatePoll, DatePollConfig).
      */
     public DatePollBuilderAndView addDatePollMetaInf(final DatePollBuilderAndView datePollBuilderAndView, final DatePollMetaInf datePollMetaInf) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
@@ -47,11 +49,10 @@ public class DatePollCreateService {
 
 
     /**
-     * Vierte Instanz zur Erstellung der Terminfindung.
-     * Liste der Datum-Eintraege an denen der Termin stattfinden kann.
-     * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
+     * Fuegt die Liste der Datum-Eintraege an denen der Termin stattfinden kann hinzu.
+     * @param datePollBuilderAndView DatePollBuilderAndView Objekt nach addDatePollMetaInf.
      * @param datePollOptions Alle Datums-Eintraege des User creator.
-     * @return Lombok-Builder DatePoll Objekt.
+     * @return DatePollBuilderAndView Objekt (enthaelt: DatePollBuilder, DatePoll, DatePollConfig).
      */
     public DatePollBuilderAndView initDatePollOptionList(final DatePollBuilderAndView datePollBuilderAndView, final List<DatePollOption> datePollOptions) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
@@ -63,9 +64,9 @@ public class DatePollCreateService {
 
     /**
      * Handelt es sich um eine oeffentliche oder geschlossene Abstimmung?
-     * @param datePollBuilderAndView
-     * @param openDatePoll
-     * @return
+     * @param datePollBuilderAndView DatePollBuilderAndView Objekt nach initDatePollOptionList.
+     * @param openDatePoll oeffentlich (true) oder geschlossen (false).
+     * @return DatePollBuilderAndView Objekt (enthaelt: DatePollBuilder, DatePoll, DatePollConfig).
      */
     public DatePollBuilderAndView openOrClosedPoll(final DatePollBuilderAndView datePollBuilderAndView, final boolean openDatePoll) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
@@ -76,11 +77,10 @@ public class DatePollCreateService {
     }
 
     /**
-     * Fuenfte Instanz zur Erstellung der Terminfindung.
      * Angabe ob es sich um ein "single" oder "multiple" Choice Terminfindungs-Objekt handelt.
-     * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
+     * @param datePollBuilderAndView DatePollBuilderAndView Objekt nach openOrClosedPoll
      * @param singleChoicePoll Hat der User nur eine Wahlmoeglichkeit (true) oder mehrere (false).
-     * @return Lombok-Builder DatePoll Objekt.
+     * @return DatePollBuilderAndView Objekt (enthaelt: DatePollBuilder, DatePoll, DatePollConfig).
      */
     public DatePollBuilderAndView setDatePollChoiceType(final DatePollBuilderAndView datePollBuilderAndView, final boolean singleChoicePoll) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
@@ -91,11 +91,10 @@ public class DatePollCreateService {
     }
 
     /**
-     * Fuenfte Instanz zur Erstellung der Terminfindung.
      * Angabe ob es priorisierte Auswahlmoeglichkeiten geben soll.
-     * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
+     * @param datePollBuilderAndView DatePollBuilderAndView Objekt nach setDatePollChoiceType
      * @param priority Prioritaet an (true) oder aus (false).
-     * @return Lombok-Builder DatePoll Objekt.
+     * @return DatePollBuilderAndView Objekt (enthaelt: DatePollBuilder, DatePoll, DatePollConfig).
      */
     public DatePollBuilderAndView setDatePollChoicePriority(final DatePollBuilderAndView datePollBuilderAndView, final boolean priority) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
@@ -106,11 +105,10 @@ public class DatePollCreateService {
     }
 
     /**
-     * Sechste Instanz zur Erstellung der Terminfindung.
      * Angabe ob die Terminfindung anonym (true) oder öffentlich (false) stattfinden soll.
-     * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
+     * @param datePollBuilderAndView DatePollBuilderAndView Objekt nach setDatePollChoicePriority
      * @param isAnonymous Anonym (true) oder öffentlich (false).
-     * @return Lombok-Builder DatePoll Objekt.
+     * @return DatePollBuilderAndView Objekt (enthaelt: DatePollBuilder, DatePoll, DatePollConfig).
      */
     public DatePollBuilderAndView setDatePollVisibility(final DatePollBuilderAndView datePollBuilderAndView, final boolean isAnonymous) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
@@ -124,7 +122,7 @@ public class DatePollCreateService {
 
     /**
      * Die Methode gibt das fertige DatePoll Objekt zurueck.
-     * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
+     * @param datePollBuilderAndView DatePollBuilderAndView Objekt nach setDatePollVisibility
      * @return Das fertige DatePoll Objekt.
      */
     public DatePoll buildDatePoll(final DatePollBuilderAndView datePollBuilderAndView) {
