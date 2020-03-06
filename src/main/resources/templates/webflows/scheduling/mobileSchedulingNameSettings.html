@@ -5,7 +5,23 @@
     <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
-        <!-- Links, Skripts, Styles hier einfügen! -->
+        <script>
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    let forms = document.getElementsByClassName('needs-validation');
+                    let validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
     </th:block>
 </head>
 <body>
@@ -16,10 +32,13 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <form>
+        <form class="needs-validation" novalidate>
             <div class="form-group">
                 <label>Titel</label>
-                <input class="form-control" id="termin-title" placeholder="Neue Terminfindung">
+                <input class="form-control" id="termin-title" placeholder="Neue Terminfindung" required>
+                <div class="invalid-feedback">
+                    Bitte gib einen Titel für die Terminfindung ein.
+                </div>
             </div>
             <div class="form-group">
                 <label>Beschreibung (optional)</label>

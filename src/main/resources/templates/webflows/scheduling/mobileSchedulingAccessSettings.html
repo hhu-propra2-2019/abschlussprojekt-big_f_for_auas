@@ -32,6 +32,18 @@
                     document.getElementById("termin-endDate").value = addOneMonth(startDate);
                     document.getElementById("termin-endDate").min = addOneDay(startDate);
                 }
+                else {
+                    let startDate = new Date(document.getElementById("termin-startDate").value);
+                    let endDate = new Date(document.getElementById("termin-endDate").value);
+                    let startTime = document.getElementById("termin-startTime").value;
+                    let endTime = document.getElementById("termin-endTime").value;
+                    startDate.setHours(startTime.split(":")[0], startTime.split(":")[1]);
+                    endDate.setHours(endTime.split(":")[0], endTime.split(":")[1]);
+                    if (endDate <= startDate){
+                        endModified = false;
+                        updateEndDate();
+                    }
+                }
             }
 
             function addOneMonth(dateString){
