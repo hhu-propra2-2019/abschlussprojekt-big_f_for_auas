@@ -21,10 +21,12 @@ public class DatePollCreateService {
      * @return Lombok-Builder DatePoll Objekt.
      */
     public DatePollBuilder initializeDatePoll(final User creator) {
+        DatePollConfig config = new DatePollConfig();
         DatePollBuilder datePollBuilder = DatePoll.builder();
         DatePollID datePollID = new DatePollID();
         datePollBuilder.datePollID(datePollID);
         datePollBuilder.creator(creator);
+        datePollBuilder.datePollConfig(config);
         return datePollBuilder;
     }
 
@@ -42,14 +44,15 @@ public class DatePollCreateService {
     }
 
     /**
-     * Dritte Instanz zur Erstellung der Terminfindung.
-     * Handelt es sich um eine offene (true) oder geschlossene (false) Terminfindung?
-     * @param datePollBuilder Das Lombok-Builder Objekt aus initializeDatePoll.
-     * @param openDatePoll offen (true) | geschlossen (false)
-     * @return Lombok-Builder DatePoll Objekt.
+     * @param datePollBuilder
+     * @param config
+     * @param openDatePoll
+     * @return
      */
-    public DatePollBuilder openOrClosedPoll(final DatePollBuilder datePollBuilder, final boolean openDatePoll) {
-        datePollBuilder.usersCanCreateOption(openDatePoll);
+    public DatePollBuilder openOrClosedPoll(final DatePollBuilder datePollBuilder, final DatePollConfig config, final boolean openDatePoll) {
+        DatePollConfig newConfig = config.withUsersCanCreateOption(openDatePoll);
+        datePollBuilder.datePollConfig()
+        datePollBuilder.datePollConfig(newConfig);
         return datePollBuilder;
     }
 
@@ -64,7 +67,6 @@ public class DatePollCreateService {
         datePollBuilder.datePollOptionList(datePollOptions);
         return datePollBuilder;
     }
-
     /**
      * Fuenfte Instanz zur Erstellung der Terminfindung.
      * Angabe ob es sich um ein "single" oder "multiple" Choice Terminfindungs-Objekt handelt.

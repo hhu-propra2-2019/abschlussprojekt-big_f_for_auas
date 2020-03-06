@@ -1,18 +1,17 @@
 package mops.domain.models;
 
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.List;
 
 @Builder
+@Getter
 public class DatePoll {
     private DatePollMetaInf datePollMetaInf;
     private DatePollID datePollID;
     private User creator;
-    private boolean usersCanCreateOption;
-    private boolean singleChoiceDatePoll;
-    private boolean priorityChoice;
-    private boolean datePollIsAnonymous;
+    private DatePollConfig datePollConfig;
     private List<DatePollOption> datePollOptionList;
     private List<User> participants;
 }
