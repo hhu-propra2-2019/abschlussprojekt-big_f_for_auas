@@ -13,4 +13,5 @@ public class DatePollConfig {
     private boolean singleChoiceDatePoll = true;
     private boolean priorityChoice = false;
     private boolean datePollIsAnonymous = false;
+    private boolean datePollIsPublic = false;
 }

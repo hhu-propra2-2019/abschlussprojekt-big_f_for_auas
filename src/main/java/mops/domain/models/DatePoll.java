@@ -14,4 +14,13 @@ public class DatePoll {
     private DatePollConfig datePollConfig;
     private List<DatePollOption> datePollOptionList;
     private List<User> participants;
+
+    public void setPublicationTypeToPublic(boolean isPublic) {
+        //
+        return;
+    }
+
+    public void setParticipantsToList(List<User> participants) {
+        this.participants = participants;
+    }
 }
