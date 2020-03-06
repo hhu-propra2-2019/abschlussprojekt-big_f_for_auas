@@ -1,0 +1,19 @@
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+    <view-state id="schedulingOptions">
+        <transition on="submit" to="setDates" />
+    </view-state>
+
+    <view-state id="setDates">
+        <transition on="submit" to="schedulingConfirmed"/>
+        <transition on="cancel" to="schedulingCancelled" />
+    </view-state>
+
+    <end-state id="schedulingConfirmed" />
+
+    <end-state id="schedulingCancelled" />
+
+</flow>
