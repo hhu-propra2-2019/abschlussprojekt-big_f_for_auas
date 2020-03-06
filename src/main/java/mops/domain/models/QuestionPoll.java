@@ -16,5 +16,5 @@ public class QuestionPoll {
   private boolean pollingMode;
 
   @Singular("choice")
-  private List<Choice> choices;
+  private List<QuestionPollEntry> choices;
 }
