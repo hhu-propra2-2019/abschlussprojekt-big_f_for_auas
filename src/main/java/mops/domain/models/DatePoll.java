@@ -14,4 +14,5 @@ public class DatePoll {
     private boolean priorityChoice;
     private boolean datePollIsAnonymous;
     private List<DatePollOption> datePollOptionList;
+    private List<User> participants;
 }

@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
  * Termine werden in Form von DatePoll Objekten bereitgestellt, in denen sich die einzelnen Termine befinden: datePollOptions.
  *
  * TODO Wo werden die Stimmen fuer eine datePollOption gesammelt? - In dem Objekt selbst? - Absprache mit QuestionPoll.
- *
- *
  */
 @Service
 public class DatePollReadService {

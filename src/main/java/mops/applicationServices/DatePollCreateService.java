@@ -12,7 +12,6 @@ import java.util.List;
  * Die Terminfingung wird dann durch einen Lombok-Builder erzeugt. Dieser durchlaueft mehrere Methoden.
  *
  * @author Niclas, Tim, Lukas
- *
  */
 @Service
 public class DatePollCreateService {
@@ -22,7 +21,6 @@ public class DatePollCreateService {
      * @return Lombok-Builder DatePoll Objekt.
      */
     public DatePollBuilder initializeDatePoll(final User creator) {
-        DatePoll datePoll = new DatePoll();
         DatePollBuilder datePollBuilder = DatePoll.builder();
         DatePollID datePollID = new DatePollID();
         datePollBuilder.datePollID(datePollID);
