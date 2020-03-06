@@ -11,12 +11,8 @@ public class QuestionPollService {
   UserRepository userRepo;
 
   public QuestionPollBuilder startQuestionPoll(final String title, final String description, final UserId userId) {
-    QuestionPollBuilder qpBuilder = QuestionPoll.builder();
-    qpBuilder.title(title);
-    qpBuilder.description(description);
     User user = userRepo.getById(userId);
-    qpBuilder.owner(User);
-    return qpBuilder;
+    return QuestionPoll.builder().title(title).description(description).owner(User);
   }
 
   public void addEntry(final QuestionPollBuilder qpBuilder, final QuestionPollEntry questionPollEntry) {
