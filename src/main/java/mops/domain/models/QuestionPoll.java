@@ -1,15 +1,15 @@
 package mops.domain.models;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import lombok.Builder;
 import lombok.Singular;
 
 @Builder
 public class QuestionPoll {
-  private final User owner;
+  private User owner;
+
   private final QuestionPollHeader header;
+
   private boolean visibility;
   private boolean pollingMode;
 

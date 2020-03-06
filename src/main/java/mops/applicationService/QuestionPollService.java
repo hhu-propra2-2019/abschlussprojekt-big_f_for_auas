@@ -14,10 +14,14 @@ public class QuestionPollService {
   QuestionPollRepository qpRepo;
   UserRepository userRepo;
 
-  public QuestionPollBuilder startQuestionPoll(final String title, final String description, final UserId userId) {
-    QuestionPollHeader qpHeader = new QuestionPollHeader(title, description);
+  public QuestionPollBuilder startQuestionPoll(final UserId userId) {
     User user = userRepo.getById(userId);
-    return QuestionPoll.builder().header(qpHeader).owner(User);
+    return QuestionPoll.builder().owner(user);
+  }
+
+  public QuestionPollBuilder addHeader(QuestionPollBuilder qpBuilder, final String title, final String description) {
+    QuestionPollHeader header = new QuestionPollHeader(title, description);
+    return qpBuilder.header(header);
   }
 
   public QuestionPollBuilder addEntry(final QuestionPollBuilder qpBuilder, final QuestionPollEntry questionPollEntry) {
@@ -28,7 +32,7 @@ public class QuestionPollService {
     return qpBuilder.pollingMode(single);
   }
 
-  public QuestionPollBuilder setVisiblity(final QuestionPollBuilder qpBuilder, final boolean anonymous) {
+  public QuestionPollBuilder setVisibility(final QuestionPollBuilder qpBuilder, final boolean anonymous) {
     return qpBuilder.visibility(anonymous);
   }
 
