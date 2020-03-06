@@ -23,6 +23,30 @@
     </nav>
 </header>
 <main th:fragment="bodycontent">
+    <nav class="navbar">
+        <div class="container">
+            <div class="row justify-content-around">
+                <div class="col-2">
+                    <span class="navbar-brand">
+                        <img th:src="@{icons/open.svg}" width="30" height="30" class="d-inline-block align-top" alt="">
+                        2
+                    </span>
+                </div>
+                <div class="col-2">
+                    <span class="navbar-brand">
+                        <img th:src="@{icons/current.svg}" width="30" height="30" class="d-inline-block align-top" alt="">
+                        5
+                    </span>
+                </div>
+                <div class="col-2">
+                    <span class="navbar-brand">
+                        <img th:src="@{icons/terminated.svg}" width="30" height="30" class="d-inline-block align-top" alt="">
+                        1
+                    </span>
+                </div>
+            </div>
+        </div>
+    </nav>
     <div class="container px-0" id="reopened">
         <div class="card w-100 border-success mb-1" style="width: 18rem;">
             <div class="card-body p-3">
