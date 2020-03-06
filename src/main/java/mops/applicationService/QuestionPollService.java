@@ -1,9 +1,10 @@
 package mops.applicationService;
 
-import mops.domain.models.Choice;
+import mops.domain.models.QuestionPollEntry;
 import mops.domain.models.QuestionPoll;
 import mops.domain.models.QuestionPoll.QuestionPollBuilder;
-    
+import mops.domain.models.User;
+
 public class QuestionPollService {
 
   QuestionPollRepository qpRepo;
@@ -18,8 +19,8 @@ public class QuestionPollService {
     return qpBuilder;
   }
 
-  public void addChoice(final QuestionPollBuilder qpBuilder, final Choice choice) {
-    qpBuilder.choice(choice);
+  public void addEntry(final QuestionPollBuilder qpBuilder, final QuestionPollEntry questionPollEntry) {
+    qpBuilder.choice(questionPollEntry);
     return;
   }
 
