@@ -1,5 +1,6 @@
 package mops.domain.models;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Singular;
 import org.springframework.lang.Nullable;
