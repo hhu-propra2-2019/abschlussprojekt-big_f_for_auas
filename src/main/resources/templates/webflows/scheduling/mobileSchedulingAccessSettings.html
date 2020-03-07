@@ -17,12 +17,11 @@
             function initDatepicker(){
                 let today = new Date().toISOString().slice(0, 16);
                 let day = today.split("T")[0];
-                let time = today.split("T")[1];
                 document.getElementById("termin-startDate").value = day;
-                document.getElementById("termin-startTime").value = time;
+                document.getElementById("termin-startTime").value = "12:00";
                 document.getElementById("termin-startDate").min = day;
                 document.getElementById("termin-endDate").min = day;
-                document.getElementById("termin-endTime").value = time;
+                document.getElementById("termin-endTime").value = "12:00";
                 document.getElementById("termin-endDate").value = addOneMonth(today);
             }
 
@@ -68,6 +67,11 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
+        <div class="termin-heading">
+            <h3>Neue Terminfindung - <span>Zeitraum</span></h3>
+            <hr/>
+        </div>
+
         <form>
             <div class="form-group">
                 <label>Start</label>
@@ -76,7 +80,7 @@
                         <input class="form-control" type="date" id="termin-startDate" onchange="updateEndDate()">
                     </div>
                     <div class="col">
-                        <input class="form-control" type="time" id="termin-startTime">
+                        <input class="form-control" type="time" id="termin-startTime" step="900">
                     </div>
                 </div>
 
@@ -89,7 +93,7 @@
                         <input class="form-control" type="date" id="termin-endDate" onchange="endModified=true">
                     </div>
                     <div class="col">
-                        <input class="form-control" type="time" id="termin-endTime">
+                        <input class="form-control" type="time" id="termin-endTime" step="900">
                     </div>
                 </div>
             </div>
