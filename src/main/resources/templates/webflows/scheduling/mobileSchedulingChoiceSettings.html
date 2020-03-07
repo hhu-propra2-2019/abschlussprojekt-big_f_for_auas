@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+        <script>
+            function showPriorities(){
+                if( $("input[name=choice-amount]:checked").val() === "multiple-choice" ){
+                    $('.collapse').collapse('show');
+                }
+                else{
+                    $('.collapse').collapse('hide');
+                }
+            }
+        </script>
+    </th:block>
+</head>
+<body>
+<header>
+    <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
+        <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
+    </nav>
+</header>
+<main th:fragment="bodycontent">
+    <div class="container">
+        <form>
+            <div class="choice-amount">
+                <label>Anzahl Auswahlmöglichkeiten</label>
+                <div class="form-check">
+                    <input class="form-check-input" name="choice-amount" type="radio" value="single-choice" onchange="showPriorities()" checked>
+                    <label class="form-check-label">
+                        Single Choice
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" name="choice-amount" type="radio" value="multiple-choice" onchange="showPriorities()">
+                    <label class="form-check-label">
+                        Multiple Choice
+                    </label>
+                </div>
+                <div class="collapse pl-3" id="collapsePriorities">
+                    <div class="form-check">
+                        <input class="form-check-input" name="choice-weight" type="radio" value="choice-equal" checked>
+                        <label class="form-check-label">
+                            ja/nein
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="choice-weight" type="radio" value="choice-priorities">
+                        <label class="form-check-label">
+                            ja/nein/vielleicht
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-check pt-5">
+                <input class="form-check-input" type="checkbox">
+                <label class="form-check-label">
+                    Möglichkeiten ergänzbar
+                </label>
+            </div>
+            <button class="btn btn-primary float-left mt-5">Zurück</button>
+            <button type="submit" class="btn btn-primary float-right mt-5">Weiter</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>
