@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+    <view-state id="mobileSchedulingNameSettings" view="/flows/scheduling/mobileSchedulingNameSettings">
+        <secured attributes="ROLE_USER, ROLE_ANONYMOUS" match="any" />
+        <transition on="home" to="home"/>
+        <transition on="access" to="mobileSchedulingAccessSettings"/>
+    </view-state>
+
+    <view-state id="mobileSchedulingAccessSettings" view="/flows/scheduling/mobileSchedulingAccessSettings">
+        <transition on="name" to="mobileSchedulingNameSettings"/>
+        <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>
+    </view-state>
+
+    <view-state id="mobileSchedulingChoiceSettings" view="flows/scheduling/mobileSchedulingChoiceSettings">
+        <transition on="choicesettings" to="mobileSchedulingAccessSettings"/>
+        <transition on="choiceoptions" to="mobileSchedulingChoiceOptions"/>
+    </view-state>
+
+    <view-state id="mobileSchedulingChoiceOptions" view="flows/scheduling/mobileSchedulingChoiceOptions">
+        <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>
+        <transition on="publication" to="mobileSchedulingPublicationSettings"/>
+    </view-state>
+
+    <view-state id="mobileSchedulingPublicationSettings" view="flows/scheduling/mobileSchedulingPublicationSettings">
+        <transition on="choiceoptions" to="mobileSchedulingChoiceOptions"/>
+        <transition on="confirmation" to="mobileSchedulingConfirmation"/>
+    </view-state>
+
+    <view-state id="mobileSchedulingConfirmation" view="flows/scheduling/mobileSchedulingConfirmation">
+        <transition on="publication" to="mobileSchedulingPublicationSettings"/>
+        <transition on="submit" to="home"/>
+    </view-state>
+
+    <end-state id="home" view="externalRedirect:contextRelative:/"/>
+
+</flow>

@@ -28,7 +28,7 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <form>
+        <form method="post">
             <div class="choice-amount">
                 <label>Anzahl Auswahlmöglichkeiten</label>
                 <div class="form-check">
@@ -64,8 +64,8 @@
                     Möglichkeiten ergänzbar
                 </label>
             </div>
-            <button class="btn btn-primary float-left mt-5">Zurück</button>
-            <button type="submit" class="btn btn-primary float-right mt-5">Weiter</button>
+            <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
+            <button type="submit" name="_eventId_choiceoptions" class="btn btn-primary float-right mt-5">Weiter</button>
         </form>
     </div>
 </main>
