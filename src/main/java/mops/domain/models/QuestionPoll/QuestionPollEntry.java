@@ -1,4 +1,4 @@
-package mops.domain.models;
+package mops.domain.models.QuestionPoll;
 
 public class QuestionPollEntry {
   private final String title;

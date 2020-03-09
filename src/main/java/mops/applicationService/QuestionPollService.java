@@ -1,11 +1,11 @@
 package mops.applicationService;
 
-import mops.domain.models.QuestionPoll;
-import mops.domain.models.QuestionPoll.QuestionPollBuilder;
-import mops.domain.models.QuestionPollBallot;
-import mops.domain.models.QuestionPollEntry;
-import mops.domain.models.QuestionPollHeader;
-import mops.domain.models.QuestionPollId;
+import mops.domain.models.QuestionPoll.QuestionPoll;
+import mops.domain.models.QuestionPoll.QuestionPoll.QuestionPollBuilder;
+import mops.domain.models.QuestionPoll.QuestionPollBallot;
+import mops.domain.models.QuestionPoll.QuestionPollEntry;
+import mops.domain.models.QuestionPoll.QuestionPollHeader;
+import mops.domain.models.QuestionPoll.QuestionPollId;
 import mops.domain.models.User;
 import mops.domain.models.UserId;
 

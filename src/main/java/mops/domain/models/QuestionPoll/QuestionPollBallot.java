@@ -1,4 +1,6 @@
-package mops.domain.models;
+package mops.domain.models.QuestionPoll;
+
+import mops.domain.models.User;
 
 import java.util.Map;
 import java.util.List;

@@ -1,4 +1,4 @@
-package mops.domain.models;
+package mops.domain.models.QuestionPoll;
 
 import java.util.List;
 import lombok.Builder;
@@ -11,8 +11,15 @@ public class QuestionPoll {
 
   private final QuestionPollHeader header;
 
+  /** visibility : vom user wird der Name angezeigt oder
+   *  ein Pseudonym
+   */
   private boolean visibility;
+
+
+  // pollingmode: single choice or multiple choice
   private boolean pollingMode;
+
 
   @Singular("questionPollEntry")
   private List<QuestionPollEntry> entries;
