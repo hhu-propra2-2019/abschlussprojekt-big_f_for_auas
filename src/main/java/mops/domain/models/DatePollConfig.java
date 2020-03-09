@@ -1,13 +1,11 @@
 package mops.domain.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
-import lombok.With;
+import lombok.*;
 
 @With
 @RequiredArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class DatePollConfig {
     private boolean usersCanCreateOption = false;
     private boolean singleChoiceDatePoll = true;

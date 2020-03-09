@@ -15,12 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DatePollReadService {
 
-    /**
-     *
-     * @param datePollID
-     * @return
-     */
-    public DatePoll readDatePoll(DatePollID datePollID) {
+    /*public DatePoll readDatePoll(DatePollID datePollID) {
         //return getDatePollByID(datePollID);
-    }
+    }*/
 }

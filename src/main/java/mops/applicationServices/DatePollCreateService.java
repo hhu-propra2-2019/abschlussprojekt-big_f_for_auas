@@ -18,6 +18,10 @@ import java.util.List;
  */
 @Service
 public class DatePollCreateService {
+
+    /*DatePollRepository datePollRepository;
+    UserRepository userRepository;*/
+
     /**
      *Initiale Methode zur Erstellung der Terminfindung.
      * @param creator User der die Terminfindung erstellt.
@@ -42,7 +46,7 @@ public class DatePollCreateService {
      */
     public DatePollBuilderAndView addDatePollMetaInf(final DatePollBuilderAndView datePollBuilderAndView, final DatePollMetaInf datePollMetaInf) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
-        builder.datePollMetaInf(new DatePollMetaInf()); //Title Location Description
+        builder.datePollMetaInf(datePollMetaInf); //Title Location Description
         return datePollBuilderAndView.updateState(builder);
     }
 
