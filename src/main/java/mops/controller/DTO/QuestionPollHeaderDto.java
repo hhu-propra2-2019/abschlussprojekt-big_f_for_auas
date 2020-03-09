@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class QuestionPollHeaderDto {
 
-    private final String title;
-    private final String description;
+    public String title;
+    public String description;
 
 }
