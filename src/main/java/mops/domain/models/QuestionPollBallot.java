@@ -2,6 +2,7 @@ package mops.domain.models;
 
 import java.util.Map;
 import java.util.List;
+import mops.domain.models.User.User;
 
 public class QuestionPollBallot {
   private final Map<User, List<QuestionPollEntry>> votes;

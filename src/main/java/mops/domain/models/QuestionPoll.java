@@ -3,6 +3,7 @@ package mops.domain.models;
 import java.util.List;
 import lombok.Builder;
 import lombok.Singular;
+import mops.domain.models.User.User;
 
 @Builder
 public class QuestionPoll {
