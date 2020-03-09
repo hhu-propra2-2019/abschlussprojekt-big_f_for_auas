@@ -2,7 +2,7 @@ package mops.controllers;
 
 import lombok.Value;
 import lombok.With;
-
+//TODO how to init? -> Default values?
 @Value
 @With
 public class DatePollConfigDto {

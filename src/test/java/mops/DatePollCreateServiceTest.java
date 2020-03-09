@@ -2,11 +2,13 @@ package mops;
 
 import mops.applicationServices.DatePollBuilderAndView;
 import mops.applicationServices.DatePollCreateService;
-import mops.domain.models.*;
-import mops.domain.models.DatePoll.Beschreibung;
-import mops.domain.models.DatePoll.DatePollBuilder;
 
-import mops.domain.models.DatePoll.Ort;
+import mops.controllers.DatePollMetaInfDto;
+import mops.controllers.DatePollOptionDto;
+import mops.domain.models.DatePoll.DatePoll;
+import mops.domain.models.DatePoll.DatePoll.DatePollBuilder;
+import mops.domain.models.DatePoll.DatePollId;
+import mops.domain.models.User.UserId;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -33,79 +35,62 @@ public class DatePollCreateServiceTest {
      */
     @BeforeEach
     public void initTestDatePollBuilderAndView() {
-        User creator = new User();
-        DatePollConfig datePollConfig = new DatePollConfig();
-        DatePollID datePollID = new DatePollID();
+        DatePollId datePollID = new DatePollId();
         DatePollBuilder datePollBuilder = DatePoll.builder();
-        datePollBuilder.datePollID(datePollID);
-        datePollBuilder.creator(creator);
-        datePollBuilder.datePollConfig(datePollConfig);
-        this.testDatePollBuilderAndView = new DatePollBuilderAndView(datePollBuilder,datePollConfig);
+        datePollBuilder.datePollId(datePollID);
+        datePollBuilder.creator(new UserId());
+        this.testDatePollBuilderAndView = new DatePollBuilderAndView(datePollBuilder);
     }
 
     /*
     Testet die Initalisierung des DatePolls - somit auch die obige Methode initTestDatePollBuilderAndView()
      */
     @Test
-    public void test_DatePollBuildInitialisation() {
+    public void test_datePollBuildInitialisation() {
         //Set data
-        User creator = new User();
-        DatePollConfig datePollConfig = new DatePollConfig();
-        DatePollID datePollID = new DatePollID();
+        DatePollId datePollId = new DatePollId();
         DatePollBuilder datePollBuilder = DatePoll.builder();
-        datePollBuilder.datePollID(datePollID);
-        datePollBuilder.creator(creator);
-        datePollBuilder.datePollConfig(datePollConfig);
-        DatePollBuilderAndView datePollBuilderAndView = new DatePollBuilderAndView(datePollBuilder,datePollConfig);
+        datePollBuilder.datePollId(datePollId);
+        UserId usrId = new UserId();
+        datePollBuilder.creator(usrId);
+        DatePollBuilderAndView datePollBuilderAndView = new DatePollBuilderAndView(datePollBuilder);
 
-        when(mockedDatePollCreateService.initializeDatePoll(creator))
+        when(mockedDatePollCreateService.initializeDatePoll(new UserId()))
                 .thenReturn(datePollBuilderAndView);
 
         //Get results:
-        DatePollBuilder newDatePollBuilder = datePollCreateService.initializeDatePoll(creator).getBuilder();
+        DatePollBuilder newDatePollBuilder = mockedDatePollCreateService.initializeDatePoll(new UserId()).getBuilder();
         DatePoll initializedDatePoll = newDatePollBuilder.build();
 
         //Test ...
-        assert(initializedDatePoll.getDatePollID().equals(datePollID));
-        assert(initializedDatePoll.getCreator().equals(creator));
-        assert(initializedDatePoll.getDatePollConfig().equals(datePollConfig));
+        assert(initializedDatePoll.getDatePollId().equals(datePollId));
+        assert(initializedDatePoll.getCreator().equals(usrId));
     }
 
     @Test
     public void test_addDatePollMetaInfo() {
-        Beschreibung beschreibung = new Beschreibung();
-        Ort ort = new Ort();
-        DatePollMetaInf datePollMetaInf = new DatePollMetaInf("foo",beschreibung,ort);
-        DatePollBuilder datePollBuilder = testDatePollBuilderAndView.getBuilder();
-        datePollBuilder.datePollMetaInf(datePollMetaInf);
-        DatePoll datePollwithMetaInf = datePollBuilder.build();
-
-        assert (datePollwithMetaInf.getDatePollMetaInf().equals(datePollMetaInf));
-        assert (datePollwithMetaInf.getDatePollMetaInf().getTitel().equals("foo"));
+        DatePollMetaInfDto datePollMetaInfDto = new DatePollMetaInfDto();
+        datePollCreateService.addDatePollMetaInf(testDatePollBuilderAndView,datePollMetaInfDto);
+        assert (testDatePollBuilderAndView.getMetaInfDto().equals(datePollMetaInfDto));
     }
 
     @Test
     public void test_initDatePollOptionList() {
-        List<DatePollOption> datePollOptionList = new ArrayList<>();
+        List<DatePollOptionDto> datePollOptionDtoList = new ArrayList<>();
         //Initalize DatePollOptionList with 5 Entries
         for (int i = 0; i < 5; i++) {
-            datePollOptionList.add(new DatePollOption());
+            datePollOptionDtoList.add(new DatePollOptionDto());
         }
 
-        DatePollBuilder testDatePollBuilder = testDatePollBuilderAndView.getBuilder();
-        testDatePollBuilder.datePollOptionList(datePollOptionList);
+        doAnswer(invocation -> {
+            DatePollBuilder testDatePollBuilder = testDatePollBuilderAndView.getBuilder();
+            testDatePollBuilder.datePollOptionDtos(datePollOptionDtoList);
+            assert (testDatePollBuilder.build().getDatePollOptions().size() == 5);
+            return null;
+        }).when(mockedDatePollCreateService).initDatePollOptionList(testDatePollBuilderAndView,datePollOptionDtoList);
 
-        /*when(mockedDatePollCreateService.initDatePollOptionList(testDatePollBuilderAndView,datePollOptionList))
-                .thenAnswer(
-                        invocation -> {
-                            DatePollBuilder testDatePollBuilder = testDatePollBuilderAndView.getBuilder();
-                            testDatePollBuilder.datePollOptionList(datePollOptionList);
-                            return null;
-                        }
-                );*/
-
-
-        assert (testDatePollBuilder.build().getDatePollOptionList().size() == 5);
+        mockedDatePollCreateService.initDatePollOptionList(testDatePollBuilderAndView,datePollOptionDtoList);
+        verify(mockedDatePollCreateService,times(1)).initDatePollOptionList(testDatePollBuilderAndView,datePollOptionDtoList);
     }
 
     /*@Test
@@ -119,11 +104,10 @@ public class DatePollCreateServiceTest {
 
     @Test
     public void testDatePollIDNotNull() {
-        User creator = new User();
         /*Mit der Initialisierung durch den creator wird ein neues DatePollBuilder Objekt erstellt, der eine neue
         DatePollID erhält.*/
-        DatePollBuilderAndView datePollBuilder = datePollCreateService.initializeDatePoll(creator);
-        assert(datePollBuilder.getBuilder().build().getDatePollID() != null);
+        DatePollBuilderAndView datePollBuilder = datePollCreateService.initializeDatePoll(new UserId());
+        assert(datePollBuilder.getBuilder().build().getDatePollId() != null);
     }
 
 

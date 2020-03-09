@@ -1,7 +1,7 @@
 package mops.database;
 
-import mops.domain.models.DatePoll;
-import mops.domain.models.DatePollID;
+import mops.domain.models.DatePoll.DatePoll;
+import mops.domain.models.DatePoll.DatePollId;
 
 /**
  * Repository interface für datePolls.
@@ -9,10 +9,10 @@ import mops.domain.models.DatePollID;
 public interface DatePollRepository {
     /**
      * Methodenkopf für die DatePoll-Lademethode.
-     * @param datePollID Id der zu ladenden DatePoll
+     * @param datePollId Id der zu ladenden DatePoll
      * @return DatePoll;
      */
-    DatePoll getDatePollById(DatePollID datePollID);
+    DatePoll getDatePollById(DatePollId datePollId);
 
     /**
      * Methodenkopf für die DatePoll-Speichermethode.

@@ -1,6 +1,6 @@
 package mops.domain.models.DatePoll;
 
-class Ort {
+class DatePollLocation {
     private int longitude;
     private int latitude;
 }

@@ -40,7 +40,6 @@ public class DatePollCreateService {
      *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param datePollMetaInfDto     Ein Dto Objekt welches die Meta-Informationen.
-     * @return Lombok-Builder DatePoll Objekt.
      */
     public void addDatePollMetaInf(final DatePollBuilderAndView datePollBuilderAndView, final DatePollMetaInfDto datePollMetaInfDto) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
@@ -55,7 +54,6 @@ public class DatePollCreateService {
      *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param datePollOptionDtos     Alle Datums-Eintraege des User creator.
-     * @return Lombok-Builder DatePoll Objekt.
      */
     public void initDatePollOptionList(final DatePollBuilderAndView datePollBuilderAndView, final List<DatePollOptionDto> datePollOptionDtos) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
