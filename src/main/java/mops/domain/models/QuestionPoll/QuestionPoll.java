@@ -18,6 +18,5 @@ public class QuestionPoll {
 
   @Singular("voter")
   private final List<User> allowedVoters;
-
   private final QuestionPollBallot ballot;
 }

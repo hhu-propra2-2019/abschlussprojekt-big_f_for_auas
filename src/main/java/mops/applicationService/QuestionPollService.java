@@ -6,8 +6,6 @@ import mops.domain.models.QuestionPoll.QuestionPollBallot;
 import mops.domain.models.QuestionPoll.QuestionPollEntry;
 import mops.domain.models.QuestionPoll.QuestionPollHeader;
 import mops.domain.models.QuestionPoll.QuestionPollId;
-import mops.domain.models.User;
-import mops.domain.models.UserId;
 
 public class QuestionPollService {
 
