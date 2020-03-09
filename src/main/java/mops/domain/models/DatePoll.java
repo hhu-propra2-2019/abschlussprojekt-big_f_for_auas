@@ -38,7 +38,7 @@ public class DatePoll {
      * @param isPublic boolean der sagt, ob public oder nicht.
      */
     public void setPublicationTypeToPublic(final boolean isPublic) {
-        //
+        datePollConfig.setDatePollIsPublic(isPublic);
     }
 
     private void addParticipant(final User nextParticipant) {
