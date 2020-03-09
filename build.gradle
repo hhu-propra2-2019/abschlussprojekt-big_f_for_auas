@@ -49,18 +49,19 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	//implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-task'
+	implementation 'org.springframework.webflow:spring-webflow:2.5.1.RELEASE'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
-	implementation "mops:styleguide:2.0.0"
+	implementation "mops:styleguide:2.1.0"
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	testImplementation 'org.springframework.security:spring-security-test'
+	//testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.mockito:mockito-core:2.7.22'
 	testImplementation 'org.assertj:assertj-core:3.15.0'
 	testCompile 'com.tngtech.archunit:archunit-junit5:0.13.0'

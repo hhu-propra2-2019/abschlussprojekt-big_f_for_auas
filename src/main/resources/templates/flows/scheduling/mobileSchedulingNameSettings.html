@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+        <script>
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    let forms = document.getElementsByClassName('needs-validation');
+                    let validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+    </th:block>
+</head>
+<body>
+<header>
+    <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
+        <ul th:replace="fragments.html :: navigationList(newTerminActive=true)"></ul>
+    </nav>
+</header>
+<main th:fragment="bodycontent">
+    <div class="container">
+        <div class="termin-heading">
+            <h3>Neue Terminfindung - <span>Allgemeines</span></h3>
+            <hr/>
+        </div>
+
+        <form method="post" class="needs-validation" novalidate>
+            <div class="form-group">
+                <label>Titel</label>
+                <input class="form-control" id="termin-title" placeholder="Neue Terminfindung" required>
+                <div class="invalid-feedback">
+                    Bitte gib einen Titel für die Terminfindung ein.
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Beschreibung (optional)</label>
+                <input class="form-control" id="termin-description" placeholder="Beschreibung">
+            </div>
+            <div class="form-group">
+                <label>Ort (optional)</label>
+                <input class="form-control" id="termin-location" placeholder="Ort">
+            </div>
+            <button type="submit" name="_eventId_home"  class="btn btn-primary float-left mt-5">Zurück</button>
+            <button type="submit" name="_eventId_access"  class="btn btn-primary float-right mt-5">Weiter</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

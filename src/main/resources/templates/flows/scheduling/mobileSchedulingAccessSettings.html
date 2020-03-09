@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function(){
+                initDatepicker();
+            })
+        </script>
+        <script>
+            function initDatepicker(){
+                let today = new Date().toISOString().slice(0, 16);
+                let day = today.split("T")[0];
+                document.getElementById("termin-startDate").value = day;
+                document.getElementById("termin-startTime").value = "12:00";
+                document.getElementById("termin-startDate").min = day;
+                document.getElementById("termin-endDate").min = day;
+                document.getElementById("termin-endTime").value = "12:00";
+                document.getElementById("termin-endDate").value = addOneMonth(today);
+            }
+
+            function addOneMonth(dateString){
+                let date = new Date(dateString);
+                date.setMonth(date.getMonth()+1);
+                return date.toISOString().split("T")[0];
+            }
+        </script>
+    </th:block>
+</head>
+<body>
+<header>
+    <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
+        <ul th:replace="fragments.html :: navigationList(newTerminActive=true)"></ul>
+    </nav>
+</header>
+<main th:fragment="bodycontent">
+    <div class="container">
+        <div class="termin-heading">
+            <h3>Neue Terminfindung - <span>Zeitraum</span></h3>
+            <hr/>
+        </div>
+
+        <form method="post">
+            <div class="form-group">
+                <label>Start</label>
+                <div class="row">
+                    <div class="col">
+                        <input class="form-control" type="date" id="termin-startDate">
+                    </div>
+                    <div class="col">
+                        <input class="form-control" type="time" id="termin-startTime">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="form-group">
+                <label>Ende</label>
+                <div class="row">
+                    <div class="col">
+                        <input class="form-control" type="date" id="termin-endDate">
+                    </div>
+                    <div class="col">
+                        <input class="form-control" type="time" id="termin-endTime">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" name="_eventId_name"  class="btn btn-primary float-left mt-5">Zurück</button>
+            <button type="submit" name="_eventId_choicesettings" class="btn btn-primary float-right mt-5">Weiter</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>
