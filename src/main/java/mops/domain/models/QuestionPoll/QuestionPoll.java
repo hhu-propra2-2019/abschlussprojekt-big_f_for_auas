@@ -12,6 +12,7 @@ public class QuestionPoll {
 
   private final QuestionPollHeader header;
   private final QuestionPollConfig config;
+  private final QuestionPollAccessibility accessor;
 
   @Singular("questionPollEntry")
   private List<QuestionPollEntry> entries;
