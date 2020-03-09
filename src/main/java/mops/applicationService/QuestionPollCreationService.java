@@ -42,9 +42,4 @@ public class QuestionPollCreationService {
     return qpBuilder.ballot(ballot);
   }
 
-  public String generateLink(final QuestionPollBuilder qpBuilder) {
-    QuestionPollId qpId = qpRepo.save(qpBuilder.build());
-    String url = qpRepo.getUrl(qpId);
-    return url;
-  }
 }
