@@ -1,5 +1,12 @@
 package mops.controller.DTO;
 
-public class QuestionPollBallotDto {
+import java.util.List;
+import java.util.Map;
+import lombok.Data;
+import mops.domain.models.QuestionPoll.QuestionPollEntry;
+import mops.domain.models.User.User;
 
+@Data
+public class QuestionPollBallotDto {
+  public Map<User, List<QuestionPollEntry>> votes;
 }
