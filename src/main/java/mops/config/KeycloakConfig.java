@@ -11,8 +11,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class KeycloakConfig {
+
+    /**
+     * Gehört eigentlich in die SecurityConfig, siehe oben.
+     * @return für uns unwichtig
+     */
     @Bean
-    public KeycloakSpringBootConfigResolver KeycloakConfigResolver() {
+    public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
         return new KeycloakSpringBootConfigResolver();
     }
 }

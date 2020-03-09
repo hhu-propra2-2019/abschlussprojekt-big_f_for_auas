@@ -19,16 +19,21 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import java.util.Collections;
 
-// TODO: add javadoc
 @Configuration
 public class WebFlowConfig extends AbstractFlowConfiguration {
 
+    @SuppressWarnings("checkstyle:JavadocVariable")
     @Autowired
     private LocalValidatorFactoryBean localValidatorFactoryBean;
 
+    @SuppressWarnings("checkstyle:JavadocVariable")
     @Autowired
     private ThymeleafViewResolver thymeleafViewResolver;
 
+    /**
+     * WebFlow muss wissen, wo die Flows liegen. Das wird in dieser Methode konfiguriert.
+     * @return für uns unwichtig
+     */
     @Bean
     public FlowDefinitionRegistry flowRegistry() {
         return getFlowDefinitionRegistryBuilder() //
@@ -38,6 +43,11 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
                 .build();
     }
 
+    /**
+     * Hier wird Spring Security verknüpft, sodass in den .xml-Dateien mit dem Tag „secured“
+     * die Zugangsberechtigungen für den jeweiligen Flow festgelegt werden können.
+     * @return für uns unwichtig
+     */
     @Bean
     public FlowExecutor flowExecutor() {
         return getFlowExecutorBuilder(this.flowRegistry()) //
@@ -45,6 +55,10 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
                 .build();
     }
 
+    /**
+     * Keine Ahnung, ehrlich gesagt. Irgendwas SpringMvc-internes
+     * @return keine Ahnung
+     */
     @Bean
     public FlowBuilderServices flowBuilderServices() {
         return getFlowBuilderServicesBuilder() //
@@ -52,6 +66,10 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
                 .setValidator(this.localValidatorFactoryBean).build();
     }
 
+    /**
+     * Hier wird die Reihenfolge definiert, in der Flows gesucht werden. Glaube ich. Total egal für uns.
+     * @return für uns egal
+     */
     @Bean
     public FlowHandlerMapping flowHandlerMapping() {
         FlowHandlerMapping handlerMapping = new FlowHandlerMapping();
@@ -60,6 +78,10 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
         return handlerMapping;
     }
 
+    /**
+     * Die Methode setSaveOutputToFlashScopeOnRedirect muss eventuell noch angepasst werden.
+     * @return für uns egal
+     */
     @Bean
     public FlowHandlerAdapter flowHandlerAdapter() {
         FlowHandlerAdapter handlerAdapter = new FlowHandlerAdapter();
@@ -68,6 +90,10 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
         return handlerAdapter;
     }
 
+    /**
+     * Für uns total egal.
+     * @return für uns egal
+     */
     @Bean
     public ViewFactoryCreator mvcViewFactoryCreator() {
         MvcViewFactoryCreator factoryCreator = new MvcViewFactoryCreator();
@@ -76,6 +102,11 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
         return factoryCreator;
     }
 
+    /**
+     * Hier wird konfiguriert, wo Thymeleaf die Templates sucht. Aufgrund von setPrefix("templates/")
+     * werden die Templates für den Flow xyz in templates/flows/xyz gesucht.
+     * @return für uns egal
+     */
     @Bean
     public ClassLoaderTemplateResolver templateResolver() {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
@@ -87,6 +118,10 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
         return templateResolver;
     }
 
+    /**
+     * Die Template-Engine (Thymeleaf) muss für Web FLow manuell gesetzt werden.
+     * @return für uns egal
+     */
     @Bean
     public SpringTemplateEngine templateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
