@@ -3,12 +3,13 @@ package mops;
 import mops.applicationServices.DatePollBuilderAndView;
 import mops.applicationServices.DatePollCreateService;
 import mops.domain.models.*;
+import mops.domain.models.DatePoll.Beschreibung;
 import mops.domain.models.DatePoll.DatePollBuilder;
 
+import mops.domain.models.DatePoll.Ort;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.sql.ConnectionBuilder;
 import java.util.ArrayList;
 import java.util.List;
 

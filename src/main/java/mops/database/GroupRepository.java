@@ -1,7 +1,7 @@
 package mops.database;
 
-import mops.domain.models.Group;
-import mops.domain.models.GroupId;
+import mops.domain.models.Group.Group;
+import mops.domain.models.Group.GroupId;
 import mops.domain.models.User;
 
 import java.util.List;

@@ -4,7 +4,7 @@ import mops.database.DatePollRepository;
 import mops.database.GroupRepository;
 import mops.domain.models.DatePoll;
 import mops.domain.models.DatePollID;
-import mops.domain.models.GroupId;
+import mops.domain.models.Group.GroupId;
 import mops.domain.models.User;
 import org.springframework.stereotype.Service;
 

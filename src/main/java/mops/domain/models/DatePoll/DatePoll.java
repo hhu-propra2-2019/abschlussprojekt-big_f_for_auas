@@ -13,11 +13,29 @@ import java.util.stream.Collectors;
 @Getter
 public class DatePoll {
 
+    /**
+     * Meta-Informationen zur DatePoll.
+     */
     private DatePollMetaInf datePollMetaInf;
+    /**
+     * Id der DatePoll.
+     */
     private DatePollId datePollId;
+    /**
+     * Creator (Typ User) der DatePoll.
+     */
     private UserId creator;
+    /**
+     * Konfiguration der DatePoll. Aggregiert in einem eigens dafür angelegten Objekt.
+     */
     private DatePollConfig datePollConfig;
+    /**
+     * Liste der Terminoptionen der DatePoll.
+     */
     private List<DatePollOption> datePollOptions;
+    /**
+     * Liste der User, die an der Abstimmung teilnehmen **können**.
+     */
     private List<UserId> participants;
 
 
