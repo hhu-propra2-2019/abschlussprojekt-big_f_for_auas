@@ -1,13 +1,10 @@
 package mops.domain.models.QuestionPoll;
 
-import static lombok.AccessLevel.PACKAGE;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
-@Getter(PACKAGE)
-@RequiredArgsConstructor(access = PACKAGE)
+@Value
 public class QuestionPollConfig {
 
-  private final boolean usingUserAlias;
+  private final boolean usingAlias;
   private final boolean usingMultiChoice;
 }
