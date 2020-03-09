@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+        <script>
+            function showPriorities(){
+                if( $("input[name=choice-amount]:checked").val() === "multiple-choice" ){
+                    $('.collapse').collapse('show');
+                }
+                else{
+                    $('.collapse').collapse('hide');
+                }
+            }
+        </script>
+    </th:block>
+</head>
+<body>
+<header>
+    <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
+        <ul th:replace="fragments/general.html :: navigationList(newAbstimmungActive=true)"></ul>
+    </nav>
+</header>
+<main th:fragment="bodycontent">
+    <div class="container">
+        <div th:replace="fragments/general.html :: pageHeading(page='Auswahleinstellungen')"></div>
+        <form th:replace="fragments/choiceSettings.html :: form"></form>
+    </div>
+</main>
+</body>
+</html>
