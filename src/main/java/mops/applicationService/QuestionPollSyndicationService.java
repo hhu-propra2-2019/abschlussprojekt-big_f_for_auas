@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 public class QuestionPollSyndicationService {
 
 
-    QuestionPollRepositoryInterface qestionPollRepo;
+    QuestionPollRepositoryInterface questionPollRepo;
 
     public String generateLink(final QuestionPoll.QuestionPollBuilder qpBuilder) {
-        QuestionPollId qpId = qestionPollRepo.save(qpBuilder.build());
-        String url = qestionPollRepo.getUrl(qpId);
+        QuestionPollId qpId = questionPollRepo.save(qpBuilder.build());
+        String url = questionPollRepo.getUrl(qpId);
         return url;
     }
 
