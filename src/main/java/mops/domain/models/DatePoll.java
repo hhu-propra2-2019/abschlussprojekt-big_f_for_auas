@@ -23,4 +23,8 @@ public class DatePoll {
     public void setParticipantsToList(List<User> participants) {
         this.participants = participants;
     }
+
+    public void addParticipant(User nextParticipant) {
+        this.participants.add(nextParticipant);
+    }
 }
