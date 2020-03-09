@@ -26,11 +26,17 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Checkstyle für einige Parameter unterdrückt, weil sie zur Konfiguration gehören, die uns so
+ * im Demo-Projekt gegeben wurde.
+ */
+
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
 class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
+    @SuppressWarnings("checkstyle:FinalParameters")
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         KeycloakAuthenticationProvider keycloakAuthenticationProvider
@@ -58,6 +64,7 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     }
 
     @Override
+    @SuppressWarnings({"checkstyle:FinalParameters", "checkstyle:TodoComment"})
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         forceHTTPS(http);
@@ -77,6 +84,7 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
      * @param http
      * @throws Exception
      */
+    @SuppressWarnings("checkstyle:FinalParameters")
     private void forceHTTPS(HttpSecurity http) throws Exception {
         http.requiresChannel()
                 .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
@@ -88,7 +96,7 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
      * {@link org.springframework.security.access.annotation.Secured} annotation
      * or the JSR-250 Java Standard
      * {@link javax.annotation.security.RolesAllowed} annotation
-     * for Role-based authorization
+     * for Role-based authorization.
      */
     @Configuration
     @EnableGlobalMethodSecurity(
