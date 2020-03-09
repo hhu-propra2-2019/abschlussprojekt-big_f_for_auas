@@ -1,5 +1,11 @@
 package mops.domain.models.User;
 
 public class User {
-  private final UserId userId;
+
+
+  public UserId userId;
+
+  public UserId getUserId() {
+    return userId;
+  }
 }
