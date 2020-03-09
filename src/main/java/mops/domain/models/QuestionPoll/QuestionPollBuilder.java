@@ -24,6 +24,12 @@ public class QuestionPollBuilder {
   private QuestionPollHeader headerTarget;
   private UserId ownerTarget;
 
+  /** Der Builder verwendet ein cookie System um zu überprüfen ob er in ein valides QuestionPoll Objekt bauen kann.
+   *  Für jede Entity/Value in QuestionPoll wird ein cookie in das jar gelegt.
+   *  Wird über den builder ein valides DTO übergeben und ein korrekte Entity/Value erzeugt, wird ein Cookie aus dem jar entfernt
+   *  Wird ein invalides DTO übergeben muss ein entsprechender Cookie in das Jar hinterlegt werden.
+   *  Ein QuestionPoll Objekt kann erst erzeugt werden wenn alle cookies entfernt wurden.
+   */
   private EnumMap<QuestionPollDtoCookie,String> cookieJar;
 
   public QuestionPollBuilder(UserId userId) {
