@@ -11,7 +11,7 @@
 <body>
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
-        <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     </nav>
 </header>
 <main th:fragment="bodycontent">
@@ -23,8 +23,24 @@
 
         <form method="post">
             <div class="form-group">
-                <label>Name</label>
-                <input class="form-control" id="termin-" placeholder="Name">
+                <label>Dein Link</label>
+                <input type="text" class="form-control" id="termin-link" value="LINK" readonly>
+            </div>
+            <div class="form-group">
+                <label>Person hinzufügen</label>
+                <input class="form-control" id="termin-person" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label>Gruppe hinzufügen</label>
+                <select class="custom-select" id="termin-group">
+                    <option>Gruppenname1</option>
+                    <option>Gruppenname2</option>
+                    <option>Gruppenname3</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Auswahl</label>
+                <textarea class="form-control" id="termin-auswahl" placeholder="Namen und Gruppen" rows="3" readonly></textarea>
             </div>
             <button type="submit" name="_eventId_choiceoptions"  class="btn btn-primary float-left mt-5">Zurück</button>
             <button type="submit" name="_eventId_confirmation"  class="btn btn-primary float-right mt-5">Weiter</button>
