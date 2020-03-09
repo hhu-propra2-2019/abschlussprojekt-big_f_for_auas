@@ -17,5 +17,10 @@
         <li><a href="">Abstimmung erstellen</a></li>
         <li><a href="">Beitreten</a></li>
     </ul>
+
+    <div class="form-group" th:fragment="terminOption">
+        <input class="form-control w-25" type="date">
+        <button name="addOption" class="btn btn-primary"><img th:src="@{icons/plus.svg}" width="30" height="30" class="d-inline-block align-top" alt=""></button>
+    </div>
 </body>
 </html>
