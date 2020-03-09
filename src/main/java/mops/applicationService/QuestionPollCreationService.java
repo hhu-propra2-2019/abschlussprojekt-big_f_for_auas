@@ -6,11 +6,15 @@ import mops.domain.models.QuestionPoll.QuestionPollBallot;
 import mops.domain.models.QuestionPoll.QuestionPollEntry;
 import mops.domain.models.QuestionPoll.QuestionPollHeader;
 import mops.domain.models.QuestionPoll.QuestionPollId;
+import mops.domain.models.Repository.QuestionPollRepositoryInterface;
+import mops.domain.models.Repository.UserRepositoryInterface;
+import mops.domain.models.User.User;
 
-public class QuestionPollService {
 
-  QuestionPollRepository qpRepo;
-  UserRepository userRepo;
+public class QuestionPollCreationService {
+
+  QuestionPollRepositoryInterface qpRepo;
+  UserRepositoryInterface userRepo;
 
   public QuestionPollBuilder startQuestionPoll(final UserId userId) {
     User user = userRepo.getById(userId);
