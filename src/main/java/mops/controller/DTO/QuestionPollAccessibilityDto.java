@@ -1,4 +1,4 @@
-package mops.applicationService.DTO;
+package mops.controller.DTO;
 
 public class QuestionPollAccessibilityDto {
 
