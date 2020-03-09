@@ -24,7 +24,7 @@ public class DatePollPublicationService {
     /**
      * Gibt einen DatePoll zurück, der nun die Information enthält mit einem
      * öffentlichen Link veröffentlicht zu werden.
-     * @param datePollID
+     * @param datePollID Id der betreffenden DatePoll
      * @return DatePoll
      */
     public DatePoll publicationByLink(final DatePollID datePollID) {
@@ -34,7 +34,7 @@ public class DatePollPublicationService {
     }
 
     /**
-     * Gibt die DatePoll zurück, die nun die Information enthält, dass sie nur für User einer
+     * Gibt die DatePoll zurück, die nun die Information enthält, dass sie für die User einer
      * bestimmten Gruppe bestimmt ist.
      * @param datePollID Id der betreffenden datePoll
      * @param groupID Id der betreffenden Gruppe
@@ -42,12 +42,12 @@ public class DatePollPublicationService {
      */
     public DatePoll publicationForGroup(final DatePollID datePollID, final GroupId groupID) {
         DatePoll datePoll = datePollRepository.getDatePollById(datePollID);
-        datePoll.setParticipantsToList(groupRepository.getUsersFromGroupByGroupId(groupID));
+        datePoll.addListOfUsersToParticipants(groupRepository.getUsersFromGroupByGroupId(groupID));
         return datePoll;
     }
 
     /**
-     * Gibt die DatePoll zurück, die nun die Information enthält, dass sie nur für bestimmte User
+     * Gibt die DatePoll zurück, die nun die Information enthält, dass sie für die übergebenen User
      * bestimmt ist.
      * @param datePollID Id der betreffenden datePoll
      * @param participants Liste der betreffenden User
@@ -55,7 +55,7 @@ public class DatePollPublicationService {
      */
     public DatePoll publicationForCertainUsers(final DatePollID datePollID, final List<User> participants) {
         DatePoll datePoll = datePollRepository.getDatePollById(datePollID);
-        datePoll.setParticipantsToList(participants);
+        datePoll.addListOfUsersToParticipants(participants);
         return datePoll;
     }
 }
