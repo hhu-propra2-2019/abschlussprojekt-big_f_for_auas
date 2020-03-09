@@ -23,7 +23,7 @@
 <body>
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
-        <!-- Navigation als ungeordnete Liste mit einfachen Links hier einfügen! -->
+        <ul th:replace="fragments.html :: navigationList(newTerminActive=true)"></ul>
     </nav>
 </header>
 <main th:fragment="bodycontent">
