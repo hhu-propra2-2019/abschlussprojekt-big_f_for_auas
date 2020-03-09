@@ -1,8 +1,7 @@
 package mops.applicationServices;
 
-import mops.domain.models.DatePoll;
-import mops.domain.models.DatePollID;
-import mops.domain.models.User;
+import mops.domain.models.DatePoll.DatePoll;
+import mops.domain.models.DatePoll.DatePollId;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,7 +19,7 @@ public class DatePollReadService {
      * @param datePollID
      * @return
      */
-    public DatePoll readDatePoll(DatePollID datePollID) {
+    public DatePoll readDatePoll(DatePollId datePollID) {
         //return getDatePollByID(datePollID);
     }
 }
