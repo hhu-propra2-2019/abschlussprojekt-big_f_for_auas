@@ -4,8 +4,9 @@
       xsi:schemaLocation="http://www.springframework.org/schema/webflow
                           http://www.springframework.org/schema/webflow/spring-webflow.xsd">
 
+    <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
+
     <view-state id="mobileSchedulingNameSettings" view="/flows/scheduling/mobileSchedulingNameSettings">
-        <secured attributes="ROLE_USER, ROLE_ANONYMOUS" match="any" />
         <transition on="home" to="home"/>
         <transition on="access" to="mobileSchedulingAccessSettings"/>
     </view-state>
