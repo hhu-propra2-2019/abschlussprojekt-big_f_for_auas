@@ -8,6 +8,7 @@ import mops.domain.models.User.User;
 @Builder
 public class QuestionPoll {
   private User owner;
+  private QuestionPollId questionPollId;
 
   private final QuestionPollHeader header;
   private final QuestionPollConfig config;
