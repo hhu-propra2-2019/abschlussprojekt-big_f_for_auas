@@ -39,39 +39,8 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div class="termin-heading">
-            <h3>Neue Terminfindung - <span>Zeitraum</span></h3>
-            <hr/>
-        </div>
-
-        <form method="post">
-            <div class="form-group">
-                <label>Start</label>
-                <div class="row">
-                    <div class="col">
-                        <input class="form-control" type="date" id="termin-startDate">
-                    </div>
-                    <div class="col">
-                        <input class="form-control" type="time" id="termin-startTime">
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="form-group">
-                <label>Ende</label>
-                <div class="row">
-                    <div class="col">
-                        <input class="form-control" type="date" id="termin-endDate">
-                    </div>
-                    <div class="col">
-                        <input class="form-control" type="time" id="termin-endTime">
-                    </div>
-                </div>
-            </div>
-            <button type="submit" name="_eventId_name"  class="btn btn-primary float-left mt-5">Zurück</button>
-            <button type="submit" name="_eventId_choicesettings" class="btn btn-primary float-right mt-5">Weiter</button>
-        </form>
+        <div th:replace="fragments.html :: pageHeading(page='Zeitraum')"></div>
+        <form th:replace="fragments.html :: accessSettingsForm"></form>
     </div>
 </main>
 </body>

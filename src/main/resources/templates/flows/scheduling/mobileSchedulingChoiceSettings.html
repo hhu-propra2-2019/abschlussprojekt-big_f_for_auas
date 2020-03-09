@@ -28,55 +28,8 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div class="termin-heading">
-            <h3>Neue Terminfindung - <span>Auswahleinstellungen</span></h3>
-            <hr/>
-        </div>
-        <form method="post">
-            <div class="choice-amount">
-                <label>Anzahl Auswahlmöglichkeiten</label>
-                <div class="form-check">
-                    <input class="form-check-input" name="choice-amount" type="radio" value="single-choice" onchange="showPriorities()" checked>
-                    <label class="form-check-label">
-                        Single Choice
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" name="choice-amount" type="radio" value="multiple-choice" onchange="showPriorities()">
-                    <label class="form-check-label">
-                        Multiple Choice
-                    </label>
-                </div>
-                <div class="collapse pl-3" id="collapsePriorities">
-                    <div class="form-check">
-                        <input class="form-check-input" name="choice-weight" type="radio" value="choice-equal" checked>
-                        <label class="form-check-label">
-                            ja/nein
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="choice-weight" type="radio" value="choice-priorities">
-                        <label class="form-check-label">
-                            ja/nein/vielleicht
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="form-check pt-5">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">
-                    Möglichkeiten ergänzbar
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">
-                    Anonym
-                </label>
-            </div>
-            <button type="submit" name="_eventId_access"  class="btn btn-primary float-left mt-5">Zurück</button>
-            <button type="submit" name="_eventId_choiceoptions" class="btn btn-primary float-right mt-5">Weiter</button>
-        </form>
+        <div th:replace="fragments.html :: pageHeading(page='Auswahleinstellungen')"></div>
+        <form th:replace="fragments.html :: choiceSettingsForm"></form>
     </div>
 </main>
 </body>
