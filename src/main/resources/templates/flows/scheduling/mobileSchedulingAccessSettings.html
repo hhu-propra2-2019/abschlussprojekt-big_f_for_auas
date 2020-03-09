@@ -12,8 +12,6 @@
             })
         </script>
         <script>
-            let endModified = false;
-
             function initDatepicker(){
                 let today = new Date().toISOString().slice(0, 16);
                 let day = today.split("T")[0];
@@ -25,35 +23,9 @@
                 document.getElementById("termin-endDate").value = addOneMonth(today);
             }
 
-            function updateEndDate() {
-                if (!endModified) {
-                    let startDate = document.getElementById("termin-startDate").value;
-                    document.getElementById("termin-endDate").value = addOneMonth(startDate);
-                    document.getElementById("termin-endDate").min = addOneDay(startDate);
-                }
-                else {
-                    let startDate = new Date(document.getElementById("termin-startDate").value);
-                    let endDate = new Date(document.getElementById("termin-endDate").value);
-                    let startTime = document.getElementById("termin-startTime").value;
-                    let endTime = document.getElementById("termin-endTime").value;
-                    startDate.setHours(startTime.split(":")[0], startTime.split(":")[1]);
-                    endDate.setHours(endTime.split(":")[0], endTime.split(":")[1]);
-                    if (endDate <= startDate){
-                        endModified = false;
-                        updateEndDate();
-                    }
-                }
-            }
-
             function addOneMonth(dateString){
                 let date = new Date(dateString);
                 date.setMonth(date.getMonth()+1);
-                return date.toISOString().split("T")[0];
-            }
-
-            function addOneDay(dateString){
-                let date= new Date(dateString);
-                date.setDate(date.getDate()+1);
                 return date.toISOString().split("T")[0];
             }
         </script>
@@ -77,10 +49,10 @@
                 <label>Start</label>
                 <div class="row">
                     <div class="col">
-                        <input class="form-control" type="date" id="termin-startDate" onchange="updateEndDate()">
+                        <input class="form-control" type="date" id="termin-startDate">
                     </div>
                     <div class="col">
-                        <input class="form-control" type="time" id="termin-startTime" step="900">
+                        <input class="form-control" type="time" id="termin-startTime">
                     </div>
                 </div>
 
@@ -90,20 +62,12 @@
                 <label>Ende</label>
                 <div class="row">
                     <div class="col">
-                        <input class="form-control" type="date" id="termin-endDate" onchange="endModified=true">
+                        <input class="form-control" type="date" id="termin-endDate">
                     </div>
                     <div class="col">
-                        <input class="form-control" type="time" id="termin-endTime" step="900">
+                        <input class="form-control" type="time" id="termin-endTime">
                     </div>
                 </div>
-            </div>
-
-            <label>Sichtbarkeit des Namens</label>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">
-                    Anonym
-                </label>
             </div>
             <button type="submit" name="_eventId_name"  class="btn btn-primary float-left mt-5">Zurück</button>
             <button type="submit" name="_eventId_choicesettings" class="btn btn-primary float-right mt-5">Weiter</button>
