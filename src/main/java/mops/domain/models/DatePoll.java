@@ -24,7 +24,19 @@ public class DatePoll {
         this.participants = participants;
     }
 
-    public void addParticipant(User nextParticipant) {
+    private void addParticipant(User nextParticipant) {
         this.participants.add(nextParticipant);
+    }
+
+    /**
+     *
+     * @param users
+     */
+    public void addListOfUsersToParticipants(final List<User> users) {
+        for (User user: users
+             ) {
+            addParticipant(user);
+        }
+        return;
     }
 }
