@@ -27,7 +27,7 @@ public class DatePollCreateService {
         datePollBuilder.datePollID(datePollID);
         datePollBuilder.creator(creator);
         datePollBuilder.datePollConfig(config);
-        return new DatePollBuilderAndView(datePollBuilder,config);
+        return new DatePollBuilderAndView(datePollBuilder, config);
     }
 
     /**
