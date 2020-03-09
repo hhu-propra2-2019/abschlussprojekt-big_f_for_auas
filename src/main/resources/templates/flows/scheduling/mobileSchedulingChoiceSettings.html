@@ -23,13 +23,13 @@
 <body>
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
-        <ul th:replace="fragments.html :: navigationList(newTerminActive=true)"></ul>
+        <ul th:replace="fragments/general.html :: navigationList(newTerminActive=true)"></ul>
     </nav>
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div th:replace="fragments.html :: pageHeading(page='Auswahleinstellungen')"></div>
-        <form th:replace="fragments.html :: choiceSettingsForm"></form>
+        <div th:replace="fragments/general.html :: pageHeading(page='Auswahleinstellungen')"></div>
+        <form th:replace="fragments/choiceSettings.html :: form"></form>
     </div>
 </main>
 </body>

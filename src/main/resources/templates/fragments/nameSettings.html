@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+    </th:block>
+</head>
+<body>
+    <form method="post" class="needs-validation" novalidate th:fragment="form">
+        <div class="form-group">
+            <label>Titel</label>
+            <input class="form-control" id="termin-title" placeholder="Neue Terminfindung" required>
+            <div class="invalid-feedback">
+                Bitte gib einen Titel für die Terminfindung ein.
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Beschreibung (optional)</label>
+            <input class="form-control" id="termin-description" placeholder="Beschreibung">
+        </div>
+        <!--/*@thymesVar id="terminfindung" type=""*/-->
+        <div class="form-group" th:if="${terminfindung}">
+            <label>Ort (optional)</label>
+            <input class="form-control" id="termin-location" placeholder="Ort">
+        </div>
+        <button type="submit" name="_eventId_home"  class="btn btn-primary float-left mt-5">Zurück</button>
+        <button type="submit" name="_eventId_access"  class="btn btn-primary float-right mt-5">Weiter</button>
+    </form>
+</body>
+</html>
