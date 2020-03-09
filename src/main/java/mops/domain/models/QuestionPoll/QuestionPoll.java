@@ -10,16 +10,7 @@ public class QuestionPoll {
   private User owner;
 
   private final QuestionPollHeader header;
-
-  /** visibility : vom user wird der Name angezeigt oder
-   *  ein Pseudonym
-   */
-  private boolean visibility;
-
-
-  // pollingmode: single choice or multiple choice
-  private boolean pollingMode;
-
+  private final QuestionPollConfig config;
 
   @Singular("questionPollEntry")
   private List<QuestionPollEntry> entries;
