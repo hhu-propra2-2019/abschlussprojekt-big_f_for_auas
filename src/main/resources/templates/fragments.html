@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+    </th:block>
+</head>
+<body>
+    <ul th:fragment="navigationList">
+        <!--/*@thymesVar id="dashboardActive" type=""*/-->
+        <li th:class="${dashboardActive}? active"><a href="/">Dashboard</a></li>
+        <li><a href="">Von mir erstellte (oder wie man das nennen soll)</a></li>
+        <!--/*@thymesVar id="newTerminActive" type=""*/-->
+        <li th:class="${newTerminActive}? active"><a href="/scheduling">Terminfindung erstellen</a></li>
+        <li><a href="">Abstimmung erstellen</a></li>
+        <li><a href="">Beitreten</a></li>
+    </ul>
+</body>
+</html>

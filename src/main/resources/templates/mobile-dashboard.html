@@ -14,13 +14,7 @@
 <body>
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
-        <ul>
-            <li class="active"><a>Dashboard</a></li>
-            <li><a href="">Von mir erstellte (oder wie man das nennen soll)</a></li>
-            <li><a href="/scheduling">Terminfindung erstellen</a></li>
-            <li><a href="">Abstimmung erstellen</a></li>
-            <li><a href="">Beitreten</a></li>
-        </ul>
+        <ul th:replace="fragments.html :: navigationList(dashboardActive=true)"></ul>
     </nav>
 </header>
 <main th:fragment="bodycontent">
