@@ -40,9 +40,8 @@ verständlich und sofort nutzbar sein. Außerdem wollen wir vermeiden, dass Benu
 Die Datensicherheit muss sichergestellt werden. Bei den Daten zu Terminfindung und Abstimmungen handelt es sich um
 personenbezogene Daten, die in keinem Fall von nicht berechtigten Benutzern oder Angreifern eingesehen werden dürfen.
 
-<br>
 
-Weniger wichtig sind folgende Qualitätsziele:
+**Weniger wichtig sind folgende Qualitätsziele:**
 
 **Zuverlässigkeit:**
 Natürlich ist es uns wichtig, dass unser System ordnungsgemäß funktioniert. Es ist allerdings nicht kritisch für den Alltag
@@ -71,7 +70,14 @@ Technische Randbedingungen:
 | Auslieferung per Docker | Auslieferung möglichst einfach halten und die Lauffähigkeit ohne externe Abhängigkeiten garantieren. |
 | Implementierung in Java mit Spring Boot | Randbedingung der Veranstaltung |
 
+Konventionen:
+---------------------------
 
+| Konvention             | Erläuterungen, Gründe |
+|-----------------------|-----------------------|
+| Sprache | Dokumentation in Deutsch, Code in Englisch |
+| Vorgehensmodell | Arbeit in Kleingruppen zu zweit oder dritt, regelmäßige Besprechung und Rücksprache. Kanban-Boards und To-Do-Listen werden verwendet, sind allerdings nicht zentraler Bestandteil des Modells. |
+| Dokumentation | Dokumentation anhand von Arc42, zusätzlich Festhalten wichtiger Entscheidungen und Ergebnisse aus Plenum und Besprechungen. |
 
 Kontextabgrenzung {#section-system-scope-and-context}
 =================
