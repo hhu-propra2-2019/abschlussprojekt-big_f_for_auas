@@ -45,7 +45,7 @@ public class QuestionPollBuilder {
         .forEach(key -> cookieJar.put(key, NOT_SET));
   }
 
-  public QuestionPollBuilder accessibility(QuestionPollAccessibilityDto accessibilityDto) {
+  public QuestionPollBuilder accessibility(QuestionPollAccessibilityDto accessibilityDto) throws IllegalStateException {
     try {
       this.accessibilityTarget = new QuestionPollAccessibility(accessibilityDto.isRestrictedAccesss(),
           accessibilityDto.getParticipants());
@@ -57,7 +57,7 @@ public class QuestionPollBuilder {
     return this;
   }
 
-  public QuestionPollBuilder ballot(QuestionPollBallotDto ballotDto) {
+  public QuestionPollBuilder ballot(QuestionPollBallotDto ballotDto) throws IllegalStateException  {
     try {
       this.ballotTarget = new QuestionPollBallot(ballotDto.getVotes());
       this.cookieJar.remove(QuestionPollDtoCookie.BALLOT);
@@ -68,7 +68,7 @@ public class QuestionPollBuilder {
     return this;
   }
 
-  public QuestionPollBuilder config(QuestionPollConfigDto configDto) {
+  public QuestionPollBuilder config(QuestionPollConfigDto configDto) throws IllegalStateException {
     try {
       this.configTarget = new QuestionPollConfig(configDto.isUsingAlias(), configDto.isUsingMultiChoice());
       this.cookieJar.remove(QuestionPollDtoCookie.CONFIG);
@@ -79,7 +79,7 @@ public class QuestionPollBuilder {
     return this;
   }
 
-  public QuestionPollBuilder entries(List<QuestionPollEntryDto> entryDtoList) {
+  public QuestionPollBuilder entries(List<QuestionPollEntryDto> entryDtoList) throws IllegalStateException {
     try {
       List<QuestionPollEntry> questionPollEntryList = entryDtoList.stream()
           .map(entry -> new QuestionPollEntry(entry.getTitle(), entry.getCount()))
@@ -93,9 +93,9 @@ public class QuestionPollBuilder {
     return this;
   }
 
-  public QuestionPollBuilder header(QuestionPollHeaderDto headerDto) {
+  public QuestionPollBuilder header(QuestionPollHeaderDto headerDto) throws IllegalStateException {
     try {
-      this.headerTarget = new QuestionPollHeader(headerDto.getTitle() ,headerDto.getDescription());
+      this.headerTarget = new QuestionPollHeader(headerDto.getTitle(),headerDto.getQuestion(), headerDto.getDescription());
       this.cookieJar.remove(QuestionPollDtoCookie.HEADER);
     } catch (IllegalStateException e) {
       this.cookieJar.put(QuestionPollDtoCookie.HEADER, INVALID_VALUE);
