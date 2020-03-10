@@ -13,8 +13,8 @@ public class QuestionPollSyndicationService {
     QuestionPollRepositoryInterface questionPollRepo;
 
     public QuestionPollLink generateLink(final QuestionPollFactory factory) {
-        QuestionPollId factory = questionPollRepo.save(factory.build());
-        QuestionPollLink link = questionPollRepo.getUrl(qpId);
+        QuestionPollId questionPollId = questionPollRepo.save(factory.build());
+        QuestionPollLink link = questionPollRepo.getUrl(questionPollId);
         return link;
     }
 
