@@ -1,7 +1,6 @@
 package mops.applicationService;
 
 
-import mops.domain.models.QuestionPoll.QuestionPoll;
 import mops.domain.models.QuestionPoll.QuestionPollFactory;
 import mops.domain.models.QuestionPoll.QuestionPollId;
 import mops.domain.models.QuestionPoll.QuestionPollLink;
