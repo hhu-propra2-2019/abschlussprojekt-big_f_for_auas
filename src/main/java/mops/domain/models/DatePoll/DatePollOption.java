@@ -3,7 +3,7 @@ package mops.domain.models.DatePoll;
 import mops.controllers.DatePollOptionDto;
 
 import java.util.Date;
-
+//Entity
 class DatePollOption {
     private Date date;
     //Anzahl der Stimmen fuer diesen Termin.

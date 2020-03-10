@@ -36,7 +36,15 @@ public class DatePoll {
      */
     private List<UserId> participants;
 
-
+    /**
+     * Konstruktor Builder - siehe Lombok Annotation
+     * @param creator Ersteller des DatePolls
+     * @param datePollId id
+     * @param datePollMetaInf Title, Description, Location
+     * @param datePollConfig Konfigurationsparameter (booleans)
+     * @param datePollOptionDtos Die verschiedenen Datumseintraege
+     * @param participants Die Benutzer, die an dem DatePoll teilnehmen.
+     */
     @SuppressWarnings("checkstyle:HiddenField")
     @Builder
     public DatePoll(final UserId creator,

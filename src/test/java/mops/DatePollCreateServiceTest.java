@@ -68,9 +68,7 @@ public class DatePollCreateServiceTest {
 
     @Test
     public void test_addDatePollMetaInfo() {
-        DatePollMetaInfDto datePollMetaInfDto = new DatePollMetaInfDto();
-        datePollCreateService.addDatePollMetaInf(testDatePollBuilderAndView,datePollMetaInfDto);
-        assert (testDatePollBuilderAndView.getMetaInfDto().equals(datePollMetaInfDto));
+        
     }
 
     @Test

@@ -1,7 +1,11 @@
-package mops.database;
+package mops.domain.repositories;
 
 import mops.domain.models.Group.Group;
 import mops.domain.models.Group.GroupId;
+import mops.domain.models.User.UserId;
+
+import java.util.List;
+
 /**
  * Repository interface für datePolls.
  */
@@ -18,6 +22,6 @@ public interface GroupRepository {
      * @param groupId GruppenId, der Gruppe, von der man die Benutzer laden möchte.
      * @return List<User>
      */
-    List<User> getUsersFromGroupByGroupId(GroupId groupId);
+    List<UserId> getUsersFromGroupByGroupId(GroupId groupId);
 
 }

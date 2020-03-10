@@ -6,4 +6,5 @@
     <suppress files="MopsApplication.java" checks="HideUtilityClassConstructor" />
     <suppress files="MopsApplication.java" checks="MissingJavadocMethod" />
     <suppress files="MopsApplication.java" checks="FinalParameters" />
+    <suppress files="MopsApplication.java" checks="HiddenField"/>
 </suppressions>

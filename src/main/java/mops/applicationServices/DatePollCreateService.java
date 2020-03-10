@@ -39,7 +39,7 @@ public class DatePollCreateService {
      * Hinzufuegen der Meta-Informationen: Titel, Ort, Beschreibung.
      *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
-     * @param datePollMetaInfDto     Ein Dto Objekt welches die Meta-Informationen.
+     * @param datePollMetaInf Ein Objekt welches die Meta-Informationen enthaelt.
      */
     public void addDatePollMetaInf(final DatePollBuilderAndView datePollBuilderAndView, final DatePollMetaInf datePollMetaInf) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
@@ -66,7 +66,6 @@ public class DatePollCreateService {
      *
      * @param datePollBuilderAndView
      * @param openDatePoll
-     * @return
      */
     public void openOrClosedPoll(final DatePollBuilderAndView datePollBuilderAndView, final boolean openDatePoll) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();

@@ -1,10 +1,13 @@
 package mops.applicationServices;
 
-import mops.database.DatePollRepository;
-import mops.database.GroupRepository;
+import mops.domain.repositories.DatePollRepository;
+import mops.domain.repositories.GroupRepository;
 import mops.domain.models.DatePoll.DatePoll;
 import mops.domain.models.Group.GroupId;
+import mops.domain.models.User.UserId;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -21,36 +24,34 @@ public class DatePollPublicationService {
     /**
      *
      * @param datePollBuilderAndView Um an den datePollConfigDto
-     * @return
+     * @return DatePoll Objekt.
      */
-    public DatePoll publicationByLink(final DatePollBuilderAndView datePollBuilderAndView) {
-
-        return datePollBuilderAndView.startBuildingDatePoll();
+    public DatePoll publishDatePoll(final DatePollBuilderAndView datePollBuilderAndView) {
+        DatePoll created =  datePollBuilderAndView.startBuildingDatePoll();
+        datePollRepository.save(created);
+        return created;
     }
 
     /**
      * Gibt die DatePoll zurück, die nun die Information enthält, dass sie für die User einer
      * bestimmten Gruppe bestimmt ist.
-     * @param datePollID Id der betreffenden datePoll
+     * @param datePollBuilderAndView Builder vom DatePollCreateService
      * @param groupID Id der betreffenden Gruppe
-     * @return DatePoll
      */
-    public DatePoll publicationForGroup(final DatePollID datePollID, final GroupId groupID) {
-        DatePoll datePoll = datePollRepository.getDatePollById(datePollID);
-        datePoll.addListOfUsersToParticipants(groupRepository.getUsersFromGroupByGroupId(groupID));
-        return datePoll;
+    public void forGroup(final DatePollBuilderAndView datePollBuilderAndView, final GroupId groupID) {
+        List<UserId> userList = groupRepository.getUsersFromGroupByGroupId(groupID);
+        userList
+                .forEach(datePollBuilderAndView::addSingleParticipant);
     }
 
     /**
      * Gibt die DatePoll zurück, die nun die Information enthält, dass sie für die übergebenen User
      * bestimmt ist.
-     * @param datePollID Id der betreffenden datePoll
+     * @param datePollBuilderAndView Builder vom DatePollCreateService
      * @param participants Liste der betreffenden User
-     * @return DatePoll
      */
-    public DatePoll publicationForCertainUsers(final DatePollID datePollID, final List<User> participants) {
-        DatePoll datePoll = datePollRepository.getDatePollById(datePollID);
-        datePoll.addListOfUsersToParticipants(participants);
-        return datePoll;
+    public void forCertainUsers(final DatePollBuilderAndView datePollBuilderAndView, final List<UserId> participants) {
+        participants
+                .forEach(datePollBuilderAndView::addSingleParticipant);
     }
 }
