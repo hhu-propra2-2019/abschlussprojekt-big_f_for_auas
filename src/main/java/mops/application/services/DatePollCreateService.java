@@ -22,18 +22,24 @@ import java.util.List;
 public class DatePollCreateService {
     /**
      * Initiale Methode zur Erstellung der Terminfindung.
-     *
+     * Die initiale Terminfindung ist dann in dem DatePollBuilderAndView Objekt gekapselt.
+     * Dieses Objekt soll am Anfang eine DatePollId, den Ersteller (creator)
+     * und die Standard Konfigurationen erhalten.
      * @param creator User der die Terminfindung erstellt.
      * @return Lombok-Builder DatePoll Objekt.
      */
     public DatePollBuilderAndView initializeDatePoll(final UserId creator) {
         DatePollBuilder datePollBuilder = DatePoll.builder();
         DatePollId datePollId = new DatePollId();
+        //DatePollConfig datePollDefaultConfig = new DatePollConfig(true, true, false, true, true);
+        DatePollConfig datePollDefaultConfig = new DatePollConfig();
         datePollBuilder.datePollId(datePollId);
         datePollBuilder.creator(creator);
-        return new DatePollBuilderAndView(datePollBuilder);
+        datePollBuilder.datePollConfig(datePollDefaultConfig);
+        DatePollBuilderAndView datePollBuilderAndView = new DatePollBuilderAndView(datePollBuilder);
+        datePollBuilderAndView.setConfig(datePollDefaultConfig);
+        return datePollBuilderAndView;
     }
-
     /**
      * Zweite Instanz zur Erstellung der Terminfindung.
      * Hinzufuegen der Meta-Informationen: Titel, Ort, Beschreibung.
@@ -41,21 +47,20 @@ public class DatePollCreateService {
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param datePollMetaInf Ein Objekt welches die Meta-Informationen enthaelt.
      */
-    public void addDatePollMetaInf(final DatePollBuilderAndView datePollBuilderAndView, final DatePollMetaInf datePollMetaInf) {
+    public void addDatePollMetaInf(
+            final DatePollBuilderAndView datePollBuilderAndView, final DatePollMetaInf datePollMetaInf) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         builder.datePollMetaInf(datePollMetaInf);
         datePollBuilderAndView.setMetaInf(datePollMetaInf);
     }
-
-
     /**
      * Vierte Instanz zur Erstellung der Terminfindung.
      * Liste der Datum-Eintraege an denen der Termin stattfinden kann.
-     *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param datePollOptionDtos     Alle Datums-Eintraege des User creator.
      */
-    public void initDatePollOptionList(final DatePollBuilderAndView datePollBuilderAndView, final List<DatePollOptionDto> datePollOptionDtos) {
+    public void initDatePollOptionList(
+            final DatePollBuilderAndView datePollBuilderAndView, final List<DatePollOptionDto> datePollOptionDtos) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         builder.datePollOptionDtos(datePollOptionDtos);
         datePollBuilderAndView.setDatePollOptionDtos(datePollOptionDtos);
@@ -74,15 +79,14 @@ public class DatePollCreateService {
         builder.datePollConfig(newConfig);
         datePollBuilderAndView.setConfig(newConfig);
     }
-
     /**
      * Fuenfte Instanz zur Erstellung der Terminfindung.
      * Angabe ob es sich um ein "single" oder "multiple" Choice Terminfindungs-Objekt handelt.
-     *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param singleChoicePoll       Hat der User nur eine Wahlmoeglichkeit (true) oder mehrere (false).
      */
-    public void setDatePollChoiceType(final DatePollBuilderAndView datePollBuilderAndView, final boolean singleChoicePoll) {
+    public void setDatePollChoiceType(
+            final DatePollBuilderAndView datePollBuilderAndView, final boolean singleChoicePoll) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
         DatePollConfig newConfig = oldConfig.withSingleChoiceDatePoll(singleChoicePoll);

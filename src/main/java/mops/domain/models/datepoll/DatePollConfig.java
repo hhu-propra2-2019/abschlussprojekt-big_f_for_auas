@@ -1,10 +1,12 @@
 package mops.domain.models.datepoll;
 
+import lombok.AllArgsConstructor;
 import lombok.Value;
 import lombok.With;
 
 @Value
 @With
+@AllArgsConstructor
 public class DatePollConfig {
 
     /**
@@ -32,4 +34,15 @@ public class DatePollConfig {
      * false: Die DatePoll ist nur für User in der Liste der Participants (siehe Klasse DatePoll) bestimmt.
      */
     private boolean datePollIsPublic;
+
+    /**
+     * NoArgsConstructor - Default Werte fuer die Konfiguration einer Terminfindung.
+     */
+    public DatePollConfig() {
+       this.usersCanCreateOption = false;
+       this.singleChoiceDatePoll = true;
+       this.priorityChoice = false;
+       this.datePollIsAnonymous = true;
+       this.datePollIsPublic = false;
+    }
 }
