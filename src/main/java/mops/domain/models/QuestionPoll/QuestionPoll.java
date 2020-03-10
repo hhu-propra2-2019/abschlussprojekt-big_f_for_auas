@@ -6,10 +6,12 @@ import mops.domain.models.User.UserId;
 
 
 public class QuestionPoll {
+
   private QuestionPollId questionPollId;
   private List<QuestionPollEntry> entries;
   private final QuestionPollBallot ballot;
   private final QuestionPollLifecycle lifecycle;
+  private final Link link;
 
   @Getter private final UserId ownerId;
   @Getter private final QuestionPollHeader header;
@@ -22,7 +24,8 @@ public class QuestionPoll {
                       QuestionPollAccessibility pAccessor,
                       List<QuestionPollEntry> pEntries,
                       QuestionPollBallot pBallot,
-                      QuestionPollLifecycle pLifecycle) {
+                      QuestionPollLifecycle pLifecycle,
+                      Link pLink) {
 
     this.questionPollId = new QuestionPollId();
     this.ownerId = pOwnerId;
@@ -32,5 +35,7 @@ public class QuestionPoll {
     this.entries = pEntries;
     this.ballot = pBallot;
     this.lifecycle = pLifecycle;
+    this.link = pLink;
   }
+
 }

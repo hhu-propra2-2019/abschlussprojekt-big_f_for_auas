@@ -23,6 +23,8 @@ public class QuestionPollFactory {
   private List<QuestionPollEntry> entryTarget;
   private QuestionPollHeader headerTarget;
   private UserId ownerTarget;
+  private Link link;
+  private QuestionPollLifecycle lifecycle;
 
   /** Die Factory verwendet ein cookie System um zu überprüfen ob er in ein valides QuestionPoll Objekt bauen kann.
    *  Für jede Entity/Value in QuestionPoll wird ein cookie in das jar gelegt.
@@ -100,7 +102,9 @@ public class QuestionPollFactory {
           this.configTarget,
           this.accessibilityTarget,
           this.entryTarget,
-          this.ballotTarget);
+          this.ballotTarget,
+          this.lifecycle,
+          this.link);
     } else {
       throw new IllegalStateException("NOT ALL FIELDS SET CORRECTLY");
     }
