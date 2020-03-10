@@ -1,8 +1,11 @@
 package mops.domain.models.datepoll;
 
+import lombok.Value;
+
 import java.util.Date;
 
-class DatePollLifeCycle {
+@Value
+public class DatePollLifeCycle {
     private Date startDate;
     private Date endDate;
 
@@ -11,10 +14,8 @@ class DatePollLifeCycle {
      * @param startDate start der Terminfindung
      * @param endDate ende der Terminfindung
      */
-    DatePollLifeCycle(Date startDate, Date endDate) {
-        if (startDate.compareTo(endDate) < 0) {
-            this.startDate = startDate;
-            this.endDate = endDate;
-        }
+    public DatePollLifeCycle(Date startDate, Date endDate) {
+         this.startDate = startDate;
+         this.endDate = endDate;
     }
 }
