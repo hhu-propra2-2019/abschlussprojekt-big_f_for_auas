@@ -16,10 +16,7 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div class="termin-heading">
-            <h3>Neue Terminfindung - <span>Übersicht</span></h3>
-            <hr/>
-        </div>
+        <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Übersicht')"></div>
 
         <ul>
             <li>Name</li>

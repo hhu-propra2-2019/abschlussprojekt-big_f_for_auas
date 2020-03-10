@@ -9,9 +9,8 @@
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script>
             function addChoiceOption(){
-                $('#terminChoiceOptions').append(`            <div class="form-group">
-                <input class="form-control w-25" type="date">
-                <button name="addOption" class="btn btn-primary" onclick="addChoiceOption()"><img th:src="@{icons/plus.svg}" width="30" height="30" class="d-inline-block align-top" alt=""></button>
+                $('#terminChoiceOptions .form-group').last().append(`<div class="form-group">
+                <input class="form-control" type="date">
             </div>`)
             }
         </script>
@@ -25,15 +24,15 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div th:replace="fragments/general.html :: pageHeading(page='Auswahlmöglichkeiten')"></div>
+        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Auswahlmöglichkeiten')"></div>
         <form method="post" id="terminChoiceOptions">
             <div class="form-group">
-                <input class="form-control w-25" type="date">
-                <button name="addOption" class="btn btn-primary" onclick="addChoiceOption()"><img th:src="@{icons/plus.svg}" width="30" height="30" class="d-inline-block align-top" alt=""></button>
+                <input class="form-control" type="date">
+                <button type="button" name="addOption" class="btn btn-primary" onclick="addChoiceOption()"><img th:src="@{icons/plus.svg}" width="30" height="30" class="d-inline-block align-top" alt=""></button>
             </div>
 
-            <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
-            <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right mt-5">Weiter</button>
+            <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left">Zurück</button>
+            <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right">Weiter</button>
         </form>
     </div>
 </main>

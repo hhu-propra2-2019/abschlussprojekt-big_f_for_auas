@@ -16,7 +16,7 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div th:replace="fragments/general.html :: pageHeading(page='Teilnehmer')"></div>
+        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Teilnehmer')"></div>
         <form th:replace="fragments/publicationSettings.html :: form"></form>
     </div>
 </main>

@@ -28,7 +28,7 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div th:replace="fragments/general.html :: pageHeading(page='Auswahleinstellungen')"></div>
+        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Auswahleinstellungen')"></div>
         <form th:replace="fragments/choiceSettings.html :: form"></form>
     </div>
 </main>

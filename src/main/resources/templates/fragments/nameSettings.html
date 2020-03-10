@@ -11,9 +11,13 @@
     <form method="post" class="needs-validation" novalidate th:fragment="form">
         <div class="form-group">
             <label>Titel</label>
-            <input class="form-control" id="termin-title" placeholder="Neue Terminfindung" required>
-            <div class="invalid-feedback">
+            <input th:if="${terminfindung}" class="form-control" id="termin-title" placeholder="Neue Terminfindung" required>
+            <input th:unless="${terminfindung}" class="form-control" id="poll-title" placeholder="Neue Abstimmung" required>
+            <div th:if="${terminfindung}" class="invalid-feedback">
                 Bitte gib einen Titel für die Terminfindung ein.
+            </div>
+            <div th:unless="${terminfindung}" class="invalid-feedback">
+                Bitte gib einen Titel für die Abstimmung ein.
             </div>
         </div>
         <div class="form-group">

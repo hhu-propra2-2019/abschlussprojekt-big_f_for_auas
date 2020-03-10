@@ -32,7 +32,7 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div th:replace="fragments/general.html :: pageHeading(page='Allgemeines')"></div>
+        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Allgemeines')"></div>
         <form th:replace="fragments/nameSettings.html :: form(terminfindung=true)"></form>
     </div>
 </main>
