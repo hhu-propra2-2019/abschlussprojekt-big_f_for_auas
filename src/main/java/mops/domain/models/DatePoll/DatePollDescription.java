@@ -1,5 +1,5 @@
 package mops.domain.models.DatePoll;
 
-class DatePollDescription {
+public class DatePollDescription {
     private String description;
 }

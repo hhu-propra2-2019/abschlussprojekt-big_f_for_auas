@@ -3,7 +3,6 @@ package mops;
 import mops.applicationServices.DatePollBuilderAndView;
 import mops.applicationServices.DatePollCreateService;
 
-import mops.controllers.DatePollMetaInfDto;
 import mops.controllers.DatePollOptionDto;
 import mops.domain.models.DatePoll.DatePoll;
 import mops.domain.models.DatePoll.DatePoll.DatePollBuilder;

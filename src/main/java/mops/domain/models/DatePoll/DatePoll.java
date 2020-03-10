@@ -2,8 +2,6 @@ package mops.domain.models.DatePoll;
 
 import lombok.Builder;
 import lombok.Getter;
-import mops.controllers.DatePollConfigDto;
-import mops.controllers.DatePollMetaInfDto;
 import mops.controllers.DatePollOptionDto;
 import mops.domain.models.User.UserId;
 
@@ -43,15 +41,15 @@ public class DatePoll {
     @Builder
     public DatePoll(final UserId creator,
                     final DatePollId datePollId,
-                    final DatePollMetaInfDto datePollMetaInfDto,
-                    final DatePollConfigDto datePollConfigDto,
+                    final DatePollMetaInf datePollMetaInf,
+                    final DatePollConfig datePollConfig,
                     final List<DatePollOptionDto> datePollOptionDtos,
                     final List<UserId> participants) {
         this.creator = creator;
         this.datePollId = datePollId;
         this.participants = participants;
-        this.datePollMetaInf = new DatePollMetaInf(datePollMetaInfDto);
-        this.datePollConfig = new DatePollConfig(datePollConfigDto);
+        this.datePollMetaInf = datePollMetaInf;
+        this.datePollConfig = datePollConfig;
         this.datePollOptions = datePollOptionDtos.stream()
                 .map(DatePollOption::new)
                 .collect(Collectors.toList());

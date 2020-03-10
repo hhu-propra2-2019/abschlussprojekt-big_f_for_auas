@@ -1,10 +1,11 @@
 package mops.domain.models.DatePoll;
 
-import lombok.Getter;
-import mops.controllers.DatePollConfigDto;
+import lombok.Value;
+import lombok.With;
 
-@Getter
-class DatePollConfig {
+@Value
+@With
+public class DatePollConfig {
 
     /**
      * true: User kann selbst Termine zur Abstimmung hinzufügen.
@@ -31,8 +32,4 @@ class DatePollConfig {
      * false: Die DatePoll ist nur für User in der Liste der Participants (siehe Klasse DatePoll) bestimmt.
      */
     private boolean datePollIsPublic;
-
-    DatePollConfig(final DatePollConfigDto datePollConfigDto) {
-
-    }
 }

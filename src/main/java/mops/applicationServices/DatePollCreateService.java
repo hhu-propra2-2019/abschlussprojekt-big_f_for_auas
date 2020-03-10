@@ -1,11 +1,11 @@
 package mops.applicationServices;
 
-import mops.controllers.DatePollConfigDto;
-import mops.controllers.DatePollMetaInfDto;
 import mops.controllers.DatePollOptionDto;
 import mops.domain.models.DatePoll.DatePoll;
 import mops.domain.models.DatePoll.DatePoll.DatePollBuilder;
+import mops.domain.models.DatePoll.DatePollConfig;
 import mops.domain.models.DatePoll.DatePollId;
+import mops.domain.models.DatePoll.DatePollMetaInf;
 import mops.domain.models.User.UserId;
 import org.springframework.stereotype.Service;
 
@@ -41,10 +41,10 @@ public class DatePollCreateService {
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param datePollMetaInfDto     Ein Dto Objekt welches die Meta-Informationen.
      */
-    public void addDatePollMetaInf(final DatePollBuilderAndView datePollBuilderAndView, final DatePollMetaInfDto datePollMetaInfDto) {
+    public void addDatePollMetaInf(final DatePollBuilderAndView datePollBuilderAndView, final DatePollMetaInf datePollMetaInf) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
-        builder.datePollMetaInfDto(datePollMetaInfDto);
-        datePollBuilderAndView.setMetaInfDto(datePollMetaInfDto);
+        builder.datePollMetaInf(datePollMetaInf);
+        datePollBuilderAndView.setMetaInf(datePollMetaInf);
     }
 
 
@@ -70,10 +70,10 @@ public class DatePollCreateService {
      */
     public void openOrClosedPoll(final DatePollBuilderAndView datePollBuilderAndView, final boolean openDatePoll) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
-        DatePollConfigDto oldConfig = datePollBuilderAndView.getConfigDto();
-        DatePollConfigDto newConfig = oldConfig.withSingleChoiceDatePoll(openDatePoll);
-        builder.datePollConfigDto(newConfig);
-        datePollBuilderAndView.setConfigDto(newConfig);
+        DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
+        DatePollConfig newConfig = oldConfig.withSingleChoiceDatePoll(openDatePoll);
+        builder.datePollConfig(newConfig);
+        datePollBuilderAndView.setConfig(newConfig);
     }
 
     /**
@@ -82,14 +82,13 @@ public class DatePollCreateService {
      *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param singleChoicePoll       Hat der User nur eine Wahlmoeglichkeit (true) oder mehrere (false).
-     * @return Lombok-Builder DatePoll Objekt.
      */
     public void setDatePollChoiceType(final DatePollBuilderAndView datePollBuilderAndView, final boolean singleChoicePoll) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
-        DatePollConfigDto oldConfig = datePollBuilderAndView.getConfigDto();
-        DatePollConfigDto newConfig = oldConfig.withSingleChoiceDatePoll(singleChoicePoll);
-        builder.datePollConfigDto(newConfig);
-        datePollBuilderAndView.setConfigDto(newConfig);
+        DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
+        DatePollConfig newConfig = oldConfig.withSingleChoiceDatePoll(singleChoicePoll);
+        builder.datePollConfig(newConfig);
+        datePollBuilderAndView.setConfig(newConfig);
     }
 
     /**
@@ -98,14 +97,13 @@ public class DatePollCreateService {
      *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param priority               Prioritaet an (true) oder aus (false).
-     * @return Lombok-Builder DatePoll Objekt.
      */
     public void setDatePollChoicePriority(final DatePollBuilderAndView datePollBuilderAndView, final boolean priority) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
-        DatePollConfigDto oldConfig = datePollBuilderAndView.getConfigDto();
-        DatePollConfigDto newConfig = oldConfig.withSingleChoiceDatePoll(priority);
-        builder.datePollConfigDto(newConfig);
-        datePollBuilderAndView.setConfigDto(newConfig);
+        DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
+        DatePollConfig newConfig = oldConfig.withSingleChoiceDatePoll(priority);
+        builder.datePollConfig(newConfig);
+        datePollBuilderAndView.setConfig(newConfig);
     }
 
     /**
@@ -114,13 +112,12 @@ public class DatePollCreateService {
      *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param isAnonymous            Anonym (true) oder öffentlich (false).
-     * @return Lombok-Builder DatePoll Objekt.
      */
     public void setDatePollVisibility(final DatePollBuilderAndView datePollBuilderAndView, final boolean isAnonymous) {
         DatePollBuilder builder = datePollBuilderAndView.getBuilder();
-        DatePollConfigDto oldConfig = datePollBuilderAndView.getConfigDto();
-        DatePollConfigDto newConfig = oldConfig.withSingleChoiceDatePoll(isAnonymous);
-        builder.datePollConfigDto(newConfig);
-        datePollBuilderAndView.setConfigDto(newConfig);
+        DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
+        DatePollConfig newConfig = oldConfig.withSingleChoiceDatePoll(isAnonymous);
+        builder.datePollConfig(newConfig);
+        datePollBuilderAndView.setConfig(newConfig);
     }
 }

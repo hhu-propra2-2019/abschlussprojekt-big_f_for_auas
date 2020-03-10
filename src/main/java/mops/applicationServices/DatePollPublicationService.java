@@ -2,13 +2,10 @@ package mops.applicationServices;
 
 import mops.database.DatePollRepository;
 import mops.database.GroupRepository;
-import mops.domain.models.DatePoll;
-import mops.domain.models.DatePollID;
+import mops.domain.models.DatePoll.DatePoll;
 import mops.domain.models.Group.GroupId;
-import mops.domain.models.User;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class DatePollPublicationService {
@@ -22,15 +19,13 @@ public class DatePollPublicationService {
     private GroupRepository groupRepository;
 
     /**
-     * Gibt einen DatePoll zurück, der nun die Information enthält mit einem
-     * öffentlichen Link veröffentlicht zu werden.
-     * @param datePollID Id der betreffenden DatePoll
-     * @return DatePoll
+     *
+     * @param datePollBuilderAndView Um an den datePollConfigDto
+     * @return
      */
-    public DatePoll publicationByLink(final DatePollID datePollID) {
-        DatePoll datePoll = datePollRepository.getDatePollById(datePollID);
-        datePoll.setPublicationTypeToPublic(true);
-        return datePoll;
+    public DatePoll publicationByLink(final DatePollBuilderAndView datePollBuilderAndView) {
+
+        return datePollBuilderAndView.startBuildingDatePoll();
     }
 
     /**
