@@ -1,9 +1,9 @@
-package mops.domain.models.DatePoll;
+package mops.domain.models.datepoll;
 
 import lombok.Builder;
 import lombok.Getter;
 import mops.controllers.DatePollOptionDto;
-import mops.domain.models.User.UserId;
+import mops.domain.models.user.UserId;
 
 import java.util.List;
 import java.util.stream.Collectors;

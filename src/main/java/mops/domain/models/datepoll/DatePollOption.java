@@ -1,4 +1,4 @@
-package mops.domain.models.DatePoll;
+package mops.domain.models.datepoll;
 
 import mops.controllers.DatePollOptionDto;
 

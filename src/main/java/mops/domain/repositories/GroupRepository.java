@@ -1,8 +1,8 @@
 package mops.domain.repositories;
 
-import mops.domain.models.Group.Group;
-import mops.domain.models.Group.GroupId;
-import mops.domain.models.User.UserId;
+import mops.domain.models.group.Group;
+import mops.domain.models.group.GroupId;
+import mops.domain.models.user.UserId;
 
 import java.util.List;
 

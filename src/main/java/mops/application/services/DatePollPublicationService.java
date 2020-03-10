@@ -1,10 +1,10 @@
-package mops.applicationServices;
+package mops.application.services;
 
 import mops.domain.repositories.DatePollRepository;
 import mops.domain.repositories.GroupRepository;
-import mops.domain.models.DatePoll.DatePoll;
-import mops.domain.models.Group.GroupId;
-import mops.domain.models.User.UserId;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.group.GroupId;
+import mops.domain.models.user.UserId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

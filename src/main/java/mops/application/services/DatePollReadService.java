@@ -1,8 +1,5 @@
-package mops.applicationServices;
+package mops.application.services;
 
-import mops.domain.models.DatePoll;
-import mops.domain.models.DatePollID;
-import mops.domain.models.User;
 import org.springframework.stereotype.Service;
 
 /**

@@ -1,13 +1,13 @@
-package mops.applicationServices;
+package mops.application.services;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import mops.controllers.DatePollOptionDto;
-import mops.domain.models.DatePoll.DatePoll;
-import mops.domain.models.DatePoll.DatePoll.DatePollBuilder;
-import mops.domain.models.DatePoll.DatePollConfig;
-import mops.domain.models.DatePoll.DatePollMetaInf;
-import mops.domain.models.User.UserId;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePoll.DatePollBuilder;
+import mops.domain.models.datepoll.DatePollConfig;
+import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.user.UserId;
 
 import java.util.List;
 

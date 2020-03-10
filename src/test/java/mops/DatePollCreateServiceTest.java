@@ -1,13 +1,13 @@
 package mops;
 
-import mops.applicationServices.DatePollBuilderAndView;
-import mops.applicationServices.DatePollCreateService;
+import mops.application.services.DatePollBuilderAndView;
+import mops.application.services.DatePollCreateService;
 
 import mops.controllers.DatePollOptionDto;
-import mops.domain.models.DatePoll.DatePoll;
-import mops.domain.models.DatePoll.DatePoll.DatePollBuilder;
-import mops.domain.models.DatePoll.DatePollId;
-import mops.domain.models.User.UserId;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePoll.DatePollBuilder;
+import mops.domain.models.datepoll.DatePollId;
+import mops.domain.models.user.UserId;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -19,14 +19,12 @@ import static org.mockito.Mockito.*;
 public class DatePollCreateServiceTest {
 
     private DatePollCreateService datePollCreateService;
-    private DatePollCreateService mockedDatePollCreateService;
 
     DatePollBuilderAndView testDatePollBuilderAndView;
 
     @BeforeEach
     public void initDatePollCreateServiceTest() {
         this.datePollCreateService = new DatePollCreateService();
-        this.mockedDatePollCreateService = mock(DatePollCreateService.class);
     }
 
     /*
@@ -54,10 +52,10 @@ public class DatePollCreateServiceTest {
         datePollBuilder.creator(usrId);
         DatePollBuilderAndView datePollBuilderAndView = new DatePollBuilderAndView(datePollBuilder);
 
-        when(mockedDatePollCreateService.initializeDatePoll(new UserId()))
+        /*when(mockedDatePollCreateService.initializeDatePoll(new UserId()))
                 .thenReturn(datePollBuilderAndView);
 
-        //Get results:
+        //Get results:*/
         DatePollBuilder newDatePollBuilder = mockedDatePollCreateService.initializeDatePoll(new UserId()).getBuilder();
         DatePoll initializedDatePoll = newDatePollBuilder.build();
 
@@ -68,7 +66,7 @@ public class DatePollCreateServiceTest {
 
     @Test
     public void test_addDatePollMetaInfo() {
-        
+
     }
 
     @Test

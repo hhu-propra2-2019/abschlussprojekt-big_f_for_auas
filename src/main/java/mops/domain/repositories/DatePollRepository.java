@@ -1,7 +1,7 @@
 package mops.domain.repositories;
 
-import mops.domain.models.DatePoll.DatePoll;
-import mops.domain.models.DatePoll.DatePollId;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollId;
 
 /**
  * Repository interface für datePolls.

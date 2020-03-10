@@ -1,4 +1,4 @@
-package mops.domain.models.User;
+package mops.domain.models.user;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
