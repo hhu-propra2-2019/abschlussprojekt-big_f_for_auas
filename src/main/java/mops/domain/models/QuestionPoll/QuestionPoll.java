@@ -1,10 +1,7 @@
 package mops.domain.models.QuestionPoll;
 
 import java.util.List;
-<<<<<<< Updated upstream
-=======
 import lombok.Getter;
->>>>>>> Stashed changes
 import mops.domain.models.User.UserId;
 
 
