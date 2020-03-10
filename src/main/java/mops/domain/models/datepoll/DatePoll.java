@@ -37,6 +37,11 @@ public class DatePoll {
     private List<UserId> participants;
 
     /**
+     * Link fuer den DatePoll.
+     */
+    private final DatePollLink datePollLink;
+
+    /**
      * Konstruktor Builder - siehe Lombok Annotation
      * @param creator Ersteller des DatePolls
      * @param datePollId id
