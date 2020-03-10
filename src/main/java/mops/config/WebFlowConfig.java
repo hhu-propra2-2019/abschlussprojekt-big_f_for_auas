@@ -20,6 +20,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import java.util.Collections;
 
 @Configuration
+@SuppressWarnings("PMD")
 public class WebFlowConfig extends AbstractFlowConfiguration {
 
     @SuppressWarnings("checkstyle:JavadocVariable")

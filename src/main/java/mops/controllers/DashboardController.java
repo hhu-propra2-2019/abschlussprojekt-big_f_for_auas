@@ -5,7 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.security.RolesAllowed;
 
+/**
+ * Controller für das Dashboard, auf das die User zuerst stoßen.
+ */
+
 @Controller
+@SuppressWarnings("PMD.AtLeastOneConstructor")
 public class DashboardController {
 
     /**

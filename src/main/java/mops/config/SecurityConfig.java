@@ -34,12 +34,13 @@ import javax.servlet.http.HttpServletRequest;
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
+@SuppressWarnings("PMD")
 class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
     @SuppressWarnings("checkstyle:FinalParameters")
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
-        KeycloakAuthenticationProvider keycloakAuthenticationProvider
+        final KeycloakAuthenticationProvider keycloakAuthenticationProvider
                 = keycloakAuthenticationProvider();
         keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
         auth.authenticationProvider(keycloakAuthenticationProvider);
