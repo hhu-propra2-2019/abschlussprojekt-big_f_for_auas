@@ -43,8 +43,6 @@ public class QuestionPollBuilder {
     this.cookieJar = new EnumMap<>(QuestionPollDtoCookie.class);
     EnumSet.allOf(QuestionPollDtoCookie.class)
         .forEach(key -> cookieJar.put(key, NOT_SET));
-
-    return this;
   }
 
   public QuestionPollBuilder accessibility(QuestionPollAccessibilityDto accessibilityDto) {
