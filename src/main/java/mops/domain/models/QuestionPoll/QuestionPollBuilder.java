@@ -98,11 +98,24 @@ public class QuestionPollBuilder {
   public QuestionPollBuilder header(QuestionPollHeaderDto headerDto) {
     try {
       this.headerTarget = new QuestionPollHeader(headerDto.getTitle() ,headerDto.getDescription());
-      this.cookieJar.remove(QuestionPollDtoCookie.)
+      this.cookieJar.remove(QuestionPollDtoCookie.HEADER);
     } catch (IllegalStateException e) {
       this.cookieJar.put(QuestionPollDtoCookie.HEADER, INVALID_VALUE);
     }
 
     return this;
+  }
+
+  public QuestionPoll build() throws IllegalStateException {
+    if (this.cookieJar.isEmpty()) {
+      return new QuestionPoll(this.ownerTarget,
+          this.headerTarget,
+          this.configTarget,
+          this.accessibilityTarget,
+          this.entryTarget,
+          this.ballotTarget);
+    } else {
+      throw new IllegalStateException("NOT ALL FIELDS SET CORRECTLY");
+    }
   }
 }
