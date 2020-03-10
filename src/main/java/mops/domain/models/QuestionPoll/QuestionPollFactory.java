@@ -58,7 +58,7 @@ public class QuestionPollFactory {
   }
 
   public void accessibilityAddUser(UserId ... userId) {
-    if (this.cookieJar.containsKey(QuestionPollDtoCookie.ACCESSIBILITY)) {
+    if (!this.cookieJar.containsKey(QuestionPollDtoCookie.ACCESSIBILITY)) {
       Arrays.stream(userId).forEach(thisUserId -> this.accessibilityTarget.getParticipants().add(thisUserId));
     }
   }

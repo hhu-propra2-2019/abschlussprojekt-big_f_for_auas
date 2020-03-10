@@ -6,14 +6,13 @@ import mops.controller.DTO.QuestionPollConfigDto;
 import mops.controller.DTO.QuestionPollEntryDto;
 import mops.controller.DTO.QuestionPollHeaderDto;
 import mops.controller.DTO.QuestionPollLifecycleDto;
-import mops.domain.models.QuestionPoll.QuestionPoll;
 import mops.domain.models.QuestionPoll.QuestionPollFactory;
-import mops.domain.models.QuestionPoll.QuestionPollLifecycle;
 import mops.domain.models.Repository.UserRepositoryInterface;
 import mops.domain.models.User.User;
 import mops.domain.models.User.UserId;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public final class QuestionPollCreationService {
 
   UserRepositoryInterface userRepo;
