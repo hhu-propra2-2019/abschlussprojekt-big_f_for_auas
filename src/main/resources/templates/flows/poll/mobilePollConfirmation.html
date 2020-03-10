@@ -11,12 +11,13 @@
 <body>
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
-        <ul th:replace="fragments/general.html :: navigationList(newTerminActive=true)"></ul>
+        <ul th:replace="fragments/general.html :: navigationList(newAbstimmungActive=true)"></ul>
     </nav>
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Übersicht')"></div>
+        <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Übersicht')"></div>
+
         <ul>
             <li>Name</li>
             <li>Beschreibung (optional)</li>

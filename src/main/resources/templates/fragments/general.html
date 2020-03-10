@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+    </th:block>
+</head>
+<body>
+    <ul th:fragment="navigationList">
+        <!--/*@thymesVar id="dashboardActive" type=""*/-->
+        <li th:class="${dashboardActive}? active"><a href="/">Dashboard</a></li>
+        <li><a href="">Von mir erstellte (oder wie man das nennen soll)</a></li>
+        <!--/*@thymesVar id="newTerminActive" type=""*/-->
+        <li th:class="${newTerminActive}? active"><a href="/scheduling">Terminfindung erstellen</a></li>
+        <!--/*@thymesVar id="newAbstimmungActive" type=""*/-->
+        <li th:class="${newAbstimmungActive}? active"><a href="/poll">Abstimmung erstellen</a></li>
+        <li><a href="">Beitreten</a></li>
+    </ul>
+
+    <div class="form-group" th:fragment="terminOption">
+        <input class="form-control w-25" type="date">
+        <button name="addOption" class="btn btn-primary"><img th:src="@{icons/plus.svg}" width="30" height="30" class="d-inline-block align-top" alt=""></button>
+    </div>
+
+
+    <div class="termin-heading" th:fragment="pageHeading">
+        <h3><!--/*@thymesVar id="process" type=""*/-->
+        <span th:text="${process}">Neue Terminfindung</span> - <!--/*@thymesVar id="page" type=""*/-->
+            <span th:text="${page}">Allgemeines</span></h3>
+        <hr/>
+    </div>
+
+
+</body>
+</html>
