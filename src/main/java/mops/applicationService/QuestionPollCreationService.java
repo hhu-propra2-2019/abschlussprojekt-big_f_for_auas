@@ -6,16 +6,20 @@ import mops.controller.DTO.QuestionPollConfigDto;
 import mops.controller.DTO.QuestionPollEntryDto;
 import mops.controller.DTO.QuestionPollHeaderDto;
 import mops.domain.models.QuestionPoll.QuestionPollFactory;
-import mops.domain.models.Repository.QuestionPollRepositoryInterface;
 import mops.domain.models.Repository.UserRepositoryInterface;
 import mops.domain.models.User.User;
 import mops.domain.models.User.UserId;
 
 
-public class QuestionPollCreationService {
+public final class QuestionPollCreationService {
 
   UserRepositoryInterface userRepo;
 
+  /**
+   * Erstellt eine Factory für eine QuestionPoll und gibt diese zurück.
+   * @param userId
+   * @return QuestionPollFactory
+   */
   public QuestionPollFactory startQuestionPoll(final UserId userId) {
     User user = userRepo.getById(userId);
     return new QuestionPollFactory(userId);
