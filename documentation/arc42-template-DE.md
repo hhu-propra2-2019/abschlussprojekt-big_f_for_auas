@@ -21,25 +21,23 @@ Qualitätsziele {#_qualit_tsziele}
 --------------
 **Wartbarkeit:**
 
-Unser wichtigstes Qualitätsziel ist **Wartbarkeit**, da wir nachdem wir das Projekt ausliefern nicht mehr dafür verantwortlich sind.
+Unser wichtigstes Qualitätsziel ist **Wartbarkeit**, da wir, nachdem wir das Projekt ausliefern, nicht mehr dafür verantwortlich sind.
 Daraus resultiert, dass unser Projekt möglichst gut **testbar** und **anlysierbar** sein soll.
 
 **Benutzbarkeit:**
 
 Ein weiteres wichtiges Qualitätsziel ist **Benutzbarkeit**. Unseren Service stellen wir allen Angehörigen der
 Heinrich-Heine-Universität Düsseldorf bereit. Aufgrund der verschiedenen Backgrounds der Benutzerbasis soll unser Service
-ohne Vorkenntnisse einfach und intuitiv benutzbar sein. Es soll keine Lernkurve geben müssen. Man soll den Service sofort
-verstehen und nutzen können. Außerdem wollen wir vermeiden, dass Benutzer unabsichtlich Fehler machen.
+ohne Vorkenntnisse einfach und intuitiv benutzbar sein. Es soll keine Lernkurve geben. Der Service soll intuitiv
+verständlich und sofort nutzbar sein. Außerdem wollen wir vermeiden, dass Benutzer unabsichtlich Fehler machen.
 
 **Performance:**
 
-**Performance** ist wichtig, damit jeder Nutzer Terminfindung und Abstimmung möglichst schnell erstellen bzw. durchführen
-kann und dabei nicht frustriert wird. Daraus resultiert, dass wir uns vornehmen, dass jede Operation höchstens 2 Sekunden
-Antwortzeit hat.
+**Performance** ist wichtig, damit Nutzer\*innnen Terminfindungen und Abstimmungen möglichst schnell initiieren bzw. durchführen können und dabei nicht frustriert sind. Daraus resultierend nehmen wir uns vor, dass jede Operation höchstens 2 Sekunden Antwortzeit hat.
 
 **Sicherheit:**
 
-Die Datensicherheit soll sichergestellt werden. Bei den Daten zu Terminfindung und Abstimmungen handelt es sich um
+Die Datensicherheit muss sichergestellt werden. Bei den Daten zu Terminfindung und Abstimmungen handelt es sich um
 personenbezogene Daten, die in keinem Fall von nicht berechtigten Benutzern oder Angreifern eingesehen werden dürfen.
 
 <br>
@@ -49,26 +47,23 @@ Weniger wichtig sind folgende Qualitätsziele:
 **Zuverlässigkeit:**
 Natürlich ist es uns wichtig, dass unser System ordnungsgemäß funktioniert. Es ist allerdings nicht kritisch für den Alltag
 an der Universität, wenn Teilsysteme unseres Services für kurze Zeit ausfallen oder kleinere Bugs auftreten, welche
-nicht sicherheitskritisch sind. 
-
+nicht sicherheitskritisch sind bzw. die Datensicherheit nicht beeinträchtigen.
 
 
 Stakeholder {#_stakeholder}
 -----------
 
-+-----------------+-----------------+-----------------------------------+
 | Rolle           | Kontakt         | Erwartungshaltung                 |
-+=================+=================+===================================+
-| *\<Rolle-1\>*   | *\<Kontakt-1\>* | *\<Erwartung-1\>*                 |
-+-----------------+-----------------+-----------------------------------+
-| *\<Rolle-2\>*   | *\<Kontakt-2\>* | *\<Erwartung-2\>*                 |
-+-----------------+-----------------+-----------------------------------+
+|-----------------|-----------------|-----------------------------------|
+| Studierende und Lehrende der HHU   | - | ? |
+
 
 Randbedingungen {#section-architecture-constraints}
 ===============
 
-Unser Service ist ein Self-Contained-System, welches im Mops-System integriert werden soll und im ZiM über ein
-Docker-File betrieben wird.
+Unser Service ist ein Self-Contained-System, welches im Mops-System integriert werden soll und im ZIM per
+Docker-Image ausgeliefert wird.
+
 
 Kontextabgrenzung {#section-system-scope-and-context}
 =================
