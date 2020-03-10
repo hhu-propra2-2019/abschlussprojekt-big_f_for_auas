@@ -1,45 +1,40 @@
 package mops.applicationService;
 
-import mops.domain.models.QuestionPoll.QuestionPoll;
-import mops.domain.models.QuestionPoll.QuestionPoll.QuestionPollBuilder;
-import mops.domain.models.QuestionPoll.QuestionPollBallot;
-import mops.domain.models.QuestionPoll.QuestionPollEntry;
-import mops.domain.models.QuestionPoll.QuestionPollHeader;
-import mops.domain.models.QuestionPoll.QuestionPollId;
+import java.util.List;
+import mops.controller.DTO.QuestionPollBallotDto;
+import mops.controller.DTO.QuestionPollConfigDto;
+import mops.controller.DTO.QuestionPollEntryDto;
+import mops.controller.DTO.QuestionPollHeaderDto;
+import mops.domain.models.QuestionPoll.QuestionPollFactory;
 import mops.domain.models.Repository.QuestionPollRepositoryInterface;
 import mops.domain.models.Repository.UserRepositoryInterface;
 import mops.domain.models.User.User;
+import mops.domain.models.User.UserId;
 
 
 public class QuestionPollCreationService {
 
-  QuestionPollRepositoryInterface qpRepo;
   UserRepositoryInterface userRepo;
 
-  public QuestionPollBuilder startQuestionPoll(final UserId userId) {
+  public QuestionPollFactory startQuestionPoll(final UserId userId) {
     User user = userRepo.getById(userId);
-    return QuestionPoll.builder().owner(user);
+    return new QuestionPollFactory(userId);
   }
 
-  public QuestionPollBuilder addHeader(QuestionPollBuilder qpBuilder, final String title, final String description) {
-    QuestionPollHeader header = new QuestionPollHeader(title, description);
-    return qpBuilder.header(header);
+  public void addHeader(final QuestionPollFactory factory, final QuestionPollHeaderDto headerDto) {
+    factory.header(headerDto);
   }
 
-  public QuestionPollBuilder addEntry(final QuestionPollBuilder qpBuilder, final QuestionPollEntry questionPollEntry) {
-    return qpBuilder.questionPollEntry(questionPollEntry);
+  public void addEntries(final QuestionPollFactory factory, final List<QuestionPollEntryDto> entryDtoList) {
+    factory.entries(entryDtoList);
   }
 
-  public QuestionPollBuilder setPollingMode(final QuestionPollBuilder qpBuilder, final boolean single) {
-    return qpBuilder.pollingMode(single);
+  public void addConfig(final QuestionPollFactory factory, final QuestionPollConfigDto configDto) {
+    factory.config(configDto);
   }
 
-  public QuestionPollBuilder setVisibility(final QuestionPollBuilder qpBuilder, final boolean anonymous) {
-    return qpBuilder.visibility(anonymous);
-  }
-
-  public QuestionPollBuilder setBallot(final QuestionPollBuilder qpBuilder, final QuestionPollBallot ballot) {
-    return qpBuilder.ballot(ballot);
+  public void addBallot(final QuestionPollFactory factory, final QuestionPollBallotDto ballotDto) {
+    factory.ballot(ballotDto);
   }
 
 }

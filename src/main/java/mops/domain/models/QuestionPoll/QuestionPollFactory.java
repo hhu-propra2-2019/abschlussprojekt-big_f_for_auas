@@ -12,7 +12,7 @@ import mops.controller.DTO.QuestionPollEntryDto;
 import mops.controller.DTO.QuestionPollHeaderDto;
 import mops.domain.models.User.UserId;
 
-public class QuestionPollBuilder {
+public class QuestionPollFactory {
 
   private final static String NOT_SET = "Wert noch nicht gesetzt";
   private final static String INVALID_VALUE = "Ungülitger Wert";
@@ -24,7 +24,7 @@ public class QuestionPollBuilder {
   private QuestionPollHeader headerTarget;
   private UserId ownerTarget;
 
-  /** Der Builder verwendet ein cookie System um zu überprüfen ob er in ein valides QuestionPoll Objekt bauen kann.
+  /** Die Factory verwendet ein cookie System um zu überprüfen ob er in ein valides QuestionPoll Objekt bauen kann.
    *  Für jede Entity/Value in QuestionPoll wird ein cookie in das jar gelegt.
    *  Wird über den builder ein valides DTO übergeben und ein korrekte Entity/Value erzeugt, wird ein Cookie aus dem jar entfernt
    *  Wird ein invalides DTO übergeben muss ein entsprechender Cookie in das Jar hinterlegt werden.
@@ -32,7 +32,7 @@ public class QuestionPollBuilder {
    */
   private EnumMap<QuestionPollDtoCookie,String> cookieJar;
 
-  public QuestionPollBuilder(UserId userId) {
+  public QuestionPollFactory(UserId userId) {
     this.accessibilityTarget = null;
     this.ballotTarget = null;
     this.configTarget = null;
@@ -45,7 +45,7 @@ public class QuestionPollBuilder {
         .forEach(key -> cookieJar.put(key, NOT_SET));
   }
 
-  public QuestionPollBuilder accessibility(QuestionPollAccessibilityDto accessibilityDto) throws IllegalStateException {
+  public void accessibility(QuestionPollAccessibilityDto accessibilityDto) {
     try {
       this.accessibilityTarget = new QuestionPollAccessibility(accessibilityDto.isRestrictedAccesss(),
           accessibilityDto.getParticipants());
@@ -53,33 +53,27 @@ public class QuestionPollBuilder {
     } catch (IllegalStateException e) {
       this.cookieJar.put(QuestionPollDtoCookie.ACCESSIBILITY, INVALID_VALUE);
     }
-
-    return this;
   }
 
-  public QuestionPollBuilder ballot(QuestionPollBallotDto ballotDto) throws IllegalStateException  {
+  public void ballot(QuestionPollBallotDto ballotDto) {
     try {
       this.ballotTarget = new QuestionPollBallot(ballotDto.getVotes());
       this.cookieJar.remove(QuestionPollDtoCookie.BALLOT);
     } catch (IllegalStateException e) {
       this.cookieJar.put(QuestionPollDtoCookie.BALLOT, INVALID_VALUE);
     }
-
-    return this;
   }
 
-  public QuestionPollBuilder config(QuestionPollConfigDto configDto) throws IllegalStateException {
+  public void config(QuestionPollConfigDto configDto) {
     try {
       this.configTarget = new QuestionPollConfig(configDto.isUsingAlias(), configDto.isUsingMultiChoice());
       this.cookieJar.remove(QuestionPollDtoCookie.CONFIG);
     } catch (IllegalStateException e) {
       this.cookieJar.put(QuestionPollDtoCookie.CONFIG, INVALID_VALUE);
     }
-
-    return this;
   }
 
-  public QuestionPollBuilder entries(List<QuestionPollEntryDto> entryDtoList) throws IllegalStateException {
+  public void entries(List<QuestionPollEntryDto> entryDtoList) {
     try {
       List<QuestionPollEntry> questionPollEntryList = entryDtoList.stream()
           .map(entry -> new QuestionPollEntry(entry.getTitle(), entry.getCount()))
@@ -89,19 +83,15 @@ public class QuestionPollBuilder {
     } catch (IllegalStateException e) {
       this.cookieJar.put(QuestionPollDtoCookie.ENTRY, INVALID_VALUE);
     }
-
-    return this;
   }
 
-  public QuestionPollBuilder header(QuestionPollHeaderDto headerDto) throws IllegalStateException {
+  public void header(QuestionPollHeaderDto headerDto) {
     try {
       this.headerTarget = new QuestionPollHeader(headerDto.getTitle(),headerDto.getQuestion(), headerDto.getDescription());
       this.cookieJar.remove(QuestionPollDtoCookie.HEADER);
     } catch (IllegalStateException e) {
       this.cookieJar.put(QuestionPollDtoCookie.HEADER, INVALID_VALUE);
     }
-
-    return this;
   }
 
   public QuestionPoll build() throws IllegalStateException {
