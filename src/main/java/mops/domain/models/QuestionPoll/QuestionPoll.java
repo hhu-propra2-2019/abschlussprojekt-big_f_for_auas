@@ -1,19 +1,22 @@
 package mops.domain.models.QuestionPoll;
 
 import java.util.List;
+<<<<<<< Updated upstream
+=======
+import lombok.Getter;
+>>>>>>> Stashed changes
 import mops.domain.models.User.UserId;
 
 
 public class QuestionPoll {
-  private UserId ownerId;
   private QuestionPollId questionPollId;
-
-  private final QuestionPollHeader header;
-  private final QuestionPollConfig config;
-  private final QuestionPollAccessibility accessor;
   private List<QuestionPollEntry> entries;
-
   private final QuestionPollBallot ballot;
+
+  @Getter private final UserId ownerId;
+  @Getter private final QuestionPollHeader header;
+  @Getter private final QuestionPollConfig config;
+  @Getter private final QuestionPollAccessibility accessor;
 
   public QuestionPoll(UserId pOwnerId,
                       QuestionPollHeader pHeader,
@@ -29,7 +32,5 @@ public class QuestionPoll {
     this.accessor = pAccessor;
     this.entries = pEntries;
     this.ballot = pBallot;
-
   }
-
 }
