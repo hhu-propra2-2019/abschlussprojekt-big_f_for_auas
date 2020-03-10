@@ -1,10 +1,12 @@
 package mops.domain.models.datepoll;
 
 public class DatePollLink {
-    private final String hostname = "mops.cs.hhu.de/";
+
+    private static final String HOSTNAME = "mops.cs.hhu.de/";
+
     private String datePollIdentifier;
 
-    DatePollLink(final String newDatePollIdentifier) {
+    public DatePollLink(final String newDatePollIdentifier) {
         this.datePollIdentifier = newDatePollIdentifier;
     }
 }

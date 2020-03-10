@@ -42,13 +42,15 @@ public class DatePoll {
     private final DatePollLink datePollLink;
 
     /**
-     * Konstruktor Builder - siehe Lombok Annotation
-     * @param creator Ersteller des DatePolls
-     * @param datePollId id
-     * @param datePollMetaInf Title, Description, Location
-     * @param datePollConfig Konfigurationsparameter (booleans)
+     * Konstruktor Builder - siehe Lombok Annotation.
+     *
+     * @param creator            Ersteller des DatePolls
+     * @param datePollId         id
+     * @param datePollMetaInf    Title, Description, Location
+     * @param datePollConfig     Konfigurationsparameter (booleans)
      * @param datePollOptionDtos Die verschiedenen Datumseintraege
-     * @param participants Die Benutzer, die an dem DatePoll teilnehmen.
+     * @param participants       Die Benutzer, die an dem DatePoll teilnehmen.
+     * @param datePollLink       Der Link um den DatePoll zu veröffentlichen.
      */
     @SuppressWarnings("checkstyle:HiddenField")
     @Builder
@@ -57,7 +59,8 @@ public class DatePoll {
                     final DatePollMetaInf datePollMetaInf,
                     final DatePollConfig datePollConfig,
                     final List<DatePollOptionDto> datePollOptionDtos,
-                    final List<UserId> participants) {
+                    final List<UserId> participants,
+                    final DatePollLink datePollLink) {
         this.creator = creator;
         this.datePollId = datePollId;
         this.participants = participants;
@@ -66,6 +69,7 @@ public class DatePoll {
         this.datePollOptions = datePollOptionDtos.stream()
                 .map(DatePollOption::new)
                 .collect(Collectors.toList());
+        this.datePollLink = datePollLink;
     }
 
 }
