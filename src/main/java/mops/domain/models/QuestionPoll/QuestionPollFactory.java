@@ -128,7 +128,7 @@ public class QuestionPollFactory {
 
   public List<String> peekCookieJar() {
     List<String> cookies = new ArrayList<String>();
-    this.cookieJar.entrySet().forEach(entry -> cookies.add(entry.getKey().toString() + "::" + entry.getValue()));
+    this.cookieJar.entrySet().forEach(entry -> cookies.add(entry.getKey().toString() + " :: " + entry.getValue()));
     return cookies;
   }
 }
