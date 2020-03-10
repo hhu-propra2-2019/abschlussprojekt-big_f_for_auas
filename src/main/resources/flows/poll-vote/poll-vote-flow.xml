@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                      http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+  <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
+
+  <view-state id="mobilePollVote" view="/flows/poll-vote/mobilePollVote">
+    <transition on="home" to="home"/>
+    <transition on="results" to="mobilePollResults"/>
+  </view-state>
+
+  <view-state id="mobilePollResults" view="/flows/poll-vote/mobilePollResults">
+    <transition on="vote" to="mobilePollVote"/>
+    <transition on="home" to="home"/>
+  </view-state>
+
+  <end-state id="home" view="externalRedirect:contextRelative:/"/>
+</flow>
