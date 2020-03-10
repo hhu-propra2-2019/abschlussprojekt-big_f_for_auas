@@ -25,14 +25,14 @@
 <main th:fragment="bodycontent" class="d-flex flex-column" style="min-height: 100vh">
     <div class="container flex-fill">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Auswahlmöglichkeiten')"></div>
-        <form method="post" id="terminChoiceOptions">
+        <form th:action method="post" id="terminChoiceOptions">
             <div class="form-group">
                 <input class="form-control" type="date">
                 <button type="button" name="addOption" class="btn btn-primary" onclick="addChoiceOption()"><img th:src="@{icons/plus.svg}" width="30" height="30" class="d-inline-block align-top" alt=""></button>
             </div>
 
-            <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left">Zurück</button>
-            <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right">Weiter</button>
+            <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
+            <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right mt-5">Weiter</button>
         </form>
     </div>
 </main>
