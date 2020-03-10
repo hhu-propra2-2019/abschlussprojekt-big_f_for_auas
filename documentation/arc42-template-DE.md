@@ -53,9 +53,10 @@ nicht sicherheitskritisch sind bzw. die Datensicherheit nicht beeinträchtigen.
 Stakeholder {#_stakeholder}
 -----------
 
-| Rolle           | Kontakt         | Erwartungshaltung                 |
-|-----------------|-----------------|-----------------------------------|
-| Studierende und Lehrende der HHU   | - | ? |
+| Rolle           | Erwartungshaltung                 |
+|-----------------|-----------------------------------|
+| Studierende und Lehrende der HHU   | Möchten untereinander möglichst reibungslos Termine verabreden, Fragen demokratisch klären und zur Konsensfindung Umfragen durchführen |
+| Entwickler | Wollen ihr Praktikum bestehen und die vorgegebene Anwendung möglichst vollständig und fachgerecht implementieren |
 
 
 Randbedingungen {#section-architecture-constraints}
