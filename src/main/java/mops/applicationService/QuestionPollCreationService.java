@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public final class QuestionPollCreationService {
 
-  UserRepositoryInterface userRepo;
+  private UserRepositoryInterface userRepo;
 
   /**
    * Erstellt eine Factory für eine QuestionPoll und gibt diese zurück.

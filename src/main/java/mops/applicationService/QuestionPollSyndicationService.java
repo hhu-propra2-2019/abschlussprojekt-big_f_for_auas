@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuestionPollSyndicationService {
 
-    QuestionPollRepositoryInterface questionPollRepo;
+    private QuestionPollRepositoryInterface questionPollRepo;
 
     public QuestionPollLink generateLink(final QuestionPollFactory factory) {
         QuestionPollId questionPollId = questionPollRepo.save(factory.build());
