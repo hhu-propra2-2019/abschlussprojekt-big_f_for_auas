@@ -1,8 +1,6 @@
 package mops.domain.models.QuestionPoll;
 
 import java.util.List;
-
-import io.micrometer.shaded.org.pcollections.PBag;
 import mops.domain.models.User.UserId;
 
 
