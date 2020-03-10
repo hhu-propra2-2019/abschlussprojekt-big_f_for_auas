@@ -1,5 +1,6 @@
 package mops.domain.models.QuestionPoll;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -123,5 +124,11 @@ public class QuestionPollFactory {
     } else {
       throw new IllegalStateException("NOT ALL FIELDS SET CORRECTLY");
     }
+  }
+
+  public List<String> peekCookieJar() {
+    List<String> cookies = new ArrayList<String>();
+    this.cookieJar.entrySet().forEach(entry -> cookies.add(entry.getKey().toString() + "::" + entry.getValue()));
+    return cookies;
   }
 }
