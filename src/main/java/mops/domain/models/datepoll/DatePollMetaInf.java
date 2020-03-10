@@ -1,12 +1,18 @@
 package mops.domain.models.datepoll;
 
 import lombok.Value;
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
 
 @Value
-public class DatePollMetaInf {
+public class DatePollMetaInf implements ValidateAble {
 
-    private String titel;
+    private String title;
     private DatePollDescription datePollDescription;
     private DatePollLocation datePollLocation;
     private DatePollLifeCycle datePollLifeCycle;
+
+    public Validation validate() {
+        return null;
+    }
 }

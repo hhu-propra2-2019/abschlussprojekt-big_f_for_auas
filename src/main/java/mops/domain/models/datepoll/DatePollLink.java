@@ -1,6 +1,9 @@
 package mops.domain.models.datepoll;
 
-public class DatePollLink {
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
+
+public class DatePollLink implements ValidateAble {
 
     private static final String HOSTNAME = "mops.cs.hhu.de/";
 
@@ -8,5 +11,10 @@ public class DatePollLink {
 
     public DatePollLink(final String newDatePollIdentifier) {
         this.datePollIdentifier = newDatePollIdentifier;
+    }
+
+    @Override
+    public Validation validate() {
+        return null;
     }
 }

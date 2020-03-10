@@ -1,4 +1,11 @@
 package mops.domain.models.user;
 
-public class UserId {
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
+
+public class UserId implements ValidateAble {
+    @Override
+    public Validation validate() {
+        return null;
+    }
 }

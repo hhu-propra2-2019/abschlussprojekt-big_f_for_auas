@@ -1,7 +1,9 @@
 package mops.domain.repositories;
 
 import mops.domain.models.datepoll.DatePoll;
-import mops.domain.models.datepoll.DatePollId;
+import mops.domain.models.datepoll.DatePollLink;
+
+import java.util.Optional;
 
 /**
  * Repository interface für datePolls.
@@ -9,10 +11,10 @@ import mops.domain.models.datepoll.DatePollId;
 public interface DatePollRepository {
     /**
      * Methodenkopf für die DatePoll-Lademethode.
-     * @param datePollId Id der zu ladenden DatePoll
+     * @param link Eindeutig identifizierender link einer Terminfindung.
      * @return DatePoll;
      */
-    DatePoll load(DatePollId datePollId);
+    Optional<DatePoll> load(DatePollLink link);
 
     /**
      * Methodenkopf für die DatePoll-Speichermethode.
