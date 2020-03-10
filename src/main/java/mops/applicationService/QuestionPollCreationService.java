@@ -5,7 +5,10 @@ import mops.controller.DTO.QuestionPollBallotDto;
 import mops.controller.DTO.QuestionPollConfigDto;
 import mops.controller.DTO.QuestionPollEntryDto;
 import mops.controller.DTO.QuestionPollHeaderDto;
+import mops.controller.DTO.QuestionPollLifecycleDto;
+import mops.domain.models.QuestionPoll.QuestionPoll;
 import mops.domain.models.QuestionPoll.QuestionPollFactory;
+import mops.domain.models.QuestionPoll.QuestionPollLifecycle;
 import mops.domain.models.Repository.UserRepositoryInterface;
 import mops.domain.models.User.User;
 import mops.domain.models.User.UserId;
@@ -39,6 +42,10 @@ public final class QuestionPollCreationService {
 
   public void addBallot(final QuestionPollFactory factory, final QuestionPollBallotDto ballotDto) {
     factory.ballot(ballotDto);
+  }
+
+  public void addLifecycle(final QuestionPollFactory factory, final QuestionPollLifecycleDto lifecycleDto) {
+    factory.lifecycle(lifecycleDto);
   }
 
 }

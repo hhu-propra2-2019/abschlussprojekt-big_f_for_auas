@@ -11,7 +11,7 @@ public class QuestionPoll {
   private List<QuestionPollEntry> entries;
   private final QuestionPollBallot ballot;
   private final QuestionPollLifecycle lifecycle;
-  private final Link link;
+  private final QuestionPollLink questionPollLink;
 
   @Getter private final UserId ownerId;
   @Getter private final QuestionPollHeader header;
@@ -24,10 +24,10 @@ public class QuestionPoll {
                       QuestionPollAccessibility pAccessor,
                       List<QuestionPollEntry> pEntries,
                       QuestionPollBallot pBallot,
-                      QuestionPollLifecycle pLifecycle,
-                      Link pLink) {
+                      QuestionPollLifecycle pLifecycle) {
 
     this.questionPollId = new QuestionPollId();
+    this.questionPollLink = new QuestionPollLink();
     this.ownerId = pOwnerId;
     this.header = pHeader;
     this.config = pConfig;
@@ -35,7 +35,6 @@ public class QuestionPoll {
     this.entries = pEntries;
     this.ballot = pBallot;
     this.lifecycle = pLifecycle;
-    this.link = pLink;
   }
 
 }
