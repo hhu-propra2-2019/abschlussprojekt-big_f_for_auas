@@ -21,10 +21,18 @@ public class DatePollBuilderAndView {
     private List<DatePollOptionDto> datePollOptionDtos;
     private List<UserId> participantsIdList;
 
-    DatePoll startBuildingDatePoll() {
+    /**
+     * Methode dient zur erstellung des DatePoll Objektes.
+     * @return DatePoll Objekt, welches den derzeitigen Status des Builders implementiert
+     */
+    public DatePoll startBuildingDatePoll() {
         return this.builder.build();
     }
 
+    /**
+     * Einzelne User zur Terminfindung hinzufuegen.
+     * @param nextParticipantId UserId des Users, der hinzugefuegt werden soll
+     */
     public void addSingleParticipant(final UserId nextParticipantId) {
         participantsIdList.add(nextParticipantId);
     }

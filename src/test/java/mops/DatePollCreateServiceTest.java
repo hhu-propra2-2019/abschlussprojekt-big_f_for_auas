@@ -45,23 +45,15 @@ public class DatePollCreateServiceTest {
     @Test
     public void test_datePollBuildInitialisation() {
         //Set data
-        DatePollId datePollId = new DatePollId();
+        UserId creatorUsr = new UserId();
+        DatePollId datePollID = new DatePollId();
         DatePollBuilder datePollBuilder = DatePoll.builder();
-        datePollBuilder.datePollId(datePollId);
-        UserId usrId = new UserId();
-        datePollBuilder.creator(usrId);
-        DatePollBuilderAndView datePollBuilderAndView = new DatePollBuilderAndView(datePollBuilder);
-
-        /*when(mockedDatePollCreateService.initializeDatePoll(new UserId()))
-                .thenReturn(datePollBuilderAndView);
-
-        //Get results:*/
-        DatePollBuilder newDatePollBuilder = mockedDatePollCreateService.initializeDatePoll(new UserId()).getBuilder();
-        DatePoll initializedDatePoll = newDatePollBuilder.build();
-
+        datePollBuilder.datePollId(datePollID);
+        datePollBuilder.creator(creatorUsr);
+        DatePollBuilderAndView secondTestDatePollBuilderAndView = new DatePollBuilderAndView(datePollBuilder);
+        DatePoll testDatePoll = secondTestDatePollBuilderAndView.getBuilder().build();
         //Test ...
-        assert(initializedDatePoll.getDatePollId().equals(datePollId));
-        assert(initializedDatePoll.getCreator().equals(usrId));
+        assert(testDatePoll.getCreator().equals(creatorUsr));
     }
 
     @Test
