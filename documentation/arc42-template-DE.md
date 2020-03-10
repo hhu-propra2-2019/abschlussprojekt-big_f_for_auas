@@ -62,8 +62,15 @@ Stakeholder {#_stakeholder}
 Randbedingungen {#section-architecture-constraints}
 ===============
 
-Unser Service ist ein Self-Contained-System, welches im Mops-System integriert werden soll und im ZIM per
-Docker-Image ausgeliefert wird.
+Technische Randbedingungen:
+---------------------------
+
+| Bedingung             | Erläuterungen, Gründe |
+|-----------------------|-----------------------|
+| Design als Self-Contained-System | Vereinfacht die Arbeit in Gruppen und die spätere Integration, da die Services untereinander so unabhängig wie möglich sind. |
+| Auslieferung per Docker | Auslieferung möglichst einfach halten und die Lauffähigkeit ohne externe Abhängigkeiten garantieren. |
+| Implementierung in Java mit Spring Boot | Randbedingung der Veranstaltung |
+
 
 
 Kontextabgrenzung {#section-system-scope-and-context}
