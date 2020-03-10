@@ -6,6 +6,6 @@ import mops.domain.models.User.UserId;
 
 @Data
 public class QuestionPollAccessibilityDto {
-  public boolean restrictedAccess;
-  public Set<UserId> participants;
+  private boolean restrictedAccess;
+  private Set<UserId> participants;
 }

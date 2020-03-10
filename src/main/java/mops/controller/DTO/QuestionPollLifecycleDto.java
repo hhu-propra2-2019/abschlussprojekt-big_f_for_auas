@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class QuestionPollLifecycleDto {
-    public Date start;
-    public Date end;
+    private Date start;
+    private Date end;
 }

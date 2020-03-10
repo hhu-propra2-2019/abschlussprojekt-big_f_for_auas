@@ -8,5 +8,5 @@ import mops.domain.models.User.User;
 
 @Data
 public class QuestionPollBallotDto {
-  public Map<User, List<QuestionPollEntry>> votes;
+  private Map<User, List<QuestionPollEntry>> votes;
 }

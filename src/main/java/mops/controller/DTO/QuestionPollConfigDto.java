@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class QuestionPollConfigDto {
 
-    public boolean usingAlias;
-    public boolean usingMultiChoice;
+    private boolean usingAlias;
+    private boolean usingMultiChoice;
 
 }

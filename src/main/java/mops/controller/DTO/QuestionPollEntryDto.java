@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class QuestionPollEntryDto {
 
-    public String title;
-    public long count;
+    private String title;
+    private long count;
 
 }
