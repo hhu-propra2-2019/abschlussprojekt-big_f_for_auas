@@ -7,13 +7,17 @@
     <th:block th:fragment="headcontent">
         <!-- Links, Skripts, Styles hier einfügen! -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script>
+        <script src="/choiceOptions.js"></script>
+        <!--<script>
+            let count = 0;
+            $('#scheduleOptionCount').text('1');
+
             function addChoiceOption(){
                 $('#terminChoiceOptions .form-group').last().append(`<div class="form-group">
                 <input class="form-control" type="date">
-            </div>`)
+            </div>`);
             }
-        </script>
+        </script>-->
     </th:block>
 </head>
 <body>
@@ -27,8 +31,9 @@
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Auswahlmöglichkeiten')"></div>
         <form th:action method="post" id="terminChoiceOptions">
             <div class="form-group">
-                <input class="form-control" type="date">
                 <button type="button" name="addOption" class="btn btn-primary" onclick="addChoiceOption()"><img th:src="@{icons/plus.svg}" width="30" height="30" class="d-inline-block align-top" alt=""></button>
+                <div>Termin <span id="scheduleOptionCount">x</span>:</div>
+                <input class="form-control" type="date">
             </div>
 
             <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
