@@ -1,6 +1,6 @@
 package mops.domain.models.QuestionPoll;
 
-import java.util.List;
+import java.util.Set;
 import lombok.Value;
 import mops.domain.models.User.UserId;
 
@@ -8,5 +8,5 @@ import mops.domain.models.User.UserId;
 public class QuestionPollAccessibility {
 
   final boolean restrictedAccess;
-  final List<UserId> participants;
+  final Set<UserId> participants;
 }
