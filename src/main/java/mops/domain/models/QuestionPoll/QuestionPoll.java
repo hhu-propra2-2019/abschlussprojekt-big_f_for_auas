@@ -9,6 +9,7 @@ public class QuestionPoll {
   private QuestionPollId questionPollId;
   private List<QuestionPollEntry> entries;
   private final QuestionPollBallot ballot;
+  private final QuestionPollLifecycle lifecycle;
 
   @Getter private final UserId ownerId;
   @Getter private final QuestionPollHeader header;
@@ -20,7 +21,8 @@ public class QuestionPoll {
                       QuestionPollConfig pConfig,
                       QuestionPollAccessibility pAccessor,
                       List<QuestionPollEntry> pEntries,
-                      QuestionPollBallot pBallot) {
+                      QuestionPollBallot pBallot,
+                      QuestionPollLifecycle pLifecycle) {
 
     this.questionPollId = new QuestionPollId();
     this.ownerId = pOwnerId;
@@ -29,5 +31,6 @@ public class QuestionPoll {
     this.accessor = pAccessor;
     this.entries = pEntries;
     this.ballot = pBallot;
+    this.lifecycle = pLifecycle;
   }
 }
