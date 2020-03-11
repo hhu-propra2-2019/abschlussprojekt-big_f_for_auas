@@ -8,9 +8,9 @@ import lombok.Getter;
  */
 public class QuestionPollLink {
   @Getter
-  private final UUID questionLinkId questionLinkId;
+  private final UUID questionLinkId;
 
-  public questionLinkId() {
+  public QuestionPollLink() {
     this.questionLinkId = UUID.randomUUID();
   }
 }
