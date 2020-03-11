@@ -35,7 +35,7 @@ public class QuestionPollAccessibility {
     return false;
   }
 
-  public void addUserId(UserId userId) {
+  public void addUser(UserId userId) {
     participants.add(userId);
   }
 }
