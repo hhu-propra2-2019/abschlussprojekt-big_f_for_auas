@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+    </th:block>
+</head>
+<body>
+<form th:action method="post" th:fragment="voteform">
+    <div class="choice-amount">
+        <label>Anzahl Auswahlmöglichkeiten</label>
+        <div class="form-check">
+            <input class="form-check-input" name="choice-amount" type="radio" value="single-choice" onchange="showPriorities()" checked>
+            <label class="form-check-label">
+                Single Choice
+            </label>
+        </div>
+    </div>
+    <button type="submit" name="_eventId_home"  class="btn btn-primary float-left mt-5">Zurück</button>
+    <button type="submit" name="_eventId_results" class="btn btn-primary float-right mt-5">Abstimmen</button>
+</form>
+<div th:fragment="results">
+    <ul>
+        <li>3 für A</li>
+        <li>3 für B</li>
+        <li>3 für C</li>
+    </ul>
+    <form th:action method="post">
+        <button type="submit" name="_eventId_vote" class="btn btn-primary float-left mt-5">Ändern</button>
+        <button type="submit" name="_eventId_home" class="btn btn-primary float-left mt-5">Fertig</button>
+    </form>
+</div>
+</body>
+</html>

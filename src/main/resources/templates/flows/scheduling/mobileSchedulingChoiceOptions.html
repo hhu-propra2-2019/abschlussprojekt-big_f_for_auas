@@ -7,13 +7,17 @@
     <th:block th:fragment="headcontent">
         <!-- Links, Skripts, Styles hier einfügen! -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script>
+        <script type="text/javascript" th:src="@{/choiceOptions.js}"></script>
+        <!--<script>
+            let count = 0;
+            $('#scheduleOptionCount').text('1');
+
             function addChoiceOption(){
                 $('#terminChoiceOptions .form-group').last().append(`<div class="form-group">
                 <input class="form-control" type="date">
-            </div>`)
+            </div>`);
             }
-        </script>
+        </script>-->
     </th:block>
 </head>
 <body>
@@ -22,17 +26,37 @@
         <ul th:replace="fragments/general.html :: navigationList(newTerminActive=true)"></ul>
     </nav>
 </header>
-<main th:fragment="bodycontent">
-    <div class="container">
+<main th:fragment="bodycontent" class="d-flex flex-column" style="min-height: 100vh">
+    <div class="container flex-fill">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Auswahlmöglichkeiten')"></div>
-        <form method="post" id="terminChoiceOptions">
+        <form th:action method="post" id="terminChoiceOptions">
             <div class="form-group">
-                <input class="form-control" type="date">
-                <button type="button" name="addOption" class="btn btn-primary" onclick="addChoiceOption()"><img th:src="@{icons/plus.svg}" width="30" height="30" class="d-inline-block align-top" alt=""></button>
+                <!--<div>Termin <span id="scheduleOptionCount">x</span>:</div>-->
+                <ol id="scheduleOptionList">
+                    <li>
+                        <div class="form-group row">
+                            <input name="dateOption" class="form-control col ml-5" type="date">
+                            <input class="form-control col ml-5" type="time" value="12:00">
+                            <div class="col-1">
+                                <button style="width: 37px; height: 37px" type="button" name="removeOption" class="btn btn-danger" onclick="removeChoiceOption(this)">-</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group row">
+                            <input name="dateOption" class="form-control col ml-5" type="date">
+                            <input class="form-control col ml-5" type="time" value="12:00">
+                            <div class="col-1">
+                                <button style="width: 37px; height: 37px" type="button" name="removeOption" class="btn btn-danger" onclick="removeChoiceOption(this)">-</button>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+                <button type="button" name="addOption" class="btn btn-primary" onclick="addChoiceOption()">+</button>
             </div>
 
-            <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left">Zurück</button>
-            <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right">Weiter</button>
+            <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
+            <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right mt-5">Weiter</button>
         </form>
     </div>
 </main>

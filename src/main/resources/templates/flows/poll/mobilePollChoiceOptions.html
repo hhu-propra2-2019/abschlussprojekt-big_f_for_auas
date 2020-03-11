@@ -25,7 +25,7 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Auswahlmöglichkeiten')"></div>
-        <form method="post" id="terminChoiceOptions">
+        <form th:action method="post" id="terminChoiceOptions">
             <div class="form-group">
                 <input class="form-control" type="date">
                 <button name="addOption" class="btn btn-primary" onclick="addChoiceOption()"><img th:src="@{icons/plus.svg}" width="30" height="30" class="d-inline-block align-top" alt=""></button>
