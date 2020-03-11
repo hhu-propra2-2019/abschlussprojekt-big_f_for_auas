@@ -1,5 +1,6 @@
 package mops.domain.models.datepoll;
 
+import lombok.AllArgsConstructor;
 import lombok.Value;
 import lombok.With;
 import mops.domain.models.ValidateAble;
@@ -7,6 +8,7 @@ import mops.domain.models.Validation;
 
 @Value
 @With
+@AllArgsConstructor
 public class DatePollConfig implements ValidateAble {
 
     /**
@@ -35,8 +37,20 @@ public class DatePollConfig implements ValidateAble {
      */
     private boolean open;
 
+    /**
+     * NoArgsConstructor - Default Werte fuer die Konfiguration einer Terminfindung.
+     */
+    public DatePollConfig() {
+        this.priorityChoice = false;
+        this.anonymous = false;
+        this.openForOwnEntries = false;
+        this.open = false;
+        this.singleChoice = false;
+    }
+
     @Override
     public Validation validate() {
-        return null;
+        Validation validation = Validation.noErrors();
+        return validation;
     }
 }

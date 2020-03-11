@@ -1,7 +1,7 @@
 package mops.domain.models.datepoll;
 
 import lombok.Getter;
-import mops.controllers.DatePollOptionDto;
+import mops.controllers.dto.DatePollOptionDto;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
@@ -105,7 +105,7 @@ public class DatePollBuilder {
     public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
         this.datePollOptions.addAll(validateAllAndGetCorrect(
                 datePollOptionsDtos.stream()
-                        .map(dto -> new DatePollOption(dto.getDate()))
+                        .map(dto -> new DatePollOption(dto.getStartDate(), dto.getEndDate()))
                         .collect(Collectors.toList())
         ));
         if (!datePollOptions.isEmpty()) {

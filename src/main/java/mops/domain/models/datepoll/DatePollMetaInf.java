@@ -13,6 +13,10 @@ public class DatePollMetaInf implements ValidateAble {
     private DatePollLifeCycle datePollLifeCycle;
 
     public Validation validate() {
-        return null;
+        Validation validation = Validation.noErrors();
+        validation.appendValidation(datePollLocation.validate());
+        validation.appendValidation(datePollDescription.validate());
+        validation.appendValidation(datePollLifeCycle.validate());
+        return validation;
     }
 }

@@ -1,21 +1,24 @@
 package mops.domain.models.datepoll;
 
+import mops.controllers.dto.InputFieldNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 class DatePollOption implements ValidateAble {
-    private Date date;
+
+    private final DatePollLifeCycle dateOptionDuration;
     //Anzahl der Stimmen fuer diesen Termin.
     private int votes;
 
-    DatePollOption(final Date date) {
-
+    DatePollOption(final LocalDateTime startDate, final LocalDateTime endDate) {
+        this.dateOptionDuration = new DatePollLifeCycle(startDate, endDate);
     }
+
 
     @Override
     public Validation validate() {
-        return null;
+        return dateOptionDuration.validate();
     }
 }

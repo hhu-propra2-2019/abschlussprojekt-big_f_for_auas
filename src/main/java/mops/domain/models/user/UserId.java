@@ -4,8 +4,12 @@ import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
 public class UserId implements ValidateAble {
+
     @Override
     public Validation validate() {
-        return null;
+        String errorMessage = "User creator is not valid. DATE_POLL_CREATOR contains problems:\n";
+        Validation validation = Validation.noErrors();
+        return validation;
+
     }
 }

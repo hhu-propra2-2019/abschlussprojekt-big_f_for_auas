@@ -1,6 +1,6 @@
 package mops.application.services;
 
-import mops.controllers.DatePollOptionDto;
+import mops.controllers.dto.DatePollOptionDto;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollConfig;
@@ -28,9 +28,17 @@ public class DatePollCreateService {
     public DatePollBuilderAndView initializeDatePoll(final UserId creator) {
         DatePollBuilder builder = DatePoll.builder();
         DatePollBuilderAndView datePollBuilderAndView = new DatePollBuilderAndView(builder);
+        //Hinzufuegen der default configuration fuer einen DatePoll (s. DatePollConfig NoArgsConstructor)
+        DatePollConfig defaultConfiguration = new DatePollConfig();
+        datePollBuilderAndView.setConfig(defaultConfiguration);
+        //Setze den "creator" und die "default configuration" und validiere.
         datePollBuilderAndView.setValidation(
-                builder.creator(creator).getValidationState()
+                builder
+                        .creator(creator)
+                        .datePollConfig(defaultConfiguration)
+                        .getValidationState()
         );
+
         return datePollBuilderAndView;
     }
 
