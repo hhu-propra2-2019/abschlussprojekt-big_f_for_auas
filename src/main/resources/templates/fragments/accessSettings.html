@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+    </th:block>
+</head>
+<body>
+    <form method="post" th:fragment="form">
+        <div class="form-group">
+            <label>Start</label>
+            <div class="row">
+                <div class="col">
+                    <input class="form-control" type="date" id="termin-startDate">
+                </div>
+                <div class="col">
+                    <input class="form-control" type="time" id="termin-startTime">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Ende</label>
+            <div class="row">
+                <div class="col">
+                    <input class="form-control" type="date" id="termin-endDate">
+                </div>
+                <div class="col">
+                    <input class="form-control" type="time" id="termin-endTime">
+                </div>
+            </div>
+        </div>
+        <button type="submit" name="_eventId_name"  class="btn btn-primary float-left mt-5">Zurück</button>
+        <button type="submit" name="_eventId_choicesettings" class="btn btn-primary float-right mt-5">Weiter</button>
+    </form>
+</body>
+</html>
