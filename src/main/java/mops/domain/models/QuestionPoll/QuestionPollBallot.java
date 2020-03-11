@@ -3,7 +3,6 @@ package mops.domain.models.QuestionPoll;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import mops.controller.DTO.QuestionPollBallotDto;
 import mops.domain.models.User.UserId;
 
 /**
