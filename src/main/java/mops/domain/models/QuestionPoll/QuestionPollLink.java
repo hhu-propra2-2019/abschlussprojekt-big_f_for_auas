@@ -1,5 +1,16 @@
 package mops.domain.models.QuestionPoll;
 
-public class QuestionPollLink {
+import java.util.UUID;
+import lombok.Getter;
 
+/**
+ * Speichert die Url der QuestionPoll.
+ */
+public class QuestionPollLink {
+  @Getter
+  private final UUID questionLinkId questionLinkId;
+
+  public questionLinkId() {
+    this.questionLinkId = UUID.randomUUID();
+  }
 }
