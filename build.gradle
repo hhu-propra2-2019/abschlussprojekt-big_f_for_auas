@@ -50,13 +50,16 @@ ext {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.keycloak:keycloak-spring-boot-starter:9.0.0'
+	implementation 'org.keycloak.bom:keycloak-adapter-bom:9.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-task'
+	implementation 'org.springframework.webflow:spring-webflow:2.5.1.RELEASE'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
-	implementation "mops:styleguide:2.0.0"
+	implementation "mops:styleguide:2.1.0"
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -82,15 +85,6 @@ checkstyle {
 }
 
 pmd {
-	ruleSets = [
-			"category/java/errorprone.xml",
-			"category/java/bestpractices.xml",
-			"category/java/codestyle.xml",
-			"category/java/design.xml",
-			"category/java/documentation.xml",
-			"category/java/multithreading.xml",
-			"category/java/performance.xml",
-			"category/java/security.xml"
-	]
+	ruleSetConfig = resources.text.fromFile("config/pmd/pmd.xml")
 	consoleOutput = true
 }
