@@ -11,10 +11,19 @@
         <script>
             function showPriorities(){
                 if( $("input[name=choice-amount]:checked").val() === "multiple-choice" ){
-                    $('.collapse').collapse('show');
+                    $('#collapsePriorities').collapse('show');
                 }
                 else{
-                    $('.collapse').collapse('hide');
+                    $('#collapsePriorities').collapse('hide');
+                }
+            }
+            function showMutable(){
+                if( $("input[name=choice-mutable]").is(':checked') ){
+                    $("input[name=choice-addNew]").prop('disabled', false)
+                }
+                else{
+                    $("input[name=choice-addNew]").prop('checked', false);
+                    $("input[name=choice-addNew]").prop('disabled', true)
                 }
             }
         </script>

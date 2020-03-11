@@ -8,7 +8,7 @@
     </th:block>
 </head>
 <body>
-    <form method="post" class="needs-validation" novalidate th:fragment="form">
+    <form th:action method="post" class="needs-validation" novalidate th:fragment="form">
         <div class="form-group">
             <label>Titel</label>
             <input th:if="${terminfindung}" class="form-control" id="termin-title" placeholder="Neue Terminfindung" required>
