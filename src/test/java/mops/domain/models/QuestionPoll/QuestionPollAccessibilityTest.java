@@ -38,7 +38,7 @@ class QuestionPollAccessibilityTest {
 
         boolean erg = true;
         for(UserId id : ids) {
-            if(accessor.isUserIdParticipant(id) == false)
+            if(accessor.isUserParticipant(id) == false)
                 erg = false;
         }
         return erg;
