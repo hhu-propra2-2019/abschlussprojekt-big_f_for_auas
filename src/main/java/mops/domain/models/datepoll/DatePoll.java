@@ -2,6 +2,7 @@ package mops.domain.models.datepoll;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.UserId;
 
 import java.util.List;
@@ -10,6 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 public class DatePoll {
 
+
+    /**
+     * Speichert Status der Umfrage, global und userspezifisch
+     */
+    private PollRecordAndStatus pollRecordAndStatus;
     /**
      * Meta-Informationen zur DatePoll.
      */
