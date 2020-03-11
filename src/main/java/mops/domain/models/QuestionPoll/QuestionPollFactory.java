@@ -6,12 +6,12 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
-import mops.controller.DTO.QuestionPollAccessibilityDto;
-import mops.controller.DTO.QuestionPollConfigDto;
-import mops.controller.DTO.QuestionPollDtoCookie;
-import mops.controller.DTO.QuestionPollEntryDto;
-import mops.controller.DTO.QuestionPollHeaderDto;
-import mops.controller.DTO.QuestionPollLifecycleDto;
+import mops.controller.dto.QuestionPollAccessibilityDto;
+import mops.controller.dto.QuestionPollConfigDto;
+import mops.controller.dto.QuestionPollDtoCookie;
+import mops.controller.dto.QuestionPollEntryDto;
+import mops.controller.dto.QuestionPollHeaderDto;
+import mops.controller.dto.QuestionPollLifecycleDto;
 import mops.domain.models.User.UserId;
 
 /**

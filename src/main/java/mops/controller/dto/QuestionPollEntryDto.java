@@ -1,4 +1,4 @@
-package mops.controller.DTO;
+package mops.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

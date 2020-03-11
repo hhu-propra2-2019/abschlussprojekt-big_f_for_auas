@@ -1,13 +1,12 @@
-package mops.applicationService;
+package mops.applicationservice;
 
 import java.util.List;
-import mops.controller.DTO.QuestionPollConfigDto;
-import mops.controller.DTO.QuestionPollEntryDto;
-import mops.controller.DTO.QuestionPollHeaderDto;
-import mops.controller.DTO.QuestionPollLifecycleDto;
+import mops.controller.dto.QuestionPollConfigDto;
+import mops.controller.dto.QuestionPollEntryDto;
+import mops.controller.dto.QuestionPollHeaderDto;
+import mops.controller.dto.QuestionPollLifecycleDto;
 import mops.domain.models.QuestionPoll.QuestionPollFactory;
 import mops.domain.models.Repository.UserRepositoryInterface;
-import mops.domain.models.User.User;
 import mops.domain.models.User.UserId;
 import org.springframework.stereotype.Service;
 

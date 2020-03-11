@@ -3,4 +3,4 @@
  * Dtos können im Builder entpackt werden und zu einem QuestionPoll zusammengefügt werden oder
  * aus einem bestehenden QuestionPoll Objekt generiert werden und an den Controller weitergereicht werden.
  */
-package mops.controller.DTO;
+package mops.controller.dto;

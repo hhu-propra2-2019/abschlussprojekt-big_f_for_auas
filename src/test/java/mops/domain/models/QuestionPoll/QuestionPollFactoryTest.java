@@ -1,9 +1,8 @@
 package mops.domain.models.QuestionPoll;
 
-import mops.controller.DTO.*;
+import mops.controller.dto.*;
 import mops.domain.models.User.UserId;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
