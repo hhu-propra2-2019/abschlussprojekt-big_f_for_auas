@@ -17,6 +17,15 @@
                     $('.collapse').collapse('hide');
                 }
             }
+            function showMutable(){
+                if( $("input[name=choice-mutable]").is(':checked') ){
+                    $("input[name=choice-addNew]").prop('disabled', false)
+                }
+                else{
+                    $("input[name=choice-addNew]").prop('checked', false);
+                    $("input[name=choice-addNew]").prop('disabled', true)
+                }
+            }
         </script>
     </th:block>
 </head>
