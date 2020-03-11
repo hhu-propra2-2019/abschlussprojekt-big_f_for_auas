@@ -51,7 +51,7 @@ public class QuestionPollFactory {
 
   public void accessibility(QuestionPollAccessibilityDto accessibilityDto) {
     try {
-      this.accessibilityTarget = new QuestionPollAccessibility(accessibilityDto.restrictedAccess, accessibilityDto.getParticipants());
+      this.accessibilityTarget = new QuestionPollAccessibility(accessibilityDto.isRestrictedAccess(), accessibilityDto.getParticipants());
       this.cookieJar.remove(QuestionPollDtoCookie.ACCESSIBILITY);
     } catch (IllegalStateException e) {
       this.cookieJar.put(QuestionPollDtoCookie.ACCESSIBILITY, INVALID_VALUE);
