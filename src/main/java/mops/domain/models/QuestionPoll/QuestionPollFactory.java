@@ -76,6 +76,10 @@ public class QuestionPollFactory {
     }
   }
 
+  /**
+   * Setzt die Config in der Factory.
+   * @param configDto
+   */
   public void config(QuestionPollConfigDto configDto) {
     try {
       this.configTarget = new QuestionPollConfig(configDto.isUsingAlias(), configDto.isUsingMultiChoice());
@@ -85,6 +89,10 @@ public class QuestionPollFactory {
     }
   }
 
+  /**
+   * Setzt die Liste der Entries in der Factory.
+   * @param entryDtoList
+   */
   public void entries(List<QuestionPollEntryDto> entryDtoList) {
     try {
       List<QuestionPollEntry> questionPollEntryList = entryDtoList.stream()
@@ -97,6 +105,10 @@ public class QuestionPollFactory {
     }
   }
 
+  /**
+   * Setzt den Header in der Factory.
+   * @param headerDto
+   */
   public void header(QuestionPollHeaderDto headerDto) {
     try {
       this.headerTarget = new QuestionPollHeader(headerDto.getTitle(),
@@ -107,6 +119,10 @@ public class QuestionPollFactory {
     }
   }
 
+  /**
+   * Setzt den Lifecycle in der Factory.
+   * @param lifecycleDto
+   */
   public void lifecycle(QuestionPollLifecycleDto lifecycleDto) {
     try {
       this.lifecycleTarget = new QuestionPollLifecycle(lifecycleDto.getStart(), lifecycleDto.getEnd());
@@ -116,6 +132,12 @@ public class QuestionPollFactory {
     }
   }
 
+  /**
+   * Erzeugt aus den gesetzten Feldern ein QuestionPoll Objekt.
+   * Funktioniert nur wenn alle Felder korrekt gesetzt wurde.
+   * @return QuestionPoll
+   * @throws IllegalStateException
+   */
   public QuestionPoll build() throws IllegalStateException {
     if (this.cookieJar.isEmpty()) {
       return new QuestionPoll(this.ownerTarget,
@@ -130,6 +152,11 @@ public class QuestionPollFactory {
     }
   }
 
+  /**
+   * Überprüft den momentanen Zustand der Factory und gibt zurück welche Felder noch nicht korrekt
+   * gesetzt oder noch gar nicht gesetzt wurden.
+   * @return List<String>
+   */
   public List<String> peekCookieJar() {
     List<String> cookies = new ArrayList<String>();
     this.cookieJar.entrySet().forEach(entry -> cookies.add(entry.getKey().toString() + " :: " + entry.getValue()));
