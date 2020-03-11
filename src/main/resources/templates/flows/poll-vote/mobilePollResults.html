@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+
     </th:block>
 </head>
 <body>
@@ -15,7 +17,40 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div th:replace="fragments/pollVote.html :: results"></div>
+        <!--<div th:replace="fragments/pollVote.html :: results"></div>-->
+
+    <div><canvas class="w-50 h-50" id="myChart" width="400" height="400"></canvas></div>
+    <script>
+        let ctx = document.getElementById('myChart').getContext('2d');
+        let myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['08.03.2020, 10:00 Uhr', '09.03.2020, 12:00 Uhr'],
+                datasets: [{
+                    data: [12, 13],
+                    label: 'Anzahl Stimmen',
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
     </div>
 </main>
 </body>

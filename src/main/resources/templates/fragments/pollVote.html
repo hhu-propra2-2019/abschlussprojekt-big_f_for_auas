@@ -18,8 +18,8 @@
             </label>
         </div>
     </div>
-    <button type="submit" name="_eventId_home"  class="btn btn-primary float-left mt-5">Zurück</button>
     <button type="submit" name="_eventId_results" class="btn btn-primary float-right mt-5">Abstimmen</button>
+    <button type="submit" name="_eventId_home"  class="btn btn-primary float-left mt-5">Zurück</button>
 </form>
 <div th:fragment="results">
     <ul>
@@ -28,8 +28,8 @@
         <li>3 für C</li>
     </ul>
     <form th:action method="post">
-        <button type="submit" name="_eventId_vote" class="btn btn-primary float-left mt-5">Ändern</button>
         <button type="submit" name="_eventId_home" class="btn btn-primary float-left mt-5">Fertig</button>
+        <button type="submit" name="_eventId_vote" class="btn btn-primary float-left mt-5">Ändern</button>
     </form>
 </div>
 </body>
