@@ -28,8 +28,8 @@ public final class QuestionPollCreationService {
     return new QuestionPollFactory(userId);
   }
 
-  /** 
-   * Setzt den Header (Titel, Frage und optionale Beschreibung) in der Factory
+  /**
+   * Setzt den Header (Titel, Frage und optionale Beschreibung) in der Factory.
    * @param factory
    * @param headerDto
    */
@@ -48,7 +48,8 @@ public final class QuestionPollCreationService {
 
   /**
    * Setzt die Konfiguration in der Factory. Die Konfiguration bestimmt ob die Abstimmung anonym ablaufen wird
-   * und ob es sich um eine Single-Choice Abstimmung oder eine Multi-Choice Abstimmung handelt. Die Konfiguration ist unveränderlich.
+   * und ob es sich um eine Single-Choice Abstimmung oder eine Multi-Choice Abstimmung handelt.
+   * Die Konfiguration ist unveränderlich.
    * @param factory
    * @param configDto
    */
