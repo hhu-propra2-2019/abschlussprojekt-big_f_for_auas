@@ -1,5 +1,6 @@
 package mops.domain.models.datepoll;
 
+import mops.controllers.InputFieldNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
@@ -15,6 +16,10 @@ public class DatePollLink implements ValidateAble {
 
     @Override
     public Validation validate() {
-        return null;
+        Validation validation = Validation.noErrors();
+        if (datePollIdentifier  == null) {
+            validation = new Validation(InputFieldNames.DATE_POLL_IDENTIFIER, "Date_poll_identifier is null");
+        }
+        return validation;
     }
 }

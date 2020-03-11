@@ -27,6 +27,10 @@ public class DatePollBuilder {
     private Validation validationState;
     private EnumSet<DatePollFields> validatedFields = EnumSet.noneOf(DatePollFields.class);
 
+    public DatePollBuilder() {
+        validationState = Validation.noErrors();
+    }
+
     private <T extends ValidateAble> Optional<T> validationProcess(T validateAble) {
         Validation newValidation = validateAble.validate();
         validationState.appendValidation(newValidation);
