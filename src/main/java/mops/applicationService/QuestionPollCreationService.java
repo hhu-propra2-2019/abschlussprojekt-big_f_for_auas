@@ -58,15 +58,6 @@ public final class QuestionPollCreationService {
   }
 
   /**
-   * Setzt das Ballot Objekt in der Factory. Das Ballot aggregiert welche User für welche Option(en) abgestimmt haben.
-   * @param factory
-   * @param ballotDto
-   */
-  public void addBallot(final QuestionPollFactory factory, final QuestionPollBallotDto ballotDto) {
-    factory.ballot(ballotDto);
-  }
-
-  /**
    * Setzt das Lifecycle Objekt in der Factory. Das Lifecycleobjekt bestimmt in welchem Zeitraum abgestimmt werden kann.
    * @param factory
    * @param lifecycleDto
