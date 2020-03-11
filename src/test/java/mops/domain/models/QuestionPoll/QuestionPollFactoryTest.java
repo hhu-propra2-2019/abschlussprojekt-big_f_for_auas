@@ -64,7 +64,7 @@ class QuestionPollFactoryTest {
     }
 
     @Test
-    void testFactoryPipelineAccessorNotSet() {
+    void testFactoryPipelineAllButAccessorSet() {
 
         factory.config(configDto);
         factory.entries(entriesDto);
@@ -75,9 +75,59 @@ class QuestionPollFactoryTest {
     }
 
     @Test
-    void testRestrictionSetCorrect() {
+    void testFactoryPipelineAllButConfigSet() {
 
         factory.accessibility(accessorDto);
+        factory.entries(entriesDto);
+        factory.lifecycle(lifecycleDto);
+        factory.header(headerDto);
+        Exception exception = assertThrows(IllegalStateException.class , () -> factory.build());
+        assertEquals("NOT ALL FIELDS SET CORRECTLY", exception.getMessage());
+    }
+
+    @Test
+    void testFactoryPipelineAllButHeaderSet() {
+
+        factory.accessibility(accessorDto);
+        factory.entries(entriesDto);
+        factory.lifecycle(lifecycleDto);
+        factory.config(configDto);
+        Exception exception = assertThrows(IllegalStateException.class , () -> factory.build());
+        assertEquals("NOT ALL FIELDS SET CORRECTLY", exception.getMessage());
+    }
+
+
+    @Test
+    void testFactoryPipelineAllButEntriesSet() {
+
+        factory.accessibility(accessorDto);
+        factory.lifecycle(lifecycleDto);
+        factory.config(configDto);
+        factory.header(headerDto);
+        Exception exception = assertThrows(IllegalStateException.class , () -> factory.build());
+        assertEquals("NOT ALL FIELDS SET CORRECTLY", exception.getMessage());
+    }
+
+    @Test
+    void testFactoryPipelineAllSet() {
+
+        factory.accessibility(accessorDto);
+        factory.config(configDto);
+        factory.entries(entriesDto);
+        factory.lifecycle(lifecycleDto);
+        factory.header(headerDto);
+        try {
+            factory.build();
+        } catch(Exception e) {
+            System.out.println(factory.peekCookieJar());
+            fail();
+        }
+    }
+
+    @Test
+    void testRestrictionSetCorrect() {
+
+        factory.accessibility(accessorDto);Exception exception = assertThrows(IllegalStateException.class , () -> factory.build());
         factory.config(configDto);
         factory.entries(entriesDto);
         factory.lifecycle(lifecycleDto);
