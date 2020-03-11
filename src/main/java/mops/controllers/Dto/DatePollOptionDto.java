@@ -1,4 +1,4 @@
-package mops.controllers;
+package mops.controllers.Dto;
 
 import lombok.Data;
 

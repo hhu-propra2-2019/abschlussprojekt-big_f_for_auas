@@ -13,9 +13,9 @@ public class DatePoll {
 
 
     /**
-     * Speichert, wann die Umfrage zuletzt modifiziert wurde und wann die User abgestimmt haben.
+     * Speichert Status der Umfrage, global und userspezifisch
      */
-    private PollRecordAndStatus pollStatus;
+    private PollRecordAndStatus pollRecordAndStatus;
     /**
      * Meta-Informationen zur DatePoll.
      */

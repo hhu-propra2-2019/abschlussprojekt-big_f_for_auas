@@ -1,7 +1,7 @@
 package mops.domain.models.datepoll;
 
 import lombok.Getter;
-import mops.controllers.DatePollOptionDto;
+import mops.controllers.Dto.DatePollOptionDto;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;

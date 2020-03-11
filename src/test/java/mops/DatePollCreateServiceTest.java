@@ -3,7 +3,7 @@ package mops;
 import mops.application.services.DatePollBuilderAndView;
 import mops.application.services.DatePollCreateService;
 
-import mops.controllers.DatePollOptionDto;
+import mops.controllers.Dto.DatePollOptionDto;
 import mops.domain.models.datepoll.*;
 import mops.domain.models.datepoll.DatePoll.DatePollBuilder;
 import mops.domain.models.user.UserId;
@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 public class DatePollCreateServiceTest {
 

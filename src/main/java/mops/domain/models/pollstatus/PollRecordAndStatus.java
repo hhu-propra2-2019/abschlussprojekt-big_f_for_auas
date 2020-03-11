@@ -30,7 +30,7 @@ public final class PollRecordAndStatus {
     /**
      * Sobald ein User abgestimmt hat, wird sein Status auf ONGOING gesetzt und bleibt dabei bis zum Ende der Umfrage,
      * es sei denn, die Umfrage wird zwischenzeitlich geändert.
-     * @param user
+     * @param user  der User, der abgestimmt hat
      */
     void recordUserVote(User user) {
         votingRecord.put(user, PollStatus.ONGOING);
@@ -39,8 +39,8 @@ public final class PollRecordAndStatus {
     /**
      * Jederzeit kann der Status für einen bestimmten User abgefragt werden. Wenn der User noch nicht abgestimmt hat,
      * ist der Status OPEN. Ansonsten wird der Status aus der Hashtable geladen oder durch isTerminated bestimmt.
-     * @param user
-     * @return
+     * @param user  der User, für den der Status abgefragt werden soll
+     * @return      der Status (siehe oben)
      */
     PollStatus getUserStatus(User user) {
         if (!isTerminated) {

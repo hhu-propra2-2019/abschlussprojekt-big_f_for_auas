@@ -1,6 +1,6 @@
 package mops.application.services;
 
-import mops.controllers.DatePollOptionDto;
+import mops.controllers.Dto.DatePollOptionDto;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollConfig;
