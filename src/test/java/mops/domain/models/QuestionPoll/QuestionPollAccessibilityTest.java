@@ -1,6 +1,5 @@
 package mops.domain.models.QuestionPoll;
 
-import mops.domain.models.User.User;
 import mops.domain.models.User.UserId;
 import org.junit.jupiter.api.Test;
 
@@ -29,18 +28,7 @@ class QuestionPollAccessibilityTest {
 
         QuestionPollAccessibility accessor = new QuestionPollAccessibility(false, ids);
 
-        boolean allOk = checkIfAllUserAreParticipants(accessor, user1, user2, user3, user4);
-
+        boolean allOk = ids.stream().allMatch(userId -> accessor.isUserParticipant(userId));
         assertEquals(allOk, true);
-    }
-
-    public boolean checkIfAllUserAreParticipants(QuestionPollAccessibility accessor, UserId ... ids) {
-
-        boolean erg = true;
-        for(UserId id : ids) {
-            if(accessor.isUserParticipant(id) == false)
-                erg = false;
-        }
-        return erg;
     }
 }

@@ -23,7 +23,6 @@ public final class QuestionPollCreationService {
    * @return QuestionPollFactory
    */
   public QuestionPollFactory startQuestionPoll(final UserId userId) {
-    User user = userRepo.getById(userId);
     return new QuestionPollFactory(userId);
   }
 

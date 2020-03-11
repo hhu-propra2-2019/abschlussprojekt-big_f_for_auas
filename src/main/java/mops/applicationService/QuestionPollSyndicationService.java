@@ -28,7 +28,8 @@ public class QuestionPollSyndicationService {
      * @param factory
      * @param accessibilityDto
      */
-    public void addAccessibility(final QuestionPollFactory factory, final QuestionPollAccessibilityDto accessibilityDto) {
+    public void addAccessibility(final QuestionPollFactory factory,
+                                 final QuestionPollAccessibilityDto accessibilityDto) {
         factory.accessibility(accessibilityDto);
     }
 
