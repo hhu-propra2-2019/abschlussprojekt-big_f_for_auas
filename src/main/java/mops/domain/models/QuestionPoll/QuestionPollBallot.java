@@ -1,13 +1,18 @@
 package mops.domain.models.QuestionPoll;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import mops.domain.models.User.User;
+import mops.controller.DTO.QuestionPollBallotDto;
+import mops.domain.models.User.UserId;
 
+/**
+ * Die Ballot (Deutsch: Wahlurne) speichert welche User für welche Einträge abstimmen.
+ */
 public class QuestionPollBallot {
-  private final Map<User, List<QuestionPollEntry>> votes;
+  private final Map<UserId, List<QuestionPollEntry>> votes;
 
-  public QuestionPollBallot(Map<User, List<QuestionPollEntry>> map) {
-    this.votes = map;
+  public QuestionPollBallot() {
+    this.votes = new HashMap<UserId, List<QuestionPollEntry>>();
   }
 }

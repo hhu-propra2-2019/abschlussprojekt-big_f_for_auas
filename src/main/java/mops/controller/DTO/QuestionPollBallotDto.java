@@ -7,9 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import mops.domain.models.QuestionPoll.QuestionPollEntry;
 import mops.domain.models.User.User;
+import mops.domain.models.User.UserId;
 
 @Data
 @AllArgsConstructor
 public class QuestionPollBallotDto {
-  private Map<User, List<QuestionPollEntry>> votes;
+  private UserId user;
+  private List<QuestionPollEntryDto> vote;
 }

@@ -38,10 +38,10 @@ public class QuestionPollFactory {
 
   public QuestionPollFactory(UserId userId) {
     this.accessibilityTarget = null;
-    this.ballotTarget = null;
     this.configTarget = null;
     this.entryTarget = null;
     this.headerTarget = null;
+    this.ballotTarget = new QuestionPollBallot();
     this.ownerTarget = userId;
 
     this.cookieJar = new EnumMap<>(QuestionPollDtoCookie.class);
@@ -61,15 +61,6 @@ public class QuestionPollFactory {
   public void accessibilityAddUser(UserId ... userId) {
     if (!this.cookieJar.containsKey(QuestionPollDtoCookie.ACCESSIBILITY)) {
       Arrays.stream(userId).forEach(thisUserId -> this.accessibilityTarget.getParticipants().add(thisUserId));
-    }
-  }
-
-  public void ballot(QuestionPollBallotDto ballotDto) {
-    try {
-      this.ballotTarget = new QuestionPollBallot(ballotDto.getVotes());
-      this.cookieJar.remove(QuestionPollDtoCookie.BALLOT);
-    } catch (IllegalStateException e) {
-      this.cookieJar.put(QuestionPollDtoCookie.BALLOT, INVALID_VALUE);
     }
   }
 
