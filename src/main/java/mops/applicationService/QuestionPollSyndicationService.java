@@ -1,6 +1,7 @@
 package mops.applicationService;
 
 
+import mops.controller.DTO.QuestionPollAccessibilityDto;
 import mops.domain.models.QuestionPoll.QuestionPollFactory;
 import mops.domain.models.QuestionPoll.QuestionPollId;
 import mops.domain.models.QuestionPoll.QuestionPollLink;
@@ -22,6 +23,15 @@ public class QuestionPollSyndicationService {
         QuestionPollId questionPollId = questionPollRepo.save(factory.build());
         QuestionPollLink link = questionPollRepo.getUrl(questionPollId);
         return link;
+    }
+
+    /**
+     * Setzt das Accessibility Objekt in der Factory.
+     * @param factory
+     * @param accessibilityDto
+     */
+    public void addAccessibility(final QuestionPollFactory factory, final QuestionPollAccessibilityDto accessibilityDto) {
+        factory.accessibility(accessibilityDto);
     }
 
     /** Fügt einen weiteren Nutzer zu der Liste der Nutzer hinzu, die an einer Umfrage Teilnehmen dürfen.
