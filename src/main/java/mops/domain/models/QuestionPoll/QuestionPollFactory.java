@@ -7,7 +7,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 import mops.controller.DTO.QuestionPollAccessibilityDto;
-import mops.controller.DTO.QuestionPollBallotDto;
 import mops.controller.DTO.QuestionPollConfigDto;
 import mops.controller.DTO.QuestionPollDtoCookie;
 import mops.controller.DTO.QuestionPollEntryDto;
@@ -15,10 +14,13 @@ import mops.controller.DTO.QuestionPollHeaderDto;
 import mops.controller.DTO.QuestionPollLifecycleDto;
 import mops.domain.models.User.UserId;
 
+/**
+ * Factory für die Erstellung von eines QuestionPoll Objektes.
+ */
 public class QuestionPollFactory {
 
-  private final static String NOT_SET = "Wert noch nicht gesetzt";
-  private final static String INVALID_VALUE = "Ungülitger Wert";
+  private static final String NOT_SET = "Wert noch nicht gesetzt";
+  private static final String INVALID_VALUE = "Ungülitger Wert";
 
   private QuestionPollAccessibility accessibilityTarget;
   private QuestionPollBallot ballotTarget;
@@ -30,11 +32,12 @@ public class QuestionPollFactory {
 
   /** Die Factory verwendet ein cookie System um zu überprüfen ob er in ein valides QuestionPoll Objekt bauen kann.
    *  Für jede Entity/Value in QuestionPoll wird ein cookie in das jar gelegt.
-   *  Wird über den builder ein valides DTO übergeben und ein korrekte Entity/Value erzeugt, wird ein Cookie aus dem jar entfernt
+   *  Wird über den builder ein valides DTO übergeben und ein korrekte Entity/Value erzeugt,
+   *  wird ein Cookie aus dem jar entfernt
    *  Wird ein invalides DTO übergeben muss ein entsprechender Cookie in das Jar hinterlegt werden.
    *  Ein QuestionPoll Objekt kann erst erzeugt werden wenn alle cookies entfernt wurden.
    */
-  private EnumMap<QuestionPollDtoCookie,String> cookieJar;
+  private EnumMap<QuestionPollDtoCookie, String> cookieJar;
 
   public QuestionPollFactory(UserId userId) {
     this.accessibilityTarget = null;
@@ -49,16 +52,25 @@ public class QuestionPollFactory {
         .forEach(key -> cookieJar.put(key, NOT_SET));
   }
 
+  /**
+   * Setzt das Accessibility Objekt im Factory.
+   * @param accessibilityDto
+   */
   public void accessibility(QuestionPollAccessibilityDto accessibilityDto) {
     try {
-      this.accessibilityTarget = new QuestionPollAccessibility(accessibilityDto.isRestrictedAccess(), accessibilityDto.getParticipants());
+      this.accessibilityTarget = new QuestionPollAccessibility(accessibilityDto.isRestrictedAccess(),
+          accessibilityDto.getParticipants());
       this.cookieJar.remove(QuestionPollDtoCookie.ACCESSIBILITY);
     } catch (IllegalStateException e) {
       this.cookieJar.put(QuestionPollDtoCookie.ACCESSIBILITY, INVALID_VALUE);
     }
   }
 
-  public void accessibilityAddUser(UserId ... userId) {
+  /**
+   * Fügt der gesetzten Participant Liste einen Nutzer hinzu.
+   * @param userId
+   */
+  public void accessibilityAddUser(UserId... userId) {
     if (!this.cookieJar.containsKey(QuestionPollDtoCookie.ACCESSIBILITY)) {
       Arrays.stream(userId).forEach(thisUserId -> this.accessibilityTarget.getParticipants().add(thisUserId));
     }
@@ -87,7 +99,8 @@ public class QuestionPollFactory {
 
   public void header(QuestionPollHeaderDto headerDto) {
     try {
-      this.headerTarget = new QuestionPollHeader(headerDto.getTitle(),headerDto.getQuestion(), headerDto.getDescription());
+      this.headerTarget = new QuestionPollHeader(headerDto.getTitle(),
+          headerDto.getQuestion(), headerDto.getDescription());
       this.cookieJar.remove(QuestionPollDtoCookie.HEADER);
     } catch (IllegalStateException e) {
       this.cookieJar.put(QuestionPollDtoCookie.HEADER, INVALID_VALUE);
