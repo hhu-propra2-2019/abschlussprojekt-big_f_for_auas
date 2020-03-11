@@ -10,23 +10,24 @@
 <body>
     <form th:action method="post" th:fragment="form">
         <div class="form-group">
-            <label>Dein Link</label>
+            <label for="termin-link">Dein Link</label>
             <input type="text" class="form-control" id="termin-link" value="LINK" readonly>
         </div>
         <div class="form-group">
-            <label>Person hinzufügen</label>
+            <label for="termin-person">Person hinzufügen</label>
             <input class="form-control" id="termin-person" placeholder="Name">
         </div>
         <div class="form-group">
-            <label>Gruppe hinzufügen</label>
-            <select class="custom-select" id="termin-group">
+            <label for="termin-group">Gruppe hinzufügen</label>
+            <br/>
+            <select title="" class="selectpicker" multiple data-live-search="true" id="termin-group">
                 <option>Gruppenname1</option>
                 <option>Gruppenname2</option>
                 <option>Gruppenname3</option>
             </select>
         </div>
         <div class="form-group">
-            <label>Auswahl</label>
+            <label for="termin-auswahl">Auswahl</label>
             <textarea class="form-control" id="termin-auswahl" placeholder="Namen und Gruppen" rows="3" readonly></textarea>
         </div>
         <button type="submit" name="_eventId_confirmation"  class="btn btn-primary float-right mt-5">Weiter</button>
