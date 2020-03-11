@@ -1,4 +1,4 @@
-package mops.domain.models.QuestionPoll;
+package mops.domain.models.questionpoll;
 
 import lombok.Value;
 

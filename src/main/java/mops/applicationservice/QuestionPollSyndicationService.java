@@ -2,10 +2,10 @@ package mops.applicationservice;
 
 
 import mops.controller.dto.QuestionPollAccessibilityDto;
-import mops.domain.models.QuestionPoll.QuestionPollFactory;
-import mops.domain.models.QuestionPoll.QuestionPollLink;
-import mops.domain.models.Repository.QuestionPollRepositoryInterface;
-import mops.domain.models.User.UserId;
+import mops.domain.models.questionpoll.QuestionPollFactory;
+import mops.domain.models.questionpoll.QuestionPollLink;
+import mops.domain.models.repository.QuestionPollRepositoryInterface;
+import mops.domain.models.user.UserId;
 import org.springframework.stereotype.Service;
 
 @Service

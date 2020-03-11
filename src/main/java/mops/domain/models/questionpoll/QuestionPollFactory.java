@@ -1,4 +1,4 @@
-package mops.domain.models.QuestionPoll;
+package mops.domain.models.questionpoll;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import mops.controller.dto.QuestionPollDtoCookie;
 import mops.controller.dto.QuestionPollEntryDto;
 import mops.controller.dto.QuestionPollHeaderDto;
 import mops.controller.dto.QuestionPollLifecycleDto;
-import mops.domain.models.User.UserId;
+import mops.domain.models.user.UserId;
 
 /**
  * Factory für die Erstellung von eines QuestionPoll Objektes.

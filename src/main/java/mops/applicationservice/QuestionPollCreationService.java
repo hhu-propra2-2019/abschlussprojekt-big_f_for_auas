@@ -5,9 +5,9 @@ import mops.controller.dto.QuestionPollConfigDto;
 import mops.controller.dto.QuestionPollEntryDto;
 import mops.controller.dto.QuestionPollHeaderDto;
 import mops.controller.dto.QuestionPollLifecycleDto;
-import mops.domain.models.QuestionPoll.QuestionPollFactory;
-import mops.domain.models.Repository.UserRepositoryInterface;
-import mops.domain.models.User.UserId;
+import mops.domain.models.questionpoll.QuestionPollFactory;
+import mops.domain.models.repository.UserRepositoryInterface;
+import mops.domain.models.user.UserId;
 import org.springframework.stereotype.Service;
 
 @Service

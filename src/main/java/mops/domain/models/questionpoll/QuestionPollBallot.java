@@ -1,9 +1,9 @@
-package mops.domain.models.QuestionPoll;
+package mops.domain.models.questionpoll;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import mops.domain.models.User.UserId;
+import mops.domain.models.user.UserId;
 
 /**
  * Die Ballot (Deutsch: Wahlurne) speichert welche User für welche Einträge abstimmen.

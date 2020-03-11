@@ -1,6 +1,6 @@
-package mops.domain.models.QuestionPoll;
+package mops.domain.models.questionpoll;
 
-import mops.domain.models.User.UserId;
+import mops.domain.models.user.UserId;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

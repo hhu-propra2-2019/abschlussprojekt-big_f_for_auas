@@ -1,6 +1,6 @@
-package mops.domain.models.QuestionPoll;
+package mops.domain.models.questionpoll;
 
-import mops.domain.models.User.UserId;
+import mops.domain.models.user.UserId;
 
 import java.util.HashSet;
 import java.util.Set;

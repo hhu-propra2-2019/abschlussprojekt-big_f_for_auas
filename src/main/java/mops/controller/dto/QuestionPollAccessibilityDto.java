@@ -4,7 +4,7 @@ import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import mops.domain.models.User.UserId;
+import mops.domain.models.user.UserId;
 
 @Data
 @AllArgsConstructor

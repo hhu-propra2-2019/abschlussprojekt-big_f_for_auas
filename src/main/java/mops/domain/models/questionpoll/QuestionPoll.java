@@ -1,8 +1,8 @@
-package mops.domain.models.QuestionPoll;
+package mops.domain.models.questionpoll;
 
 import java.util.List;
 import lombok.Getter;
-import mops.domain.models.User.UserId;
+import mops.domain.models.user.UserId;
 
 
 public class QuestionPoll {
