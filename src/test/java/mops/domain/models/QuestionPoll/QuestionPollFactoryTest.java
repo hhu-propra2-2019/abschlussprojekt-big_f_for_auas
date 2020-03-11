@@ -66,8 +66,6 @@ class QuestionPollFactoryTest {
     @Test
     void testFactoryPipelineAccessorNotSet() {
 
-
-        factory.accessibility(accessorDto);
         factory.config(configDto);
         factory.entries(entriesDto);
         factory.lifecycle(lifecycleDto);
