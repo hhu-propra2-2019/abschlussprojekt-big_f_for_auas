@@ -1,9 +1,9 @@
 package mops.domain.models.QuestionPoll;
 
+import mops.domain.models.User.UserId;
+
 import java.util.HashSet;
 import java.util.Set;
-import lombok.Value;
-import mops.domain.models.User.UserId;
 
 /**
  * Value Objekt welches die Konfiguration über den Zugriff auf die Abstimmung abkapselt.
@@ -29,8 +29,9 @@ public class QuestionPollAccessibility {
   }
 
   public boolean isUserParticipant(UserId id) {
-    if (participants.contains(id))
+    if (participants.contains(id)) {
       return true;
+    }
     return false;
   }
 
