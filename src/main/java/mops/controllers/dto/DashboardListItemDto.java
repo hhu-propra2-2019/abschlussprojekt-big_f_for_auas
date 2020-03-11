@@ -1,4 +1,4 @@
-package mops.controllers.Dto;
+package mops.controllers.dto;
 
 import lombok.Data;
 import mops.domain.models.pollstatus.PollStatus;
