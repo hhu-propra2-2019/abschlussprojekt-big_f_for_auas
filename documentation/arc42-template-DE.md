@@ -43,10 +43,11 @@ personenbezogene Daten, die in keinem Fall von nicht berechtigten Benutzern oder
 
 **Weniger wichtig sind folgende Qualitätsziele:**
 
-**Zuverlässigkeit:**
-Natürlich ist es uns wichtig, dass unser System ordnungsgemäß funktioniert. Es ist allerdings nicht kritisch für den Alltag
-an der Universität, wenn Teilsysteme unseres Services für kurze Zeit ausfallen oder kleinere Bugs auftreten, welche
-nicht sicherheitskritisch sind bzw. die Datensicherheit nicht beeinträchtigen.
+**Verfügbarkeit:**
+Es ist nicht kritisch für den Alltag an der Universität, wenn die Anwendung oder Teile davon für kurze Zeit nicht verfügbar sind. Beeinträchtigt wird dadurch lediglich das Ziel der einfachen Benutzbarkeit.
+
+**Korrektheit**
+Das System muss natürlich grundsätzlich funktionieren. Kleinere Bugs, die die Benutzbarkeit nicht wesentlich beeinträchtigen und die Datensicherheit nicht gefährden, sind allerdings akzeptabel.
 
 
 Stakeholder {#_stakeholder}
