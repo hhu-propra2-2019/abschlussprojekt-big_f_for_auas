@@ -159,9 +159,7 @@ Ebene 2 {#_ebene_2}
 
 ### Whitebox *\<Baustein 2\>* {#_whitebox_emphasis_baustein_2_emphasis}
 
-*\<Whitebox-Template\>*
-
-...
+![Terminfindung Erstellung](/images/Whitebox2DPErstellung.jpg)
 
 ### Whitebox *\<Baustein m\>* {#_whitebox_emphasis_baustein_m_emphasis}
 
