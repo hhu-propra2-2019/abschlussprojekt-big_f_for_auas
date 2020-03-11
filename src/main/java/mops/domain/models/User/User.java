@@ -1,11 +1,8 @@
 package mops.domain.models.User;
 
+import lombok.Getter;
+
 public class User {
 
-
-  public UserId userId;
-
-  public UserId getUserId() {
-    return userId;
-  }
+  @Getter private UserId userId;
 }

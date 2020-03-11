@@ -3,7 +3,6 @@ package mops.applicationService;
 
 import mops.controller.DTO.QuestionPollAccessibilityDto;
 import mops.domain.models.QuestionPoll.QuestionPollFactory;
-import mops.domain.models.QuestionPoll.QuestionPollId;
 import mops.domain.models.QuestionPoll.QuestionPollLink;
 import mops.domain.models.Repository.QuestionPollRepositoryInterface;
 import mops.domain.models.User.UserId;
@@ -20,9 +19,8 @@ public class QuestionPollSyndicationService {
      * @return QuestionPollLink
      */
     public QuestionPollLink publishQuestionPoll(final QuestionPollFactory factory) {
-        QuestionPollId questionPollId = questionPollRepo.save(factory.build());
-        QuestionPollLink link = questionPollRepo.getUrl(questionPollId);
-        return link;
+        QuestionPollLink  questionPollLink  = questionPollRepo.save(factory.build());
+        return questionPollLink;
     }
 
     /**

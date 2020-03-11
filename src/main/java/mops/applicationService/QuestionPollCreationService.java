@@ -1,7 +1,6 @@
 package mops.applicationService;
 
 import java.util.List;
-import mops.controller.DTO.QuestionPollBallotDto;
 import mops.controller.DTO.QuestionPollConfigDto;
 import mops.controller.DTO.QuestionPollEntryDto;
 import mops.controller.DTO.QuestionPollHeaderDto;
