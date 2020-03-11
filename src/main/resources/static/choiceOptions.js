@@ -1,7 +1,3 @@
-let today = new Date();
-let tomorrow = new Date(today.setDate(today.getDate()+1));
-tomorrow = tomorrow.toISOString().slice(0, 10);
-
 function addChoiceOption(){
     $('#scheduleOptionList').append(`                    <li>
                         <div class="form-group row">
@@ -12,7 +8,6 @@ function addChoiceOption(){
                             </div>
                         </div>
                     </li>`);
-    $('#dateOption').last().value = tomorrow;
 }
 
 function removeChoiceOption(btn){

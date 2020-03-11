@@ -5,19 +5,8 @@
     <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
-        <!-- Links, Skripts, Styles hier einfügen! -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script type="text/javascript" th:src="@{/choiceOptions.js}"></script>
-        <!--<script>
-            let count = 0;
-            $('#scheduleOptionCount').text('1');
-
-            function addChoiceOption(){
-                $('#terminChoiceOptions .form-group').last().append(`<div class="form-group">
-                <input class="form-control" type="date">
-            </div>`);
-            }
-        </script>-->
     </th:block>
 </head>
 <body>
@@ -31,7 +20,6 @@
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Auswahlmöglichkeiten')"></div>
         <form th:action method="post" id="terminChoiceOptions">
             <div class="form-group">
-                <!--<div>Termin <span id="scheduleOptionCount">x</span>:</div>-->
                 <ol id="scheduleOptionList">
                     <li>
                         <div class="form-group row">

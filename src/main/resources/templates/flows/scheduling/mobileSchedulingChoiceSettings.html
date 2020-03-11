@@ -7,26 +7,7 @@
     <th:block th:fragment="headcontent">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
-        <script>
-            function showPriorities(){
-                if( $("input[name=choice-amount]:checked").val() === "multiple-choice" ){
-                    $('#collapsePriorities').collapse('show');
-                }
-                else{
-                    $('#collapsePriorities').collapse('hide');
-                }
-            }
-            function showMutable(){
-                if( $("input[name=choice-mutable]").is(':checked') ){
-                    $("input[name=choice-addNew]").prop('disabled', false)
-                }
-                else{
-                    $("input[name=choice-addNew]").prop('checked', false);
-                    $("input[name=choice-addNew]").prop('disabled', true)
-                }
-            }
-        </script>
+        <script type="text/javascript" th:src="@{/choiceSettings.js}"></script>
     </th:block>
 </head>
 <body>
