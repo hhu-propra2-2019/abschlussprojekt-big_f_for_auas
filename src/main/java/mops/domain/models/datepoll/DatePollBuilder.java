@@ -4,6 +4,7 @@ import lombok.Getter;
 import mops.controllers.dto.DatePollOptionDto;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
+import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.UserId;
 
 import java.util.ArrayList;
@@ -149,6 +150,7 @@ public class DatePollBuilder {
     public DatePoll build() {
         if (validationState.hasNoErrors() && EnumSet.allOf(DatePollFields.class).equals(validatedFields)) {
             return new DatePoll(
+                    new PollRecordAndStatus(),
                     datePollMetaInf, creator, datePollConfig, datePollOptions, participants, datePollLink
             );
         } else {
@@ -157,7 +159,7 @@ public class DatePollBuilder {
     }
 
     private enum DatePollFields {
-        DATE_POLL_CONFIG, DATE_POLL_LINK, DATE_POLL_META_INF, DATE_POLL_OPTIONS, CREATOR, PARTICIPANTS;
+        DATE_POLL_CONFIG, DATE_POLL_LINK, DATE_POLL_META_INF, DATE_POLL_OPTIONS, CREATOR, PARTICIPANTS
     }
 
 }
