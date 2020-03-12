@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SuppressWarnings({"PMD.AtLeastOneConstructor", "checkstyle:AvoidStarImport"})
+@SuppressWarnings("PMD.AtLeastOneConstructor")
 public final class DatePollCreateServiceTest {
 
     @SuppressWarnings("PMD.BeanMembersShouldSerialize")
