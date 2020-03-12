@@ -6,5 +6,5 @@ import lombok.EqualsAndHashCode;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class User {
-    private final UserId id;
+    @Getter private final UserId id;
 }
