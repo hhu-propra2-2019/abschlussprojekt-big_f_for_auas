@@ -153,8 +153,8 @@ public class DatePollBuilder {
         if (validationState.hasNoErrors() && EnumSet.allOf(DatePollFields.class).equals(validatedFields)) {
             return new DatePoll(
                     new PollRecordAndStatus(),
-                    metaInfTarget, pollCreatorTarget, configTarget
-                    , pollOptionTargets, pollParticipantTargets, linkTarget
+                    metaInfTarget, pollCreatorTarget, configTarget,
+                    pollOptionTargets, pollParticipantTargets, linkTarget
             );
         } else {
             throw new IllegalStateException(COULD_NOT_CREATE);
