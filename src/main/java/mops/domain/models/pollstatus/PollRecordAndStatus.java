@@ -42,7 +42,7 @@ public final class PollRecordAndStatus {
      * @param user  der User, für den der Status abgefragt werden soll
      * @return      der Status (siehe oben)
      */
-    PollStatus getUserStatus(User user) {
+    public PollStatus getUserStatus(User user) {
         if (!isTerminated) {
             return votingRecord.getOrDefault(user, PollStatus.OPEN);
         }

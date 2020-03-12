@@ -1,10 +1,12 @@
 package mops.domain.models.datepoll;
 
 
+import lombok.Value;
 import mops.controllers.dto.InputFieldNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
+@Value
 public class DatePollDescription implements ValidateAble {
 
     private String description;

@@ -2,7 +2,9 @@ package mops.domain.repositories;
 
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.user.UserId;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,4 +23,6 @@ public interface DatePollRepository {
      * @param datePoll Zu speichernde DatePoll
      */
     void save(DatePoll datePoll);
+
+    List<DatePoll> getDatePollsByUserId(UserId userId);
 }
