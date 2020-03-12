@@ -22,7 +22,7 @@ public class Validation {
 
     /**
      * ...
-     * @return
+     * @return ...
      */
     public boolean hasNoErrors() {
         return errorMessages.isEmpty();
@@ -30,8 +30,8 @@ public class Validation {
 
     /**
      * ...
-     * @param validation
-     * @return
+     * @param validation ...
+     * @return ...
      */
     public Validation appendValidation(Validation validation) {
         initEnumIfNotPresent();
