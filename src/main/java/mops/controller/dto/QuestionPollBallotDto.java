@@ -10,5 +10,5 @@ import mops.domain.models.user.UserId;
 @AllArgsConstructor
 public class QuestionPollBallotDto {
   private UserId user;
-  private List<QuestionPollEntryDto> vote;
+  private List<QuestionPollEntryDto> selectedEntries;
 }
