@@ -18,7 +18,7 @@ public class DatePollLink implements ValidateAble {
 
     /**
      * ...
-     * @return
+     * @return ...
      */
     @Override
     public Validation validate() {

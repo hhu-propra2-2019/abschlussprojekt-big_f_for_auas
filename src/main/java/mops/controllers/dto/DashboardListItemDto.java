@@ -1,7 +1,6 @@
 package mops.controllers.dto;
 
 import lombok.Data;
-import mops.domain.models.datepoll.DatePollLink;
 import mops.domain.models.pollstatus.PollStatus;
 
 import java.time.LocalDateTime;
