@@ -67,7 +67,7 @@ public class DatePollCreateServiceTest {
                     LocalDateTime.of(2021, 5, 5, 0+i, 20, 30)));
         }
         datePollCreateService.initDatePollOptionList(testDatePollBuilderAndView,datePollOptionDtoList);
-        assert(testDatePollBuilderAndView.getDatePollOptionDtos().size() == 5);
+        assertThat(testDatePollBuilderAndView.getDatePollOptionDtos().size()).isEqualTo(5);
     }
 
     /**
