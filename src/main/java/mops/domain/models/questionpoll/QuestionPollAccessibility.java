@@ -3,8 +3,6 @@ package mops.domain.models.questionpoll;
 import java.util.Collections;
 import lombok.Getter;
 import mops.domain.models.user.UserId;
-
-import java.util.HashSet;
 import java.util.Set;
 
 /**
