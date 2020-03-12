@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import mops.domain.models.user.UserId;
 
+/**
+ * QuestionPollBallotDto.
+ */
 @Data
 @AllArgsConstructor
 public class QuestionPollBallotDto {
