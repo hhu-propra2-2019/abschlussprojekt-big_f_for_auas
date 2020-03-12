@@ -1,10 +1,10 @@
-package mops.applicationservice;
+package mops.application.services;
 
 import java.util.List;
-import mops.controller.dto.QuestionPollConfigDto;
-import mops.controller.dto.QuestionPollEntryDto;
-import mops.controller.dto.QuestionPollHeaderDto;
-import mops.controller.dto.QuestionPollLifecycleDto;
+import mops.controllers.dtos.QuestionPollConfigDto;
+import mops.controllers.dtos.QuestionPollEntryDto;
+import mops.controllers.dtos.QuestionPollHeaderDto;
+import mops.controllers.dtos.QuestionPollLifecycleDto;
 import mops.domain.models.questionpoll.QuestionPollFactory;
 import mops.domain.models.repository.UserRepositoryInterface;
 import mops.domain.models.user.UserId;

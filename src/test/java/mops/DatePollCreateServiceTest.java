@@ -3,19 +3,17 @@ package mops;
 import mops.application.services.DatePollBuilderAndView;
 import mops.application.services.DatePollCreateService;
 
-import mops.controllers.dto.DatePollOptionDto;
+import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.datepoll.*;
 import mops.domain.models.user.UserId;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 public class DatePollCreateServiceTest {
 

@@ -1,6 +1,6 @@
 package mops.domain.models.datepoll;
 
-import mops.controllers.dto.InputFieldNames;
+import mops.controllers.dtos.InputFieldNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 

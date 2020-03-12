@@ -1,4 +1,4 @@
-package mops.controllers.dto;
+package mops.controllers.dtos;
 
 public enum InputFieldNames {
     DATE_POLL_IDENTIFIER, DATE_POLL_LOCATION,

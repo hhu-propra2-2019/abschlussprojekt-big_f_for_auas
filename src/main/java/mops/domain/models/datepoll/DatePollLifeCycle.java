@@ -1,7 +1,7 @@
 package mops.domain.models.datepoll;
 
 import lombok.Value;
-import mops.controllers.dto.InputFieldNames;
+import mops.controllers.dtos.InputFieldNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 

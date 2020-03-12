@@ -2,7 +2,7 @@ package mops.application.services;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import mops.controllers.dto.DatePollOptionDto;
+import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.Validation;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;

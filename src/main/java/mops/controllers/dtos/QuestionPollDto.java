@@ -1,4 +1,4 @@
-package mops.controllers.dto;
+package mops.controllers.dtos;
 
 public class QuestionPollDto {
 }

@@ -1,7 +1,7 @@
-package mops.applicationservice;
+package mops.application.services;
 
 
-import mops.controller.dto.QuestionPollAccessibilityDto;
+import mops.controllers.dtos.QuestionPollAccessibilityDto;
 import mops.domain.models.questionpoll.QuestionPollFactory;
 import mops.domain.models.questionpoll.QuestionPollLink;
 import mops.domain.models.repository.QuestionPollRepositoryInterface;

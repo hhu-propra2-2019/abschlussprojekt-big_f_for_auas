@@ -1,6 +1,6 @@
 package mops.domain.models;
 
-import mops.controllers.dto.InputFieldNames;
+import mops.controllers.dtos.InputFieldNames;
 
 import java.util.EnumMap;
 
