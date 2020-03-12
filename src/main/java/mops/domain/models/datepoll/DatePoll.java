@@ -13,7 +13,7 @@ public class DatePoll {
 
 
     /**
-     * Speichert Status der Umfrage, global und userspezifisch
+     * Speichert Status der Umfrage, global und userspezifisch.
      */
     private PollRecordAndStatus pollRecordAndStatus;
     /**
