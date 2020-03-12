@@ -54,7 +54,7 @@ public class DatePollCreateServiceTest {
         DatePollLifeCycle newLifeCycle = new DatePollLifeCycle(LocalDateTime.of(2011,11,11,11,11,11)
                 , LocalDateTime.of(2012,11,11,11,11,11));
         DatePollMetaInf datePollMetaInf = new DatePollMetaInf(
-                "foo",new DatePollDescription(),new DatePollLocation(),newLifeCycle);
+                "foo",new DatePollDescription("blabla"),new DatePollLocation(),newLifeCycle);
         datePollCreateService.addDatePollMetaInf(testDatePollBuilderAndView,datePollMetaInf);
         assertThat(testDatePollBuilderAndView.getMetaInf()).isEqualTo(datePollMetaInf);
     }
