@@ -14,6 +14,10 @@ public class QuestionPollConfig implements ValidateAble {
   private final boolean usingAlias;
   private final boolean usingMultiChoice;
 
+  /**
+   * validate Methode für den Builder.
+   * @return
+   */
   @Override
   public Validation validate() {
     return Validation.noErrors();
