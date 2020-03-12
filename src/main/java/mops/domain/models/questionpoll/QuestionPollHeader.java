@@ -1,8 +1,15 @@
 package mops.domain.models.questionpoll;
 
+import lombok.NonNull;
+
 public class QuestionPollHeader {
+
+  @NonNull
   private final String title;
+
+  @NonNull
   private final String question;
+
   private final String description;
 
   /**
