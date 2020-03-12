@@ -6,29 +6,7 @@
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script>
-            $(document).ready(function(){
-                initDatepicker();
-            })
-        </script>
-        <script>
-            function initDatepicker(){
-                let today = new Date().toISOString().slice(0, 16);
-                let day = today.split("T")[0];
-                document.getElementById("termin-startDate").value = day;
-                document.getElementById("termin-startTime").value = "12:00";
-                document.getElementById("termin-startDate").min = day;
-                document.getElementById("termin-endDate").min = day;
-                document.getElementById("termin-endTime").value = "12:00";
-                document.getElementById("termin-endDate").value = addOneMonth(today);
-            }
-
-            function addOneMonth(dateString){
-                let date = new Date(dateString);
-                date.setMonth(date.getMonth()+1);
-                return date.toISOString().split("T")[0];
-            }
-        </script>
+        <script type="text/javascript" th:src="@{/accessSettings.js}"></script>
     </th:block>
 </head>
 <body>

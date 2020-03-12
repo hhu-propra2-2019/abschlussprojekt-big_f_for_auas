@@ -9,6 +9,12 @@
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script>
+            function collapseSection(id){
+                $('#'+id).collapse('toggle');
+            }
+        </script>
+
     </th:block>
 </head>
 <body>
@@ -24,91 +30,171 @@
                 <div class="col-2">
                     <span class="navbar-brand">
                         <img th:src="@{icons/open.svg}" width="30" height="30" class="d-inline-block align-top" alt="">
-                        2
+                        4
                     </span>
                 </div>
                 <div class="col-2">
                     <span class="navbar-brand">
                         <img th:src="@{icons/current.svg}" width="30" height="30" class="d-inline-block align-top" alt="">
-                        5
+                        2
                     </span>
                 </div>
                 <div class="col-2">
                     <span class="navbar-brand">
                         <img th:src="@{icons/terminated.svg}" width="30" height="30" class="d-inline-block align-top" alt="">
-                        1
+                        2
                     </span>
                 </div>
             </div>
         </div>
     </nav>
-    <div class="container px-0" id="reopened">
-        <div class="card w-100 border-success mb-1" style="width: 18rem;">
-            <div class="card-body p-3">
-                <div class="row no-gutters">
-                    <div class="col-2 pr-2">
-                        <img class="card-img" th:src="@{icons/reopened.svg}" width="52" height="52" alt="hourglass">
+    <hr>
+    <h5 onclick="collapseSection('myPollsAndSchedules')">Von mir erstellt<span class="badge badge-primary badge-pill ml-4">4</span></h5>
+    <div class="collapse show" id="myPollsAndSchedules">
+        <div class="container px-0" data-questiontype="reopened" onclick="window.location.href = '/poll-vote'">
+            <div class="card w-100 border-success mb-1" style="width: 18rem;">
+                <div class="card-body p-3">
+                    <div class="row no-gutters">
+                        <div class="col-2 pr-2">
+                            <img class="card-img" th:src="@{icons/reopened.svg}" width="52" height="52" alt="hourglass">
+                        </div>
+                        <div class="col-10 d-flex flex-column">
+                            <h5 class="card-title">Meine erste</h5>
+                            <h6 class="card-subtitle text-muted d-flex">
+                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
+                            </h6>
+                        </div>
                     </div>
-                    <div class="col-10 d-flex flex-column">
-                        <h5 class="card-title">Terminabstimmung 4</h5>
-                        <h6 class="card-subtitle text-muted d-flex">
-                            <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
-                            <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
-                        </h6>
+                </div>
+            </div>
+        </div>
+        <div class="container px-0" data-questiontype="open" onclick="window.location.href = '/poll-vote'">
+            <div class="card w-100 border-success mb-1" style="width: 18rem;">
+                <div class="card-body p-3">
+                    <div class="row no-gutters">
+                        <div class="col-2 pr-2">
+                            <img class="card-img" th:src="@{icons/open.svg}" width="52" height="52" alt="hourglass">
+                        </div>
+                        <div class="col-10 d-flex flex-column">
+                            <h5 class="card-title">Abstimmung zum besten Getränk</h5>
+                            <h6 class="card-subtitle text-muted d-flex">
+                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <span class="pl-1">28.03.2020</span><span class="pl-2">12:30 Uhr</span>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container px-0" data-questiontype="terminated" onclick="window.location.href = '/poll-vote'">
+            <div class="card w-100 border-success mb-1" style="width: 18rem;">
+                <div class="card-body p-3">
+                    <div class="row no-gutters">
+                        <div class="col-2 pr-2">
+                            <img class="card-img" th:src="@{icons/current.svg}" width="52" height="52" alt="hourglass">
+                        </div>
+                        <div class="col-10 d-flex flex-column">
+                            <h5 class="card-title">Meine dritte</h5>
+                            <h6 class="card-subtitle text-muted d-flex">
+                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container px-0" data-questiontype="terminated" onclick="window.location.href = '/poll-vote'">
+            <div class="card w-100 border-dark mb-1" style="width: 18rem;">
+                <div class="card-body p-3">
+                    <div class="row no-gutters">
+                        <div class="col-2 pr-2">
+                            <img class="card-img" th:src="@{icons/terminated.svg}" width="52" height="52" alt="hourglass">
+                        </div>
+                        <div class="col-10 d-flex flex-column">
+                            <h5 class="card-title">Meine vierte</h5>
+                            <h6 class="card-subtitle text-muted d-flex">
+                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
+                            </h6>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container px-0" id="open">
-        <div class="card w-100 border-success mb-1" style="width: 18rem;">
-            <div class="card-body p-3">
-                <div class="row no-gutters">
-                    <div class="col-2 pr-2">
-                        <img class="card-img" th:src="@{icons/open.svg}" width="52" height="52" alt="hourglass">
-                    </div>
-                    <div class="col-10 d-flex flex-column">
-                        <h5 class="card-title">Terminabstimmung 1</h5>
-                        <h6 class="card-subtitle text-muted d-flex">
-                            <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
-                            <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
-                        </h6>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container px-0" id="current">
-        <div class="card w-100 border-success mb-1" style="width: 18rem;">
-            <div class="card-body p-3">
-                <div class="row no-gutters">
-                    <div class="col-2 pr-2">
-                        <img class="card-img" th:src="@{icons/current.svg}" width="52" height="52" alt="hourglass">
-                    </div>
-                    <div class="col-10 d-flex flex-column">
-                        <h5 class="card-title">Terminabstimmung 2</h5>
-                        <h6 class="card-subtitle text-muted d-flex">
-                            <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
-                            <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
-                        </h6>
+    <hr>
+    <h5 onclick="collapseSection('otherPollsAndSchedules')">Andere<span class="badge badge-primary badge-pill ml-3">4</span></h5>
+    <div class="collapse show" id="otherPollsAndSchedules">
+        <div class="container px-0" data-questiontype="open" onclick="window.location.href = '/poll-vote'">
+            <div class="card w-100 border-success mb-1" style="width: 18rem;">
+                <div class="card-body p-3">
+                    <div class="row no-gutters">
+                        <div class="col-2 pr-2">
+                            <img class="card-img" th:src="@{icons/open.svg}" width="52" height="52" alt="hourglass">
+                        </div>
+                        <div class="col-10 d-flex flex-column">
+                            <h5 class="card-title">Terminabstimmung 1</h5>
+                            <h6 class="card-subtitle text-muted d-flex">
+                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
+                            </h6>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container px-0" id="terminated">
-        <div class="card w-100 border-dark mb-1" style="width: 18rem;">
-            <div class="card-body p-3">
-                <div class="row no-gutters">
-                    <div class="col-2 pr-2">
-                        <img class="card-img" th:src="@{icons/terminated.svg}" width="52" height="52" alt="hourglass">
+        <div class="container px-0" data-questiontype="current" onclick="window.location.href = '/poll-vote'">
+            <div class="card w-100 border-success mb-1" style="width: 18rem;">
+                <div class="card-body p-3">
+                    <div class="row no-gutters">
+                        <div class="col-2 pr-2">
+                            <img class="card-img" th:src="@{icons/current.svg}" width="52" height="52" alt="hourglass">
+                        </div>
+                        <div class="col-10 d-flex flex-column">
+                            <h5 class="card-title">Terminabstimmung 2</h5>
+                            <h6 class="card-subtitle text-muted d-flex">
+                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
+                            </h6>
+                        </div>
                     </div>
-                    <div class="col-10 d-flex flex-column">
-                        <h5 class="card-title">Terminabstimmung 3</h5>
-                        <h6 class="card-subtitle text-muted d-flex">
-                            <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
-                            <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
-                        </h6>
+                </div>
+            </div>
+        </div>
+        <div class="container px-0" data-questiontype="terminated" onclick="window.location.href = '/poll-vote'">
+            <div class="card w-100 border-dark mb-1" style="width: 18rem;">
+                <div class="card-body p-3">
+                    <div class="row no-gutters">
+                        <div class="col-2 pr-2">
+                            <img class="card-img" th:src="@{icons/terminated.svg}" width="52" height="52" alt="hourglass">
+                        </div>
+                        <div class="col-10 d-flex flex-column">
+                            <h5 class="card-title">Terminabstimmung 3</h5>
+                            <h6 class="card-subtitle text-muted d-flex">
+                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container px-0" data-questiontype="reopened" onclick="window.location.href = '/poll-vote'">
+            <div class="card w-100 border-success mb-1" style="width: 18rem;">
+                <div class="card-body p-3">
+                    <div class="row no-gutters">
+                        <div class="col-2 pr-2">
+                            <img class="card-img" th:src="@{icons/reopened.svg}" width="52" height="52" alt="hourglass">
+                        </div>
+                        <div class="col-10 d-flex flex-column">
+                            <h5 class="card-title">Terminabstimmung 4</h5>
+                            <h6 class="card-subtitle text-muted d-flex">
+                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
+                            </h6>
+                        </div>
                     </div>
                 </div>
             </div>
