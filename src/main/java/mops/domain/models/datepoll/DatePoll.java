@@ -2,14 +2,15 @@ package mops.domain.models.datepoll;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import mops.domain.models.pollstatus.PollRecordAndStatus;
+import mops.domain.models.pollstatus.PollStatus;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class DatePoll {
+public final class DatePoll {
 
 
     /**
@@ -44,6 +45,10 @@ public class DatePoll {
 
     public static DatePollBuilder builder() {
         return new DatePollBuilder();
+    }
+
+    public PollStatus getUserStatus(User user) {
+        return pollRecordAndStatus.getUserStatus(user);
     }
 
 }

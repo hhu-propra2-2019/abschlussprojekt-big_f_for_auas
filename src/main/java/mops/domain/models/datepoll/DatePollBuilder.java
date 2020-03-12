@@ -4,7 +4,6 @@ import lombok.Getter;
 import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
-import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.UserId;
 
 import java.util.ArrayList;
