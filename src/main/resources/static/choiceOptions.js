@@ -1,4 +1,4 @@
-function addChoiceOption(){
+function addSchedulingChoiceOption(){
     $('#scheduleOptionList').append(`                    <li>
                         <div class="form-group row">
                             <div class="input-group">
@@ -10,6 +10,17 @@ function addChoiceOption(){
                             </div>
                         </div>
                     </li>`);
+}
+
+function addPollChoiceOption(){
+    $('#pollOptionList').append(`                <li>
+                    <div class="form-group row">
+                        <input name="pollOption" class="form-control col ml-5" type="text" placeholder="Möglichkeit eingeben">
+                        <div class="col-1 mr-3">
+                            <button style="width: 37px; height: 37px" type="button" name="removeOption" class="btn btn-danger" onclick="removeChoiceOption(this)">-</button>
+                        </div>
+                    </div>
+                </li>`);
 }
 
 function removeChoiceOption(btn){

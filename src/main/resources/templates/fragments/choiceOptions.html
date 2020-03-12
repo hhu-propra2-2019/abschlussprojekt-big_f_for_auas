@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+
+    </th:block>
+</head>
+<body>
+    <form th:action method="post" id="schedulingChoiceOptions" th:fragment="schedulingForm" class="needs-validation" novalidate>
+        <div class="form-group">
+            <input class="form-control" placeholder="Fragestellung" required>
+            <div class="invalid-feedback">
+                Bitte gib einen Fragestellung ein.
+            </div>
+        </div>
+        <ol id="scheduleOptionList">
+            <li>
+                <div class="form-group row">
+                    <div class="input-group">
+                        <input name="dateOption" class="form-control col ml-5" type="date">
+                        <input class="form-control col" type="time" value="12:00">
+                        <div class="col-1 mr-3">
+                            <button type="button" name="removeOption" class="btn btn-danger removeOptionBtn" onclick="removeChoiceOption(this)">-</button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="form-group row">
+                    <div class="input-group">
+                        <input name="dateOption" class="form-control col ml-5" type="date">
+                        <input class="form-control col" type="time" value="12:00">
+                        <div class="col-1 mr-3">
+                            <button type="button" name="removeOption" class="btn btn-danger removeOptionBtn" onclick="removeChoiceOption(this)">-</button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ol>
+        <button type="button" name="addOption" class="btn btn-primary mx-auto d-block addOptionBtn" onclick="addSchedulingChoiceOption()">+</button>
+
+        <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right mt-5">Weiter</button>
+        <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
+    </form>
+    <form th:action method="post" id="pollChoiceOptions" th:fragment="pollForm" class="needs-validation" novalidate>
+        <div class="form-group">
+            <input class="form-control" placeholder="Fragestellung" required>
+            <div class="invalid-feedback">
+                Bitte gib einen Fragestellung ein.
+            </div>
+        </div>
+        <ol id="pollOptionList">
+            <li>
+                <div class="form-group row">
+                    <input name="pollOption" class="form-control col ml-5" type="text" placeholder="Möglichkeit eingeben">
+                    <div class="col-1 mr-3">
+                        <button type="button" name="removeOption" class="btn btn-danger removeOptionBtn" onclick="removeChoiceOption(this)">-</button>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="form-group row">
+                    <input name="pollOption" class="form-control col ml-5" type="text" placeholder="Möglichkeit eingeben">
+                    <div class="col-1 mr-3">
+                        <button type="button" name="removeOption" class="btn btn-danger removeOptionBtn" onclick="removeChoiceOption(this)">-</button>
+                    </div>
+                </div>
+            </li>
+        </ol>
+        <button type="button" name="addOption" class="btn btn-primary mx-auto d-block addOptionBtn" onclick="addPollChoiceOption()">+</button>
+
+        <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right mt-5">Weiter</button>
+        <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
+    </form>
+</body>
+</html>
