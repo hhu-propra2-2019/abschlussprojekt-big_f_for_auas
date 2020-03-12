@@ -1,17 +1,25 @@
 package mops.domain.models.questionpoll;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
 import java.util.List;
+import lombok.Value;
 import mops.domain.models.user.UserId;
 
 /**
- * Die Ballot (Deutsch: Wahlurne) speichert welche User für welche Einträge abstimmen.
+ * Die Ballot (Deutsch: Wahlzettel) speichert welche User für welche Einträge abstimmen.
  */
+@Value
 public class QuestionPollBallot {
-  private final Map<UserId, List<QuestionPollEntry>> votes;
+  private UserId user;
+  private List<QuestionPollEntry> selectedEntries;
 
-  public QuestionPollBallot() {
-    this.votes = new HashMap<UserId, List<QuestionPollEntry>>();
+    /**
+     * Konstruktor.
+     * @param qpUserId
+     * @param selectedEntries
+     */
+  public QuestionPollBallot(UserId qpUserId, List<QuestionPollEntry> selectedEntries) {
+    this.user = qpUserId;
+    this.selectedEntries = Collections.unmodifiableList(selectedEntries);
   }
 }

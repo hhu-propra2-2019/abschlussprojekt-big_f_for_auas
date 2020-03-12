@@ -23,9 +23,9 @@ public class QuestionPollFactory {
   private static final String INVALID_VALUE = "Ungülitger Wert";
 
   private QuestionPollAccessibility accessibilityTarget;
-  private QuestionPollBallot ballotTarget;
   private QuestionPollConfig configTarget;
   private List<QuestionPollEntry> entryTarget;
+  private List<QuestionPollBallot> ballotTarget;
   private QuestionPollHeader headerTarget;
   private UserId ownerTarget;
   private QuestionPollLifecycle lifecycleTarget;
@@ -44,7 +44,7 @@ public class QuestionPollFactory {
     this.configTarget = null;
     this.entryTarget = null;
     this.headerTarget = null;
-    this.ballotTarget = new QuestionPollBallot();
+    this.ballotTarget = new ArrayList<>();
     this.ownerTarget = userId;
 
     this.cookieJar = new EnumMap<>(QuestionPollDtoCookie.class);
