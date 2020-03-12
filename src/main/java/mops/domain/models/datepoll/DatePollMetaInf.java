@@ -16,6 +16,7 @@ public class DatePollMetaInf implements ValidateAble {
      * ...
      * @return ...
      */
+    @Override
     public Validation validate() {
         final Validation validation = Validation.noErrors();
         validation.appendValidation(datePollLocation.validate());

@@ -7,4 +7,8 @@ public interface ValidateAble {
      * @return Validation objekt, dass die Validierung kapselt.
      */
     Validation validate();
+
+    default boolean hasNoErrors() {
+        return validate().hasNoErrors();
+    }
 }
