@@ -5,6 +5,6 @@ import mops.domain.models.user.UserId;
 
 public interface UserRepositoryInterface {
 
-  User getById(UserId id);
+  User load(UserId id);
 
 }
