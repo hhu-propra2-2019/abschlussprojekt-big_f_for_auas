@@ -16,7 +16,7 @@ public class QuestionPollConfig implements ValidateAble {
 
   /**
    * validate Methode für den Builder.
-   * @return
+   * @return Validation
    */
   @Override
   public Validation validate() {
