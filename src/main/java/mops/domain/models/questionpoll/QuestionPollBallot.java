@@ -10,8 +10,8 @@ import mops.domain.models.user.UserId;
  */
 @Value
 public class QuestionPollBallot {
-  private UserId user;
-  private List<QuestionPollEntry> selectedEntries;
+  private final UserId user;
+  private final List<QuestionPollEntry> selectedEntries;
 
     /**
      * Konstruktor.
