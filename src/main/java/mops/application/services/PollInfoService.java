@@ -22,11 +22,11 @@ public class PollInfoService {
      * @return ...
      */
     public List<DashboardListItemDto> dashboardService(UserId userId) {
-        List<DashboardListItemDto> dashboardListItemDtos = new LinkedList<>();
-        List<DatePoll> datePolls = datePollRepository.getDatePollsByUserId(userId);
+        final List<DashboardListItemDto> dashboardListItemDtos = new LinkedList<>();
+        final List<DatePoll> datePolls = datePollRepository.getDatePollsByUserId(userId);
         for (DatePoll datePoll: datePolls
              ) {
-            DashboardListItemDto dashboardListItemDto = new DashboardListItemDto();
+            final DashboardListItemDto dashboardListItemDto = new DashboardListItemDto();
             dashboardListItemDto.setTitle(datePoll.getDatePollMetaInf().getTitle());
             dashboardListItemDto.setEndDate(datePoll.getDatePollMetaInf().getDatePollLifeCycle().getEndDate());
             dashboardListItemDto.setStatus(datePoll.getPollRecordAndStatus()

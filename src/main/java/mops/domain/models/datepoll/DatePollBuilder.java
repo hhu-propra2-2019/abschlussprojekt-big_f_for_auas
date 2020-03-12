@@ -6,6 +6,7 @@ import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.UserId;
+import org.hibernate.validator.internal.util.stereotypes.Immutable;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -18,12 +19,12 @@ public class DatePollBuilder {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
 
-    private DatePollMetaInf datePollMetaInf;
-    private UserId creator;
-    private DatePollConfig datePollConfig;
-    private List<DatePollOption> datePollOptions = new ArrayList<>();
-    private List<UserId> participants = new ArrayList<>();
-    private DatePollLink datePollLink;
+    private DatePollMetaInf datePollMetaInfTarget;
+    private UserId creatorTarget;
+    private DatePollConfig datePollConfigTarget;
+    private List<DatePollOption> datePollOptionsTarget = new ArrayList<>();
+    private List<UserId> participantsTarget = new ArrayList<>();
+    private DatePollLink datePollLinkTarget;
     @Getter
     private Validation validationState;
     private EnumSet<DatePollFields> validatedFields = EnumSet.noneOf(DatePollFields.class);
@@ -33,7 +34,7 @@ public class DatePollBuilder {
     }
 
     private <T extends ValidateAble> Optional<T> validationProcess(T validateAble) {
-        Validation newValidation = validateAble.validate();
+        final Validation newValidation = validateAble.validate();
         validationState.appendValidation(newValidation);
         if (newValidation.hasNoErrors()) {
             return Optional.of(validateAble);
@@ -66,7 +67,7 @@ public class DatePollBuilder {
      */
     public DatePollBuilder datePollMetaInf(DatePollMetaInf datePollMetaInf) {
         validationProcessAndValidationHandling(
-                datePollMetaInf, metaInf -> this.datePollMetaInf = metaInf, DatePollFields.DATE_POLL_META_INF
+                datePollMetaInf, metaInf -> this.datePollMetaInfTarget = metaInf, DatePollFields.DATE_POLL_META_INF
         );
         return this;
     }
@@ -79,7 +80,7 @@ public class DatePollBuilder {
      */
     public DatePollBuilder creator(UserId creator) {
         validationProcessAndValidationHandling(
-                creator, id -> this.creator = id, DatePollFields.CREATOR
+                creator, id -> this.creatorTarget = id, DatePollFields.CREATOR
         );
         return this;
     }
@@ -92,7 +93,7 @@ public class DatePollBuilder {
      */
     public DatePollBuilder datePollConfig(DatePollConfig datePollConfig) {
         validationProcessAndValidationHandling(
-                datePollConfig, config -> this.datePollConfig = config, DatePollFields.DATE_POLL_CONFIG
+                datePollConfig, config -> this.datePollConfigTarget = config, DatePollFields.DATE_POLL_CONFIG
         );
         return this;
     }
@@ -104,12 +105,12 @@ public class DatePollBuilder {
      * @return Referenz auf diesen DatePollBuilder.
      */
     public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
-        this.datePollOptions.addAll(validateAllAndGetCorrect(
+        this.datePollOptionsTarget.addAll(validateAllAndGetCorrect(
                 datePollOptionsDtos.stream()
                         .map(dto -> new DatePollOption(dto.getStartDate(), dto.getEndDate()))
                         .collect(Collectors.toList())
         ));
-        if (!datePollOptions.isEmpty()) {
+        if (!datePollOptionsTarget.isEmpty()) {
             validatedFields.add(DatePollFields.DATE_POLL_OPTIONS);
         }
         return this;
@@ -122,8 +123,8 @@ public class DatePollBuilder {
      * @return Referenz auf diesen DatePollBuilder.
      */
     public DatePollBuilder participants(List<UserId> participants) {
-        this.participants.addAll(validateAllAndGetCorrect(participants));
-        if (!this.participants.isEmpty()) {
+        this.participantsTarget.addAll(validateAllAndGetCorrect(participants));
+        if (!this.participantsTarget.isEmpty()) {
             validatedFields.add(DatePollFields.PARTICIPANTS);
         }
         return this;
@@ -137,7 +138,7 @@ public class DatePollBuilder {
      */
     public DatePollBuilder datePollLink(DatePollLink datePollLink) {
         validationProcessAndValidationHandling(
-                datePollLink, link -> this.datePollLink = link, DatePollFields.DATE_POLL_LINK
+                datePollLink, link -> this.datePollLinkTarget = link, DatePollFields.DATE_POLL_LINK
         );
         return this;
     }
@@ -151,7 +152,7 @@ public class DatePollBuilder {
         if (validationState.hasNoErrors() && EnumSet.allOf(DatePollFields.class).equals(validatedFields)) {
             return new DatePoll(
                     new PollRecordAndStatus(),
-                    datePollMetaInf, creator, datePollConfig, datePollOptions, participants, datePollLink
+                    datePollMetaInfTarget, creatorTarget, datePollConfigTarget, datePollOptionsTarget, participantsTarget, datePollLinkTarget
             );
         } else {
             throw new IllegalStateException(COULD_NOT_CREATE);

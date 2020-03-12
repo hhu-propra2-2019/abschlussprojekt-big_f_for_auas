@@ -18,7 +18,7 @@ public class DatePollLocation implements ValidateAble {
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();
-        String errorMessage = "No location specified. DATE_POLL_LOCATION is not present.";
+        final String errorMessage = "No location specified. DATE_POLL_LOCATION is not present.";
         if (location == null || location.equals(" ") || location.length() == 0) {
             validation = new Validation(InputFieldNames.DATE_POLL_LOCATION, errorMessage);
         }
