@@ -1,5 +1,6 @@
 package mops.domain.models.questionpoll;
 
+import lombok.Getter;
 import mops.domain.models.user.UserId;
 
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.Set;
 
 public class QuestionPollAccessibility {
 
+  @Getter
   private final boolean restrictedAccess;
   private final Set<UserId> participants;
 
@@ -24,17 +26,20 @@ public class QuestionPollAccessibility {
     pParticipants.stream().forEach(id -> participants.add(id));
   }
 
-  public boolean getRestrictedAccess() {
-    return restrictedAccess;
-  }
 
+  /**
+   * Darf User wählen?
+   * @param id
+   * @return boolean
+   */
   public boolean isUserParticipant(UserId id) {
-    if (participants.contains(id)) {
-      return true;
-    }
-    return false;
+    return participants.contains(id);
   }
 
+  /**
+   * Fügt einen User zu den Participants hinzu.
+   * @param userId
+   */
   public void addUser(UserId userId) {
     participants.add(userId);
   }
