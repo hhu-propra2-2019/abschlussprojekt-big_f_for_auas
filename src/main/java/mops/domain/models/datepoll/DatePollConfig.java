@@ -48,6 +48,10 @@ public class DatePollConfig implements ValidateAble {
         this.singleChoice = false;
     }
 
+    /**
+     * ...
+     * @return
+     */
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();

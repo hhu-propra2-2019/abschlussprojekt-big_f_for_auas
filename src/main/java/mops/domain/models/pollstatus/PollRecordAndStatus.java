@@ -65,4 +65,14 @@ public final class PollRecordAndStatus {
     void terminatePoll() {
         isTerminated = true;
     }
+
+    /**
+     * Der andere Ansatz, wie oben geschildert. Muss zuerst aufgerufen werden, wenn auf das Aggregat zugegriffen wird.
+     * @param endDate   Das Datum, an dem die Umfrage endet
+     */
+    void updatePollStatus(LocalDateTime endDate) {
+        if (endDate.isBefore(LocalDateTime.now())) {
+            isTerminated = true;
+        }
+    }
 }

@@ -20,10 +20,19 @@ public class Validation {
         errorMessages.put(wrongInputfields, message);
     }
 
+    /**
+     * ...
+     * @return ...
+     */
     public boolean hasNoErrors() {
         return errorMessages.isEmpty();
     }
 
+    /**
+     * ...
+     * @param validation ...
+     * @return ...
+     */
     public Validation appendValidation(Validation validation) {
         initEnumIfNotPresent();
         errorMessages.putAll(validation.errorMessages);

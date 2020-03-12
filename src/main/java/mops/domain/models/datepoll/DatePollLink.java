@@ -16,6 +16,10 @@ public class DatePollLink implements ValidateAble {
         this.datePollIdentifier = newDatePollIdentifier;
     }
 
+    /**
+     * ...
+     * @return
+     */
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();

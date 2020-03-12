@@ -12,6 +12,10 @@ public class DatePollDescription implements ValidateAble {
     private String description;
 
 
+    /**
+     * ...
+     * @return
+     */
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();

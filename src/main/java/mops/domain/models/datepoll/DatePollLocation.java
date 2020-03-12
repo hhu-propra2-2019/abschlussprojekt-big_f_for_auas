@@ -11,6 +11,10 @@ public class DatePollLocation implements ValidateAble {
     private int longitude;
     private int latitude;
 
+    /**
+     * ...
+     * @return
+     */
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();

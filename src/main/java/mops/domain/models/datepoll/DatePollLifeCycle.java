@@ -22,16 +22,23 @@ public class DatePollLifeCycle implements ValidateAble {
          this.endDate = endDate;
     }
 
+    /**
+     * ...
+     * @return
+     */
+    @SuppressWarnings("checkstyle:LineLength")
     @Override
     public Validation validate() {
         String errorMessage = "StartDate and EndDate are not valid. DATE_POLL_LIFECYCLE contains problems:\n";
         Validation validation = Validation.noErrors();
 
         if (startDate.isBefore(endDate)) {
-            errorMessage = errorMessage + " StartDate " + startDate.toString() + " is bigger than " + endDate.toString() + "\n";
+            errorMessage =
+                    errorMessage + " StartDate " + startDate.toString() + " is bigger than " + endDate.toString() + "\n";
             validation.appendValidation(new Validation(InputFieldNames.DATE_POLL_LIFECYCLE, errorMessage));
         } else if (startDate.isEqual(endDate)) {
-            errorMessage = errorMessage + " StartDate " + startDate.toString() + " is equal to " + endDate.toString() + "\n";
+            errorMessage =
+                    errorMessage + " StartDate " + startDate.toString() + " is equal to " + endDate.toString() + "\n";
             validation.appendValidation(new Validation(InputFieldNames.DATE_POLL_LIFECYCLE, errorMessage));
         }
 
