@@ -19,8 +19,7 @@ public class QuestionPollSyndicationService {
      * @return QuestionPollLink
      */
     public QuestionPollLink publishQuestionPoll(final QuestionPollFactory factory) {
-        QuestionPollLink  questionPollLink  = questionPollRepo.save(factory.build());
-        return questionPollLink;
+        return questionPollRepo.save(factory.build());
     }
 
     /**
