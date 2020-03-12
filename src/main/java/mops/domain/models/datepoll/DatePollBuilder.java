@@ -7,7 +7,10 @@ import mops.domain.models.Validation;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.UserId;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -150,7 +153,8 @@ public class DatePollBuilder {
         if (validationState.hasNoErrors() && EnumSet.allOf(DatePollFields.class).equals(validatedFields)) {
             return new DatePoll(
                     new PollRecordAndStatus(),
-                    metaInfTarget, pollCreatorTarget, configTarget, pollOptionTargets, pollParticipantTargets, linkTarget
+                    metaInfTarget, pollCreatorTarget, configTarget
+                    , pollOptionTargets, pollParticipantTargets, linkTarget
             );
         } else {
             throw new IllegalStateException(COULD_NOT_CREATE);
