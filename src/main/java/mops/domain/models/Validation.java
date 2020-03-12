@@ -11,10 +11,20 @@ public class Validation {
         return new Validation();
     }
 
+
+    /**
+     * Prüft ob Errors in dieser Validierung auffgetreten ist.
+     * @return true wenn keine Fehler aufgetreten sind.
+     */
     public boolean hasNoErrors() {
         return true;
     }
 
+    /**
+     * Verbindet zwei Validerungen zu
+     * @param validation
+     * @return
+     */
     public Validation appendValidation(Validation validation) {
         return this;
     }

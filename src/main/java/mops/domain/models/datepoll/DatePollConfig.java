@@ -35,6 +35,10 @@ public class DatePollConfig implements ValidateAble {
      */
     private boolean open;
 
+    /**
+     *
+     * @return Validation
+     */
     @Override
     public Validation validate() {
         return null;
