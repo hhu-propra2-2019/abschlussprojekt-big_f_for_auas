@@ -1,39 +1,38 @@
 package mops.domain.models;
 
-import mops.controllers.InputFieldNames;
+import mops.controllers.dto.InputFieldNames;
 
 import java.util.EnumMap;
 
 public class Validation {
     private EnumMap<InputFieldNames, String> errorMessages;
 
+    private Validation() {
+        this.errorMessages = new EnumMap<>(InputFieldNames.class);
+    }
+
     public static Validation noErrors() {
         return new Validation();
     }
 
-
-    /**
-     * Prüft ob Errors in dieser Validierung auffgetreten ist.
-     * @return true wenn keine Fehler aufgetreten sind.
-     */
-    public boolean hasNoErrors() {
-        return true;
+    public Validation(InputFieldNames wrongInputfields, String message) {
+        initEnumIfNotPresent();
+        errorMessages.put(wrongInputfields, message);
     }
 
-    /**
-     * Verbindet zwei Validerungen zu
-     * @param validation
-     * @return
-     */
+    public boolean hasNoErrors() {
+        return errorMessages.isEmpty();
+    }
+
     public Validation appendValidation(Validation validation) {
+        initEnumIfNotPresent();
+        errorMessages.putAll(validation.errorMessages);
         return this;
     }
 
-    private Validation() {
-        errorMessages = new EnumMap<>(InputFieldNames.class);
-    }
-
-    public Validation(InputFieldNames wrongInputfields, String message) {
-        errorMessages.put(wrongInputfields, message);
+    private void initEnumIfNotPresent() {
+        if (errorMessages == null) {
+            this.errorMessages = new EnumMap<>(InputFieldNames.class);
+        }
     }
 }
