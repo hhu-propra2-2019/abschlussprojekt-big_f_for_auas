@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
-        <!-- Links, Skripts, Styles hier einfügen! -->
     </th:block>
 </head>
 <body>
@@ -31,9 +30,9 @@
             <li>Löschung am (?)</li>
             <li>? Personen/Gruppen anzeigen ?</li>
         </ul>
-        <form method="post">
-            <button type="submit" name="_eventId_publication"  class="btn btn-primary float-left mt-5">Zurück</button>
+        <form th:action  method="post">
             <button type="submit" name="_eventId_submit"  class="btn btn-primary float-right mt-5">Erstellen</button>
+            <button type="submit" name="_eventId_publication"  class="btn btn-primary float-left mt-5">Zurück</button>
         </form>
     </div>
 </main>

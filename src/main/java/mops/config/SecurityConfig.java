@@ -69,8 +69,6 @@ class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         forceHTTPS(http);
-        // TODO: CSRF-Protection wieder einschalten und Konflikt mit Webflow lösen (sehr, sehr wichtig!)
-        http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/actuator/**")
                 .hasAnyRole("monitoring")

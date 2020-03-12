@@ -8,7 +8,7 @@
     </th:block>
 </head>
 <body>
-    <form method="post" th:fragment="form">
+    <form th:action method="post" th:fragment="form">
         <div class="choice-amount">
             <label>Anzahl Auswahlmöglichkeiten</label>
             <div class="form-check">
@@ -38,8 +38,15 @@
                 </div>
             </div>
         </div>
-        <div class="form-check pt-5">
-            <input class="form-check-input" type="checkbox">
+
+        <div class="form-check">
+            <input class="form-check-input" name="choice-mutable" type="checkbox" onchange="showMutable()">
+            <label class="form-check-label">
+                Stimme im nachhinein editierbar
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" name="choice-addNew" type="checkbox" disabled>
             <label class="form-check-label">
                 Möglichkeiten ergänzbar
             </label>
@@ -50,8 +57,8 @@
                 Anonym
             </label>
         </div>
-        <button type="submit" name="_eventId_access"  class="btn btn-primary float-left mt-5">Zurück</button>
         <button type="submit" name="_eventId_choiceoptions" class="btn btn-primary float-right mt-5">Weiter</button>
+        <button type="submit" name="_eventId_access"  class="btn btn-primary float-left mt-5">Zurück</button>
     </form>
 </body>
 </html>
