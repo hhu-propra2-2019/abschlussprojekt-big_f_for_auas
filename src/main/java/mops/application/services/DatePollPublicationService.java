@@ -1,5 +1,6 @@
 package mops.application.services;
 
+import lombok.NoArgsConstructor;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollLink;
@@ -13,11 +14,12 @@ import java.util.List;
 
 
 @Service
+@NoArgsConstructor // PMD zuliebe
 public class DatePollPublicationService {
 
     public static final String LINK_ALREADY_TAKEN = "Link already taken";
-    private DatePollRepository datePollRepository;
-    private GroupRepository groupRepository;
+    private transient DatePollRepository datePollRepository;
+    private transient GroupRepository groupRepository;
 
     /**
      * Beendet den Erstellungsprozess und speichert die erstellte Terminfindung.

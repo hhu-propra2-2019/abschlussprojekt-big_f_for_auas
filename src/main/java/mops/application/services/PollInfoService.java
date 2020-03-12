@@ -1,5 +1,6 @@
 package mops.application.services;
 
+import lombok.NoArgsConstructor;
 import mops.controllers.dtos.DashboardListItemDto;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.user.UserId;
@@ -11,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
+@NoArgsConstructor // PMD zuliebe
 public class PollInfoService {
 
     private DatePollRepository datePollRepository;
@@ -21,10 +23,11 @@ public class PollInfoService {
      * @param userId ...
      * @return ...
      */
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public List<DashboardListItemDto> dashboardService(UserId userId) {
         final List<DashboardListItemDto> dashboardListItemDtos = new LinkedList<>();
         final List<DatePoll> datePolls = datePollRepository.getDatePollsByUserId(userId);
-        for (DatePoll datePoll: datePolls
+        for (final DatePoll datePoll: datePolls
              ) {
             final DashboardListItemDto dashboardListItemDto = new DashboardListItemDto();
             dashboardListItemDto.setTitle(datePoll.getDatePollMetaInf().getTitle());
