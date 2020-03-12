@@ -7,7 +7,7 @@
     background-color: rgba(92, 184, 92, 0.5);
 }
 
-.card-hover:hover span, .card-hover:hover h5 {
+.card-hover:hover span, .card-hover:hover h5, .card-hover:hover i {
     transition: color 0.3s ease;
     color: #fff;
 }
