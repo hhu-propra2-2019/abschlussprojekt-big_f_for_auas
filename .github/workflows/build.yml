@@ -1,4 +1,4 @@
-name: Gradle
+name: build
 
 on: [push, pull_request]
 
@@ -15,5 +15,9 @@ jobs:
         java-version: 11
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+    - name: Check with Checkstyle
+      run: ./gradlew checkstyleMain checkstyleTest
+    - name: Check with PMD
+      run: ./gradlew pmdMain pmdTest
+    - name: Check with SpotBugs
+      run: ./gradlew spotbugsMain spotbugsTest

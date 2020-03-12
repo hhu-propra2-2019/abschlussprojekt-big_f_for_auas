@@ -10,3 +10,7 @@ services:
     environment:
       - "MYSQL_ROOT_PASSWORD=geheim"
       - "MYSQL_DATABASE=termine1"
+  web:
+    build: .
+    ports:
+      - "8080:8080"

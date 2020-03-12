@@ -1,8 +1,10 @@
 package mops.domain.models.user;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 
+@AllArgsConstructor
+@EqualsAndHashCode
 public class User {
-
-  @Getter private UserId userId;
+    @Getter private final UserId id;
 }
