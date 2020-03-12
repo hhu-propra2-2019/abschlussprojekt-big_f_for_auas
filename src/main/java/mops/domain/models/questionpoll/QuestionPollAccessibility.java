@@ -1,5 +1,6 @@
 package mops.domain.models.questionpoll;
 
+import java.util.Collections;
 import lombok.Getter;
 import mops.domain.models.user.UserId;
 
@@ -13,17 +14,15 @@ import java.util.Set;
  * Ist restrictedAccess = false, handelt es sich um eine offene Abstimmung und jeder kann abstimmen.
  * In diesem Fall spielt die participants Liste keine weitere Rolle.
  */
-
+@Getter
 public class QuestionPollAccessibility {
 
-  @Getter
   private final boolean restrictedAccess;
   private final Set<UserId> participants;
 
   public QuestionPollAccessibility(boolean pRestrictedAccess, Set<UserId> pParticipants) {
     this.restrictedAccess = pRestrictedAccess;
-    participants = new HashSet<UserId>();
-    pParticipants.stream().forEach(id -> participants.add(id));
+    this.participants = Collections.unmodifiableSet(pParticipants);
   }
 
 
