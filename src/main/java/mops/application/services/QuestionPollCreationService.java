@@ -1,6 +1,8 @@
 package mops.application.services;
 
 import java.util.List;
+
+import lombok.NoArgsConstructor;
 import mops.controllers.dtos.QuestionPollConfigDto;
 import mops.controllers.dtos.QuestionPollEntryDto;
 import mops.controllers.dtos.QuestionPollHeaderDto;
@@ -11,6 +13,7 @@ import mops.domain.models.user.UserId;
 import org.springframework.stereotype.Service;
 
 @Service
+@NoArgsConstructor // PMD zuliebe
 public final class QuestionPollCreationService {
 
   private UserRepositoryInterface userRepo;
