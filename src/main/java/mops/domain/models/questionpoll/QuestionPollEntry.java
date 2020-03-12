@@ -1,7 +1,6 @@
 package mops.domain.models.questionpoll;
 
 import lombok.AllArgsConstructor;
-import lombok.Value;
 
 /**
  * Speichert eine Option über die in einem QuestionPoll abgestimmt werden kann und
