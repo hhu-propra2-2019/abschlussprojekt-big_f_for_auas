@@ -29,8 +29,7 @@ public class PollInfoService {
             final DashboardListItemDto dashboardListItemDto = new DashboardListItemDto();
             dashboardListItemDto.setTitle(datePoll.getDatePollMetaInf().getTitle());
             dashboardListItemDto.setEndDate(datePoll.getDatePollMetaInf().getDatePollLifeCycle().getEndDate());
-            dashboardListItemDto.setStatus(datePoll.getPollRecordAndStatus()
-                    .getUserStatus(userRepository.getUserById(userId)));
+            dashboardListItemDto.setStatus(datePoll.getUserStatus(userRepository.getUserById(userId)));
             dashboardListItemDto.setDatePollIdentifier(datePoll.getDatePollLink().getDatePollIdentifier());
             dashboardListItemDtos.add(dashboardListItemDto);
         }
