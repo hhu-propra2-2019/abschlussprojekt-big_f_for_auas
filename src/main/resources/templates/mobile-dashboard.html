@@ -6,6 +6,7 @@
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -31,19 +32,19 @@
             <div class="row justify-content-around">
                 <div class="col-2">
                     <span class="navbar-brand">
-                        <img th:src="@{icons/open.svg}" width="30" height="30" class="d-inline-block align-top" alt="">
+                        <i class="fa fa-hourglass"></i>
                         4
                     </span>
                 </div>
                 <div class="col-2">
                     <span class="navbar-brand">
-                        <img th:src="@{icons/current.svg}" width="30" height="30" class="d-inline-block align-top" alt="">
+                        <i class="fa fa-check"></i>
                         2
                     </span>
                 </div>
                 <div class="col-2">
                     <span class="navbar-brand">
-                        <img th:src="@{icons/terminated.svg}" width="30" height="30" class="d-inline-block align-top" alt="">
+                        <i class="fa fa-eye"></i>
                         2
                     </span>
                 </div>
@@ -79,13 +80,13 @@
             <div class="card card-hover w-100 border-success mb-1">
                 <div class="card-body p-3">
                     <div class="row no-gutters">
-                        <div class="col-2 pr-2">
-                            <img class="card-img" th:src="@{icons/reopened.svg}" width="52" height="52" alt="hourglass">
+                        <div class="col-2 pr-2 justify-content-center d-flex">
+                            <i class="fa fa-exclamation fa-2x align-self-center"></i>
                         </div>
                         <div class="col-10 d-flex flex-column">
                             <h5 class="card-title">Meine erste</h5>
                             <h6 class="card-subtitle text-muted d-flex">
-                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <i class="fa fa-clock-o"></i>
                                 <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
                             </h6>
                         </div>
@@ -97,13 +98,13 @@
             <div class="card card-hover w-100 border-success mb-1">
                 <div class="card-body p-3">
                     <div class="row no-gutters">
-                        <div class="col-2 pr-2">
-                            <img class="card-img" th:src="@{icons/open.svg}" width="52" height="52" alt="hourglass">
+                        <div class="col-2 pr-2 justify-content-center d-flex">
+                            <i class="fa fa-hourglass fa-2x align-self-center"></i>
                         </div>
                         <div class="col-10 d-flex flex-column">
                             <h5 class="card-title">Abstimmung zum besten Getränk</h5>
                             <h6 class="card-subtitle text-muted d-flex">
-                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <i class="fa fa-clock-o"></i>
                                 <span class="pl-1">28.03.2020</span><span class="pl-2">12:30 Uhr</span>
                             </h6>
                         </div>
@@ -115,13 +116,13 @@
             <div class="card card-hover w-100 border-success mb-1">
                 <div class="card-body p-3">
                     <div class="row no-gutters">
-                        <div class="col-2 pr-2">
-                            <img class="card-img" th:src="@{icons/current.svg}" width="52" height="52" alt="hourglass">
+                        <div class="col-2 pr-2 justify-content-center d-flex">
+                            <i class="fa fa-check fa-2x align-self-center"></i>
                         </div>
                         <div class="col-10 d-flex flex-column">
                             <h5 class="card-title">Meine dritte</h5>
                             <h6 class="card-subtitle text-muted d-flex">
-                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <i class="fa fa-clock-o"></i>
                                 <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
                             </h6>
                         </div>
@@ -133,13 +134,13 @@
             <div class="card card-hover bg-light w-100 border-dark mb-1">
                 <div class="card-body p-3">
                     <div class="row no-gutters">
-                        <div class="col-2 pr-2">
-                            <img class="card-img" th:src="@{icons/terminated.svg}" width="52" height="52" alt="hourglass">
+                        <div class="col-2 pr-2 justify-content-center d-flex">
+                            <i class="fa fa-eye fa-2x align-self-center"></i>
                         </div>
                         <div class="col-10 d-flex flex-column">
                             <h5 class="card-title">Meine vierte</h5>
                             <h6 class="card-subtitle text-muted d-flex">
-                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <i class="fa fa-clock-o"></i>
                                 <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
                             </h6>
                         </div>
@@ -155,13 +156,13 @@
             <div class="card card-hover w-100 border-success mb-1">
                 <div class="card-body p-3">
                     <div class="row no-gutters">
-                        <div class="col-2 pr-2">
-                            <img class="card-img" th:src="@{icons/open.svg}" width="52" height="52" alt="hourglass">
+                        <div class="col-2 pr-2 justify-content-center d-flex">
+                            <i class="fa fa-hourglass fa-2x align-self-center"></i>
                         </div>
                         <div class="col-10 d-flex flex-column">
                             <h5 class="card-title">Terminabstimmung 1</h5>
                             <h6 class="card-subtitle text-muted d-flex">
-                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <i class="fa fa-clock-o"></i>
                                 <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
                             </h6>
                         </div>
@@ -173,13 +174,13 @@
             <div class="card card-hover w-100 border-success mb-1">
                 <div class="card-body p-3">
                     <div class="row no-gutters">
-                        <div class="col-2 pr-2">
-                            <img class="card-img" th:src="@{icons/current.svg}" width="52" height="52" alt="hourglass">
+                        <div class="col-2 pr-2 justify-content-center d-flex">
+                            <i class="fa fa-check fa-2x align-self-center"></i>
                         </div>
                         <div class="col-10 d-flex flex-column">
                             <h5 class="card-title">Terminabstimmung 2</h5>
                             <h6 class="card-subtitle text-muted d-flex">
-                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <i class="fa fa-clock-o"></i>
                                 <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
                             </h6>
                         </div>
@@ -191,13 +192,13 @@
             <div class="card card-hover bg-light w-100 border-dark mb-1">
                 <div class="card-body p-3">
                     <div class="row no-gutters">
-                        <div class="col-2 pr-2">
-                            <img class="card-img" th:src="@{icons/terminated.svg}" width="52" height="52" alt="hourglass">
+                        <div class="col-2 justify-content-center d-flex pr-2">
+                            <i class="fa fa-eye fa-2x align-self-center"></i>
                         </div>
                         <div class="col-10 d-flex flex-column">
                             <h5 class="card-title">Terminabstimmung 3</h5>
                             <h6 class="card-subtitle text-muted d-flex">
-                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <i class="fa fa-clock-o"></i>
                                 <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
                             </h6>
                         </div>
@@ -209,13 +210,13 @@
             <div class="card card-hover w-100 border-success mb-1">
                 <div class="card-body p-3">
                     <div class="row no-gutters">
-                        <div class="col-2 pr-2">
-                            <img class="card-img" th:src="@{icons/reopened.svg}" width="52" height="52" alt="hourglass">
+                        <div class="col-2 pr-2 justify-content-center d-flex">
+                            <i class="fa fa-exclamation fa-2x align-self-center"></i>
                         </div>
                         <div class="col-10 d-flex flex-column">
                             <h5 class="card-title">Terminabstimmung 4</h5>
                             <h6 class="card-subtitle text-muted d-flex">
-                                <img class="flex-shrink-1 text-muted" th:src="@{icons/access_time.svg}" width="20" height="20" alt="verfügbar bis">
+                                <i class="fa fa-clock-o"></i>
                                 <span class="pl-1">04.03.2020</span><span class="pl-2">08:00 Uhr</span>
                             </h6>
                         </div>

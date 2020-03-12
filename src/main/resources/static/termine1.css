@@ -2,11 +2,6 @@
     width: 100px
 }
 
-.removeOptionBtn {
-    width: 37px;
-    height: 37px
-}
-
 .border-success.card-hover:hover {
     transition: background-color 0.3s ease;
     background-color: rgba(92, 184, 92, 0.5);
