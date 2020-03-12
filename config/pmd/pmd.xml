@@ -15,6 +15,8 @@
 
     </rule>
     <rule ref="category/java/codestyle.xml">
+        <exclude name="LongVariable"/>
+        <exclude name="ShortVariable"/>
         <!-- schon in Checkstyle -->
         <exclude name="MethodArgumentCouldBeFinal"/>
     </rule>
@@ -22,6 +24,7 @@
 
     </rule>
     <rule ref="category/java/documentation.xml">
+        <exclude name="CommentRequired"/>
         <!-- schon in Checkstyle -->
         <exclude name="CommentSize"/>
     </rule>
