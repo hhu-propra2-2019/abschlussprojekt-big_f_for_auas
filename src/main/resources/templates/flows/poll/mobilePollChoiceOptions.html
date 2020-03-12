@@ -5,15 +5,9 @@
     <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
-        <!-- Links, Skripts, Styles hier einfügen! -->
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script>
-            function addChoiceOption(){
-                $('#terminChoiceOptions').append(`            <div class="form-group">
-                <input class="form-control" type="date">
-            </div>`)
-            }
-        </script>
+        <link rel="stylesheet" th:href="@{/termine1.css}">
+        <script type="text/javascript" th:src="@{/choiceOptions.js}"></script>
     </th:block>
 </head>
 <body>
@@ -25,18 +19,7 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Auswahlmöglichkeiten')"></div>
-        <form th:action method="post" id="terminChoiceOptions">
-            <div class="form-group">
-                <input class="form-control" type="date">
-                <button name="addOption" class="btn btn-primary" onclick="addChoiceOption()"><img th:src="@{icons/plus.svg}" width="30" height="30" class="d-inline-block align-top" alt=""></button>
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="date">
-            </div>
-
-            <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right mt-5">Weiter</button>
-            <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
-        </form>
+        <form th:replace="fragments/choiceOptions.html :: pollForm"></form>
     </div>
 </main>
 </body>
