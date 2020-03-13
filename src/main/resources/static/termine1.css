@@ -28,21 +28,21 @@
         transform: rotate(-90deg);
     }
 
-    .desktopConfirmation {
+    .desktopConfirmation, .desktopResults {
         display: none;
     }
 
-    .mobileConfirmation {
+    .mobileConfirmation, .mobileResults {
         display: block;
     }
 }
 
 @media only screen and (min-width: 991px){
-    .desktopConfirmation {
+    .desktopConfirmation, .desktopResults {
         display: block;
     }
 
-    .mobileConfirmation {
+    .mobileConfirmation, .mobileResults {
         display: none;
     }
 }
