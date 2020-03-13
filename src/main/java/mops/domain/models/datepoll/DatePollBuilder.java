@@ -49,6 +49,10 @@ public class DatePollBuilder {
         return result;
     }
 
+    /*
+     * hier liegt keine LawOfDemeter violation vor.
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     private <T extends ValidateAble> void validationProcessAndValidationHandling(
             T validateAble, Consumer<T> applyToValidated, DatePollFields addToFieldsAfterSuccessfulValidation) {
         validationProcess(validateAble).ifPresent(validated -> {
@@ -57,6 +61,10 @@ public class DatePollBuilder {
         });
     }
 
+    /*
+     * streams stellen keine LawOfDemeter violation dar
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     private <T extends ValidateAble> List<T> validateAllAndGetCorrect(List<T> mappedOptions) {
         return mappedOptions.stream()
                 .map(this::validationProcess)
@@ -111,7 +119,7 @@ public class DatePollBuilder {
      * @return Referenz auf diesen DatePollBuilder.
      */
     public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
-        this.pollOptionTargets.addAll(validateAllAndGetCorrect(
+        pollOptionTargets.addAll(validateAllAndGetCorrect(
                 datePollOptionsDtos.stream()
                         .map(dto -> new DatePollOption(dto.getStartDate(), dto.getEndDate()))
                         .collect(Collectors.toList())
@@ -155,7 +163,7 @@ public class DatePollBuilder {
      * @return Ein DatePoll Objekt in einem validen State.
      */
     public DatePoll build() {
-        if (validationState.hasNoErrors() && EnumSet.allOf(DatePollFields.class).equals(validatedFields)) {
+        if (validationState.hasNoErrors() && validatedFields.equals(EnumSet.allOf(DatePollFields.class))) {
             return new DatePoll(
                     new PollRecordAndStatus(),
                     metaInfTarget, pollCreatorTarget, configTarget,
