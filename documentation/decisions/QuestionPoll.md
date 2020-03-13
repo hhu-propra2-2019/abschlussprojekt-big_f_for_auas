@@ -14,7 +14,7 @@ Ziel der Abstimmung ist es den Studenten eine Möglichkeit zu geben schnell und 
 Eine Question Poll kann mehrere, aber mindestens 2, Einträge zur Auswahl haben.
 Ein Nutzer kann beim Abstimmen entweder nur einen Eintrag (*single-choice*) oder mehrere
 Einträge (multi-choice) auswählen. Der Nutzer kann seine Stimme nur einmal abgeben und nicht mehr im Nachhinein ändern.
-Die Question Poll soll nicht zur Konsesbildung dienen, wie die Terminfindung, sondern eine Platform bieten, welche Meinungspluralität der Nutzer darzustellt.
+Die Question Poll soll nicht zur Konsesbildung dienen, wie die Terminfindung, sondern eine Plattform bieten, welche Meinungspluralität der Nutzer darstellt.
 Ein Eintrag besteht aus einem angemessen kurzen Text.
 
 Bei einer Question Poll ist es nur für eine begrenzte Zeit möglich abzustimmen. Danach ist es nur noch möglich das finale Resultat der Question Poll zu betrachten, bevor die Question Poll schließlich gelöscht wird.
