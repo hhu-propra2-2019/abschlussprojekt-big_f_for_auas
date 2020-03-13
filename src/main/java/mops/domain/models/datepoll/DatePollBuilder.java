@@ -38,7 +38,7 @@ public class DatePollBuilder {
      * und wir wollen die Validierungsauswerdung in einem Validierungsobjekt Kapseln, so haben die ValidierungsObkete
      * weniger Responsebilitys
      */
-    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.LawOfDemeter"})//NOPMD
     private <T extends ValidateAble> Optional<T> validationProcess(T validateAble) {
         final Validation newValidation = validateAble.validate();
         validationState.appendValidation(newValidation);
@@ -179,7 +179,7 @@ public class DatePollBuilder {
         }
     }
 
-    private enum DatePollFields {
+    enum DatePollFields {
         DATE_POLL_CONFIG, DATE_POLL_LINK, DATE_POLL_META_INF, DATE_POLL_OPTIONS, CREATOR, PARTICIPANTS
     }
 
