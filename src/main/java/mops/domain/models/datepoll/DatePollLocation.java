@@ -1,9 +1,11 @@
 package mops.domain.models.datepoll;
 
+import lombok.Value;
 import mops.controllers.dtos.InputFieldNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
+@Value
 public class DatePollLocation implements ValidateAble {
     //Shall we define standard rules for description / location strings?
     private String location;

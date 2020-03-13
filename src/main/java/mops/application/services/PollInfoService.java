@@ -2,7 +2,9 @@ package mops.application.services;
 
 import lombok.NoArgsConstructor;
 import mops.controllers.dtos.DashboardListItemDto;
+import mops.controllers.dtos.DatePollDto;
 import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollLink;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import mops.domain.repositories.UserRepository;
@@ -32,10 +34,26 @@ public class PollInfoService {
             final DashboardListItemDto dashboardListItemDto = new DashboardListItemDto();
             dashboardListItemDto.setTitle(datePoll.getDatePollMetaInf().getTitle());
             dashboardListItemDto.setEndDate(datePoll.getDatePollMetaInf().getDatePollLifeCycle().getEndDate());
-            dashboardListItemDto.setStatus(datePoll.getUserStatus(userRepository.getUserById(userId)));
+            dashboardListItemDto.setStatus(datePoll.getUserStatus(userRepository.getUserById(userId)).getIconName());
             dashboardListItemDto.setDatePollIdentifier(datePoll.getDatePollLink().getDatePollIdentifier());
             dashboardListItemDtos.add(dashboardListItemDto);
         }
         return dashboardListItemDtos;
     }
+
+    // Hier evtl. noch check einfügen, ob User berechtigt ist, diese Abstimmung zu sehen?
+    // oder woanders? noch wird es jedenfalls ->nicht<- geprüft!!
+    public DatePollDto datePollViewService(UserId userId, DatePollLink datePollLink) {
+        final DatePoll datePoll = datePollRepository.getDatePollByLink(datePollLink);
+        final DatePollDto datePollDto = new DatePollDto();
+        datePollDto.setDescription(datePoll.getDatePollMetaInf().getDatePollDescription().getDescription());
+        datePollDto.setEndDate(datePoll.getDatePollMetaInf().getDatePollLifeCycle().getEndDate());
+        datePollDto.setLocation(datePoll.getDatePollMetaInf().getDatePollLocation().getLocation());
+        datePollDto.setPollStatus(datePoll.getUserStatus(userRepository.getUserById(userId)).getIconName());
+        datePollDto.setTitle(datePoll.getDatePollMetaInf().getTitle());
+
+        return datePollDto;
+    }
+
+
 }
