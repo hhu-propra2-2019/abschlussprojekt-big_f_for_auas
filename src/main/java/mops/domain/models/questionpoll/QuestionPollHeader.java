@@ -1,8 +1,9 @@
 package mops.domain.models.questionpoll;
 
 import lombok.NonNull;
+import mops.domain.models.ValidateAble;
 
-public class QuestionPollHeader {
+public class QuestionPollHeader implements ValidateAble {
 
   @NonNull
   private final String title;
