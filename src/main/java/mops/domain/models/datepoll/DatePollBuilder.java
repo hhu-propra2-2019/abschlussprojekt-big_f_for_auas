@@ -36,7 +36,7 @@ public class DatePollBuilder {
      * dataflowAnomaly sollte nicht auftreten,
      * LawOfDemeter violation ist akzeptabel, denn die Validierung muss auf dem validateable Objekt aufgerufen werden
      * und wir wollen die Validierungsauswerdung in einem Validierungsobjekt Kapseln, so haben die ValidierungsObkete
-     * weniger Responsebilitys
+     * weniger Responsebilities
      */
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.LawOfDemeter"})//NOPMD
     private <T extends ValidateAble> Optional<T> validationProcess(T validateAble) {
