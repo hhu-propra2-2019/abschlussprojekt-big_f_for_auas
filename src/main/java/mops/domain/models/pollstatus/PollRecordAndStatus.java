@@ -18,7 +18,6 @@ import java.util.Hashtable;
  *
  *  Mit User sind User*innen jedweden Geschlechts gemeint.
  */
-
 public final class PollRecordAndStatus {
 
     @Getter
