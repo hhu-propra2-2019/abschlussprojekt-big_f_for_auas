@@ -20,6 +20,7 @@ public class DatePollLink implements ValidateAble {
      * ...
      * @return ...
      */
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();
