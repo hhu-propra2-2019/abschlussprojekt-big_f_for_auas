@@ -1,9 +1,11 @@
 package mops.domain.models.questionpoll;
 
 import lombok.NonNull;
+import lombok.Value;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
+@Value
 public class QuestionPollHeader implements ValidateAble {
 
   @NonNull
