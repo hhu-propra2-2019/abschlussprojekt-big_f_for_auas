@@ -40,7 +40,7 @@ public class DatePollCreateServiceTest {
     @Test
     public void test_datePollBuildInitialisation() {
         //Set data
-        UserId creatorUsr = new UserId();
+        final UserId creatorUsr = new UserId();
         //Submit function
         DatePollBuilderAndView secondTestDatePollBuilderAndView = datePollCreateService.initializeDatePoll(creatorUsr);
         //Test if fields are set
