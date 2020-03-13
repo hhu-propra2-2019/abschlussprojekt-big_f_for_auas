@@ -118,6 +118,10 @@ public class DatePollBuilder {
      * @param datePollOptionsDtos Vorschläge die zu dieser Terminfindung hinzugefügt werden sollen.
      * @return Referenz auf diesen DatePollBuilder.
      */
+    /*
+     * kann keine violation feststellen.
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
         pollOptionTargets.addAll(validateAllAndGetCorrect(
                 datePollOptionsDtos.stream()
@@ -129,6 +133,7 @@ public class DatePollBuilder {
         }
         return this;
     }
+
 
     /**
      * Fügt alle validierte User der Teilnehmerliste hinzu.
