@@ -3,10 +3,13 @@ package mops.domain.models.datepoll;
 import org.junit.jupiter.api.BeforeEach;
 
 public class DatePollBuilderTest {
-    DatePollBuilder datePollTestBuilder;
+    private DatePollBuilder datePollTestBuilder;
 
+    /**
+     * Generiere fuer jeden Test eine neue Builder-Instanz.
+     */
     @BeforeEach
-    public void setDatePollTestBuilder(){
+    public void setDatePollTestBuilder() {
         this.datePollTestBuilder = new DatePollBuilder();
     }
 
