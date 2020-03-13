@@ -3,6 +3,7 @@ package mops.domain.models.questionpoll;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -14,36 +15,35 @@ import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
 
+@SuppressWarnings({"PMD.TooManyMethods"})
 public class QuestionPollBuilder {
 
-    private UserId ownerTarget;
-    private QuestionPollLink linkTarget;
-    private QuestionPollConfig configTarget;
-    private QuestionPollHeader headerTarget;
-    private QuestionPollLifecycle lifecycleTarget;
-    private List<QuestionPollEntry> entriesTarget;
-    private Set<UserId> participants;
-    private boolean accessRestriction;
+    private transient UserId ownerTarget;
+    private transient QuestionPollLink linkTarget;
+    private transient QuestionPollConfig configTarget;
+    private transient QuestionPollHeader headerTarget;
+    private transient QuestionPollLifecycle lifecycleTarget;
+    private final transient List<QuestionPollEntry> entriesTarget = new ArrayList<>();
+    private final transient Set<UserId> participants = new HashSet<>();
+    private transient boolean accessRestriction;
 
     @Getter
-    private Validation validationState;
-    private EnumSet<QuestionPollFields> validatedFields = EnumSet.noneOf(QuestionPollFields.class);
-    private final static String INVALID_BUILDER_STATE = "COULD NOT CREATE QUESTION POLL";
+    private final Validation validationState;
+    private final transient EnumSet<QuestionPollFields> validatedFields = EnumSet.noneOf(QuestionPollFields.class);
+    private static final String INVALID_BUILDER_STATE = "COULD NOT CREATE QUESTION POLL";
 
     public QuestionPollBuilder() {
         this.validationState = Validation.noErrors();
     }
 
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     private <T extends ValidateAble> Optional<T> validationProcess(T validateAble) {
-        Validation newValidation = validateAble.validate();
+        final Validation newValidation = validateAble.validate();
         validationState.appendValidation(newValidation);
-        if (newValidation.hasNoErrors()) {
-            return Optional.of(validateAble);
-        } else {
-            return Optional.empty();
-        }
+        return newValidation.hasNoErrors() ? Optional.of(validateAble) : Optional.empty();
     }
 
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     private <T extends ValidateAble> void validationProcessAndValidationHandling(
         T validateAble, Consumer<T> applyToValidated, QuestionPollFields addToFieldsAfterSuccessfulValidation) {
         validationProcess(validateAble).ifPresent(validated -> {
@@ -52,6 +52,7 @@ public class QuestionPollBuilder {
         });
     }
 
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     private <T extends ValidateAble> List<T> validateAllAndGetCorrect(List<T> mappedOptions) {
         return mappedOptions.stream()
             .map(this::validationProcess)
@@ -68,7 +69,8 @@ public class QuestionPollBuilder {
      */
     public QuestionPollBuilder questionPollHeader(QuestionPollHeader questionPollHeader) {
         validationProcessAndValidationHandling(
-            questionPollHeader, header -> this.headerTarget = header, QuestionPollFields.QUESTION_POLL_HEADER
+            questionPollHeader, header -> this.headerTarget = header,
+            QuestionPollFields.QUESTION_POLL_HEADER
         );
         return this;
     }
@@ -81,7 +83,8 @@ public class QuestionPollBuilder {
      */
     public QuestionPollBuilder owner(UserId owner) {
         validationProcessAndValidationHandling(
-            owner, id -> this.ownerTarget = id, QuestionPollFields.OWNER
+            owner, id -> this.ownerTarget = id,
+            QuestionPollFields.OWNER
         );
         return this;
     }
@@ -93,7 +96,8 @@ public class QuestionPollBuilder {
      */
     public QuestionPollBuilder questionPollConfig(QuestionPollConfig questionPollConfig) {
         validationProcessAndValidationHandling(
-            questionPollConfig, config -> this.configTarget = config, QuestionPollFields.QUESTION_POLL_CONFIG
+            questionPollConfig, config -> this.configTarget = config,
+            QuestionPollFields.QUESTION_POLL_CONFIG
         );
         return this;
     }
@@ -118,7 +122,7 @@ public class QuestionPollBuilder {
      * @param participants Teilnehmer die zu dieser Terminfindung hinzugefügt werden sollen.
      * @return Referenz auf diesen QuestionPollBuilder.
      */
-    public QuestionPollBuilder participants(List<UserId> participants) {
+    public QuestionPollBuilder questionPollParticipants(List<UserId> participants) {
         this.participants.addAll(validateAllAndGetCorrect(participants));
         if (!this.participants.isEmpty()) {
             validatedFields.add(QuestionPollFields.PARTICIPANTS);
@@ -144,7 +148,8 @@ public class QuestionPollBuilder {
      */
     public QuestionPollBuilder questionPollLink(QuestionPollLink questionPollLink) {
         validationProcessAndValidationHandling(
-            questionPollLink, link -> this.linkTarget = link, QuestionPollFields.QUESTION_POLL_LINK
+            questionPollLink, link -> this.linkTarget = link,
+            QuestionPollFields.QUESTION_POLL_LINK
         );
         return this;
     }
@@ -154,21 +159,23 @@ public class QuestionPollBuilder {
      * @param questionPollLifecycle
      * @return Referenz auf diesen QuestionPollBuilder.
      */
-    public QuestionPollBuilder lifecycle(QuestionPollLifecycle questionPollLifecycle) {
+    public QuestionPollBuilder questionPollLifecycle(QuestionPollLifecycle questionPollLifecycle) {
         validationProcessAndValidationHandling(
-            questionPollLifecycle, lifecycle -> this.lifecycleTarget = lifecycle, QuestionPollFields.QUESTION_POLL_LIFECYCLE
+            questionPollLifecycle, lifecycle -> this.lifecycleTarget = lifecycle,
+            QuestionPollFields.QUESTION_POLL_LIFECYCLE
         );
         return this;
     }
 
     /**
-     * Baut den QuestionPoll wenn alle Konstruktionsschritte zumindest ein Mal korrekt die Validierung korrekt durchlaufen haben.
+     * Baut den QuestionPoll wenn alle Konstruktionsschritte zumindest
+     * ein Mal korrekt die Validierung korrekt durchlaufen haben.
      *
      * @return der erstellte QuestionPoll
      * @throws IllegalStateException
      */
-    public QuestionPoll build() throws IllegalStateException {
-        if (validationState.hasNoErrors() && EnumSet.allOf(QuestionPollFields.class).equals(validatedFields)) {
+    public QuestionPoll build() {
+        if (validationState.hasNoErrors() && validatedFields.equals(EnumSet.allOf(QuestionPollFields.class))) {
             return new QuestionPoll(
                 linkTarget,
                 Collections.unmodifiableList(entriesTarget),
@@ -185,6 +192,7 @@ public class QuestionPollBuilder {
     }
 
     private enum QuestionPollFields {
-        QUESTION_POLL_CONFIG, QUESTION_POLL_LINK, QUESTION_POLL_LIFECYCLE, QUESTION_POLL_HEADER, QUESTION_POLL_ENTRY, OWNER, PARTICIPANTS
+        QUESTION_POLL_CONFIG, QUESTION_POLL_LINK, QUESTION_POLL_LIFECYCLE,
+        QUESTION_POLL_HEADER, QUESTION_POLL_ENTRY, OWNER, PARTICIPANTS
     }
 }
