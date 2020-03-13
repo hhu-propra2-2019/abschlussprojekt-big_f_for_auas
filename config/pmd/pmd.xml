@@ -19,6 +19,7 @@
         <exclude name="ShortVariable"/>
         <!-- schon in Checkstyle -->
         <exclude name="MethodArgumentCouldBeFinal"/>
+        <exclude name="ShortClassName"/>
     </rule>
     <rule ref="category/java/design.xml">
 

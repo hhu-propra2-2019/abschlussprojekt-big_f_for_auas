@@ -1,5 +1,6 @@
 package mops.application.services;
 
+import lombok.NoArgsConstructor;
 import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
@@ -18,6 +19,7 @@ import java.util.List;
  * @author Niclas, Tim, Lukas
  */
 @Service
+@NoArgsConstructor // PMD zuliebe
 public class DatePollCreateService {
     /**
      * Initiale Methode zur Erstellung der Terminfindung.

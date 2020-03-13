@@ -2,7 +2,21 @@
     width: 100px
 }
 
-.removeOptionBtn {
-    width: 37px;
-    height: 37px
+.optionTime {
+    max-width: 29%;
+}
+
+.border-success.card-hover:hover {
+    transition: background-color 0.3s ease;
+    background-color: rgba(92, 184, 92, 0.5);
+}
+
+.card-hover:hover span, .card-hover:hover h5, .card-hover:hover i {
+    transition: color 0.3s ease;
+    color: #fff;
+}
+
+.border-dark.card-hover:hover {
+    transition: background-color 0.3s ease;
+    background-color: rgba(52, 58, 64, 0.5)!important;
 }

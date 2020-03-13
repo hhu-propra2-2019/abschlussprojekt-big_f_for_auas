@@ -1,6 +1,7 @@
 package mops.application.services;
 
 
+import lombok.NoArgsConstructor;
 import mops.controllers.dtos.QuestionPollAccessibilityDto;
 import mops.domain.models.questionpoll.QuestionPollFactory;
 import mops.domain.models.questionpoll.QuestionPollLink;
@@ -9,9 +10,10 @@ import mops.domain.models.user.UserId;
 import org.springframework.stereotype.Service;
 
 @Service
+@NoArgsConstructor // PMD zuliebe
 public class QuestionPollSyndicationService {
 
-    private QuestionPollRepositoryInterface questionPollRepo;
+    private transient QuestionPollRepositoryInterface questionPollRepo;
 
     /** Schließt den Factory Prozess ab und speichert den generierte QuestionPolll ab.
      * Gibt generierte Url zurück
@@ -19,8 +21,7 @@ public class QuestionPollSyndicationService {
      * @return QuestionPollLink
      */
     public QuestionPollLink publishQuestionPoll(final QuestionPollFactory factory) {
-        QuestionPollLink  questionPollLink  = questionPollRepo.save(factory.build());
-        return questionPollLink;
+        return questionPollRepo.save(factory.build());
     }
 
     /**

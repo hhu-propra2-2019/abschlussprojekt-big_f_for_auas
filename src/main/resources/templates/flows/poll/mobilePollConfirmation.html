@@ -16,25 +16,7 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Übersicht')"></div>
-
-        <ul>
-            <li>Name</li>
-            <li>Beschreibung (optional)</li>
-            <li>Ort (optional)</li>
-            <li>Möglichkeitenanzeige...</li>
-            <li>Name anonym/klartext</li>
-            <li>single/multiple choice</li>
-            <li>-> bei multiple choice: (ja/nein)/(ja/nein/vielleicht)</li>
-            <li>Möglichkeiten hinzufügen? (ja/nein)</li>
-            <li>Start der Abstimmung</li>
-            <li>Ende der Abstimmung</li>
-            <li>Löschung am (?)</li>
-            <li>? Personen/Gruppen anzeigen ?</li>
-        </ul>
-        <form th:action method="post">
-            <button type="submit" name="_eventId_submit"  class="btn btn-primary float-right mt-5">Erstellen</button>
-            <button type="submit" name="_eventId_publication"  class="btn btn-primary float-left mt-5">Zurück</button>
-        </form>
+        <div th:replace="fragments/confirmation.html :: confirmation"></div>
     </div>
 </main>
 </body>

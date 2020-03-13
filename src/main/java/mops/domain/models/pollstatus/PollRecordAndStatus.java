@@ -1,11 +1,13 @@
 package mops.domain.models.pollstatus;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import mops.domain.models.user.User;
 
 import java.time.LocalDateTime;
-import java.util.Hashtable;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Diese Klasse kümmert sich um das Handling des Status einer Abstimmung.
@@ -17,21 +19,25 @@ import java.util.Hashtable;
  *  - TERMINATED: Die Umfrage ist beendet
  *
  *  Mit User sind User*innen jedweden Geschlechts gemeint.
+ *
+ *  Die Klasse wird sowohl an das DatePoll- als auch an das QuestionPoll-Package vererbt.
  */
-public final class PollRecordAndStatus {
+
+@RequiredArgsConstructor
+public class PollRecordAndStatus {
 
     @Getter
     @Setter
     private LocalDateTime lastModified = LocalDateTime.now();
-    private Hashtable<User, PollStatus> votingRecord = new Hashtable<>();
-    private boolean isTerminated = false;
+    private transient Map<User, PollStatus> votingRecord = new ConcurrentHashMap<>();
+    private transient boolean isTerminated;
 
     /**
      * Sobald ein User abgestimmt hat, wird sein Status auf ONGOING gesetzt und bleibt dabei bis zum Ende der Umfrage,
      * es sei denn, die Umfrage wird zwischenzeitlich geändert.
      * @param user  der User, der abgestimmt hat
      */
-    void recordUserVote(User user) {
+    protected void recordUserVote(User user) {
         votingRecord.put(user, PollStatus.ONGOING);
     }
 
@@ -41,18 +47,22 @@ public final class PollRecordAndStatus {
      * @param user  der User, für den der Status abgefragt werden soll
      * @return      der Status (siehe oben)
      */
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public PollStatus getUserStatus(User user) {
+
+        PollStatus status = PollStatus.TERMINATED;
+
         if (!isTerminated) {
-            return votingRecord.getOrDefault(user, PollStatus.OPEN);
+            status =  votingRecord.getOrDefault(user, PollStatus.OPEN);
         }
-        return PollStatus.TERMINATED;
+        return status;
     }
 
     /**
      * Alle User in der Hashtable haben entweder den Status ONGOING oder REOPENED. Deshalb wird, wenn die Umfrage
      * modifiziert wurde, für alle User der Status auf REOPENED gesetzt.
      */
-    void pollHasBeenModified() {
+    protected void markPollAsModified() {
         lastModified = LocalDateTime.now();
         votingRecord.forEach((user, status) -> votingRecord.put(user, PollStatus.REOPENED));
     }
@@ -61,7 +71,7 @@ public final class PollRecordAndStatus {
      * Mit dieser Implementierung muss terminatePoll() von extern aufgerufen werden, sobald das Enddatum der Umfrage
      * abgelaufen ist. Man könnte den Wert auch bei jedem Zugriff auf das Aggregat aktualisieren.
      */
-    void terminatePoll() {
+    protected void terminatePoll() {
         isTerminated = true;
     }
 
@@ -69,7 +79,7 @@ public final class PollRecordAndStatus {
      * Der andere Ansatz, wie oben geschildert. Muss zuerst aufgerufen werden, wenn auf das Aggregat zugegriffen wird.
      * @param endDate   Das Datum, an dem die Umfrage endet
      */
-    void updatePollStatus(LocalDateTime endDate) {
+    protected void updatePollStatus(LocalDateTime endDate) {
         if (endDate.isBefore(LocalDateTime.now())) {
             isTerminated = true;
         }

@@ -16,31 +16,31 @@
                 Bitte gib einen Fragestellung ein.
             </div>
         </div>
-        <ol id="scheduleOptionList">
+        <ol id="scheduleOptionList" class="pl-4">
             <li>
-                <div class="form-group row">
+                <div class="form-group">
                     <div class="input-group">
-                        <input name="dateOption" class="form-control col ml-5" type="date">
-                        <input class="form-control col" type="time" value="12:00">
-                        <div class="col-1 mr-3">
-                            <button type="button" name="removeOption" class="btn btn-danger removeOptionBtn" onclick="removeChoiceOption(this)">-</button>
+                        <input name="dateOption" class="form-control ml-4" type="date" required>
+                        <input class="form-control optionTime" type="time" value="12:00" required>
+                        <div class="input-group-append">
+                            <button type="button" name="removeOption" class="btn btn-danger" onclick="removeChoiceOption(this)"><i class="fa fa-minus"></i></button>
                         </div>
                     </div>
                 </div>
             </li>
             <li>
-                <div class="form-group row">
+                <div class="form-group">
                     <div class="input-group">
-                        <input name="dateOption" class="form-control col ml-5" type="date">
-                        <input class="form-control col" type="time" value="12:00">
-                        <div class="col-1 mr-3">
-                            <button type="button" name="removeOption" class="btn btn-danger removeOptionBtn" onclick="removeChoiceOption(this)">-</button>
+                        <input name="dateOption" class="form-control ml-4" type="date" required>
+                        <input class="form-control optionTime" type="time" value="12:00" required>
+                        <div class="input-group-append">
+                            <button type="button" name="removeOption" class="btn btn-danger" onclick="removeChoiceOption(this)"><i class="fa fa-minus"></i></button>
                         </div>
                     </div>
                 </div>
             </li>
         </ol>
-        <button type="button" name="addOption" class="btn btn-primary mx-auto d-block addOptionBtn" onclick="addSchedulingChoiceOption()">+</button>
+        <button type="button" name="addOption" class="btn btn-primary mx-auto d-block addOptionBtn" onclick="addSchedulingChoiceOption()"><i class="fa fa-plus"></i></button>
 
         <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right mt-5">Weiter</button>
         <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
@@ -52,26 +52,29 @@
                 Bitte gib einen Fragestellung ein.
             </div>
         </div>
-        <ol id="pollOptionList">
+        <ol id="pollOptionList" class="pl-4">
             <li>
-                <div class="form-group row">
-                    <input name="pollOption" class="form-control col ml-5" type="text" placeholder="Möglichkeit eingeben">
-                    <div class="col-1 mr-3">
-                        <button type="button" name="removeOption" class="btn btn-danger removeOptionBtn" onclick="removeChoiceOption(this)">-</button>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input name="pollOption" class="form-control ml-4" type="text" placeholder="Möglichkeit eingeben" required>
+                        <div class="input-group-append">
+                            <button type="button" name="removeOption" class="btn btn-danger" onclick="removeChoiceOption(this)"><i class="fa fa-minus"></i></button>
+                        </div>
                     </div>
                 </div>
             </li>
             <li>
-                <div class="form-group row">
-                    <input name="pollOption" class="form-control col ml-5" type="text" placeholder="Möglichkeit eingeben">
-                    <div class="col-1 mr-3">
-                        <button type="button" name="removeOption" class="btn btn-danger removeOptionBtn" onclick="removeChoiceOption(this)">-</button>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input name="pollOption" class="form-control ml-4" type="text" placeholder="Möglichkeit eingeben" required>
+                        <div class="input-group-append">
+                            <button type="button" name="removeOption" class="btn btn-danger" onclick="removeChoiceOption(this)"><i class="fa fa-minus"></i></button>
+                        </div>
                     </div>
                 </div>
             </li>
         </ol>
-        <button type="button" name="addOption" class="btn btn-primary mx-auto d-block addOptionBtn" onclick="addPollChoiceOption()">+</button>
-
+        <button type="button" name="addOption" class="btn btn-primary mx-auto d-block addOptionBtn" onclick="addPollChoiceOption()"><i class="fa fa-plus"></i></button>
         <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right mt-5">Weiter</button>
         <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
     </form>
