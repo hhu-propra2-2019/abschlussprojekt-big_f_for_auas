@@ -10,8 +10,8 @@ public class DatePollLocation implements ValidateAble {
     //Shall we define standard rules for description / location strings?
     private transient String location;
     //Do we realy need longitude and latitude attributes for a location?
-    private int longitude;
-    private int latitude;
+    //private int longitude;
+    //private int latitude;
 
     /**
      * ...
