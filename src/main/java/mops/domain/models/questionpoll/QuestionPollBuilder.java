@@ -110,7 +110,7 @@ public class QuestionPollBuilder {
      */
     public QuestionPollBuilder questionPollEntries(List<QuestionPollEntry> questionPollEntries) {
         this.entriesTarget.addAll(validateAllAndGetCorrect(questionPollEntries));
-        if (!questionPollEntries.isEmpty()) {
+        if (this.entriesTarget.size() >= 2) {
             validatedFields.add(QuestionPollFields.QUESTION_POLL_ENTRY);
         }
         return this;
