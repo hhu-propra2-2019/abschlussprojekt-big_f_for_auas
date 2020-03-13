@@ -8,7 +8,4 @@ public interface ValidateAble {
      */
     Validation validate();
 
-    default boolean hasNoErrors() {
-        return validate().hasNoErrors();
-    }
 }

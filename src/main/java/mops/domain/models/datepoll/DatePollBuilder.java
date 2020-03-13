@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-
 public class DatePollBuilder {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
@@ -33,12 +32,18 @@ public class DatePollBuilder {
         validationState = Validation.noErrors();
     }
 
-    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
+    /*
+     * dataflowAnomaly sollte nicht auftreten,
+     * LawOfDemeter violation ist akzeptabel, denn die Validierung muss auf dem validateable Objekt aufgerufen werden
+     * und wir wollen die Validierungsauswerdung in einem Validierungsobjekt Kapseln, so haben die ValidierungsObkete
+     * weniger Responsebilitys
+     */
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.LawOfDemeter"})
     private <T extends ValidateAble> Optional<T> validationProcess(T validateAble) {
         final Validation newValidation = validateAble.validate();
         validationState.appendValidation(newValidation);
         Optional<T> result = Optional.empty();
-        if (validateAble.hasNoErrors()) {
+        if (newValidation.hasNoErrors()) {
             result = Optional.of(validateAble);
         }
         return result;
