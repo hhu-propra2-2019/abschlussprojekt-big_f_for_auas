@@ -10,7 +10,7 @@
 <body>
     <form th:action method="post" th:fragment="form">
         <div class="choice-amount form-group">
-            <h4>Anzahl Auswahlmöglichkeiten</h4>
+            <label>Anzahl Auswahlmöglichkeiten</label>
             <div class="form-check">
                 <input class="form-check-input" name="choice-amount" type="radio" value="single-choice" onchange="showPriorities()" checked>
                 <label class="form-check-label">
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <hr>
-            <h4>Stimmabgabe</h4>
+            <label>Stimmabgabe</label>
             <div class="form-check">
                 <input class="form-check-input" name="choice-mutable" type="checkbox" onchange="showMutable()">
                 <label class="form-check-label">
@@ -52,7 +52,7 @@
                 </label>
             </div>
             <hr>
-            <h4>Namensanzeige</h4>
+            <label>Namensanzeige</label>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox">
                 <label class="form-check-label">
