@@ -2,6 +2,7 @@ package mops.domain.models.questionpoll;
 
 import lombok.NonNull;
 import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
 
 public class QuestionPollHeader implements ValidateAble {
 
@@ -27,5 +28,10 @@ public class QuestionPollHeader implements ValidateAble {
     } else {
       this.description = description;
     }
+  }
+
+  @Override
+  public Validation validate() {
+    return Validation.noErrors();
   }
 }
