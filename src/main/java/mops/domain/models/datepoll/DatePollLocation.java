@@ -1,12 +1,14 @@
 package mops.domain.models.datepoll;
 
+import lombok.Value;
 import mops.controllers.dtos.InputFieldNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
+@Value
 public class DatePollLocation implements ValidateAble {
     //Shall we define standard rules for description / location strings?
-    private String location;
+    private transient String location;
     //Do we realy need longitude and latitude attributes for a location?
     private int longitude;
     private int latitude;
@@ -15,6 +17,7 @@ public class DatePollLocation implements ValidateAble {
      * ...
      * @return
      */
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();
