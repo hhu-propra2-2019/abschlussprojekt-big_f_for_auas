@@ -19,4 +19,7 @@ public class QuestionPoll {
     private final QuestionPollConfig config;
     private final QuestionPollAccessibility accessor;
 
+    public static QuestionPollBuilder builder() {
+        return new QuestionPollBuilder();
+    }
 }
