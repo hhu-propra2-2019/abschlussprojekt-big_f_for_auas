@@ -22,4 +22,5 @@ public class QuestionPoll {
     public static QuestionPollBuilder builder() {
         return new QuestionPollBuilder();
     }
+
 }
