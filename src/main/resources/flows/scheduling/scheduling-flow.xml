@@ -9,13 +9,12 @@
     <input name="userId" type="mops.domain.models.user.UserId" required="true" />
 
     <on-start>
-        <evaluate expression="datePollCreateService.newDatePoll()" result="flowScope.datePoll"/>
-        <evaluate expression="new mops.domain.models.datepoll.DatePollMetaInf()" result="flowScope.datePollMetaInf"/>
-        <evaluate expression="new mops.domain.models.datepoll.DatePollConfig()" result="flowScope.datePollConfig"/>
+        <evaluate expression="new mops.adapters.datepolladapter.dtos.MetaInfDto()" result="flowScope.metaInfDto"/>
+        <evaluate expression="new mops.adapters.datepolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
     </on-start>
 
     <view-state id="mobileSchedulingNameSettings" view="/flows/scheduling/mobileSchedulingNameSettings"
-                model="datePollMetaInf">
+                model="metaInfDto">
 
         <binder>
             <binding property="title"/>
@@ -24,23 +23,29 @@
         </binder>
 
         <transition on="home" to="home"/>
-        <transition on="access" to="mobileSchedulingAccessSettings"/>
+        <transition on="access" to="mobileSchedulingAccessSettings">
+            <evaluate expression="datePollAdapter.validate(metaInfDto, messageContext)"/>
+        </transition>
     </view-state>
 
     <view-state id="mobileSchedulingAccessSettings" view="/flows/scheduling/mobileSchedulingAccessSettings"
-                model="datePollMetaInf">
+                model="metaInfDto">
 
         <binder>
             <binding property="startDate"/>
+            <binding property="startTime"/>
             <binding property="endDate"/>
+            <binding property="endTime"/>
         </binder>
 
         <transition on="name" to="mobileSchedulingNameSettings"/>
-        <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>
+        <transition on="choicesettings" to="mobileSchedulingChoiceSettings">
+            <evaluate expression="datePollAdapter.validate(metaInfDto, messageContext)"/>
+        </transition>
     </view-state>
 
     <view-state id="mobileSchedulingChoiceSettings" view="flows/scheduling/mobileSchedulingChoiceSettings"
-                model="datePollConfig">
+                model="configDto">
 
         <binder>
             <binding property="priorityChoice"/>
@@ -51,7 +56,9 @@
         </binder>
 
         <transition on="access" to="mobileSchedulingAccessSettings"/>
-        <transition on="choiceoptions" to="mobileSchedulingChoiceOptions"/>
+        <transition on="choiceoptions" to="mobileSchedulingChoiceOptions">
+            <evaluate expression="datePollAdapter.validate(metaInfDto, messageContext)"/>
+        </transition>
     </view-state>
 
     <view-state id="mobileSchedulingChoiceOptions" view="flows/scheduling/mobileSchedulingChoiceOptions">
