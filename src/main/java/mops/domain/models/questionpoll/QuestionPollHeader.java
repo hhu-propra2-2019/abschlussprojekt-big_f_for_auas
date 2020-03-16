@@ -2,103 +2,99 @@ package mops.domain.models.questionpoll;
 
 import lombok.NonNull;
 import lombok.Value;
+import mops.controllers.dtos.InputFieldNames;
 import mops.domain.models.ValidateAble;
-import org.springframework.binding.message.MessageBuilder;
-import org.springframework.binding.message.MessageResolver;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import mops.domain.models.Validation;
 
 @Value
-public class QuestionPollHeader implements Serializable {
+public class QuestionPollHeader implements ValidateAble {
 
-  @NonNull
-  private final String title;
+    @NonNull
+    private final String title;
 
-  @NonNull
-  private final String question;
+    @NonNull
+    private final String question;
 
-  private final String description;
+    private final String description;
 
-  /**
-   * Speichert den Titel, die Frage und die optionale Beschreibung für eine QuestionPoll.
-   * @param title
-   * @param question
-   * @param description
-   */
-  public QuestionPollHeader(final String title, final String question, final String description) {
-    this.title = title;
-    this.question = question;
-    if (description == null) {
-      this.description = "";
-    } else {
-      this.description = description;
-    }
-  }
+    private final int MAX_TITLE_LENGTH;
+    private final int MIN_TITLE_LENGTH;
+    private final int MAX_QUESTION_LENGTH;
+    private final int MIN_QUESTION_LENGTH;
+    private final int MAX_DESCRIPTION_LENGTH;
+    private final int MIN_DESCRIPTION_LENGTH;
 
-  public List<MessageResolver> validate() {
-    List<MessageResolver> messageList = new ArrayList<>();
-    validateTitle()
-            .ifPresent(messageList::add);
-    validateDescription()
-            .ifPresent(messageList::add);
-    validateQuestion()
-            .ifPresent(messageList::add);
-    return messageList;
-  }
+    /**
+     * Speichert den Titel, die Frage und die optionale Beschreibung für eine QuestionPoll.
+     * @param title
+     * @param question
+     * @param description
+     */
+    public QuestionPollHeader(final String title, final String question, final String description) {
+        this.title = title.trim();
+        this.question = question.trim();
+        if (description == null || description.trim().isBlank()) {
+            this.description = "";
+        } else {
+            this.description = description.trim();
+        }
 
-  private Optional<MessageResolver> validateTitle() {
-    if (title.length() > 4) {
-      return Optional.of(
-              new MessageBuilder()
-                      .error()
-                      .source("title")
-                      .defaultText("Titel muss kürzer als 5 Zeichen sein !")
-                      .build());
-    }
-    if (title.length() == 0) {
-      return Optional.of(
-              new MessageBuilder()
-                      .error()
-                      .source("title")
-                      .defaultText("Titel ist ein Pflichtfeld !")
-                      .build());
-    }
-    return Optional.empty();
-  }
-
-  private Optional<MessageResolver> validateDescription() {
-    if (description.length() > 200) {
-      return Optional.of(
-              new MessageBuilder()
-                      .error()
-                      .source("description")
-                      .defaultText("Description muss kürzer als 200 Zeichen sein !")
-                      .build());
-    }
-    return Optional.empty();
-  }
-
-  private Optional<MessageResolver> validateQuestion() {
-    if (question.length() > 30) {
-      return Optional.of(
-              new MessageBuilder()
-                      .error()
-                      .source("question")
-                      .defaultText("Frage muss kürzer als 30 Zeichen sein !")
-                      .build());
+        // Vorläufige Werte.
+        this.MAX_DESCRIPTION_LENGTH = 80;
+        this.MIN_DESCRIPTION_LENGTH = 0;
+        this.MAX_QUESTION_LENGTH = 40;
+        this.MIN_QUESTION_LENGTH = 5;
+        this.MAX_TITLE_LENGTH = 20;
+        this.MIN_TITLE_LENGTH = 5;
     }
 
-    if (question.length() == 0) {
-      return Optional.of(
-              new MessageBuilder()
-                      .error()
-                      .source("question")
-                      .defaultText("Frage ist ein Pflichtfeld !")
-                      .build());
+    @Override
+    public Validation validate() {
+        Validation validator = Validation.noErrors();
+        validateTitle(validator);
+        validateQuestion(validator);
+        validateDescription(validator);
+        return validator;
     }
-    return Optional.empty();
-  }
+
+    private void validateTitle(Validation validator) {
+        if (this.title == null) {
+            validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_TITLE_IS_NULL));
+            return;
+        }
+        if (this.title.isEmpty()) {
+            validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_TITLE_IS_EMPTY));
+        }
+        if (this.title > this.MAX_TITLE_LENGTH) {
+            validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_LONG));
+        }
+        if (this.title < this.MIN_TITLE_LENGTH) {
+            validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_SHORT));
+        }
+    }
+
+    private void validateQuestion(Validation validator) {
+        if (this.question = null) {
+            validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_QUESTION_IS_NULL));
+            return;
+        }
+        if (this.question.isEmpty()) {
+            validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_QUESTION_QUESTION_IS_EMPTY));
+        }
+        if (this.question.length() > this.MAX_QUESTION_LENGTH) {
+            validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_QUESTION_IS_TOO_LONG));
+        }
+        if (this.question.length() < this.MIN_QUESTION_LENGTH) {
+            validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_QUESTION_IS_TOO_SHORT));
+        }
+    }
+
+    private void validateDescription(Validation validator) {
+        if (this.description.length() > this.MAX_DESCRIPTION_LENGTH) {
+            validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_DESCRIPTION_IS_TOO_LONG));
+        }
+        if (this.description.length() < this.MIN_DESCRIPTION_LENGTH) {
+            validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_DESCRIPTION_IS_TOO_SHORT));
+        }
+    }
 }

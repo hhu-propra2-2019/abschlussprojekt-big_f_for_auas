@@ -3,12 +3,8 @@ package mops.domain.models.questionpoll;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import lombok.With;
-import org.springframework.binding.message.MessageResolver;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
 
 /**
  * Speichert Einstellungen ob die QuestionPoll anonym ist (usingAlias = true) und ob es sich um eine
@@ -17,7 +13,7 @@ import java.util.Optional;
 @Value
 @With
 @AllArgsConstructor
-public class QuestionPollConfig implements Serializable {
+public class QuestionPollConfig implements ValidateAble {
 
     private boolean usingAlias;
     private boolean usingMultiChoice;
@@ -27,22 +23,8 @@ public class QuestionPollConfig implements Serializable {
         this.usingMultiChoice = false;
     }
 
-    /**
-     * ...
-     * @return ...
-     */
-    public List<MessageResolver> validate() {
-        final List<MessageResolver> messageList = new ArrayList<>();
-        validateUsingAlias().ifPresent(messageList::add);
-        validateUsingMultiChoice().ifPresent(messageList::add);
-        return messageList;
-    }
-
-    private Optional<MessageResolver> validateUsingAlias() {
-        return Optional.empty();
-    }
-
-    private Optional<MessageResolver> validateUsingMultiChoice() {
-        return Optional.empty();
+    @Override
+    public Validation validate() {
+        return Validation.noErrors();
     }
 }
