@@ -2,33 +2,35 @@ package mops.domain.models.datepoll;
 
 import lombok.Getter;
 import lombok.Setter;
+import mops.domain.models.FieldErrorNames;
+import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.datepoll.old.DatePollDescription;
-import mops.domain.models.datepoll.old.DatePollLifeCycle;
 import mops.domain.models.datepoll.old.DatePollLocation;
-import org.springframework.binding.message.MessageBuilder;
-import org.springframework.binding.message.MessageContext;
-import org.springframework.binding.message.MessageResolver;
-import org.springframework.binding.validation.ValidationContext;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Getter
 @Setter
-public class DatePollMetaInf implements ValidateAble, Serializable {
+public class DatePollMetaInf implements ValidateAble {
 
     private String title = "";
-    private String description = "";
-    private String location = "";
-    private LocalDateTime startDate = LocalDateTime.now();
-    private LocalDateTime endDate = LocalDateTime.now();
-
     private DatePollDescription datePollDescription;
     private DatePollLocation datePollLocation;
-    private DatePollLifeCycle datePollLifeCycle;
+    private Timespan datePollLifeCycle;
+
+    public DatePollMetaInf(String title, String description, String location) {
+        this.title = title;
+        this.datePollDescription = new DatePollDescription(description);
+        this.datePollLocation = new DatePollLocation(location);
+        this.datePollLifeCycle = new Timespan(LocalDateTime.now(), LocalDateTime.now().minusDays(1));
+    }
+
+    public DatePollMetaInf(String title, String description, String location, Timespan lifecycle) {
+        this(title, description, location);
+        this.datePollLifeCycle = lifecycle;
+    }
 
     /**
      * ...
@@ -38,95 +40,17 @@ public class DatePollMetaInf implements ValidateAble, Serializable {
     /*
      * noErrors() ist wie ein Konstruktor, nur mit expliziten namen, daher keine violationj of law of demeter
      */
-    @SuppressWarnings({"PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:MagicNumber"})
     public Validation validate() {
-        final Validation validation = Validation.noErrors();
-        validation.appendValidation(datePollLocation.validate());
-        validation.appendValidation(datePollDescription.validate());
-        validation.appendValidation(datePollLifeCycle.validate());
-        return validation;
-    }
-
-    /**
-     * Wird vom Builder oder von Web Flow für den State „mobileSchedulingNameSettings“
-     * aufgerufen und aggregiert alle Fehlermeldungen aus den einzelnen Validierungsmethoden.
-     * @param context Der ValidationContext wird vom Builder oder Web Flow übergeben und ausgewertet.
-     */
-    public void validateMobileSchedulingNameSettings(ValidationContext context) {
-        MessageContext messageContext = context.getMessageContext();
-        validateTitle()
-                .ifPresent(messageContext::addMessage);
-        validateDescription()
-                .ifPresent(messageContext::addMessage);
-        validateLocation()
-                .ifPresent(messageContext::addMessage);
-
-    }
-
-    /**
-     * Wird vom Builder oder von Web Flow für den State „mobileSchedulingAccessSettings“
-     * aufgerufen und aggregiert alle Fehlermeldungen aus den einzelnen Validierungsmethoden.
-     * @param context Der ValidationContext wird vom Builder oder Web Flow übergeben und ausgewertet.
-     */
-    public void validateMobileSchedulingAccessSettings(ValidationContext context) {
-        MessageContext messageContext = context.getMessageContext();
-        validateLifecycle().ifPresent(messageContext::addMessage);
-    }
-
-    // TODO: Sinnvolle Beschränkungen und Validierungen setzen, diese Methoden sind nur als Beispiel gedacht.
-
-    private Optional<MessageResolver> validateTitle() {
-        if (title.length() > 4) {
-            return Optional.of(
-                    new MessageBuilder()
-                            .error()
-                            .source("title")
-                            .defaultText("Titel muss kürzer als 5 Zeichen sein")
-                            .build());
+        Validation validation = Validation.noErrors();
+        if (title.length() == 0) {
+            validation = validation.appendValidation(new Validation(FieldErrorNames.DATE_POLL_TITLE_EMPTY));
+        } else if (title.length() >= 60) {
+            validation = validation.appendValidation(new Validation(FieldErrorNames.DATE_POLL_TITLE_TOO_LONG));
         }
-        return Optional.empty();
-    }
-
-    private Optional<MessageResolver> validateDescription() {
-        if (description.length() > 200) {
-            return Optional.of(
-                    new MessageBuilder()
-                            .error()
-                            .source("description")
-                            .defaultText("Beschreibung muss kürzer als 200 Zeichen sein").build());
-        }
-        return Optional.empty();
-    }
-
-    private Optional<MessageResolver> validateLocation() {
-        if (location.length() > 100) {
-            return Optional.of(
-                    new MessageBuilder()
-                            .error()
-                            .source("location")
-                            .defaultText("Ortsangabe muss kürzer als 100 Zeichen sein").build());
-        }
-        return Optional.empty();
-    }
-
-    private Optional<MessageResolver> validateLifecycle() {
-        Optional<MessageResolver> messageResolver = Optional.empty();
-        if (startDate.isAfter(endDate)) {
-            messageResolver = Optional.of(
-                    new MessageBuilder()
-                            .error()
-                            .source("lifecycle")
-                            .defaultText("Das Startdatum muss von dem Enddatum liegen")
-                            .build());
-        }
-        if (endDate.isBefore(LocalDateTime.now())) {
-            messageResolver = Optional.of(
-                    new MessageBuilder()
-                            .error()
-                            .source("lifecycle")
-                            .defaultText("Das Enddatum muss in der Zukunft liegen")
-                            .build());
-        }
-        return messageResolver;
+        return validation
+                .appendValidation(datePollLocation.validate())
+                .appendValidation(datePollDescription.validate())
+                .appendValidation(datePollLifeCycle.validate());
     }
 }
