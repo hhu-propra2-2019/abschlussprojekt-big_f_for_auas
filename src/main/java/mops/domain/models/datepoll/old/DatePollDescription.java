@@ -2,7 +2,7 @@ package mops.domain.models.datepoll.old;
 
 
 import lombok.Value;
-import mops.controllers.dtos.InputFieldNames;
+import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
@@ -24,7 +24,7 @@ public class DatePollDescription implements ValidateAble, Serializable {
         Validation validation = Validation.noErrors();
         final String errorMessage = "No description specified. DATE_POLL_DESCRIPTION is not present.";
         if (description == null || description.equals(" ") || description.length() == 0) {
-            validation = new Validation(InputFieldNames.DATE_POLL_LOCATION, errorMessage);
+            validation = new Validation(FieldErrorNames.DATE_POLL_LOCATION);
         }
         return validation;
     }
