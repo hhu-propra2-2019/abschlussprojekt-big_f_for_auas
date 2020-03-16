@@ -1,6 +1,8 @@
 package mops.domain.models.questionpoll;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import lombok.Getter;
 import mops.domain.models.Validation;
@@ -46,10 +48,11 @@ public class QuestionPollAccessibility {
         participants.add(userId);
     }
 
-    public void validate(Validation validator) {
-        MessageContext messageContext = validator.getMessageContext();
+    public List<MessageResolver> validate(Validation validator) {
+        List<MessageResolver> messageList = new ArrayList<>();
         validateParticipants()
-            .ifPresent(messageContext::addMessage);
+            .ifPresent(messageResolver -> messageList.add(messageResolver));
+        return messageList;
     }
 
     private Optional<MessageResolver> validateParticipants() {
