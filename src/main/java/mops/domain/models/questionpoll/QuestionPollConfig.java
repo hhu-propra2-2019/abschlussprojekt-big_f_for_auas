@@ -1,6 +1,8 @@
 package mops.domain.models.questionpoll;
 
+import lombok.AllArgsConstructor;
 import lombok.Value;
+import lombok.With;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
@@ -9,10 +11,17 @@ import mops.domain.models.Validation;
  *  Multi-Choice Umfrage geben.
  */
 @Value
+@With
+@AllArgsConstructor
 public class QuestionPollConfig implements ValidateAble {
 
-  private final boolean usingAlias;
-  private final boolean usingMultiChoice;
+  private boolean usingAlias;
+  private boolean usingMultiChoice;
+
+  public QuestionPollConfig() {
+    this.usingAlias = false;
+    this.usingMultiChoice = false;
+  }
 
   /**
    * validate Methode für den Builder.
