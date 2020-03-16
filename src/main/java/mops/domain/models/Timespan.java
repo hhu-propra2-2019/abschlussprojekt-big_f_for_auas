@@ -1,7 +1,6 @@
 package mops.domain.models;
 
 import lombok.Value;
-import mops.controllers.dtos.InputFieldNames;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +17,7 @@ public class Timespan {
     public Validation validate() {
         final Validation validation = Validation.noErrors();
         if (endDate.isBefore(startDate)) {
-            validation.appendValidation(new Validation(InputFieldNames.TIMESPAN_INVALID, ""));
+            validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SWAPPED));
         }
         return validation;
     }

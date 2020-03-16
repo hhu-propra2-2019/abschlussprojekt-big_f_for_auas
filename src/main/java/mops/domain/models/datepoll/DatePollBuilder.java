@@ -1,6 +1,7 @@
 package mops.domain.models.datepoll;
 
 import lombok.Getter;
+import mops.domain.models.DatePollFields;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
@@ -37,9 +38,10 @@ public class DatePollBuilder {
      * weniger Responsebilities
      */
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.LawOfDemeter"})//NOPMD
-    private <T extends ValidateAble> Optional<T> validationProcess(T validateAble) {
+    private <T extends ValidateAble> Optional<T> validationProcess(T validateAble, DatePollFields fields) {
         final Validation newValidation = validateAble.validate();
-        validationState.appendValidation(newValidation);
+        validationState = validationState.removeErrors(fields);
+        validationState = validationState.appendValidation(newValidation);
         Optional<T> result = Optional.empty();
         if (newValidation.hasNoErrors()) {
             result = Optional.of(validateAble);
@@ -53,7 +55,7 @@ public class DatePollBuilder {
     @SuppressWarnings({"PMD.LawOfDemeter"})
     private <T extends ValidateAble> void validationProcessAndValidationHandling(
             T validateAble, Consumer<T> applyToValidated, DatePollFields addToFieldsAfterSuccessfulValidation) {
-        validationProcess(validateAble).ifPresent(validated -> {
+        validationProcess(validateAble, addToFieldsAfterSuccessfulValidation).ifPresent(validated -> {
             applyToValidated.accept(validated);
             validatedFields.add(addToFieldsAfterSuccessfulValidation);
         });
@@ -63,9 +65,9 @@ public class DatePollBuilder {
      * streams stellen keine LawOfDemeter violation dar
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    private <T extends ValidateAble> List<T> validateAllAndGetCorrect(List<T> mappedOptions) {
+    private <T extends ValidateAble> List<T> validateAllAndGetCorrect(List<T> mappedOptions, DatePollFields fields) {
         return mappedOptions.stream()
-                .map(this::validationProcess)
+                .map((T validateAble) -> validationProcess(validateAble, fields))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
@@ -138,7 +140,7 @@ public class DatePollBuilder {
      * @return Referenz auf diesen DatePollBuilder.
      */
     public DatePollBuilder participants(List<UserId> participants) {
-        this.pollParticipantTargets.addAll(validateAllAndGetCorrect(participants));
+        this.pollParticipantTargets.addAll(validateAllAndGetCorrect(participants, DatePollFields.PARTICIPANTS));
         if (!this.pollParticipantTargets.isEmpty()) {
             validatedFields.add(DatePollFields.PARTICIPANTS);
         }
@@ -175,9 +177,5 @@ public class DatePollBuilder {
             throw new IllegalStateException(COULD_NOT_CREATE);
         }
     }*/
-
-    enum DatePollFields {
-        DATE_POLL_CONFIG, DATE_POLL_LINK, DATE_POLL_META_INF, DATE_POLL_OPTIONS, CREATOR, PARTICIPANTS
-    }
 
 }

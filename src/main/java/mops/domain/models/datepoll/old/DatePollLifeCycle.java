@@ -1,7 +1,7 @@
 package mops.domain.models.datepoll.old;
 
 import lombok.Value;
-import mops.controllers.dtos.InputFieldNames;
+import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
@@ -36,11 +36,11 @@ public class DatePollLifeCycle implements ValidateAble, Serializable {
         if (startDate.isBefore(endDate)) {
             errorMessage +=
                     errorMessage + " StartDate " + startDate.toString() + " is bigger than " + endDate.toString() + "\n";
-            validation.appendValidation(new Validation(InputFieldNames.DATE_POLL_LIFECYCLE, errorMessage));
+            validation.appendValidation(new Validation(FieldErrorNames.DATE_POLL_LIFECYCLE));
         } else if (startDate.isEqual(endDate)) {
             errorMessage +=
                     errorMessage + " StartDate " + startDate.toString() + " is equal to " + endDate.toString() + "\n";
-            validation.appendValidation(new Validation(InputFieldNames.DATE_POLL_LIFECYCLE, errorMessage));
+            validation.appendValidation(new Validation(FieldErrorNames.DATE_POLL_LIFECYCLE));
         }
 
         return validation;

@@ -2,7 +2,7 @@ package mops.domain.models.datepoll;
 
 import lombok.Getter;
 import lombok.Setter;
-import mops.controllers.dtos.InputFieldNames;
+import mops.domain.models.FieldErrorNames;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
@@ -24,7 +24,7 @@ public class DatePollMetaInf implements ValidateAble {
         this.title = title;
         this.datePollDescription = new DatePollDescription(description);
         this.datePollLocation = new DatePollLocation(location);
-        this.datePollLifeCycle = new Timespan(LocalDateTime.now(), LocalDateTime.now());
+        this.datePollLifeCycle = new Timespan(LocalDateTime.now(), LocalDateTime.now().minusDays(1));
     }
 
     public DatePollMetaInf(String title, String description, String location, Timespan lifecycle) {
@@ -40,15 +40,17 @@ public class DatePollMetaInf implements ValidateAble {
     /*
      * noErrors() ist wie ein Konstruktor, nur mit expliziten namen, daher keine violationj of law of demeter
      */
-    @SuppressWarnings({"PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:MagicNumber"})
     public Validation validate() {
-        final Validation validation = Validation.noErrors();
+        Validation validation = Validation.noErrors();
         if (title.length() == 0) {
-            validation.appendValidation(new Validation(InputFieldNames.DATE_POLL_TITLE_TOO_LONG, ""));
+            validation = validation.appendValidation(new Validation(FieldErrorNames.DATE_POLL_TITLE_EMPTY));
+        } else if (title.length() >= 60) {
+            validation = validation.appendValidation(new Validation(FieldErrorNames.DATE_POLL_TITLE_TOO_LONG));
         }
-        validation.appendValidation(datePollLocation.validate());
-        validation.appendValidation(datePollDescription.validate());
-        validation.appendValidation(datePollLifeCycle.validate());
-        return validation;
+        return validation
+                .appendValidation(datePollLocation.validate())
+                .appendValidation(datePollDescription.validate())
+                .appendValidation(datePollLifeCycle.validate());
     }
 }
