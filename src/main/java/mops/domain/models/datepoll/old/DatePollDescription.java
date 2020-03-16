@@ -1,4 +1,4 @@
-package mops.domain.models.datepoll;
+package mops.domain.models.datepoll.old;
 
 
 import lombok.Value;
@@ -6,8 +6,10 @@ import mops.controllers.dtos.InputFieldNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
+import java.io.Serializable;
+
 @Value
-public class DatePollDescription implements ValidateAble {
+public class DatePollDescription implements ValidateAble, Serializable {
 
     private String description;
 

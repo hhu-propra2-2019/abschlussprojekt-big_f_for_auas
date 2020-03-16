@@ -1,10 +1,12 @@
-package mops.domain.models.datepoll;
+package mops.domain.models.datepoll.old;
 
 import mops.controllers.dtos.InputFieldNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
-public class DatePollLocation implements ValidateAble {
+import java.io.Serializable;
+
+public class DatePollLocation implements ValidateAble, Serializable {
     //Shall we define standard rules for description / location strings?
     private String location;
     //Do we realy need longitude and latitude attributes for a location?

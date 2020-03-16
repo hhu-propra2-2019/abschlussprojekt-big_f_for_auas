@@ -1,16 +1,19 @@
 package mops.domain.models.datepoll;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
-@AllArgsConstructor
-public final class DatePoll {
+@Setter
+@NoArgsConstructor
+public final class DatePoll implements Serializable {
 
 
     /**
@@ -41,7 +44,7 @@ public final class DatePoll {
     /**
      * Link fuer den DatePoll.
      */
-    private final DatePollLink datePollLink;
+    private DatePollLink datePollLink;
 
     public static DatePollBuilder builder() {
         return new DatePollBuilder();

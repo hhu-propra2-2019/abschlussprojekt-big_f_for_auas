@@ -6,17 +6,50 @@
 
     <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
 
-    <view-state id="mobileSchedulingNameSettings" view="/flows/scheduling/mobileSchedulingNameSettings">
+    <input name="userId" type="mops.domain.models.user.UserId" required="true" />
+
+    <on-start>
+        <evaluate expression="datePollCreateService.newDatePoll()" result="flowScope.datePoll"/>
+        <evaluate expression="new mops.domain.models.datepoll.DatePollMetaInf()" result="flowScope.datePollMetaInf"/>
+        <evaluate expression="new mops.domain.models.datepoll.DatePollConfig()" result="flowScope.datePollConfig"/>
+    </on-start>
+
+    <view-state id="mobileSchedulingNameSettings" view="/flows/scheduling/mobileSchedulingNameSettings"
+                model="datePollMetaInf">
+
+        <binder>
+            <binding property="title"/>
+            <binding property="description"/>
+            <binding property="location"/>
+        </binder>
+
         <transition on="home" to="home"/>
         <transition on="access" to="mobileSchedulingAccessSettings"/>
     </view-state>
 
-    <view-state id="mobileSchedulingAccessSettings" view="/flows/scheduling/mobileSchedulingAccessSettings">
+    <view-state id="mobileSchedulingAccessSettings" view="/flows/scheduling/mobileSchedulingAccessSettings"
+                model="datePollMetaInf">
+
+        <binder>
+            <binding property="startDate"/>
+            <binding property="endDate"/>
+        </binder>
+
         <transition on="name" to="mobileSchedulingNameSettings"/>
         <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>
     </view-state>
 
-    <view-state id="mobileSchedulingChoiceSettings" view="flows/scheduling/mobileSchedulingChoiceSettings">
+    <view-state id="mobileSchedulingChoiceSettings" view="flows/scheduling/mobileSchedulingChoiceSettings"
+                model="datePollConfig">
+
+        <binder>
+            <binding property="priorityChoice"/>
+            <binding property="anonymous"/>
+            <binding property="openForOwnEntries"/>
+            <binding property="open"/>
+            <binding property="singleChoice"/>
+        </binder>
+
         <transition on="access" to="mobileSchedulingAccessSettings"/>
         <transition on="choiceoptions" to="mobileSchedulingChoiceOptions"/>
     </view-state>
@@ -36,6 +69,6 @@
         <transition on="submit" to="home"/>
     </view-state>
 
-    <end-state id="home" view="externalRedirect:contextRelative:/"/>
+    <end-state id="home" view="/"/>
 
 </flow>

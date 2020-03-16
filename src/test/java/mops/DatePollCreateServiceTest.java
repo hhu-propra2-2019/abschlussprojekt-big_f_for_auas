@@ -5,6 +5,9 @@ import mops.application.services.DatePollCreateService;
 
 import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.datepoll.*;
+import mops.domain.models.datepoll.old.DatePollDescription;
+import mops.domain.models.datepoll.old.DatePollLifeCycle;
+import mops.domain.models.datepoll.old.DatePollLocation;
 import mops.domain.models.user.UserId;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;

@@ -5,8 +5,8 @@ import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
-import org.hibernate.validator.internal.util.stereotypes.Immutable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class DatePollBuilder {
+public class DatePollBuilder implements Serializable {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
 
@@ -97,13 +97,13 @@ public class DatePollBuilder {
         return this;
     }
 
-    /**
+    /*
      * Fügt alle validierte Otions der Vorschlägeliste hinzu.
      *
      * @param datePollOptionsDtos Vorschläge die zu dieser Terminfindung hinzugefügt werden sollen.
      * @return Referenz auf diesen DatePollBuilder.
      */
-    public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
+    /*public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
         this.datePollOptionsTarget.addAll(validateAllAndGetCorrect(
                 datePollOptionsDtos.stream()
                         .map(dto -> new DatePollOption(dto.getStartDate(), dto.getEndDate()))
@@ -113,7 +113,7 @@ public class DatePollBuilder {
             validatedFields.add(DatePollFields.DATE_POLL_OPTIONS);
         }
         return this;
-    }
+    }*/
 
     /**
      * Fügt alle validierte User der Teilnehmerliste hinzu.
@@ -142,21 +142,22 @@ public class DatePollBuilder {
         return this;
     }
 
-    /**
+    /*
      * Baut das DatePoll Objekt, wenn alle Konstruktionssteps mind. 1 mal erfolgreich waren.
      *
      * @return Ein DatePoll Objekt in einem validen State.
      */
-    public DatePoll build() {
+    /*public DatePoll build() {
         if (validationState.hasNoErrors() && EnumSet.allOf(DatePollFields.class).equals(validatedFields)) {
             return new DatePoll(
                     new PollRecordAndStatus(),
-                    datePollMetaInfTarget, creatorTarget, datePollConfigTarget, datePollOptionsTarget, participantsTarget, datePollLinkTarget
+                    datePollMetaInfTarget, creatorTarget, datePollConfigTarget, datePollOptionsTarget,
+                    participantsTarget, datePollLinkTarget
             );
         } else {
             throw new IllegalStateException(COULD_NOT_CREATE);
         }
-    }
+    }*/
 
     private enum DatePollFields {
         DATE_POLL_CONFIG, DATE_POLL_LINK, DATE_POLL_META_INF, DATE_POLL_OPTIONS, CREATOR, PARTICIPANTS
