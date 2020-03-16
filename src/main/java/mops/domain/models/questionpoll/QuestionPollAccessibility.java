@@ -1,16 +1,12 @@
 package mops.domain.models.questionpoll;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 import lombok.Getter;
+import mops.controllers.dtos.InputFieldNames;
+import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
 import java.util.Set;
-import org.springframework.binding.message.MessageBuilder;
-import org.springframework.binding.message.MessageContext;
-import org.springframework.binding.message.MessageResolver;
 
 /**
  * Value Objekt welches die Konfiguration über den Zugriff auf die Abstimmung abkapselt.
@@ -20,7 +16,7 @@ import org.springframework.binding.message.MessageResolver;
  * In diesem Fall spielt die participants Liste keine weitere Rolle.
  */
 @Getter
-public class QuestionPollAccessibility {
+public class QuestionPollAccessibility implements ValidateAble {
 
     private final boolean restrictedAccess;
     private final Set<UserId> participants;
@@ -48,22 +44,17 @@ public class QuestionPollAccessibility {
         participants.add(userId);
     }
 
-    public List<MessageResolver> validate(Validation validator) {
-        List<MessageResolver> messageList = new ArrayList<>();
-        validateParticipants()
-            .ifPresent(messageResolver -> messageList.add(messageResolver));
-        return messageList;
-    }
-
-    private Optional<MessageResolver> validateParticipants() {
-        if (this.restrictedAccess && (this.getParticipants().size() < 2)) {
-            return Optional.of(
-                new MessageBuilder()
-                    .error()
-                    .source("QuestionPollAccessibility.participants")
-                    .defaultText("Eine private Abstimmung muss ziwschen mindestens 2 Person stattfinden")
-                    .build());
+    /**
+     * Eine private Abstimmung muss mindestens zwischen 2 Nutzern stattfinden.
+     * @return das Validation Objekt.
+     */
+    @Override
+    public Validation validate() {
+        final Validation validator = Validation.noErrors();
+        if (this.restrictedAccess && this.participants.size() < 2) {
+            validator.appendValidation(
+                new Validation(InputFieldNames.QUESTION_POLL_ACCESS_NOT_ENOUGH_PARTICIPANTS_FOR_PRIVATE_POLL));
         }
-        return Optional.empty();
+        return validator;
     }
 }
