@@ -1,22 +1,24 @@
 package mops.domain.models.datepoll.old;
 
+import lombok.Value;
 import mops.controllers.dtos.InputFieldNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
-
 import java.io.Serializable;
 
+@Value
 public class DatePollLocation implements ValidateAble, Serializable {
     //Shall we define standard rules for description / location strings?
-    private String location;
+    private transient String location;
     //Do we realy need longitude and latitude attributes for a location?
-    private int longitude;
-    private int latitude;
+    //private int longitude;
+    //private int latitude;
 
     /**
      * ...
      * @return
      */
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();

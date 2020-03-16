@@ -1,6 +1,7 @@
 package mops.controllers.dtos;
 
 import lombok.Data;
+import mops.domain.models.datepoll.DatePollLocation;
 import mops.domain.models.pollstatus.PollStatus;
 
 import java.time.LocalDateTime;
@@ -12,5 +13,5 @@ public class DatePollDto {
     private String description;
     private String location;
     private LocalDateTime endDate;
-    private PollStatus pollStatus;
+    private String pollStatus;
 }

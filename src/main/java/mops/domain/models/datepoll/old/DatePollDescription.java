@@ -15,9 +15,10 @@ public class DatePollDescription implements ValidateAble, Serializable {
 
 
     /**
-     * ...
-     * @return
+     * ....
+     * @return ...
      */
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();

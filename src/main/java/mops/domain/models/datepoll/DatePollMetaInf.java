@@ -34,6 +34,11 @@ public class DatePollMetaInf implements ValidateAble, Serializable {
      * ...
      * @return ...
      */
+    @Override
+    /*
+     * noErrors() ist wie ein Konstruktor, nur mit expliziten namen, daher keine violationj of law of demeter
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     public Validation validate() {
         final Validation validation = Validation.noErrors();
         validation.appendValidation(datePollLocation.validate());

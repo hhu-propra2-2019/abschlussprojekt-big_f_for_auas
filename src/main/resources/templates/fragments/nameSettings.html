@@ -12,6 +12,10 @@
           th:object="${datePollMetaInf}" id="datePollMetaInf" th:action="${flowExecutionUrl}" >
 
         <div class="form-group">
+            <label for="fileUpload" th:if="${terminfindung}">Terminfindung hochladen</label>
+            <label for="fileUpload" th:unless="${terminfindung}">Abstimmung hochladen</label>
+            <input type="file" class="form-control-file" id="fileUpload" accept=".yml, .yaml">
+
             <label for="title">Titel</label>
             <input class="form-control" id="title" type="text" th:field="*{title}"
                    th:classappend="${T(mops.utils.BootstrapValidInvalid).getClass(#fields.hasErrors('title'), #fields.hasAnyErrors())}"

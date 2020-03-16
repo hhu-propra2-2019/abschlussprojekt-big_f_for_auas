@@ -17,31 +17,42 @@ import java.util.stream.Collectors;
 public class DatePollBuilder implements Serializable {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
-
-    private DatePollMetaInf datePollMetaInfTarget;
-    private UserId creatorTarget;
-    private DatePollConfig datePollConfigTarget;
-    private List<DatePollOption> datePollOptionsTarget = new ArrayList<>();
-    private List<UserId> participantsTarget = new ArrayList<>();
-    private DatePollLink datePollLinkTarget;
+    //muss nicht 1-1 im ByteCode bekannt sein.
+    private transient DatePollMetaInf metaInfTarget;
+    private transient UserId pollCreatorTarget;
+    private transient DatePollConfig configTarget;
+    private final transient List<DatePollOption> pollOptionTargets = new ArrayList<>();
+    private final transient List<UserId> pollParticipantTargets = new ArrayList<>();
+    private transient DatePollLink linkTarget;
     @Getter
     private Validation validationState;
-    private EnumSet<DatePollFields> validatedFields = EnumSet.noneOf(DatePollFields.class);
+    private final transient EnumSet<DatePollFields> validatedFields = EnumSet.noneOf(DatePollFields.class);
 
     public DatePollBuilder() {
         validationState = Validation.noErrors();
     }
 
+    /*
+     * dataflowAnomaly sollte nicht auftreten,
+     * LawOfDemeter violation ist akzeptabel, denn die Validierung muss auf dem validateable Objekt aufgerufen werden
+     * und wir wollen die Validierungsauswerdung in einem Validierungsobjekt Kapseln, so haben die ValidierungsObkete
+     * weniger Responsebilities
+     */
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.LawOfDemeter"})//NOPMD
     private <T extends ValidateAble> Optional<T> validationProcess(T validateAble) {
         final Validation newValidation = validateAble.validate();
         validationState.appendValidation(newValidation);
+        Optional<T> result = Optional.empty();
         if (newValidation.hasNoErrors()) {
-            return Optional.of(validateAble);
-        } else {
-            return Optional.empty();
+            result = Optional.of(validateAble);
         }
+        return result;
     }
 
+    /*
+     * hier liegt keine LawOfDemeter violation vor.
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     private <T extends ValidateAble> void validationProcessAndValidationHandling(
             T validateAble, Consumer<T> applyToValidated, DatePollFields addToFieldsAfterSuccessfulValidation) {
         validationProcess(validateAble).ifPresent(validated -> {
@@ -50,6 +61,10 @@ public class DatePollBuilder implements Serializable {
         });
     }
 
+    /*
+     * streams stellen keine LawOfDemeter violation dar
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     private <T extends ValidateAble> List<T> validateAllAndGetCorrect(List<T> mappedOptions) {
         return mappedOptions.stream()
                 .map(this::validationProcess)
@@ -66,7 +81,7 @@ public class DatePollBuilder implements Serializable {
      */
     public DatePollBuilder datePollMetaInf(DatePollMetaInf datePollMetaInf) {
         validationProcessAndValidationHandling(
-                datePollMetaInf, metaInf -> this.datePollMetaInfTarget = metaInf, DatePollFields.DATE_POLL_META_INF
+                datePollMetaInf, metaInf -> this.metaInfTarget = metaInf, DatePollFields.DATE_POLL_META_INF
         );
         return this;
     }
@@ -79,7 +94,7 @@ public class DatePollBuilder implements Serializable {
      */
     public DatePollBuilder creator(UserId creator) {
         validationProcessAndValidationHandling(
-                creator, id -> this.creatorTarget = id, DatePollFields.CREATOR
+                creator, id -> this.pollCreatorTarget = id, DatePollFields.CREATOR
         );
         return this;
     }
@@ -92,7 +107,7 @@ public class DatePollBuilder implements Serializable {
      */
     public DatePollBuilder datePollConfig(DatePollConfig datePollConfig) {
         validationProcessAndValidationHandling(
-                datePollConfig, config -> this.datePollConfigTarget = config, DatePollFields.DATE_POLL_CONFIG
+                datePollConfig, config -> this.configTarget = config, DatePollFields.DATE_POLL_CONFIG
         );
         return this;
     }
@@ -105,15 +120,18 @@ public class DatePollBuilder implements Serializable {
      */
     /*public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
         this.datePollOptionsTarget.addAll(validateAllAndGetCorrect(
+    @SuppressWarnings({"PMD.LawOfDemeter"})
+
                 datePollOptionsDtos.stream()
                         .map(dto -> new DatePollOption(dto.getStartDate(), dto.getEndDate()))
                         .collect(Collectors.toList())
         ));
-        if (!datePollOptionsTarget.isEmpty()) {
+        if (!pollOptionTargets.isEmpty()) {
             validatedFields.add(DatePollFields.DATE_POLL_OPTIONS);
         }
         return this;
     }*/
+
 
     /**
      * Fügt alle validierte User der Teilnehmerliste hinzu.
@@ -122,8 +140,8 @@ public class DatePollBuilder implements Serializable {
      * @return Referenz auf diesen DatePollBuilder.
      */
     public DatePollBuilder participants(List<UserId> participants) {
-        this.participantsTarget.addAll(validateAllAndGetCorrect(participants));
-        if (!this.participantsTarget.isEmpty()) {
+        this.pollParticipantTargets.addAll(validateAllAndGetCorrect(participants));
+        if (!this.pollParticipantTargets.isEmpty()) {
             validatedFields.add(DatePollFields.PARTICIPANTS);
         }
         return this;
@@ -137,7 +155,7 @@ public class DatePollBuilder implements Serializable {
      */
     public DatePollBuilder datePollLink(DatePollLink datePollLink) {
         validationProcessAndValidationHandling(
-                datePollLink, link -> this.datePollLinkTarget = link, DatePollFields.DATE_POLL_LINK
+                datePollLink, link -> this.linkTarget = link, DatePollFields.DATE_POLL_LINK
         );
         return this;
     }
@@ -147,19 +165,20 @@ public class DatePollBuilder implements Serializable {
      *
      * @return Ein DatePoll Objekt in einem validen State.
      */
+
     /*public DatePoll build() {
-        if (validationState.hasNoErrors() && EnumSet.allOf(DatePollFields.class).equals(validatedFields)) {
+        if (validationState.hasNoErrors() && validatedFields.equals(EnumSet.allOf(DatePollFields.class))) {
             return new DatePoll(
                     new PollRecordAndStatus(),
-                    datePollMetaInfTarget, creatorTarget, datePollConfigTarget, datePollOptionsTarget,
-                    participantsTarget, datePollLinkTarget
+                    metaInfTarget, pollCreatorTarget, configTarget,
+                    pollOptionTargets, pollParticipantTargets, linkTarget
             );
         } else {
             throw new IllegalStateException(COULD_NOT_CREATE);
         }
     }*/
 
-    private enum DatePollFields {
+    enum DatePollFields {
         DATE_POLL_CONFIG, DATE_POLL_LINK, DATE_POLL_META_INF, DATE_POLL_OPTIONS, CREATOR, PARTICIPANTS
     }
 
