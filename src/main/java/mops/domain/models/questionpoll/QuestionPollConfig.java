@@ -3,8 +3,12 @@ package mops.domain.models.questionpoll;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import lombok.With;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
+import org.springframework.binding.message.MessageResolver;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Speichert Einstellungen ob die QuestionPoll anonym ist (usingAlias = true) und ob es sich um eine
@@ -13,22 +17,32 @@ import mops.domain.models.Validation;
 @Value
 @With
 @AllArgsConstructor
-public class QuestionPollConfig implements ValidateAble {
+public class QuestionPollConfig implements Serializable {
 
-  private boolean usingAlias;
-  private boolean usingMultiChoice;
+    private boolean usingAlias;
+    private boolean usingMultiChoice;
 
-  public QuestionPollConfig() {
-    this.usingAlias = false;
-    this.usingMultiChoice = false;
-  }
+    public QuestionPollConfig() {
+        this.usingAlias = false;
+        this.usingMultiChoice = false;
+    }
 
-  /**
-   * validate Methode für den Builder.
-   * @return Validation
-   */
-  @Override
-  public Validation validate() {
-    return Validation.noErrors();
-  }
+    /**
+     * ...
+     * @return ...
+     */
+    public List<MessageResolver> validate() {
+        final List<MessageResolver> messageList = new ArrayList<>();
+        validateUsingAlias().ifPresent(messageList::add);
+        validateUsingMultiChoice().ifPresent(messageList::add);
+        return messageList;
+    }
+
+    private Optional<MessageResolver> validateUsingAlias() {
+        return Optional.empty();
+    }
+
+    private Optional<MessageResolver> validateUsingMultiChoice() {
+        return Optional.empty();
+    }
 }
