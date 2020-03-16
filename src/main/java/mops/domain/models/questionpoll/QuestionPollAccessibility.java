@@ -1,9 +1,14 @@
 package mops.domain.models.questionpoll;
 
 import java.util.Collections;
+import java.util.Optional;
 import lombok.Getter;
+import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
 import java.util.Set;
+import org.springframework.binding.message.MessageBuilder;
+import org.springframework.binding.message.MessageContext;
+import org.springframework.binding.message.MessageResolver;
 
 /**
  * Value Objekt welches die Konfiguration über den Zugriff auf die Abstimmung abkapselt.
@@ -15,29 +20,47 @@ import java.util.Set;
 @Getter
 public class QuestionPollAccessibility {
 
-  private final boolean restrictedAccess;
-  private final Set<UserId> participants;
+    private final boolean restrictedAccess;
+    private final Set<UserId> participants;
 
-  public QuestionPollAccessibility(boolean pRestrictedAccess, Set<UserId> pParticipants) {
-    this.restrictedAccess = pRestrictedAccess;
-    this.participants = Collections.unmodifiableSet(pParticipants);
-  }
+    public QuestionPollAccessibility(boolean pRestrictedAccess, Set<UserId> pParticipants) {
+        this.restrictedAccess = pRestrictedAccess;
+        this.participants = Collections.unmodifiableSet(pParticipants);
+    }
 
 
-  /**
-   * Darf User wählen?
-   * @param id
-   * @return boolean
-   */
-  public boolean isUserParticipant(UserId id) {
-    return participants.contains(id);
-  }
+    /**
+     * Darf User wählen?
+     * @param id
+     * @return boolean
+     */
+    public boolean isUserParticipant(UserId id) {
+        return participants.contains(id);
+    }
 
-  /**
-   * Fügt einen User zu den Participants hinzu.
-   * @param userId
-   */
-  public void addUser(UserId userId) {
-    participants.add(userId);
-  }
+    /**
+     * Fügt einen User zu den Participants hinzu.
+     * @param userId
+     */
+    public void addUser(UserId userId) {
+        participants.add(userId);
+    }
+
+    public void validate(Validation validator) {
+        MessageContext messageContext = validator.getMessageContext();
+        validateParticipants()
+            .ifPresent(messageContext::addMessage);
+    }
+
+    private Optional<MessageResolver> validateParticipants() {
+        if (this.restrictedAccess && (this.getParticipants().size() < 2)) {
+            return Optional.of(
+                new MessageBuilder()
+                    .error()
+                    .source("QuestionPollAccessibility.participants")
+                    .defaultText("Eine private Abstimmung muss ziwschen mindestens 2 Person stattfinden")
+                    .build());
+        }
+        return Optional.empty();
+    }
 }
