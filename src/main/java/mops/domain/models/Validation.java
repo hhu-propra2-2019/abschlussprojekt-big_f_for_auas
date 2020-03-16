@@ -2,9 +2,10 @@ package mops.domain.models;
 
 import mops.controllers.dtos.InputFieldNames;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 
-public class Validation {
+public class Validation implements Serializable {
     private EnumMap<InputFieldNames, String> errorMessages;
 
     private Validation() {

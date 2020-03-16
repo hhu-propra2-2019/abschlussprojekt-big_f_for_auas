@@ -1,9 +1,22 @@
 package mops.domain.models.user;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
-public class UserId implements ValidateAble {
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+@AllArgsConstructor
+@Getter
+public class UserId implements ValidateAble, Serializable {
+
+    private static final long serialVersionUID = 1984021897420418247L;
+
+    private String userId;
 
     /**
      * ...

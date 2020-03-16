@@ -1,14 +1,15 @@
-package mops.domain.models.datepoll;
+package mops.domain.models.datepoll.old;
 
 import lombok.Value;
 import mops.controllers.dtos.InputFieldNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Value
-public class DatePollLifeCycle implements ValidateAble {
+public class DatePollLifeCycle implements ValidateAble, Serializable {
     private final LocalDateTime startDate;
     private LocalDateTime endDate;
 

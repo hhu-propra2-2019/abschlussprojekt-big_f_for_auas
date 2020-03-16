@@ -8,26 +8,36 @@
     </th:block>
 </head>
 <body>
-    <form th:action method="post" class="needs-validation" novalidate th:fragment="form">
+    <form method="post" class="needs-validation" novalidate th:fragment="form"
+          th:object="${datePollMetaInf}" id="datePollMetaInf" th:action="${flowExecutionUrl}" >
+
         <div class="form-group">
-            <label>Titel</label>
-            <input th:if="${terminfindung}" class="form-control" id="termin-title" placeholder="Neue Terminfindung" required>
-            <input th:unless="${terminfindung}" class="form-control" id="poll-title" placeholder="Neue Abstimmung" required>
-            <div th:if="${terminfindung}" class="invalid-feedback">
-                Bitte gib einen Titel für die Terminfindung ein.
-            </div>
-            <div th:unless="${terminfindung}" class="invalid-feedback">
-                Bitte gib einen Titel für die Abstimmung ein.
-            </div>
+            <label for="fileUpload" th:if="${terminfindung}">Terminfindung hochladen</label>
+            <label for="fileUpload" th:unless="${terminfindung}">Abstimmung hochladen</label>
+            <input type="file" class="form-control-file" id="fileUpload" accept=".yml, .yaml">
+
+            <label for="title">Titel</label>
+            <input class="form-control" id="title" type="text" th:field="*{title}"
+                   th:classappend="${T(mops.utils.BootstrapValidInvalid).getClass(#fields.hasErrors('title'), #fields.hasAnyErrors())}"
+                   th:placeholder="${terminfindung} ? 'Neue Terminfindung' : 'Neue Abstimmung'">
+            <div class="invalid-feedback" th:errors="*{title}"></div>
         </div>
+
         <div class="form-group">
-            <label>Beschreibung (optional)</label>
-            <input class="form-control" id="termin-description" placeholder="Beschreibung">
+            <label for="description">Beschreibung (optional)</label>
+            <input class="form-control" id="description" type="text" th:field="*{description}"
+                   th:classappend="${T(mops.utils.BootstrapValidInvalid).getClass(#fields.hasErrors('description'), #fields.hasAnyErrors())}"
+                   placeholder="Beschreibung">
+            <div class="invalid-feedback" th:errors="*{description}"></div>
         </div>
+
         <!--/*@thymesVar id="terminfindung" type=""*/-->
         <div class="form-group" th:if="${terminfindung}">
-            <label>Ort (optional)</label>
-            <input class="form-control" id="termin-location" placeholder="Ort">
+            <label for="location">Ort (optional)</label>
+            <input class="form-control" id="location" type="text" th:field="*{location}"
+                   th:classappend="${T(mops.utils.BootstrapValidInvalid).getClass(#fields.hasErrors('location'), #fields.hasAnyErrors())}"
+                   placeholder="Ort">
+            <div class="invalid-feedback" th:errors="*{location}"></div>
         </div>
         <button type="submit" name="_eventId_access"  class="btn btn-primary float-right mt-5">Weiter</button>
         <button type="submit" name="_eventId_home"  class="btn btn-primary float-left mt-5">Zurück</button>

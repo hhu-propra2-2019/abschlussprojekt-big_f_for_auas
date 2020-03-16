@@ -2,13 +2,11 @@ package mops.application.services;
 
 import lombok.NoArgsConstructor;
 import mops.controllers.dtos.DatePollOptionDto;
-import mops.domain.models.datepoll.DatePoll;
-import mops.domain.models.datepoll.DatePollBuilder;
-import mops.domain.models.datepoll.DatePollConfig;
-import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.datepoll.*;
 import mops.domain.models.user.UserId;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -60,29 +58,29 @@ public class DatePollCreateService {
         datePollBuilderAndView.setMetaInf(datePollMetaInf);
     }
 
-    /**
+    /*
      * Vierte Instanz zur Erstellung der Terminfindung.
      * Liste der Datum-Eintraege an denen der Termin stattfinden kann.
      *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param datePollOptionDtos     Alle Datums-Eintraege des User creator.
      */
-    public void initDatePollOptionList(
+    /*public void initDatePollOptionList(
             final DatePollBuilderAndView datePollBuilderAndView, final List<DatePollOptionDto> datePollOptionDtos) {
         final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         datePollBuilderAndView.setValidation(
                 builder.datePollOptions(datePollOptionDtos).getValidationState()
         );
         datePollBuilderAndView.setDatePollOptionDtos(datePollOptionDtos);
-    }
+    }*/
 
-    /**
+    /*
      * Handelt es sich um eine oeffentliche oder geschlossene Abstimmung?
      *
      * @param datePollBuilderAndView
      * @param openDatePoll
      */
-    public void openOrClosedPoll(final DatePollBuilderAndView datePollBuilderAndView, final boolean openDatePoll) {
+    /*public void openOrClosedPoll(final DatePollBuilderAndView datePollBuilderAndView, final boolean openDatePoll) {
         final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         final DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
         final DatePollConfig newConfig = oldConfig.withOpenForOwnEntries(openDatePoll);
@@ -90,16 +88,16 @@ public class DatePollCreateService {
                 builder.datePollConfig(newConfig).getValidationState()
         );
         datePollBuilderAndView.setConfig(newConfig);
-    }
+    }*/
 
-    /**
+    /*
      * Fuenfte Instanz zur Erstellung der Terminfindung.
      * Angabe ob es sich um ein "single" oder "multiple" Choice Terminfindungs-Objekt handelt.
      *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param singleChoicePoll       Hat der User nur eine Wahlmoeglichkeit (true) oder mehrere (false).
      */
-    public void setDatePollChoiceType(
+    /*public void setDatePollChoiceType(
             final DatePollBuilderAndView datePollBuilderAndView, final boolean singleChoicePoll) {
         final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         final DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
@@ -108,16 +106,17 @@ public class DatePollCreateService {
                 builder.datePollConfig(newConfig).getValidationState()
         );
         datePollBuilderAndView.setConfig(newConfig);
-    }
+    }*/
 
-    /**
+    /*
      * Fuenfte Instanz zur Erstellung der Terminfindung.
      * Angabe ob es priorisierte Auswahlmoeglichkeiten geben soll.
      *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param priority               Prioritaet an (true) oder aus (false).
      */
-    public void setDatePollChoicePriority(final DatePollBuilderAndView datePollBuilderAndView, final boolean priority) {
+    /*public void setDatePollChoicePriority(final DatePollBuilderAndView datePollBuilderAndView,
+                                                final boolean priority) {
         final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         final DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
         final DatePollConfig newConfig = oldConfig.withPriorityChoice(priority);
@@ -125,16 +124,16 @@ public class DatePollCreateService {
                 builder.datePollConfig(newConfig).getValidationState()
         );
         datePollBuilderAndView.setConfig(newConfig);
-    }
+    }*/
 
-    /**
+    /*
      * Sechste Instanz zur Erstellung der Terminfindung.
      * Angabe ob die Terminfindung anonym (true) oder öffentlich (false) stattfinden soll.
      *
      * @param datePollBuilderAndView Das Lombok-Builder Objekt aus initializeDatePoll.
      * @param anonymous              Anonym (true) oder öffentlich (false).
      */
-    public void setDatePollVisibility(final DatePollBuilderAndView datePollBuilderAndView, final boolean anonymous) {
+    /*public void setDatePollVisibility(final DatePollBuilderAndView datePollBuilderAndView, final boolean anonymous) {
         final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         final DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
         final DatePollConfig newConfig = oldConfig.withAnonymous(anonymous);
@@ -142,5 +141,13 @@ public class DatePollCreateService {
                 builder.datePollConfig(newConfig).getValidationState()
         );
         datePollBuilderAndView.setConfig(newConfig);
+    }*/
+
+    /**
+     * dsfasf.
+     * @return afdsfdsafafdsf
+     */
+    public DatePoll newDatePoll() {
+        return new DatePoll();
     }
 }

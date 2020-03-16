@@ -21,17 +21,17 @@ public class DatePollPublicationService {
     private transient DatePollRepository datePollRepository;
     private transient GroupRepository groupRepository;
 
-    /**
+    /*
      * Beendet den Erstellungsprozess und speichert die erstellte Terminfindung.
      *
      * @param datePollBuilderAndView Um an den datePollConfigDto
      * @return DatePoll Objekt.
      */
-    public DatePoll publishDatePoll(final DatePollBuilderAndView datePollBuilderAndView) {
+    /*public DatePoll publishDatePoll(final DatePollBuilderAndView datePollBuilderAndView) {
         final DatePoll created = datePollBuilderAndView.startBuildingDatePoll();
         datePollRepository.save(created);
         return created;
-    }
+    }*/
 
     /**
      * Wenn der Link noch nicht vergeben wurde wird dieser als Veröffentlichungslink gesetzt.
