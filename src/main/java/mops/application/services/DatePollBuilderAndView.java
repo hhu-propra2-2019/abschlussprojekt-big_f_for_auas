@@ -4,16 +4,16 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.Validation;
-import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollMetaInf;
 
+import java.io.Serializable;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Data
-public class DatePollBuilderAndView {
+public class DatePollBuilderAndView implements Serializable {
 
     private final DatePollBuilder builder;
     private DatePollConfig config;
@@ -21,13 +21,13 @@ public class DatePollBuilderAndView {
     private List<DatePollOptionDto> datePollOptionDtos;
     private Validation validation;
 
-    /**
+    /*
      * Methode dient zur erstellung des DatePoll Objektes.
      *
      * @return DatePoll Objekt, welches den derzeitigen Status des Builders implementiert
      */
-    public DatePoll startBuildingDatePoll() {
+    /*public DatePoll startBuildingDatePoll() {
         return this.builder.build();
-    }
+    }*/
 
 }
