@@ -12,5 +12,5 @@ public class DashboardListItemDto {
     private String datePollIdentifier;
     private String title;
     private LocalDateTime endDate;
-    private PollStatus status;
+    private String status;
 }

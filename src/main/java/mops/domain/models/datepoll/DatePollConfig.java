@@ -54,7 +54,6 @@ public class DatePollConfig implements ValidateAble {
      */
     @Override
     public Validation validate() {
-        Validation validation = Validation.noErrors();
-        return validation;
+        return Validation.noErrors();
     }
 }

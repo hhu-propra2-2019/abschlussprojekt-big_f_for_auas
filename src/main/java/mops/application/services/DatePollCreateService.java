@@ -1,5 +1,6 @@
 package mops.application.services;
 
+import lombok.NoArgsConstructor;
 import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
@@ -18,6 +19,7 @@ import java.util.List;
  * @author Niclas, Tim, Lukas
  */
 @Service
+@NoArgsConstructor // PMD zuliebe
 public class DatePollCreateService {
     /**
      * Initiale Methode zur Erstellung der Terminfindung.
@@ -26,10 +28,10 @@ public class DatePollCreateService {
      * @return Lombok-Builder DatePoll Objekt.
      */
     public DatePollBuilderAndView initializeDatePoll(final UserId creator) {
-        DatePollBuilder builder = DatePoll.builder();
-        DatePollBuilderAndView datePollBuilderAndView = new DatePollBuilderAndView(builder);
+        final DatePollBuilder builder = DatePoll.builder();
+        final DatePollBuilderAndView datePollBuilderAndView = new DatePollBuilderAndView(builder);
         //Hinzufuegen der default configuration fuer einen DatePoll (s. DatePollConfig NoArgsConstructor)
-        DatePollConfig defaultConfiguration = new DatePollConfig();
+        final DatePollConfig defaultConfiguration = new DatePollConfig();
         datePollBuilderAndView.setConfig(defaultConfiguration);
         //Setze den "creator" und die "default configuration" und validiere.
         datePollBuilderAndView.setValidation(
@@ -51,7 +53,7 @@ public class DatePollCreateService {
      */
     public void addDatePollMetaInf(
             final DatePollBuilderAndView datePollBuilderAndView, final DatePollMetaInf datePollMetaInf) {
-        DatePollBuilder builder = datePollBuilderAndView.getBuilder();
+        final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         datePollBuilderAndView.setValidation(
                 builder.datePollMetaInf(datePollMetaInf).getValidationState()
         );
@@ -67,7 +69,7 @@ public class DatePollCreateService {
      */
     public void initDatePollOptionList(
             final DatePollBuilderAndView datePollBuilderAndView, final List<DatePollOptionDto> datePollOptionDtos) {
-        DatePollBuilder builder = datePollBuilderAndView.getBuilder();
+        final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         datePollBuilderAndView.setValidation(
                 builder.datePollOptions(datePollOptionDtos).getValidationState()
         );
@@ -81,9 +83,9 @@ public class DatePollCreateService {
      * @param openDatePoll
      */
     public void openOrClosedPoll(final DatePollBuilderAndView datePollBuilderAndView, final boolean openDatePoll) {
-        DatePollBuilder builder = datePollBuilderAndView.getBuilder();
-        DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
-        DatePollConfig newConfig = oldConfig.withOpenForOwnEntries(openDatePoll);
+        final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
+        final DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
+        final DatePollConfig newConfig = oldConfig.withOpenForOwnEntries(openDatePoll);
         datePollBuilderAndView.setValidation(
                 builder.datePollConfig(newConfig).getValidationState()
         );
@@ -99,9 +101,9 @@ public class DatePollCreateService {
      */
     public void setDatePollChoiceType(
             final DatePollBuilderAndView datePollBuilderAndView, final boolean singleChoicePoll) {
-        DatePollBuilder builder = datePollBuilderAndView.getBuilder();
-        DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
-        DatePollConfig newConfig = oldConfig.withSingleChoice(singleChoicePoll);
+        final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
+        final DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
+        final DatePollConfig newConfig = oldConfig.withSingleChoice(singleChoicePoll);
         datePollBuilderAndView.setValidation(
                 builder.datePollConfig(newConfig).getValidationState()
         );
@@ -116,9 +118,9 @@ public class DatePollCreateService {
      * @param priority               Prioritaet an (true) oder aus (false).
      */
     public void setDatePollChoicePriority(final DatePollBuilderAndView datePollBuilderAndView, final boolean priority) {
-        DatePollBuilder builder = datePollBuilderAndView.getBuilder();
-        DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
-        DatePollConfig newConfig = oldConfig.withPriorityChoice(priority);
+        final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
+        final DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
+        final DatePollConfig newConfig = oldConfig.withPriorityChoice(priority);
         datePollBuilderAndView.setValidation(
                 builder.datePollConfig(newConfig).getValidationState()
         );
@@ -133,9 +135,9 @@ public class DatePollCreateService {
      * @param anonymous              Anonym (true) oder öffentlich (false).
      */
     public void setDatePollVisibility(final DatePollBuilderAndView datePollBuilderAndView, final boolean anonymous) {
-        DatePollBuilder builder = datePollBuilderAndView.getBuilder();
-        DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
-        DatePollConfig newConfig = oldConfig.withAnonymous(anonymous);
+        final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
+        final DatePollConfig oldConfig = datePollBuilderAndView.getConfig();
+        final DatePollConfig newConfig = oldConfig.withAnonymous(anonymous);
         datePollBuilderAndView.setValidation(
                 builder.datePollConfig(newConfig).getValidationState()
         );

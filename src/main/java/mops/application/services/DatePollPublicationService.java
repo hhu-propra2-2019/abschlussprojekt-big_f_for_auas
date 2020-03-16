@@ -1,5 +1,6 @@
 package mops.application.services;
 
+import lombok.NoArgsConstructor;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollLink;
@@ -13,11 +14,12 @@ import java.util.List;
 
 
 @Service
+@NoArgsConstructor // PMD zuliebe
 public class DatePollPublicationService {
 
     public static final String LINK_ALREADY_TAKEN = "Link already taken";
-    private DatePollRepository datePollRepository;
-    private GroupRepository groupRepository;
+    private transient DatePollRepository datePollRepository;
+    private transient GroupRepository groupRepository;
 
     /**
      * Beendet den Erstellungsprozess und speichert die erstellte Terminfindung.
@@ -26,7 +28,7 @@ public class DatePollPublicationService {
      * @return DatePoll Objekt.
      */
     public DatePoll publishDatePoll(final DatePollBuilderAndView datePollBuilderAndView) {
-        DatePoll created = datePollBuilderAndView.startBuildingDatePoll();
+        final DatePoll created = datePollBuilderAndView.startBuildingDatePoll();
         datePollRepository.save(created);
         return created;
     }
@@ -42,7 +44,7 @@ public class DatePollPublicationService {
         datePollRepository.load(link).ifPresent(datePoll -> {
             throw new IllegalArgumentException(LINK_ALREADY_TAKEN);
         });
-        DatePollBuilder builder = datePollBuilderAndView.getBuilder();
+        final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         datePollBuilderAndView.setValidation(
                 builder.datePollLink(link).getValidationState()
         );
@@ -56,7 +58,7 @@ public class DatePollPublicationService {
      * @param groupID                Id der betreffenden Gruppe
      */
     public void forGroup(final DatePollBuilderAndView datePollBuilderAndView, final GroupId groupID) {
-        List<UserId> userList = groupRepository.getUsersFromGroupByGroupId(groupID);
+        final List<UserId> userList = groupRepository.getUsersFromGroupByGroupId(groupID);
         forCertainUsers(datePollBuilderAndView, userList);
     }
 
@@ -68,7 +70,7 @@ public class DatePollPublicationService {
      * @param participants           Liste der betreffenden User
      */
     public void forCertainUsers(final DatePollBuilderAndView datePollBuilderAndView, final List<UserId> participants) {
-        DatePollBuilder builder = datePollBuilderAndView.getBuilder();
+        final DatePollBuilder builder = datePollBuilderAndView.getBuilder();
         datePollBuilderAndView.setValidation(
                 builder.participants(participants).getValidationState()
         );
