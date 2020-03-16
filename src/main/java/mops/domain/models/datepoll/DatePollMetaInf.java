@@ -9,12 +9,11 @@ import mops.domain.models.Validation;
 import mops.domain.models.datepoll.old.DatePollDescription;
 import mops.domain.models.datepoll.old.DatePollLocation;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class DatePollMetaInf implements ValidateAble, Serializable {
+public class DatePollMetaInf implements ValidateAble {
 
     private String title = "";
     private DatePollDescription datePollDescription;

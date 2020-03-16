@@ -5,8 +5,6 @@ import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import org.springframework.core.convert.converter.Converter;
 
-import java.time.LocalDateTime;
-
 public class MetaInfConverter implements Converter<MetaInfDto, DatePollMetaInf> {
 
     /**

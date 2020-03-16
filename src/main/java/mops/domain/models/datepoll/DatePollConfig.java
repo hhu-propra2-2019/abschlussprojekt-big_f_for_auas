@@ -7,12 +7,10 @@ import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import org.springframework.binding.validation.ValidationContext;
 
-import java.io.Serializable;
-
 @Getter
 @Setter
 @AllArgsConstructor
-public class DatePollConfig implements ValidateAble, Serializable {
+public class DatePollConfig implements ValidateAble {
 
     /**
      * true: User kann selbst Termine zur Abstimmung hinzufügen.
