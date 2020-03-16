@@ -1,12 +1,10 @@
 package mops.domain.models.datepoll;
 
 import lombok.Getter;
-import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class DatePollBuilder implements Serializable {
+public class DatePollBuilder {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
     //muss nicht 1-1 im ByteCode bekannt sein.
