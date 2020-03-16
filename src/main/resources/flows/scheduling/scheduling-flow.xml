@@ -76,6 +76,6 @@
         <transition on="submit" to="home"/>
     </view-state>
 
-    <end-state id="home" view="/"/>
+    <end-state id="home" view="externalRedirect:/"/>
 
 </flow>
