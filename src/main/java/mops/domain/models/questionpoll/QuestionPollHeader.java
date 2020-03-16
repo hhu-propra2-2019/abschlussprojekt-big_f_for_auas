@@ -3,10 +3,16 @@ package mops.domain.models.questionpoll;
 import lombok.NonNull;
 import lombok.Value;
 import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
+import org.springframework.binding.message.MessageBuilder;
+import org.springframework.binding.message.MessageResolver;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Value
-public class QuestionPollHeader implements ValidateAble {
+public class QuestionPollHeader implements Serializable {
 
   @NonNull
   private final String title;
@@ -32,8 +38,67 @@ public class QuestionPollHeader implements ValidateAble {
     }
   }
 
-  @Override
-  public Validation validate() {
-    return Validation.noErrors();
+  public List<MessageResolver> validate() {
+    List<MessageResolver> messageList = new ArrayList<>();
+    validateTitle()
+            .ifPresent(messageList::add);
+    validateDescription()
+            .ifPresent(messageList::add);
+    validateQuestion()
+            .ifPresent(messageList::add);
+    return messageList;
+  }
+
+  private Optional<MessageResolver> validateTitle() {
+    if (title.length() > 4) {
+      return Optional.of(
+              new MessageBuilder()
+                      .error()
+                      .source("title")
+                      .defaultText("Titel muss kürzer als 5 Zeichen sein !")
+                      .build());
+    }
+    if (title.length() == 0) {
+      return Optional.of(
+              new MessageBuilder()
+                      .error()
+                      .source("title")
+                      .defaultText("Titel ist ein Pflichtfeld !")
+                      .build());
+    }
+    return Optional.empty();
+  }
+
+  private Optional<MessageResolver> validateDescription() {
+    if (description.length() > 200) {
+      return Optional.of(
+              new MessageBuilder()
+                      .error()
+                      .source("description")
+                      .defaultText("Description muss kürzer als 200 Zeichen sein !")
+                      .build());
+    }
+    return Optional.empty();
+  }
+
+  private Optional<MessageResolver> validateQuestion() {
+    if (question.length() > 30) {
+      return Optional.of(
+              new MessageBuilder()
+                      .error()
+                      .source("question")
+                      .defaultText("Frage muss kürzer als 30 Zeichen sein !")
+                      .build());
+    }
+
+    if (question.length() == 0) {
+      return Optional.of(
+              new MessageBuilder()
+                      .error()
+                      .source("question")
+                      .defaultText("Frage ist ein Pflichtfeld !")
+                      .build());
+    }
+    return Optional.empty();
   }
 }
