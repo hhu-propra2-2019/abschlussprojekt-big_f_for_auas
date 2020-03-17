@@ -1,21 +1,21 @@
 package mops.domain.models;
 
 public enum FieldErrorNames {
-    DATE_POLL_IDENTIFIER(DatePollFields.DATE_POLL_LINK),
-    DATE_POLL_LOCATION(DatePollFields.DATE_POLL_META_INF),
-    DATE_POLL_LIFECYCLE(DatePollFields.DATE_POLL_META_INF),
-    DATE_POLL_TITLE_TOO_LONG(DatePollFields.DATE_POLL_META_INF),
-    DATE_POLL_TITLE_EMPTY(DatePollFields.DATE_POLL_META_INF),
-    TIMESPAN_SWAPPED(DatePollFields.TIMESPAN);
+    DATE_POLL_IDENTIFIER(PollFields.DATE_POLL_LINK),
+    DATE_POLL_LOCATION(PollFields.DATE_POLL_META_INF),
+    DATE_POLL_LIFECYCLE(PollFields.DATE_POLL_META_INF),
+    DATE_POLL_TITLE_TOO_LONG(PollFields.DATE_POLL_META_INF),
+    DATE_POLL_TITLE_EMPTY(PollFields.DATE_POLL_META_INF),
+    TIMESPAN_SWAPPED(PollFields.TIMESPAN);
 
 
-    private final DatePollFields parent;
+    private final PollFields parent;
 
-    FieldErrorNames(DatePollFields parent) {
+    FieldErrorNames(PollFields parent) {
         this.parent = parent;
     }
 
-    public boolean isChildOf(DatePollFields field) {
+    public boolean isChildOf(PollFields field) {
         return this.parent == field;
     }
 
