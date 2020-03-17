@@ -15,7 +15,7 @@ import javax.annotation.security.RolesAllowed;
 
 @Controller
 @SuppressWarnings("PMD.AtLeastOneConstructor")
-public final class DashboardController {
+public class DashboardController {
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
     /* Verletzung in externer API*/

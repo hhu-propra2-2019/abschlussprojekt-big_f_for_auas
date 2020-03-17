@@ -57,7 +57,7 @@
 
         <transition on="access" to="mobileSchedulingAccessSettings"/>
         <transition on="choiceoptions" to="mobileSchedulingChoiceOptions">
-            <evaluate expression="datePollAdapter.validate(metaInfDto, messageContext)"/>
+            <evaluate expression="datePollAdapter.validate(configDto, messageContext)"/>
         </transition>
     </view-state>
 

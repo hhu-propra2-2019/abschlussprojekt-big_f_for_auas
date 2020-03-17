@@ -146,7 +146,7 @@ public class DatePollCreateService {
      * dsfasf.
      * @return afdsfdsafafdsf
      */
-    public DatePoll newDatePoll() {
+    /*public DatePoll newDatePoll() {
         return new DatePoll();
-    }
+    }*/
 }
