@@ -2,28 +2,18 @@ package mops;
 
 import mops.application.services.DatePollBuilderAndView;
 import mops.application.services.DatePollCreateService;
-import mops.controllers.dtos.DatePollOptionDto;
-import mops.domain.models.datepoll.old.DatePollDescription;
-import mops.domain.models.datepoll.old.DatePollLifeCycle;
-import mops.domain.models.datepoll.old.DatePollLocation;
-import mops.domain.models.datepoll.DatePollConfig;
-import mops.domain.models.datepoll.DatePollMetaInf;
-import mops.domain.models.user.UserId;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import static org.assertj.core.api.Assertions.assertThat;
+
+// TODO: PMD Suppressions bearbeiten, sobald die Tests neu geschrieben wurden.
 
 @SuppressWarnings("PMD.AtLeastOneConstructor")
 public final class DatePollCreateServiceTest {
 
     @SuppressWarnings("PMD.BeanMembersShouldSerialize")
-    private DatePollCreateService datePollCreateService;
+    private DatePollCreateService datePollCreateService;//NOPMD
 
     @SuppressWarnings("PMD.BeanMembersShouldSerialize")
-    private DatePollBuilderAndView testDatePollBuilderAndView;
+    private DatePollBuilderAndView testDatePollBuilderAndView;//NOPMD
 
     @BeforeEach
     public void initDatePollCreateServiceTest() {

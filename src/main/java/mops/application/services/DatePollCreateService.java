@@ -1,13 +1,12 @@
 package mops.application.services;
 
 import lombok.NoArgsConstructor;
-import mops.controllers.dtos.DatePollOptionDto;
-import mops.domain.models.datepoll.*;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollBuilder;
+import mops.domain.models.datepoll.DatePollConfig;
+import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.user.UserId;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Dieser Service dient zur Erstellung eines(!) Terminfindungs-Objekt (DatePoll).
