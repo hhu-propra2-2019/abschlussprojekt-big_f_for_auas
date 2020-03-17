@@ -21,8 +21,6 @@ public class DatePollMetaInf implements ValidateAble {
     private DatePollLocation datePollLocation;
     private Timespan datePollLifeCycle;
 
-    private static final int MAX_TITLE_LENGTH = 60;
-
     public DatePollMetaInf(String title, String description, String location) {
         this.title = title;
         this.datePollDescription = new DatePollDescription(description);
