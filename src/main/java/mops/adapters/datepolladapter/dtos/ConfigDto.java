@@ -7,6 +7,8 @@ import java.io.Serializable;
 @Data
 public class ConfigDto implements Serializable {
 
+    public static final long serialVersionUID = 43545553524L;
+
     private boolean openForOwnEntries;
     private boolean singleChoice;
     private boolean priorityChoice;
