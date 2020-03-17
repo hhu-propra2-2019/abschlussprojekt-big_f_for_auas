@@ -18,12 +18,12 @@ public class QuestionPollHeader implements ValidateAble {
     private final String description;
 
     // Vorläufige Werte.
-    private final int MAX_TITLE_LENGTH = 20;
-    private final int MIN_TITLE_LENGTH = 5;
-    private final int MAX_QUESTION_LENGTH = 40;
-    private final int MIN_QUESTION_LENGTH = 5;
-    private final int MAX_DESCRIPTION_LENGTH = 80;
-    private final int MIN_DESCRIPTION_LENGTH = 0;
+    private static final int MAX_TITLE_LENGTH = 20;
+    private static final int MIN_TITLE_LENGTH = 5;
+    private static final int MAX_QUESTION_LENGTH = 40;
+    private static final int MIN_QUESTION_LENGTH = 5;
+    private static final int MAX_DESCRIPTION_LENGTH = 80;
+    private static final int MIN_DESCRIPTION_LENGTH = 0;
 
     /**
      * Speichert den Titel, die Frage und die optionale Beschreibung für eine QuestionPoll.
