@@ -17,10 +17,6 @@ public final class DatePoll {
     private DatePollConfig datePollConfig;
     private List<DatePollOption> datePollOptions;
     private List<UserId> participants;
-
-    /**
-     * Link fuer den DatePoll.
-     */
     private DatePollLink datePollLink;
 
     public static DatePollBuilder builder() {
