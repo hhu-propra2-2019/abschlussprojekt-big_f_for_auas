@@ -5,13 +5,11 @@ import lombok.Getter;
 import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
-
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
 public final class DatePoll {
-
 
     /**
      * Speichert Status der Umfrage, global und userspezifisch.
