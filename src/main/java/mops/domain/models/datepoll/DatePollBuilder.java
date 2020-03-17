@@ -1,7 +1,9 @@
 package mops.domain.models.datepoll;
 
 import lombok.Getter;
+import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.DatePollFields;
+import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
@@ -13,7 +15,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class DatePollBuilder {
+public final class DatePollBuilder {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
     //muss nicht 1-1 im ByteCode bekannt sein.
@@ -113,24 +115,22 @@ public class DatePollBuilder {
     }
 
     /*
-     * Fügt alle validierte Otions der Vorschlägeliste hinzu.
-     *
-     * @param datePollOptionsDtos Vorschläge die zu dieser Terminfindung hinzugefügt werden sollen.
-     * @return Referenz auf diesen DatePollBuilder.
+     * streams stellen keine LawOfDemeter violation dar
      */
-    /*public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
-        this.datePollOptionsTarget.addAll(validateAllAndGetCorrect(
     @SuppressWarnings({"PMD.LawOfDemeter"})
+    public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
+        this.pollOptionTargets.addAll(validateAllAndGetCorrect(
 
                 datePollOptionsDtos.stream()
-                        .map(dto -> new DatePollOption(dto.getStartDate(), dto.getEndDate()))
-                        .collect(Collectors.toList())
+                        .map(dto -> new DatePollOption(new Timespan(dto.getStartDate(), dto.getEndDate())))
+                        .collect(Collectors.toList()),
+                DatePollFields.DATE_POLL_OPTIONS
         ));
         if (!pollOptionTargets.isEmpty()) {
             validatedFields.add(DatePollFields.DATE_POLL_OPTIONS);
         }
         return this;
-    }*/
+    }
 
 
     /**
@@ -160,13 +160,7 @@ public class DatePollBuilder {
         return this;
     }
 
-    /*
-     * Baut das DatePoll Objekt, wenn alle Konstruktionssteps mind. 1 mal erfolgreich waren.
-     *
-     * @return Ein DatePoll Objekt in einem validen State.
-     */
-
-    /*public DatePoll build() {
+    public DatePoll build() {
         if (validationState.hasNoErrors() && validatedFields.equals(EnumSet.allOf(DatePollFields.class))) {
             return new DatePoll(
                     new PollRecordAndStatus(),
@@ -176,6 +170,6 @@ public class DatePollBuilder {
         } else {
             throw new IllegalStateException(COULD_NOT_CREATE);
         }
-    }*/
+    }
 
 }
