@@ -2,7 +2,7 @@ package mops.domain.models.questionpoll;
 
 import java.util.Collections;
 import lombok.Getter;
-import mops.controllers.dtos.InputFieldNames;
+import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
@@ -53,7 +53,7 @@ public class QuestionPollAccessibility implements ValidateAble {
         final Validation validator = Validation.noErrors();
         if (this.restrictedAccess && this.participants.size() < 2) {
             validator.appendValidation(
-                new Validation(InputFieldNames.QUESTION_POLL_ACCESS_NOT_ENOUGH_PARTICIPANTS_FOR_PRIVATE_POLL));
+                new Validation(FieldErrorNames.QUESTION_POLL_NOT_ENOUGH_PARTICIPANTS));
         }
         return validator;
     }
