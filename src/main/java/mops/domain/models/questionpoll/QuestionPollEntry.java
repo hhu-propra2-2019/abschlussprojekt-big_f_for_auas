@@ -15,16 +15,13 @@ public class QuestionPollEntry implements ValidateAble {
     private final String title;
     private long count;
 
-    private final int MAX_LENGTH_TITLE;
-    private final int MIN_LENGTH_TITLE;
+    //Vorläufige Werte
+    private final int MAX_LENGTH_TITLE = 40;
+    private final int MIN_LENGTH_TITLE = 10;
 
     public QuestionPollEntry(final String title) {
         this.title = title == null ? "" : title.trim();
         this.count = 0;
-
-        // vorläufige Werte.
-        this.MAX_LENGTH_TITLE = 40;
-        this.MIN_LENGTH_TITLE = 10;
     }
 
     @Override

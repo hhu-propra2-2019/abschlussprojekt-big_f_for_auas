@@ -17,12 +17,13 @@ public class QuestionPollHeader implements ValidateAble {
 
     private final String description;
 
-    private final int MAX_TITLE_LENGTH;
-    private final int MIN_TITLE_LENGTH;
-    private final int MAX_QUESTION_LENGTH;
-    private final int MIN_QUESTION_LENGTH;
-    private final int MAX_DESCRIPTION_LENGTH;
-    private final int MIN_DESCRIPTION_LENGTH;
+    // Vorläufige Werte.
+    private final int MAX_TITLE_LENGTH = 20;
+    private final int MIN_TITLE_LENGTH = 5;
+    private final int MAX_QUESTION_LENGTH = 40;
+    private final int MIN_QUESTION_LENGTH = 5;
+    private final int MAX_DESCRIPTION_LENGTH = 80;
+    private final int MIN_DESCRIPTION_LENGTH = 0;
 
     /**
      * Speichert den Titel, die Frage und die optionale Beschreibung für eine QuestionPoll.
@@ -38,14 +39,6 @@ public class QuestionPollHeader implements ValidateAble {
         } else {
             this.description = description.trim();
         }
-
-        // Vorläufige Werte.
-        this.MAX_DESCRIPTION_LENGTH = 80;
-        this.MIN_DESCRIPTION_LENGTH = 0;
-        this.MAX_QUESTION_LENGTH = 40;
-        this.MIN_QUESTION_LENGTH = 5;
-        this.MAX_TITLE_LENGTH = 20;
-        this.MIN_TITLE_LENGTH = 5;
     }
 
     @Override
