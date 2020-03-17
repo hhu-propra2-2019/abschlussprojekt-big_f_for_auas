@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DatePollAdapter {
 
-    private transient final ConversionService conversionService;
+    private final transient ConversionService conversionService;
 
     @Autowired
     public DatePollAdapter(ConversionService conversionService) {
