@@ -12,21 +12,25 @@ import mops.domain.models.user.UserId;
  */
 @Value
 public class QuestionPollBallot implements ValidateAble {
-  private final UserId user;
-  private final List<QuestionPollEntry> selectedEntries;
+    private final UserId user;
+    private final List<QuestionPollEntry> selectedEntries;
 
     /**
      * Konstruktor.
      * @param qpUserId
      * @param selectedEntries
      */
-  public QuestionPollBallot(UserId qpUserId, List<QuestionPollEntry> selectedEntries) {
-    this.user = qpUserId;
-    this.selectedEntries = Collections.unmodifiableList(selectedEntries);
-  }
+    public QuestionPollBallot(UserId qpUserId, List<QuestionPollEntry> selectedEntries) {
+        this.user = qpUserId;
+        this.selectedEntries = Collections.unmodifiableList(selectedEntries);
+    }
 
-  @Override
-  public Validation validate() {
-    return null;
-  }
+    /**
+     * ...
+     * @return...
+     */
+    @Override
+    public Validation validate() {
+        return null;
+    }
 }

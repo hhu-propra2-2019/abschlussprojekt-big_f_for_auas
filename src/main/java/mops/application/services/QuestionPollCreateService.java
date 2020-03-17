@@ -1,6 +1,10 @@
 package mops.application.services;
 
-import mops.domain.models.questionpoll.*;
+import mops.domain.models.questionpoll.QuestionPoll;
+import mops.domain.models.questionpoll.QuestionPollBuilder;
+import mops.domain.models.questionpoll.QuestionPollConfig;
+import mops.domain.models.questionpoll.QuestionPollEntry;
+import mops.domain.models.questionpoll.QuestionPollHeader;
 import mops.domain.models.user.UserId;
 import org.springframework.stereotype.Service;
 import java.util.List;

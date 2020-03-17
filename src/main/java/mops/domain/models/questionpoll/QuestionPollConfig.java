@@ -23,6 +23,10 @@ public class QuestionPollConfig implements ValidateAble {
         this.usingMultiChoice = false;
     }
 
+    /**
+     * ...
+     * @return...
+     */
     @Override
     public Validation validate() {
         return Validation.noErrors();
