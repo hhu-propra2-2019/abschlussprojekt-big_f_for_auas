@@ -41,6 +41,10 @@ public class QuestionPollHeader implements ValidateAble {
         }
     }
 
+    /**
+     * Validiert den Zustand des Headers.
+     * @return Validation Objekt.
+     */
     @Override
     public Validation validate() {
         Validation validator = Validation.noErrors();
