@@ -74,7 +74,7 @@ public class QuestionPollHeader implements ValidateAble {
     }
 
     private void validateQuestion(Validation validator) {
-        if (this.question = null) {
+        if (this.question == null) {
             validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_QUESTION_IS_NULL));
             return;
         }
