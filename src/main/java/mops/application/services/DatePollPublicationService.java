@@ -1,7 +1,6 @@
 package mops.application.services;
 
 import lombok.NoArgsConstructor;
-import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollLink;
 import mops.domain.models.group.GroupId;
