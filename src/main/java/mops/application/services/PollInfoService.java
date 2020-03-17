@@ -21,8 +21,8 @@ public class PollInfoService {
     private UserRepository userRepository;
 
     /**
-     * ...
-     * @param userId ...
+     * Gibt die Dtos für jeweils einen Eintrag im Dashboard zurück.
+     * @param userId für diesen User
      * @return ...
      */
     @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
@@ -41,8 +41,15 @@ public class PollInfoService {
         return dashboardListItemDtos;
     }
 
-    // Hier evtl. noch check einfügen, ob User berechtigt ist, diese Abstimmung zu sehen?
+    // TODO: Hier evtl. noch check einfügen, ob User berechtigt ist, diese Abstimmung zu sehen?
     // oder woanders? noch wird es jedenfalls ->nicht<- geprüft!!
+
+    /**
+     * Gibt das DTO für die Detailansicht einer Terminabstimmung zurück.
+     * @param userId für diesen User
+     * @param datePollLink die Referenz für die Terminabstimmung
+     * @return ...
+     */
     public DatePollDto datePollViewService(UserId userId, DatePollLink datePollLink) {
         final DatePoll datePoll = datePollRepository.getDatePollByLink(datePollLink);
         final DatePollDto datePollDto = new DatePollDto();

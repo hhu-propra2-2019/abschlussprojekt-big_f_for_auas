@@ -5,9 +5,6 @@ import lombok.Getter;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 @AllArgsConstructor
