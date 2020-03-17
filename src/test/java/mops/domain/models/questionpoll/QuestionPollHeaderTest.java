@@ -10,6 +10,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class QuestionPollHeaderTest {
     private Validation testValidator;
 
+    /**
+     * Erstellt leeren validator der in jedem Test angepasst wird.
+     */
     @BeforeEach
     public void setValidator() {
         this.testValidator = Validation.noErrors();
