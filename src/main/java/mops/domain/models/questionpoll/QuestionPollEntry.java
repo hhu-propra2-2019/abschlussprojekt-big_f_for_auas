@@ -30,7 +30,7 @@ public class QuestionPollEntry implements ValidateAble {
      */
     @Override
     public Validation validate() {
-        Validation validator = Validation.noErrors();
+        final Validation validator = Validation.noErrors();
         if (this.title.isEmpty()) {
             validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_TITLE_IS_EMPTY));
         }
