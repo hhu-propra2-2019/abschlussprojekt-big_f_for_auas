@@ -65,10 +65,10 @@ public class QuestionPollHeader implements ValidateAble {
         if (this.title.isEmpty()) {
             validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_TITLE_IS_EMPTY));
         }
-        if (this.title > this.MAX_TITLE_LENGTH) {
+        if (this.title.length() > this.MAX_TITLE_LENGTH) {
             validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_LONG));
         }
-        if (this.title < this.MIN_TITLE_LENGTH) {
+        if (this.title.length() < this.MIN_TITLE_LENGTH) {
             validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_SHORT));
         }
     }
