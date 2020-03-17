@@ -142,11 +142,12 @@ public class DatePollCreateService {
         datePollBuilderAndView.setConfig(newConfig);
     }*/
 
-    /**
-     * dsfasf.
-     * @return afdsfdsafafdsf
-     */
-    public DatePoll newDatePoll() {
-        return new DatePoll();
-    }
+//      WTF? - mfg Nathan
+//    /**
+//     * dsfasf.
+//     * @return afdsfdsafafdsf
+//     */
+//    public DatePoll newDatePoll() {
+//        return new DatePoll();
+//    }
 }
