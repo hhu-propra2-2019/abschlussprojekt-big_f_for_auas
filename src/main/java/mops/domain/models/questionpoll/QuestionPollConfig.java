@@ -24,8 +24,8 @@ public class QuestionPollConfig implements ValidateAble {
     }
 
     /**
-     * ...
-     * @return...
+     * Validiert die Config.
+     * @return Validation Objekt.
      */
     @Override
     public Validation validate() {
