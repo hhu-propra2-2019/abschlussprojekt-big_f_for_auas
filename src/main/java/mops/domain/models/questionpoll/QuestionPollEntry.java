@@ -45,5 +45,6 @@ public class QuestionPollEntry implements ValidateAble {
         if (this.count < 0) {
             validator.appendValidation(new Validation(InputFieldNames.QUESTION_POLL_ENTRY_COUNT_IS_NEGATIVE));
         }
+        return validator;
     }
 }
