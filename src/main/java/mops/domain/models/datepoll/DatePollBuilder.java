@@ -133,7 +133,7 @@ public final class DatePollBuilder {
                 datePollOptionsDtos.stream()
                         .map(dto -> new DatePollOption(new Timespan(dto.getStartDate(), dto.getEndDate())))
                         .collect(Collectors.toList()),
-                DatePollFields.DATE_POLL_OPTIONS
+                PollFields.DATE_POLL_OPTIONS
         ));
         if (!pollOptionTargets.isEmpty()) {
             validatedFields.add(PollFields.DATE_POLL_OPTIONS);
