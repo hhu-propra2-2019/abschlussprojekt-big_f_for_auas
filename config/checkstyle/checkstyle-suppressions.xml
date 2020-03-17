@@ -8,4 +8,5 @@
     <suppress files=".*\.java" checks="FinalParameters" />
     <suppress files=".*\.java"  checks="HiddenField"/>
     <suppress files=".*\.java"  checks="JavadocVariable"/>
+    <suppress files=".*\.java" checks="TodoComment" />
 </suppressions>
