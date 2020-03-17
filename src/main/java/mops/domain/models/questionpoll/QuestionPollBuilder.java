@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
+import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
@@ -22,7 +23,7 @@ public class QuestionPollBuilder {
     private transient QuestionPollLink linkTarget;
     private transient QuestionPollConfig configTarget;
     private transient QuestionPollHeader headerTarget;
-    private transient QuestionPollLifecycle lifecycleTarget;
+    private transient Timespan lifecycleTarget;
     private final transient List<QuestionPollEntry> entriesTarget = new ArrayList<>();
     private final transient Set<UserId> participants = new HashSet<>();
     private transient boolean accessRestriction;
@@ -159,7 +160,7 @@ public class QuestionPollBuilder {
      * @param questionPollLifecycle
      * @return Referenz auf diesen QuestionPollBuilder.
      */
-    public QuestionPollBuilder questionPollLifecycle(QuestionPollLifecycle questionPollLifecycle) {
+    public QuestionPollBuilder questionPollLifecycle(Timespan questionPollLifecycle) {
         validationProcessAndValidationHandling(
             questionPollLifecycle, lifecycle -> this.lifecycleTarget = lifecycle,
             QuestionPollFields.QUESTION_POLL_LIFECYCLE
