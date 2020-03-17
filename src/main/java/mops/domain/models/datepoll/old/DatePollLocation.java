@@ -15,6 +15,7 @@ public class DatePollLocation implements ValidateAble {
 
     /**
      * ...
+     *
      * @return
      */
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})

@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 public class DatePollMetaInf implements ValidateAble {
 
+    public static final int MAX_TITLE_LENGTH = 60;
     private String title = "";
     private DatePollDescription datePollDescription;
     private DatePollLocation datePollLocation;

@@ -14,16 +14,18 @@ public class DatePollLifeCycle implements ValidateAble {
 
     /**
      * Erzeugt ein Value Objekt für die Lebenspanne einer Terminfindung.
+     *
      * @param startDate start der Terminfindung
-     * @param endDate ende der Terminfindung
+     * @param endDate   ende der Terminfindung
      */
     public DatePollLifeCycle(LocalDateTime startDate, LocalDateTime endDate) {
-         this.startDate = startDate;
-         this.endDate = endDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     /**
      * ...
+     *
      * @return
      */
     @SuppressWarnings("checkstyle:LineLength")

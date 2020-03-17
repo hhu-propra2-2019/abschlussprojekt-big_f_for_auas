@@ -14,6 +14,7 @@ public class DatePollDescription implements ValidateAble {
 
     /**
      * ....
+     *
      * @return ...
      */
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
