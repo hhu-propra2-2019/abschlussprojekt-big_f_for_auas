@@ -9,7 +9,7 @@
 </head>
 <body>
     <form method="post" class="needs-validation" novalidate th:fragment="form"
-          th:object="${datePollMetaInf}" id="datePollMetaInf" th:action="${flowExecutionUrl}" >
+          th:object="${metaInfDto}" id="datePollMetaInf" th:action="${flowExecutionUrl}" >
 
         <div class="form-group">
             <label for="fileUpload" th:if="${terminfindung}">Terminfindung hochladen</label>
