@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.EnumSet;
 
 @Service
-public class DatePollAdapter {
+public final class DatePollAdapter {
 
     private final transient ConversionService conversionService;
 

@@ -142,7 +142,7 @@ public class DatePollCreateService {
         datePollBuilderAndView.setConfig(newConfig);
     }*/
 
-    /**
+    /*
      * dsfasf.
      * @return afdsfdsafafdsf
      */
