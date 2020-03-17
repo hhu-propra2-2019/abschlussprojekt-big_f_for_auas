@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class DatePollAdapter {
 
-    private final ConversionService conversionService;
+    private transient final ConversionService conversionService;
 
     @Autowired
     public DatePollAdapter(ConversionService conversionService) {
@@ -24,7 +24,7 @@ public class DatePollAdapter {
      * @return ob die Transition in den nächsten State stattfinden soll oder nicht
      */
     public boolean validate(MetaInfDto metaInfDto, MessageContext context) {
-        DatePollMetaInf metaInf = conversionService.convert(metaInfDto, DatePollMetaInf.class);
+        final DatePollMetaInf metaInf = conversionService.convert(metaInfDto, DatePollMetaInf.class);
         return metaInf.validate().hasNoErrors();
     }
 }

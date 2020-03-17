@@ -8,12 +8,11 @@ import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollMetaInf;
 
-import java.io.Serializable;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Data
-public class DatePollBuilderAndView implements Serializable {
+public class DatePollBuilderAndView {
 
     private final DatePollBuilder builder;
     private DatePollConfig config;

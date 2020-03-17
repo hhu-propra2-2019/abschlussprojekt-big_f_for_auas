@@ -7,13 +7,12 @@ import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public final class DatePoll implements Serializable {
+public final class DatePoll {
 
 
     /**

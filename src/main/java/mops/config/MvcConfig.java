@@ -1,11 +1,13 @@
 package mops.config;
 
+import lombok.NoArgsConstructor;
 import mops.adapters.datepolladapter.converters.MetaInfConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@NoArgsConstructor
 public class MvcConfig implements WebMvcConfigurer {
 
     /**

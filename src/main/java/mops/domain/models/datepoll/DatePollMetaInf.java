@@ -20,6 +20,8 @@ public class DatePollMetaInf implements ValidateAble {
     private DatePollLocation datePollLocation;
     private Timespan datePollLifeCycle;
 
+    private static final int MAX_TITLE_LENGTH = 60;
+
     public DatePollMetaInf(String title, String description, String location) {
         this.title = title;
         this.datePollDescription = new DatePollDescription(description);
@@ -45,7 +47,7 @@ public class DatePollMetaInf implements ValidateAble {
         Validation validation = Validation.noErrors();
         if (title.length() == 0) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.DATE_POLL_TITLE_EMPTY));
-        } else if (title.length() >= 60) {
+        } else if (title.length() >= MAX_TITLE_LENGTH) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.DATE_POLL_TITLE_TOO_LONG));
         }
         return validation

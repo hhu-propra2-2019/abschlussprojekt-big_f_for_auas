@@ -4,10 +4,9 @@ import lombok.Value;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
-import java.io.Serializable;
 
 @Value
-public class DatePollLocation implements ValidateAble, Serializable {
+public class DatePollLocation implements ValidateAble {
     //Shall we define standard rules for description / location strings?
     private transient String location;
     //Do we realy need longitude and latitude attributes for a location?
@@ -22,7 +21,6 @@ public class DatePollLocation implements ValidateAble, Serializable {
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();
-        final String errorMessage = "No location specified. DATE_POLL_LOCATION is not present.";
         if (location == null || location.equals(" ") || location.length() == 0) {
             validation = new Validation(FieldErrorNames.DATE_POLL_LOCATION);
         }

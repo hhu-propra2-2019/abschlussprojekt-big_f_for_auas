@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
-import org.springframework.binding.validation.ValidationContext;
 
 @Getter
 @Setter
@@ -49,6 +48,7 @@ public class DatePollConfig implements ValidateAble {
         this.singleChoice = false;
     }
 
+    // TODO: Sinnvolle Beschränkungen setzen, wenn verschiedene Optionen nicht zueinander passen o.Ä.
     /**
      * ...
      * @return
@@ -56,15 +56,5 @@ public class DatePollConfig implements ValidateAble {
     @Override
     public Validation validate() {
         return Validation.noErrors();
-    }
-
-
-    // TODO: Sinnvolle Beschränkungen setzen, wenn verschiedene Optionen nicht zueinander passen o.Ä.
-
-    /**
-     * Wird vom Builder oder von Web Flow für den State „mobileSchedulingChoiceSettings“ aufgerufen.
-     * @param context Der ValidationContext wird vom Builder oder Web Flow übergeben und ausgewertet.
-     */
-    public void validateMobileSchedulingChoiceSettings(ValidationContext context) {
     }
 }
