@@ -16,14 +16,18 @@ public class QuestionPollEntry implements ValidateAble {
     private long count;
 
     //Vorläufige Werte
-    private final int MAX_LENGTH_TITLE = 40;
-    private final int MIN_LENGTH_TITLE = 10;
+    private static final int MAX_LENGTH_TITLE = 40;
+    private static final int MIN_LENGTH_TITLE = 10;
 
     public QuestionPollEntry(final String title) {
         this.title = title == null ? "" : title.trim();
         this.count = 0;
     }
 
+    /** Validate the title ( possibles Answer from Question) if it empty or only whitespaces etc.
+     * Validate count if it is negative.
+     * @return
+     */
     @Override
     public Validation validate() {
         Validation validator = Validation.noErrors();
