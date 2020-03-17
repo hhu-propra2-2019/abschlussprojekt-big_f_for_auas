@@ -1,6 +1,9 @@
 package mops.utils;
 
-public class BootstrapValidInvalid {
+public final class BootstrapValidInvalidUtil {
+
+    private BootstrapValidInvalidUtil() {
+    }
 
     /**
      * Die Methode weist einem HTML-Input-Tag (k)eine Bootstrap-Klasse zu, falls das Eingabefeld gültig oder ungültig
