@@ -53,7 +53,8 @@ public class QuestionPollCreateService {
      * @param questionPollEntries
      */
     public void initQuestionPollEntryList(
-            final QuestionPollBuilderAndView questionPollBuilderAndView, final List<QuestionPollEntry> questionPollEntries) {
+            final QuestionPollBuilderAndView questionPollBuilderAndView,
+            final List<QuestionPollEntry> questionPollEntries) {
         QuestionPollBuilder builder = questionPollBuilderAndView.getBuilder();
         questionPollBuilderAndView.setValidation(
                 builder.questionPollEntries(questionPollEntries)
@@ -68,7 +69,8 @@ public class QuestionPollCreateService {
      * @param questionPollBuilderAndView
      * @param usingMultiChoice
      */
-    public void setUsingMultiChoice(final QuestionPollBuilderAndView questionPollBuilderAndView, final boolean usingMultiChoice) {
+    public void setUsingMultiChoice(final QuestionPollBuilderAndView questionPollBuilderAndView,
+                                    final boolean usingMultiChoice) {
         QuestionPollBuilder builder = questionPollBuilderAndView.getBuilder();
         QuestionPollConfig oldConfig = questionPollBuilderAndView.getConfig();
         QuestionPollConfig newConfig = oldConfig.withUsingMultiChoice(usingMultiChoice);
