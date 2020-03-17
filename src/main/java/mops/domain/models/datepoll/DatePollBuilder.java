@@ -28,7 +28,7 @@ public final class DatePollBuilder {
     @Getter
     private Validation validationState;
     private final transient EnumSet<PollFields> validatedFields = EnumSet.noneOf(PollFields.class);
-  
+
     private static final EnumSet<PollFields> VALIDSET = EnumSet.of(
         PollFields.DATE_POLL_META_INF,
         PollFields.DATE_POLL_LINK,
