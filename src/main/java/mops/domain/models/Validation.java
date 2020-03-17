@@ -37,7 +37,7 @@ public final class Validation {
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
     /* Keine LawOfDemeter Verletzung, da newValidation in der Methode erzeugt wird*/
-    public Validation removeErrors(DatePollFields fieldTyp) {
+    public Validation removeErrors(PollFields fieldTyp) {
         final Validation newValidation = noErrors();
         newValidation.errorMessages = EnumSet.copyOf(errorMessages);
         newValidation.errorMessages
