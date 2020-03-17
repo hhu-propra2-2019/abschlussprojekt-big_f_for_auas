@@ -47,51 +47,59 @@ public class QuestionPollHeader implements ValidateAble {
      */
     @Override
     public Validation validate() {
-        final Validation validator = Validation.noErrors();
-        validateTitle(validator);
-        validateQuestion(validator);
-        validateDescription(validator);
+        Validation validator = Validation.noErrors();
+        validator = validateTitle(validator);
+        validator = validateQuestion(validator);
+        validator = validateDescription(validator);
         return validator;
     }
 
-    private void validateTitle(Validation validator) {
+    private Validation validateTitle(Validation validator) {
+        Validation newValidator = validator;
         if (this.title == null) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_NULL));
-            return;
+            newValidator = newValidator.appendValidation(
+                    new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_NULL));
+        } else {
+            if (this.title.isEmpty()) {
+                newValidator = newValidator.appendValidation(
+                        new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_EMPTY));
+            } else if (this.title.length() < MIN_TITLE_LENGTH) {
+                newValidator = newValidator.appendValidation(
+                        new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_SHORT));
+            } else if (this.title.length() > MAX_TITLE_LENGTH) {
+                newValidator = newValidator.appendValidation(
+                        new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_LONG));
+            }
         }
-        if (this.title.isEmpty()) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_EMPTY));
-        }
-        if (this.title.length() > this.MAX_TITLE_LENGTH) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_LONG));
-        }
-        if (this.title.length() < this.MIN_TITLE_LENGTH) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_SHORT));
-        }
+        return newValidator;
     }
 
-    private void validateQuestion(Validation validator) {
+    private Validation validateQuestion(Validation validator) {
+        Validation newValidator = validator;
         if (this.question == null) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_NULL));
-            return;
+            newValidator = newValidator.appendValidation(
+                    new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_NULL));
+        } else {
+            if (this.question.isEmpty()) {
+                newValidator = newValidator.appendValidation(
+                        new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_EMPTY));
+            } else if (this.question.length() < MIN_QUESTION_LENGTH) {
+                newValidator = newValidator.appendValidation(
+                        new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_TOO_SHORT));
+            } else if (this.question.length() > MAX_QUESTION_LENGTH) {
+                newValidator = newValidator.appendValidation(
+                        new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_TOO_LONG));
+            }
         }
-        if (this.question.isEmpty()) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_QUESTION_IS_EMPTY));
-        }
-        if (this.question.length() > this.MAX_QUESTION_LENGTH) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_TOO_LONG));
-        }
-        if (this.question.length() < this.MIN_QUESTION_LENGTH) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_TOO_SHORT));
-        }
+        return newValidator;
     }
 
-    private void validateDescription(Validation validator) {
-        if (this.description.length() > this.MAX_DESCRIPTION_LENGTH) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_DESCRIPTION_IS_TOO_LONG));
+    private Validation validateDescription(Validation validator) {
+        Validation newValidator = validator;
+        if (this.description != null && this.description.length() > MAX_DESCRIPTION_LENGTH) {
+            newValidator = newValidator.appendValidation(
+                    new Validation(FieldErrorNames.QUESTION_POLL_DESCRIPTION_IS_TOO_LONG));
         }
-        if (this.description.length() < this.MIN_DESCRIPTION_LENGTH) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_DESCRIPTION_IS_TOO_SHORT));
-        }
+        return newValidator;
     }
 }
