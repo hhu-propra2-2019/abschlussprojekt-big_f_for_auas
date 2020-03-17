@@ -29,7 +29,7 @@ public class QuestionPollBuilder {
     private final transient Set<UserId> participants = new HashSet<>();
     private transient boolean accessRestriction;
 
-    private static final EnumSet<PollFields> validSet = EnumSet.of(
+    private static final EnumSet<PollFields> VALIDSET = EnumSet.of(
         PollFields.QUESTION_POLL_LIFECYCLE,
         PollFields.QUESTION_POLL_ACCESSIBILITY,
         PollFields.QUESTION_POLL_CONFIG,
@@ -140,7 +140,7 @@ public class QuestionPollBuilder {
     public QuestionPollBuilder questionPollParticipants(List<UserId> participants) {
         this.participants.addAll(validateAllAndGetCorrect(participants, PollFields.QUESTION_POLL_ACCESSIBILITY));
         if (!this.participants.isEmpty()) {
-            validatedFields.add(QuestionPollFields.PARTICIPANTS);
+            validatedFields.add(PollFields.PARTICIPANTS);
         }
         return this;
     }
@@ -188,7 +188,7 @@ public class QuestionPollBuilder {
      * @throws IllegalStateException
      */
     public QuestionPoll build() {
-        if (validationState.hasNoErrors() && validatedFields.equals(validSet)) {
+        if (validationState.hasNoErrors() && validatedFields.equals(VALIDSET)) {
             return new QuestionPoll(
                 linkTarget,
                 Collections.unmodifiableList(entriesTarget),
