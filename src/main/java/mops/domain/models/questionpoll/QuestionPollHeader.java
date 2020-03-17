@@ -47,7 +47,7 @@ public class QuestionPollHeader implements ValidateAble {
      */
     @Override
     public Validation validate() {
-        Validation validator = Validation.noErrors();
+        final Validation validator = Validation.noErrors();
         validateTitle(validator);
         validateQuestion(validator);
         validateDescription(validator);
