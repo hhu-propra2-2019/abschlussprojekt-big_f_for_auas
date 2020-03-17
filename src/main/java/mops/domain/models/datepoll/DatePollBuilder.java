@@ -1,7 +1,9 @@
 package mops.domain.models.datepoll;
 
 import lombok.Getter;
-import mops.domain.models.DatePollFields;
+import mops.domain.models.PollFields;
+import mops.controllers.dtos.DatePollOptionDto;
+import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
@@ -13,7 +15,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class DatePollBuilder {
+public final class DatePollBuilder {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
     //muss nicht 1-1 im ByteCode bekannt sein.
@@ -25,7 +27,16 @@ public class DatePollBuilder {
     private transient DatePollLink linkTarget;
     @Getter
     private Validation validationState;
-    private final transient EnumSet<DatePollFields> validatedFields = EnumSet.noneOf(DatePollFields.class);
+    private final transient EnumSet<PollFields> validatedFields = EnumSet.noneOf(PollFields.class);
+  
+    private static final EnumSet<PollFields> VALIDSET = EnumSet.of(
+        PollFields.DATE_POLL_META_INF,
+        PollFields.DATE_POLL_LINK,
+        PollFields.DATE_POLL_CONFIG,
+        PollFields.DATE_POLL_OPTIONS,
+        PollFields.CREATOR,
+        PollFields.TIMESPAN,
+        PollFields.CREATOR);
 
     public DatePollBuilder() {
         validationState = Validation.noErrors();
@@ -38,7 +49,7 @@ public class DatePollBuilder {
      * weniger Responsebilities
      */
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.LawOfDemeter"})//NOPMD
-    private <T extends ValidateAble> Optional<T> validationProcess(T validateAble, DatePollFields fields) {
+    private <T extends ValidateAble> Optional<T> validationProcess(T validateAble, PollFields fields) {
         final Validation newValidation = validateAble.validate();
         validationState = validationState.removeErrors(fields);
         validationState = validationState.appendValidation(newValidation);
@@ -54,7 +65,7 @@ public class DatePollBuilder {
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
     private <T extends ValidateAble> void validationProcessAndValidationHandling(
-            T validateAble, Consumer<T> applyToValidated, DatePollFields addToFieldsAfterSuccessfulValidation) {
+            T validateAble, Consumer<T> applyToValidated, PollFields addToFieldsAfterSuccessfulValidation) {
         validationProcess(validateAble, addToFieldsAfterSuccessfulValidation).ifPresent(validated -> {
             applyToValidated.accept(validated);
             validatedFields.add(addToFieldsAfterSuccessfulValidation);
@@ -65,7 +76,7 @@ public class DatePollBuilder {
      * streams stellen keine LawOfDemeter violation dar
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    private <T extends ValidateAble> List<T> validateAllAndGetCorrect(List<T> mappedOptions, DatePollFields fields) {
+    private <T extends ValidateAble> List<T> validateAllAndGetCorrect(List<T> mappedOptions, PollFields fields) {
         return mappedOptions.stream()
                 .map((T validateAble) -> validationProcess(validateAble, fields))
                 .filter(Optional::isPresent)
@@ -81,7 +92,7 @@ public class DatePollBuilder {
      */
     public DatePollBuilder datePollMetaInf(DatePollMetaInf datePollMetaInf) {
         validationProcessAndValidationHandling(
-                datePollMetaInf, metaInf -> this.metaInfTarget = metaInf, DatePollFields.DATE_POLL_META_INF
+                datePollMetaInf, metaInf -> this.metaInfTarget = metaInf, PollFields.DATE_POLL_META_INF
         );
         return this;
     }
@@ -94,7 +105,7 @@ public class DatePollBuilder {
      */
     public DatePollBuilder creator(UserId creator) {
         validationProcessAndValidationHandling(
-                creator, id -> this.pollCreatorTarget = id, DatePollFields.CREATOR
+                creator, id -> this.pollCreatorTarget = id, PollFields.CREATOR
         );
         return this;
     }
@@ -107,30 +118,28 @@ public class DatePollBuilder {
      */
     public DatePollBuilder datePollConfig(DatePollConfig datePollConfig) {
         validationProcessAndValidationHandling(
-                datePollConfig, config -> this.configTarget = config, DatePollFields.DATE_POLL_CONFIG
+                datePollConfig, config -> this.configTarget = config, PollFields.DATE_POLL_CONFIG
         );
         return this;
     }
 
     /*
-     * Fügt alle validierte Otions der Vorschlägeliste hinzu.
-     *
-     * @param datePollOptionsDtos Vorschläge die zu dieser Terminfindung hinzugefügt werden sollen.
-     * @return Referenz auf diesen DatePollBuilder.
+     * streams stellen keine LawOfDemeter violation dar
      */
-    /*public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
-        this.datePollOptionsTarget.addAll(validateAllAndGetCorrect(
     @SuppressWarnings({"PMD.LawOfDemeter"})
+    public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
+        this.pollOptionTargets.addAll(validateAllAndGetCorrect(
 
                 datePollOptionsDtos.stream()
-                        .map(dto -> new DatePollOption(dto.getStartDate(), dto.getEndDate()))
-                        .collect(Collectors.toList())
+                        .map(dto -> new DatePollOption(new Timespan(dto.getStartDate(), dto.getEndDate())))
+                        .collect(Collectors.toList()),
+                PollFields.DATE_POLL_OPTIONS
         ));
         if (!pollOptionTargets.isEmpty()) {
-            validatedFields.add(DatePollFields.DATE_POLL_OPTIONS);
+            validatedFields.add(PollFields.DATE_POLL_OPTIONS);
         }
         return this;
-    }*/
+    }
 
 
     /**
@@ -140,9 +149,9 @@ public class DatePollBuilder {
      * @return Referenz auf diesen DatePollBuilder.
      */
     public DatePollBuilder participants(List<UserId> participants) {
-        this.pollParticipantTargets.addAll(validateAllAndGetCorrect(participants, DatePollFields.PARTICIPANTS));
+        this.pollParticipantTargets.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPANTS));
         if (!this.pollParticipantTargets.isEmpty()) {
-            validatedFields.add(DatePollFields.PARTICIPANTS);
+            validatedFields.add(PollFields.PARTICIPANTS);
         }
         return this;
     }
@@ -155,7 +164,7 @@ public class DatePollBuilder {
      */
     public DatePollBuilder datePollLink(DatePollLink datePollLink) {
         validationProcessAndValidationHandling(
-                datePollLink, link -> this.linkTarget = link, DatePollFields.DATE_POLL_LINK
+                datePollLink, link -> this.linkTarget = link, PollFields.DATE_POLL_LINK
         );
         return this;
     }
@@ -165,9 +174,8 @@ public class DatePollBuilder {
      *
      * @return Ein DatePoll Objekt in einem validen State.
      */
-
-    /*public DatePoll build() {
-        if (validationState.hasNoErrors() && validatedFields.equals(EnumSet.allOf(DatePollFields.class))) {
+    public DatePoll build() {
+        if (validationState.hasNoErrors() && validatedFields.equals(VALIDSET)) {
             return new DatePoll(
                     new PollRecordAndStatus(),
                     metaInfTarget, pollCreatorTarget, configTarget,
@@ -176,6 +184,5 @@ public class DatePollBuilder {
         } else {
             throw new IllegalStateException(COULD_NOT_CREATE);
         }
-    }*/
-
+    }
 }
