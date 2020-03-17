@@ -33,7 +33,7 @@ public final class Validation {
         return newValidation;
     }
 
-    public Validation removeErrors(DatePollFields fieldTyp) {
+    public Validation removeErrors(PollFields fieldTyp) {
         Validation newValidation = noErrors();
         newValidation.errorMessages = EnumSet.copyOf(errorMessages);
         newValidation.errorMessages
