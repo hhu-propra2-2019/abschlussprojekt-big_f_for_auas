@@ -1,8 +1,11 @@
 package mops.controllers.daos;
 
+import lombok.Data;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
+@Data
 class DatePollConfigDao {
     private boolean prioritychoice;
     private boolean anononymous;

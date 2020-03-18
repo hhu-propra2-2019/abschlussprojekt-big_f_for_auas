@@ -16,10 +16,10 @@ import javax.persistence.FetchType;
 public class DatePollOptionDao {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     private DatePollDao datePollDaoId;
     private String description;
     @Embedded
-    private DatePollLifeCycleDao datePollLifeCycleDao;
+    private PollLifeCycleDao pollLifeCycleDao;
 }

@@ -6,7 +6,7 @@ import javax.persistence.Embeddable;
 import java.time.LocalDateTime;
 
 @Embeddable
-class DatePollLifeCycleDao {
+class PollLifeCycleDao {
     @DateTimeFormat
     private LocalDateTime startdate;
     @DateTimeFormat

@@ -1,12 +1,13 @@
 package mops.controllers.daos;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "user")
 public class UserDao {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private DatePollDao datePollDao;
 }
