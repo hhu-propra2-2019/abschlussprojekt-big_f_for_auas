@@ -54,11 +54,7 @@ public class QuestionPollBuilder {
         final Validation newValidation = validateAble.validate();
         validationState = validationState.removeErrors(fields);
         validationState = validationState.appendValidation(newValidation);
-        Optional<T> result = Optional.empty(); //NOPMD
-        if (newValidation.hasNoErrors()) {
-            result = Optional.of(validateAble);
-        }
-        return result;
+        return newValidation.hasNoErrors() ? Optional.of(validateAble) : Optional.empty();
     }
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
