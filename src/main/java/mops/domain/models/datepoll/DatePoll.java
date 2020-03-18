@@ -35,7 +35,10 @@ public final class DatePoll {
     }
 
     public void castBallot(DatePollBallot ballot) {
-        return;
+        updatePollStatus();
+        if (pollRecordAndStatus.isTerminated()) {
+            return;
+        }
     }
 
     private void updatePollStatus() {
