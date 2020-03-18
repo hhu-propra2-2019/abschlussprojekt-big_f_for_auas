@@ -3,6 +3,7 @@ package mops.domain.models.questionpoll;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Set;
 import mops.domain.models.Validation;
@@ -19,6 +20,6 @@ public class QuestionPollAccessibilityTest {
         QuestionPollAccessibility accessTest = new QuestionPollAccessibility(true, mockSet);
         Validation validator = accessTest.validate();
 
-        assertFalse(validator.hasNoErrors());
+        assertThat(validator.hasNoErrors()).isFalse();
     }
 }
