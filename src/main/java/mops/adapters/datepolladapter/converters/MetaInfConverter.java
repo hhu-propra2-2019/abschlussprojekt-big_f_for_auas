@@ -11,23 +11,30 @@ public class MetaInfConverter implements Converter<MetaInfDto, DatePollMetaInf> 
 
     /**
      * Konvertiert das MetaInfDto in das eigentliche Objekt.
-     * @param metaInfDto    das DTO von Web Flow
-     * @return              das richtige Objekt DatePollMetaInf
+     *
+     * @param metaInfDto das DTO von Web Flow
+     * @return das richtige Objekt DatePollMetaInf
      */
     @Override
+    @SuppressWarnings({"PMD.LawOfDemeter"})
+    /* DTO ist einfacher Datencontainer,reduktion der Kopplung ist hier eher unnötig*/
     public DatePollMetaInf convert(MetaInfDto metaInfDto) {
-        if (metaInfDto.getStartTime() != null) {
+        DatePollMetaInf datePollMetaInf;
+        if (metaInfDto.getStartTime() == null) {
+            datePollMetaInf = new DatePollMetaInf(
+                    metaInfDto.getTitle(),
+                    metaInfDto.getDescription(),
+                    metaInfDto.getLocation());
+
+        } else {
             final Timespan timespan = new Timespan(metaInfDto.getStartDate().atTime(metaInfDto.getStartTime()),
-                                    metaInfDto.getEndDate().atTime(metaInfDto.getEndTime()));
-            return new DatePollMetaInf(
+                    metaInfDto.getEndDate().atTime(metaInfDto.getEndTime()));
+            datePollMetaInf = new DatePollMetaInf(
                     metaInfDto.getTitle(),
                     metaInfDto.getDescription(),
                     metaInfDto.getLocation(),
                     timespan);
         }
-        return new DatePollMetaInf(
-                metaInfDto.getTitle(),
-                metaInfDto.getDescription(),
-                metaInfDto.getLocation());
+        return datePollMetaInf;
     }
 }
