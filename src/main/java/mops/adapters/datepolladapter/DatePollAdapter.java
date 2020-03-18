@@ -4,6 +4,7 @@ import mops.adapters.datepolladapter.dtos.ConfigDto;
 import mops.adapters.datepolladapter.dtos.MetaInfDto;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.Validation;
+import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageBuilder;
@@ -37,7 +38,10 @@ public final class DatePollAdapter {
     }
 
     public boolean validate(ConfigDto configDto, MessageContext context) {
-        return false;
+        final DatePollConfig config = conversionService.convert(configDto, DatePollConfig.class);
+        final Validation validation = config.validate();
+        mapErrors(validation.getErrorMessages(), context);
+        return validation.hasNoErrors();
     }
 
     private void mapErrors(EnumSet<FieldErrorNames> errors, MessageContext context) {
