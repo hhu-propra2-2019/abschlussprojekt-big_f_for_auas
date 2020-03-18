@@ -42,6 +42,9 @@ public final class DatePoll {
         if (!datePollConfig.isOpen() && !participants.contains(ballot.getUser())) {
             return;
         }
+        if (datePollConfig.isSingleChoice() && ballot.getSelectedEntriesYes().size() > 1) {
+            return;
+        }
     }
 
     private void updatePollStatus() {
