@@ -5,7 +5,7 @@ import lombok.Value;
 import java.time.LocalDateTime;
 
 @Value
-public class Timespan {
+public class Timespan implements ValidateAble {
 
     private LocalDateTime startDate;
     private LocalDateTime endDate;
