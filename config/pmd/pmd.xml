@@ -17,6 +17,7 @@
     <rule ref="category/java/codestyle.xml">
         <exclude name="LongVariable"/>
         <exclude name="ShortVariable"/>
+        <exclude name="OnlyOneReturn"/>
         <!-- schon in Checkstyle -->
         <exclude name="MethodArgumentCouldBeFinal"/>
         <exclude name="ShortClassName"/>
