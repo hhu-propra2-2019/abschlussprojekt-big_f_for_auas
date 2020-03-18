@@ -39,7 +39,7 @@ public final class DatePoll {
     }
 
     private void updatePollStatus() {
-        if (getDatePollMetaInf().getDatePollLifeCycle().isBeforeEnd(LocalDateTime.now())) {
+        if (datePollMetaInf.isBeforeEnd(LocalDateTime.now())) {
             pollRecordAndStatus.terminate();
         }
     }
