@@ -38,6 +38,8 @@ public class QuestionPollBuilder {
         PollFields.QUESTION_POLL_LINK,
         PollFields.CREATOR);
 
+    private static final int MIN_ENTRIES = 2;
+
     @Getter
     private Validation validationState;
     private final transient EnumSet<PollFields> validatedFields = EnumSet.noneOf(PollFields.class);
@@ -52,7 +54,7 @@ public class QuestionPollBuilder {
         final Validation newValidation = validateAble.validate();
         validationState = validationState.removeErrors(fields);
         validationState = validationState.appendValidation(newValidation);
-        Optional<T> result = Optional.empty();
+        Optional<T> result = Optional.empty(); //NOPMD
         if (newValidation.hasNoErrors()) {
             result = Optional.of(validateAble);
         }
@@ -123,7 +125,7 @@ public class QuestionPollBuilder {
      */
     public QuestionPollBuilder questionPollEntries(List<QuestionPollEntry> questionPollEntries) {
         this.entriesTarget.addAll(validateAllAndGetCorrect(questionPollEntries, PollFields.QUESTION_POLL_ENTRY));
-        if (this.entriesTarget.size() >= 2) {
+        if (this.entriesTarget.size() >= MIN_ENTRIES) {
             validatedFields.add(PollFields.QUESTION_POLL_ENTRY);
         } else {
             validatedFields.remove(PollFields.QUESTION_POLL_ENTRY);
