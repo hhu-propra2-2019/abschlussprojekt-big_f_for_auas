@@ -1,6 +1,5 @@
 package mops.domain.models.questionpoll;
 
-import lombok.NonNull;
 import lombok.Value;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
@@ -9,10 +8,8 @@ import mops.domain.models.Validation;
 @Value
 public class QuestionPollHeader implements ValidateAble {
 
-    @NonNull
     private final String title;
 
-    @NonNull
     private final String question;
 
     private final String description;
@@ -32,8 +29,16 @@ public class QuestionPollHeader implements ValidateAble {
      * @param description
      */
     public QuestionPollHeader(final String title, final String question, final String description) {
-        this.title = title.trim();
-        this.question = question.trim();
+        if (title == null) {
+            this.title = "";
+        } else {
+            this.title = title.trim();
+        }
+        if (question == null) {
+            this.question = "";
+        } else {
+            this.question = question.trim();
+        }
         if (description == null || description.trim().isBlank()) {
             this.description = "";
         } else {

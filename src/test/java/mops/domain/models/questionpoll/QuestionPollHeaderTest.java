@@ -59,16 +59,15 @@ public class QuestionPollHeaderTest { //NOPMD
         assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
     }
 
-    //@NotNull an Feld
-    /*@Test
+    @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void nullTitle() {
         final QuestionPollHeader header = new QuestionPollHeader(null, "Question", "");
         this.testValidator = this.testValidator.appendValidation(
-                new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_NULL));
+                new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_EMPTY));
         final Validation validator = header.validate();
         assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
-    }*/
+    }
 
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
@@ -101,16 +100,15 @@ public class QuestionPollHeaderTest { //NOPMD
         assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
     }
 
-    //@NotNull an Feld
-    /*@Test
+    @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void nullQuestion() {
-        final QuestionPollHeader header = new QuestionPollHeader(niceTitle, null, "");
+        final QuestionPollHeader header = new QuestionPollHeader(VALID_TITLE, null, "");
         this.testValidator = this.testValidator.appendValidation(
-                new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_NULL));
+                new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_EMPTY));
         final Validation validator = header.validate();
         assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
-    }*/
+    }
 
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
