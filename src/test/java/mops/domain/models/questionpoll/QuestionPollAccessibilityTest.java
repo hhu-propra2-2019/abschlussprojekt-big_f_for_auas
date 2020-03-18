@@ -13,11 +13,11 @@ public class QuestionPollAccessibilityTest {
 
     @Test
     public void closedPollNeedsParticipantsSizeAboveOne() {
-        Set<UserId> mockSet = (Set<UserId>) mock(Set.class);
+        final Set<UserId> mockSet = (Set<UserId>) mock(Set.class);
         when(mockSet.size()).thenReturn(1);
 
-        QuestionPollAccessibility accessTest = new QuestionPollAccessibility(true, mockSet);
-        Validation validator = accessTest.validate();
+        final QuestionPollAccessibility accessTest = new QuestionPollAccessibility(true, mockSet);
+        final Validation validator = accessTest.validate();
 
         assertFalse(validator.hasNoErrors());
     }
