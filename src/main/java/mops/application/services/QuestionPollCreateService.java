@@ -18,10 +18,10 @@ public class QuestionPollCreateService {
      * @return Lombok-Builder QuestionPoll Objekt.
      */
     public QuestionPollBuilderAndView initializeQuestionPoll(final UserId owner) {
-        QuestionPollBuilder builder = QuestionPoll.builder();
-        QuestionPollBuilderAndView questionPollBuilderAndView = new QuestionPollBuilderAndView(builder);
+        final QuestionPollBuilder builder = QuestionPoll.builder();
+        final QuestionPollBuilderAndView questionPollBuilderAndView = new QuestionPollBuilderAndView(builder);
         //Hinzufuegen der default configuration fuer einen QuestionPoll (s. QuestionPollConfig NoArgsConstructor)
-        QuestionPollConfig defaultConfiguration = new QuestionPollConfig();
+        final QuestionPollConfig defaultConfiguration = new QuestionPollConfig();
         questionPollBuilderAndView.setConfig(defaultConfiguration);
         //Setze den "creator" und die "default configuration" und validiere.
         questionPollBuilderAndView.setValidation(
@@ -40,7 +40,7 @@ public class QuestionPollCreateService {
      */
     public void addQuestionPollHeader(
             final QuestionPollBuilderAndView questionPollBuilderAndView, final QuestionPollHeader questionPollHeader) {
-        QuestionPollBuilder builder = questionPollBuilderAndView.getBuilder();
+        final QuestionPollBuilder builder = questionPollBuilderAndView.getBuilder();
         questionPollBuilderAndView.setValidation(
                 builder.questionPollHeader(questionPollHeader).getValidationState()
         );
@@ -55,7 +55,7 @@ public class QuestionPollCreateService {
     public void initQuestionPollEntryList(
             final QuestionPollBuilderAndView questionPollBuilderAndView,
             final List<QuestionPollEntry> questionPollEntries) {
-        QuestionPollBuilder builder = questionPollBuilderAndView.getBuilder();
+        final QuestionPollBuilder builder = questionPollBuilderAndView.getBuilder();
         questionPollBuilderAndView.setValidation(
                 builder.questionPollEntries(questionPollEntries)
                         .getValidationState()
@@ -71,9 +71,9 @@ public class QuestionPollCreateService {
      */
     public void setUsingMultiChoice(final QuestionPollBuilderAndView questionPollBuilderAndView,
                                     final boolean usingMultiChoice) {
-        QuestionPollBuilder builder = questionPollBuilderAndView.getBuilder();
-        QuestionPollConfig oldConfig = questionPollBuilderAndView.getConfig();
-        QuestionPollConfig newConfig = oldConfig.withUsingMultiChoice(usingMultiChoice);
+        final QuestionPollBuilder builder = questionPollBuilderAndView.getBuilder();
+        final QuestionPollConfig oldConfig = questionPollBuilderAndView.getConfig();
+        final QuestionPollConfig newConfig = oldConfig.withUsingMultiChoice(usingMultiChoice);
         questionPollBuilderAndView.setValidation(
                 builder.questionPollConfig(newConfig).getValidationState()
         );
@@ -87,9 +87,9 @@ public class QuestionPollCreateService {
      * @param usingAlias
      */
     public void setUsingAlias(final QuestionPollBuilderAndView questionPollBuilderAndView, final boolean usingAlias) {
-        QuestionPollBuilder builder = questionPollBuilderAndView.getBuilder();
-        QuestionPollConfig oldConfig = questionPollBuilderAndView.getConfig();
-        QuestionPollConfig newConfig = oldConfig.withUsingAlias(usingAlias);
+        final QuestionPollBuilder builder = questionPollBuilderAndView.getBuilder();
+        final QuestionPollConfig oldConfig = questionPollBuilderAndView.getConfig();
+        final QuestionPollConfig newConfig = oldConfig.withUsingAlias(usingAlias);
         questionPollBuilderAndView.setValidation(
                 builder.questionPollConfig(newConfig).getValidationState()
         );
