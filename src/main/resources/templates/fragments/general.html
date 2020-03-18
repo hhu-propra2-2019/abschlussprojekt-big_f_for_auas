@@ -35,6 +35,10 @@
         <hr/>
     </div>
 
+    <div class="general-error-banner" th:fragment="defaultErrorAlerts">
+        <div class="alert alert-danger" th:errors="*{defaulterrors}" th:text="${err}"></div>
+    </div>
+
 
 </body>
 </html>
