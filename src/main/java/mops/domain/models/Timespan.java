@@ -15,9 +15,15 @@ public class Timespan implements ValidateAble {
      * @return Validation-Objekt mit oder ohne Error
      */
     public Validation validate() {
-        final Validation validation = Validation.noErrors();
+        Validation validation = Validation.noErrors();
+        if (startDate == null) {
+            return validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_START_NULL));
+        }
+        if (endDate == null) {
+            return validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_END_NULL));
+        }
         if (endDate.isBefore(startDate)) {
-            validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SWAPPED));
+            validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SWAPPED));
         }
         return validation;
     }
