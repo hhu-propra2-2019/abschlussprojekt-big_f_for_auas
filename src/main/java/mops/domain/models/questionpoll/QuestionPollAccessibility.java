@@ -50,10 +50,10 @@ public class QuestionPollAccessibility implements ValidateAble {
      */
     @Override
     public Validation validate() {
-        final Validation validator = Validation.noErrors();
+        Validation validator = Validation.noErrors();
         if (this.restrictedAccess && this.participants.size() < 2) {
             validator.appendValidation(
-                new Validation(FieldErrorNames.QUESTION_POLL_NOT_ENOUGH_PARTICIPANTS));
+                validator = new Validation(FieldErrorNames.QUESTION_POLL_NOT_ENOUGH_PARTICIPANTS));
         }
         return validator;
     }
