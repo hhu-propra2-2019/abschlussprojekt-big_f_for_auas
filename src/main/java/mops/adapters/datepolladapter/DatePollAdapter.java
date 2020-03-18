@@ -8,19 +8,24 @@ import mops.domain.models.datepoll.DatePollMetaInf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.convert.ConversionService;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.EnumSet;
 
 @Service
+@PropertySource(value = "classpath:errormappings/datepollmappings.properties", encoding = "UTF-8")
 public final class DatePollAdapter {
 
     private final transient ConversionService conversionService;
+    private final transient Environment errorEnvironment;
 
     @Autowired
-    public DatePollAdapter(ConversionService conversionService) {
+    public DatePollAdapter(ConversionService conversionService, Environment env) {
         this.conversionService = conversionService;
+        this.errorEnvironment = env;
     }
 
     /**
@@ -44,8 +49,8 @@ public final class DatePollAdapter {
         errors.forEach(error -> context.addMessage(
                 new MessageBuilder()
                         .error()
-                        .code(error.getKey())
-                        .source("title")
+                        .code(error.toString())
+                        .source(errorEnvironment.getProperty(error.toString(), "defaulterrors"))
                         .build()));
     }
 }

@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
-public class MetaInfDto implements Serializable {
+public class MetaInfDto extends GeneralDto implements Serializable {
 
     public static final long serialVersionUID = 452345657L;
 

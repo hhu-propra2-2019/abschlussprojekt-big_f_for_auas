@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class ConfigDto implements Serializable {
+public class ConfigDto extends GeneralDto implements Serializable {
 
     public static final long serialVersionUID = 43545553524L;
 
