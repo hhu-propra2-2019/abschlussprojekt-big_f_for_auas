@@ -29,7 +29,7 @@ public class QuestionPollSyndicationService {
     /** Fügt eine Liste von UserIds zu der Liste der Nutzer hinzu, die an einer Umfrage Teilnehmen dürfen.
      * Darf nur aufgerufen werden, wenn es sich um eine geschlossene Umfrage handelt (restrictedAccess = true)
      * @param builder
-     * @param userId
+     * @param userIds
      */
     public void addParticipants(final QuestionPollBuilder builder, List<UserId> userIds) {
         builder.questionPollParticipants(userIds);
