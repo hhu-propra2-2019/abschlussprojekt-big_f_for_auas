@@ -8,4 +8,8 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 class PollRecordAndStatus extends mops.domain.models.pollstatus.PollRecordAndStatus {
+
+    void terminate() {
+        super.terminatePoll();
+    }
 }
