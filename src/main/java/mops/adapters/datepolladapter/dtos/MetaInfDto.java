@@ -1,11 +1,13 @@
 package mops.adapters.datepolladapter.dtos;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class MetaInfDto extends GeneralDto implements Serializable {
 
