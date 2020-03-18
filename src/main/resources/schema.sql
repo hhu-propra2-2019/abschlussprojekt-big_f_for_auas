@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS termine1;
-use termine1;
-
 drop table if exists datepoll;
 create table datepoll (
     id integer unsigned auto_increment not null primary key,

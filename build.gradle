@@ -48,6 +48,9 @@ ext {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.2.0'
+
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.keycloak:keycloak-spring-boot-starter:9.0.0'
