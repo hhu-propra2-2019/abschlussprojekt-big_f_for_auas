@@ -39,7 +39,7 @@ public class DatePollPublicationService {
      * @param link                   link zur späteren Veröffentlichung
      */
     public void requestLink(final DatePollBuilderAndView datePollBuilderAndView, final DatePollLink link)
-            throws IllegalArgumentException {
+            throws IllegalArgumentException { //NOPMD
         datePollRepository.load(link).ifPresent(datePoll -> {
             throw new IllegalArgumentException(LINK_ALREADY_TAKEN);
         });

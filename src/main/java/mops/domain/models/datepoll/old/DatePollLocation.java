@@ -23,7 +23,7 @@ public class DatePollLocation implements ValidateAble {
     public Validation validate() {
         Validation validation = Validation.noErrors();
         if (location == null || location.equals(" ") || location.length() == 0) {
-            validation = new Validation(FieldErrorNames.DATE_POLL_LOCATION);
+            validation = new Validation(FieldErrorNames.DATE_POLL_LOCATION_EMPTY);
         }
         return validation;
     }
