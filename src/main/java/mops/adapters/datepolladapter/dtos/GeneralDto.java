@@ -8,7 +8,7 @@ import lombok.Getter;
 class GeneralDto {
     private final boolean defaulterrors;
 
-    GeneralDto() {
+    /* default */ GeneralDto() {
         defaulterrors = false;
     }
 }
