@@ -1,5 +1,6 @@
 package mops.domain.models.datepoll;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,4 +38,9 @@ public final class DatePoll {
         return;
     }
 
+    private void updatePollStatus() {
+        if (getDatePollMetaInf().getDatePollLifeCycle().isBeforeEnd(LocalDateTime.now())) {
+            pollRecordAndStatus.terminate();
+        }
+    }
 }
