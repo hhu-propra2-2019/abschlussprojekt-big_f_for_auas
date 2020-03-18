@@ -1,5 +1,6 @@
 package mops.domain.models.datepoll;
 
+import lombok.Getter;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
@@ -7,6 +8,7 @@ import mops.domain.models.user.UserId;
 import java.util.Collections;
 import java.util.Set;
 
+@Getter
 public class DatePollBallot implements ValidateAble {
     private final UserId user;
     private final Set<DatePollEntry> selectedEntriesYes;

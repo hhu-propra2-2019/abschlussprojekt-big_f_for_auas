@@ -39,6 +39,9 @@ public final class DatePoll {
         if (pollRecordAndStatus.isTerminated()) {
             return;
         }
+        if (!datePollConfig.isOpen() && !participants.contains(ballot.getUser())) {
+            return;
+        }
     }
 
     private void updatePollStatus() {
