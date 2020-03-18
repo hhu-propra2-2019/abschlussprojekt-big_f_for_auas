@@ -1,17 +1,9 @@
 package mops.application.services;
 
 import lombok.NoArgsConstructor;
-import mops.controllers.dtos.DashboardListItemDto;
-import mops.controllers.dtos.DatePollDto;
-import mops.domain.models.datepoll.DatePoll;
-import mops.domain.models.datepoll.DatePollLink;
-import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import mops.domain.repositories.UserRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @Service
 @NoArgsConstructor // PMD zuliebe
@@ -20,12 +12,12 @@ public class PollInfoService {
     private DatePollRepository datePollRepository;
     private UserRepository userRepository;
 
-    /**
+    /*
      * Gibt die Dtos für jeweils einen Eintrag im Dashboard zurück.
      * @param userId für diesen User
      * @return ...
      */
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
+    /*@SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public List<DashboardListItemDto> dashboardService(UserId userId) {
         final List<DashboardListItemDto> dashboardListItemDtos = new LinkedList<>();
         final List<DatePoll> datePolls = datePollRepository.getDatePollsByUserId(userId);
@@ -39,18 +31,18 @@ public class PollInfoService {
             dashboardListItemDtos.add(dashboardListItemDto);
         }
         return dashboardListItemDtos;
-    }
+    }*/
 
     // TODO: Hier evtl. noch check einfügen, ob User berechtigt ist, diese Abstimmung zu sehen?
     // oder woanders? noch wird es jedenfalls ->nicht<- geprüft!!
 
-    /**
+    /*
      * Gibt das DTO für die Detailansicht einer Terminabstimmung zurück.
      * @param userId für diesen User
      * @param datePollLink die Referenz für die Terminabstimmung
      * @return ...
      */
-    public DatePollDto datePollViewService(UserId userId, DatePollLink datePollLink) {
+    /*public DatePollDto datePollViewService(UserId userId, DatePollLink datePollLink) {
         final DatePoll datePoll = datePollRepository.getDatePollByLink(datePollLink);
         final DatePollDto datePollDto = new DatePollDto();
         datePollDto.setDescription(datePoll.getDatePollMetaInf().getDatePollDescription().getDescription());
@@ -60,7 +52,7 @@ public class PollInfoService {
         datePollDto.setTitle(datePoll.getDatePollMetaInf().getTitle());
 
         return datePollDto;
-    }
+    }*/
 
 
 }

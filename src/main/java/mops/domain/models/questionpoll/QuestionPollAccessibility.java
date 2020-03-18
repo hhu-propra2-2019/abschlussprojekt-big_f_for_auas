@@ -1,9 +1,11 @@
 package mops.domain.models.questionpoll;
 
+import java.util.Collections;
 import lombok.Getter;
+import mops.domain.models.FieldErrorNames;
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
-
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -13,34 +15,46 @@ import java.util.Set;
  * Ist restrictedAccess = false, handelt es sich um eine offene Abstimmung und jeder kann abstimmen.
  * In diesem Fall spielt die participants Liste keine weitere Rolle.
  */
+@Getter
+public class QuestionPollAccessibility implements ValidateAble {
 
-public class QuestionPollAccessibility {
+    private final boolean restrictedAccess;
+    private final Set<UserId> participants;
 
-  @Getter
-  private final boolean restrictedAccess;
-  private final Set<UserId> participants;
-
-  public QuestionPollAccessibility(boolean pRestrictedAccess, Set<UserId> pParticipants) {
-    this.restrictedAccess = pRestrictedAccess;
-    participants = new HashSet<UserId>();
-    pParticipants.stream().forEach(id -> participants.add(id));
-  }
+    public QuestionPollAccessibility(boolean pRestrictedAccess, Set<UserId> pParticipants) {
+        this.restrictedAccess = pRestrictedAccess;
+        this.participants = Collections.unmodifiableSet(pParticipants);
+    }
 
 
-  /**
-   * Darf User wählen?
-   * @param id
-   * @return boolean
-   */
-  public boolean isUserParticipant(UserId id) {
-    return participants.contains(id);
-  }
+    /**
+     * Darf User wählen?
+     * @param id
+     * @return boolean
+     */
+    public boolean isUserParticipant(UserId id) {
+        return participants.contains(id);
+    }
 
-  /**
-   * Fügt einen User zu den Participants hinzu.
-   * @param userId
-   */
-  public void addUser(UserId userId) {
-    participants.add(userId);
-  }
+    /**
+     * Fügt einen User zu den Participants hinzu.
+     * @param userId
+     */
+    public void addUser(UserId userId) {
+        participants.add(userId);
+    }
+
+    /**
+     * Eine private Abstimmung muss mindestens zwischen 2 Nutzern stattfinden.
+     * @return das Validation Objekt.
+     */
+    @Override
+    public Validation validate() {
+        final Validation validator = Validation.noErrors();
+        if (this.restrictedAccess && this.participants.size() < 2) {
+            validator.appendValidation(
+                new Validation(FieldErrorNames.QUESTION_POLL_NOT_ENOUGH_PARTICIPANTS));
+        }
+        return validator;
+    }
 }

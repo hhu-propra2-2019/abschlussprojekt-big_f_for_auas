@@ -1,14 +1,34 @@
 package mops.domain.models.questionpoll;
 
+import lombok.AllArgsConstructor;
 import lombok.Value;
+import lombok.With;
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
 
 /**
  * Speichert Einstellungen ob die QuestionPoll anonym ist (usingAlias = true) und ob es sich um eine
  *  Multi-Choice Umfrage geben.
  */
 @Value
-public class QuestionPollConfig {
+@With
+@AllArgsConstructor
+public class QuestionPollConfig implements ValidateAble {
 
-  private final boolean usingAlias;
-  private final boolean usingMultiChoice;
+    private boolean usingAlias;
+    private boolean usingMultiChoice;
+
+    public QuestionPollConfig() {
+        this.usingAlias = false;
+        this.usingMultiChoice = false;
+    }
+
+    /**
+     * Validiert die Config.
+     * @return Validation Objekt.
+     */
+    @Override
+    public Validation validate() {
+        return Validation.noErrors();
+    }
 }

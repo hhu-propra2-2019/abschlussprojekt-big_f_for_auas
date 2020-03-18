@@ -3,7 +3,7 @@ package mops.application.services;
 
 import lombok.NoArgsConstructor;
 import mops.controllers.dtos.QuestionPollAccessibilityDto;
-import mops.domain.models.questionpoll.QuestionPollFactory;
+import mops.domain.models.questionpoll.QuestionPollBuilder;
 import mops.domain.models.questionpoll.QuestionPollLink;
 import mops.domain.models.repository.QuestionPollRepositoryInterface;
 import mops.domain.models.user.UserId;
@@ -17,29 +17,29 @@ public class QuestionPollSyndicationService {
 
     /** Schließt den Factory Prozess ab und speichert den generierte QuestionPolll ab.
      * Gibt generierte Url zurück
-     * @param factory
+     * @param builder
      * @return QuestionPollLink
      */
-    public QuestionPollLink publishQuestionPoll(final QuestionPollFactory factory) {
-        return questionPollRepo.save(factory.build());
+    public QuestionPollLink publishQuestionPoll(final QuestionPollBuilder builder) {
+        return questionPollRepo.save(builder.build());
     }
 
     /**
      * Setzt das Accessibility Objekt in der Factory.
-     * @param factory
+     * @param builder
      * @param accessibilityDto
      */
-    public void addAccessibility(final QuestionPollFactory factory,
+    public void addAccessibility(final QuestionPollBuilder builder,
                                  final QuestionPollAccessibilityDto accessibilityDto) {
-        factory.accessibility(accessibilityDto);
+
     }
 
     /** Fügt einen weiteren Nutzer zu der Liste der Nutzer hinzu, die an einer Umfrage Teilnehmen dürfen.
      * Darf nur aufgerufen werden, wenn es sich um eine geschlossene Umfrage handelt (restrictedAccess = true)
-     * @param factory
+     * @param builder
      * @param userId
      */
-    public void addParticipator(final QuestionPollFactory factory, UserId... userId) {
-        factory.accessibilityAddUser(userId);
+    public void addParticipator(final QuestionPollBuilder builder, UserId... userId) {
+
     }
 }
