@@ -14,15 +14,16 @@ public class Timespan implements ValidateAble {
      * Stellt sicher, dass das startDate vor dem endDate liegt.
      * @return Validation-Objekt mit oder ohne Error
      */
+    @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();
         if (startDate == null) {
-            return validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_START_NULL));
+            validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_START_NULL));
         }
-        if (endDate == null) {
-            return validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_END_NULL));
+        else if (endDate == null) {
+            validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_END_NULL));
         }
-        if (endDate.isBefore(startDate)) {
+        else if (endDate.isBefore(startDate)) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SWAPPED));
         }
         return validation;
