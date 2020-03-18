@@ -4,9 +4,7 @@ import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 public class DatePollBallot implements ValidateAble {

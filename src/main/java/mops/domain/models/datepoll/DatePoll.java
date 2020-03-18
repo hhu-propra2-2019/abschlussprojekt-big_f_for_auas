@@ -1,5 +1,6 @@
 package mops.domain.models.datepoll;
 
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.pollstatus.PollStatus;
@@ -11,13 +12,13 @@ import java.util.List;
 @AllArgsConstructor
 public final class DatePoll {
 
-
     private PollRecordAndStatus pollRecordAndStatus;
     @Getter private DatePollMetaInf datePollMetaInf;
     private final UserId creator;
     private DatePollConfig datePollConfig;
     private List<DatePollEntry> datePollEntries;
     private List<UserId> participants;
+    private Set<DatePoll> datePollBallots;
 
     /**
      * Link fuer den DatePoll.
