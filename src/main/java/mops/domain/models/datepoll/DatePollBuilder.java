@@ -1,5 +1,6 @@
 package mops.domain.models.datepoll;
 
+import java.util.HashSet;
 import lombok.Getter;
 import mops.domain.models.PollFields;
 import mops.controllers.dtos.DatePollOptionDto;
@@ -177,10 +178,11 @@ public final class DatePollBuilder {
     public DatePoll build() {
         if (validationState.hasNoErrors() && validatedFields.equals(VALIDSET)) {
             return new DatePoll(
-                    new PollRecordAndStatus(),
-                    metaInfTarget, pollCreatorTarget, configTarget,
-                    pollOptionTargets, pollParticipantTargets, linkTarget
-            );
+                                new PollRecordAndStatus(),
+                                metaInfTarget, pollCreatorTarget, configTarget,
+                                pollOptionTargets, pollParticipantTargets,
+                                new HashSet<DatePollBallot>(), linkTarget
+                        );
         } else {
             throw new IllegalStateException(COULD_NOT_CREATE);
         }

@@ -4,8 +4,6 @@ import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.pollstatus.PollStatus;
-import mops.domain.models.questionpoll.QuestionPoll;
-import mops.domain.models.questionpoll.QuestionPollBallot;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 
@@ -35,7 +33,7 @@ public final class DatePoll {
         return pollRecordAndStatus.getUserStatus(user);
     }
 
-    public void castBallot(QuestionPollBallot ballot) {
+    public void castBallot(DatePollBallot ballot) {
         return;
     }
 
