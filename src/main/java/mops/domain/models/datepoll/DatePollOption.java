@@ -9,19 +9,16 @@ import mops.domain.models.Validation;
 @RequiredArgsConstructor
 class DatePollOption implements ValidateAble {
 
-    private final Timespan lifeCycle;
-    //private final DatePollLifeCycle dateOptionDuration;
+    private final Timespan suggestedPeriod;
     //Anzahl der Stimmen fuer diesen Termin.
     @Getter
     private int votes;
 
-    /*DatePollOption(final LocalDateTime startDate, final LocalDateTime endDate) {
-        this.dateOptionDuration = new DatePollLifeCycle(startDate, endDate);
-    }*/
-
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     @Override
+    /* noErrors() ist Konstruktor*/
     public Validation validate() {
-        //return dateOptionDuration.validate();
-        return Validation.noErrors();
+        final Validation validation = Validation.noErrors();
+        return validation.appendValidation(suggestedPeriod.validate());
     }
 }
