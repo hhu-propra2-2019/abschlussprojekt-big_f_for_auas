@@ -17,7 +17,10 @@ jobs:
       run: chmod +x gradlew
     - name: Check with Checkstyle
       run: ./gradlew checkstyleMain checkstyleTest
+      if: always()
     - name: Check with PMD
       run: ./gradlew pmdMain pmdTest
+      if: always()
     - name: Check with SpotBugs
       run: ./gradlew spotbugsMain spotbugsTest
+      if: always()
