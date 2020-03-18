@@ -1,8 +1,10 @@
 package mops.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.webflow.config.AbstractFlowConfiguration;
 import org.springframework.webflow.definition.registry.FlowDefinitionRegistry;
@@ -22,10 +24,6 @@ import java.util.Collections;
 @Configuration
 @SuppressWarnings("PMD")
 public class WebFlowConfig extends AbstractFlowConfiguration {
-
-    @SuppressWarnings("checkstyle:JavadocVariable")
-    @Autowired
-    private LocalValidatorFactoryBean localValidatorFactoryBean;
 
     @SuppressWarnings("checkstyle:JavadocVariable")
     @Autowired
@@ -57,14 +55,41 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     }
 
     /**
-     * Keine Ahnung, ehrlich gesagt. Irgendwas SpringMvc-internes
+     * Keine Ahnung, ehrlich gesagt. Hier setzen wir ValidatorFactory, die wir unten konfigurieren.
      * @return keine Ahnung
      */
     @Bean
     public FlowBuilderServices flowBuilderServices() {
         return getFlowBuilderServicesBuilder() //
                 .setViewFactoryCreator(this.mvcViewFactoryCreator())
-                .setValidator(this.localValidatorFactoryBean).build();
+                .setValidator(localValidatorFactoryBean()).build();
+    }
+
+    /**
+     * Hier wird die MessageSource gesetzt, die wir weiter unten verwenden.
+     * @return für uns unwichtig
+     */
+    @Bean
+    public LocalValidatorFactoryBean localValidatorFactoryBean() {
+        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+        bean.setValidationMessageSource(messageSource());
+        return bean;
+    }
+
+    /**
+     * Hier konfigurieren wir, wo Spring anhand eines Schlüssels die Nachrichten sucht, die wir in unseren
+     * Flows als Fehlermeldungen ausgeben. Wichtig ist vor allem das Encoding, ansonsten könnte man die
+     * Dateien auch im Ordner der Flows ablegen.
+     * @return ...
+     */
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource
+                = new ReloadableResourceBundleMessageSource();
+
+        messageSource.setBasename("classpath:messages/flow-messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
     }
 
     /**
