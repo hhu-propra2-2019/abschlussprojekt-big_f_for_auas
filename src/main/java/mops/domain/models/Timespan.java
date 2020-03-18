@@ -26,4 +26,8 @@ public class Timespan implements ValidateAble {
         }
         return validation;
     }
+
+    public boolean isSameDate(Timespan other) {
+        return this.startDate == other.startDate && this.endDate == other.endDate;
+    }
 }
