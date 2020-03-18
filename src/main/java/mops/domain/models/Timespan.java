@@ -30,4 +30,8 @@ public class Timespan implements ValidateAble {
     public boolean isSameDate(Timespan other) {
         return this.startDate == other.startDate && this.endDate == other.endDate;
     }
+
+    public boolean isBeforeEnd(LocalDateTime time) {
+        return this.endDate.isAfter(time);
+    }
 }
