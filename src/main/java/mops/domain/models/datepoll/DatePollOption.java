@@ -9,7 +9,7 @@ import mops.domain.models.Validation;
 @RequiredArgsConstructor
 class DatePollOption implements ValidateAble {
 
-    private final Timespan lifeCycle;
+    private final Timespan suggestedPeriod;
     //Anzahl der Stimmen fuer diesen Termin.
     @Getter
     private int votes;
@@ -19,6 +19,6 @@ class DatePollOption implements ValidateAble {
     /* noErrors() ist Konstruktor*/
     public Validation validate() {
         final Validation validation = Validation.noErrors();
-        return validation.appendValidation(lifeCycle.validate());
+        return validation.appendValidation(suggestedPeriod.validate());
     }
 }
