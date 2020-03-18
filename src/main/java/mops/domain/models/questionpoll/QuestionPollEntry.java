@@ -5,6 +5,7 @@ import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
+
 /**
  * Speichert eine Option über die in einem QuestionPoll abgestimmt werden kann und
  *  verfolgt wie oft für diese Option abgestimmt wurde.
@@ -30,21 +31,21 @@ public class QuestionPollEntry implements ValidateAble {
      */
     @Override
     public Validation validate() {
-        final Validation validator = Validation.noErrors();
+        Validation validator = Validation.noErrors();
         if (this.title.isEmpty()) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_TITLE_IS_EMPTY));
+            validator = validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_TITLE_IS_EMPTY));
         }
         if (this.title.isBlank() && !this.title.isEmpty()) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_TITLE_IS_ONLY_WHITESPACE));
+            validator = validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_TITLE_IS_ONLY_WHITESPACE));
         }
         if (this.title.length() > MAX_LENGTH_TITLE) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_TITLE_IS_TOO_LONG));
+            validator = validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_TITLE_IS_TOO_LONG));
         }
         if (this.title.length() < MIN_LENGTH_TITLE) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_TITLE_IS_TOO_SHORT));
+            validator = validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_TITLE_IS_TOO_SHORT));
         }
         if (this.count < 0) {
-            validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_COUNT_IS_NEGATIVE));
+            validator = validator.appendValidation(new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_COUNT_IS_NEGATIVE));
         }
         return validator;
     }

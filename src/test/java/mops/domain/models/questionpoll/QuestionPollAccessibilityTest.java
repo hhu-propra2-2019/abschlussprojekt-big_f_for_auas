@@ -1,6 +1,5 @@
 package mops.domain.models.questionpoll;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,15 +9,16 @@ import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
 import org.junit.jupiter.api.Test;
 
-public class QuestionPollAccessibilityTest {
+public class QuestionPollAccessibilityTest { //NOPMD
 
     @Test
+    @SuppressWarnings("PMD.LawOfDemeter")
     public void closedPollNeedsParticipantsSizeAboveOne() {
-        Set<UserId> mockSet = (Set<UserId>) mock(Set.class);
+        final Set<UserId> mockSet = (Set<UserId>) mock(Set.class);
         when(mockSet.size()).thenReturn(1);
 
-        QuestionPollAccessibility accessTest = new QuestionPollAccessibility(true, mockSet);
-        Validation validator = accessTest.validate();
+        final QuestionPollAccessibility accessTest = new QuestionPollAccessibility(true, mockSet);
+        final Validation validator = accessTest.validate();
 
         assertThat(validator.hasNoErrors()).isFalse();
     }
