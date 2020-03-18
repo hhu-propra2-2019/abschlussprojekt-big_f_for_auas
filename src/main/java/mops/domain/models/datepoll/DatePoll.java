@@ -1,5 +1,6 @@
 package mops.domain.models.datepoll;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.pollstatus.PollStatus;
@@ -9,11 +10,14 @@ import mops.domain.models.user.UserId;
 import java.util.List;
 
 @AllArgsConstructor
+@SuppressFBWarnings(
+        value = "URF_UNREAD_FIELD",
+        justification = "Implemntierung folgt")
 public final class DatePoll {
 
 
     @Getter
-    private PollRecordAndStatus pollRecordAndStatus;
+    private DatePollRecordAndStatus datePollRecordAndStatus;
     @Getter
     private DatePollMetaInf datePollMetaInf;
     private final UserId creator;
@@ -28,7 +32,7 @@ public final class DatePoll {
     }
 
     public PollStatus getUserStatus(User user) {
-        return pollRecordAndStatus.getUserStatus(user);
+        return datePollRecordAndStatus.getUserStatus(user);
     }
 
 }

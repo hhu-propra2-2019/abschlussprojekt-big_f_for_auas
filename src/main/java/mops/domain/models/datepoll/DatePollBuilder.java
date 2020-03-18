@@ -1,8 +1,8 @@
 package mops.domain.models.datepoll;
 
 import lombok.Getter;
-import mops.domain.models.PollFields;
 import mops.controllers.dtos.DatePollOptionDto;
+import mops.domain.models.PollFields;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
@@ -16,7 +16,6 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public final class DatePollBuilder {
-
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
     //muss nicht 1-1 im ByteCode bekannt sein.
     private transient DatePollMetaInf metaInfTarget;
@@ -30,13 +29,13 @@ public final class DatePollBuilder {
     private final transient EnumSet<PollFields> validatedFields = EnumSet.noneOf(PollFields.class);
 
     private static final EnumSet<PollFields> VALIDSET = EnumSet.of(
-        PollFields.DATE_POLL_META_INF,
-        PollFields.DATE_POLL_LINK,
-        PollFields.DATE_POLL_CONFIG,
-        PollFields.DATE_POLL_OPTIONS,
-        PollFields.CREATOR,
-        PollFields.TIMESPAN,
-        PollFields.CREATOR);
+            PollFields.DATE_POLL_META_INF,
+            PollFields.DATE_POLL_LINK,
+            PollFields.DATE_POLL_CONFIG,
+            PollFields.DATE_POLL_OPTIONS,
+            PollFields.CREATOR,
+            PollFields.TIMESPAN,
+            PollFields.CREATOR);
 
     public DatePollBuilder() {
         validationState = Validation.noErrors();
@@ -177,7 +176,7 @@ public final class DatePollBuilder {
     public DatePoll build() {
         if (validationState.hasNoErrors() && validatedFields.equals(VALIDSET)) {
             return new DatePoll(
-                    new PollRecordAndStatus(),
+                    new DatePollRecordAndStatus(),
                     metaInfTarget, pollCreatorTarget, configTarget,
                     pollOptionTargets, pollParticipantTargets, linkTarget
             );

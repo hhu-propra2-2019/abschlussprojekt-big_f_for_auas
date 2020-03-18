@@ -1,6 +1,5 @@
 package mops.application.services;
 
-import lombok.NoArgsConstructor;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollLink;
@@ -8,18 +7,24 @@ import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import mops.domain.repositories.GroupRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
-@NoArgsConstructor // PMD zuliebe
 public class DatePollSyndicationService {
 
     public static final String LINK_ALREADY_TAKEN = "Link already taken";
-    private transient DatePollRepository datePollRepository;
-    private transient GroupRepository groupRepository;
+    private final transient DatePollRepository datePollRepository;
+    private final transient GroupRepository groupRepository;
+
+    @Autowired
+    public DatePollSyndicationService(DatePollRepository datePollRepository, GroupRepository groupRepository) {
+        this.datePollRepository = datePollRepository;
+        this.groupRepository = groupRepository;
+    }
 
     /**
      * Beendet den Erstellungsprozess und speichert die erstellte Terminfindung.
