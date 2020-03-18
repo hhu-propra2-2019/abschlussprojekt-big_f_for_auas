@@ -12,18 +12,18 @@ import java.util.List;
 @AllArgsConstructor
 public final class DatePoll {
 
+    @Getter
     private PollRecordAndStatus pollRecordAndStatus;
-    @Getter private DatePollMetaInf datePollMetaInf;
+    @Getter
+    private DatePollMetaInf datePollMetaInf;
     private final UserId creator;
     private DatePollConfig datePollConfig;
     private List<DatePollEntry> datePollEntries;
     private List<UserId> participants;
-    private Set<DatePoll> datePollBallots;
+    private Set<DatePollBallot> datePollBallots;
 
-    /**
-     * Link fuer den DatePoll.
-     */
-    @Getter private DatePollLink datePollLink;
+    @Getter
+    private DatePollLink datePollLink;
 
     public static DatePollBuilder builder() {
         return new DatePollBuilder();

@@ -57,7 +57,7 @@ public class QuestionPollBuilder {
         return newValidation.hasNoErrors() ? Optional.of(validateAble) : Optional.empty();
     }
 
-    @SuppressWarnings({"PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private <T extends ValidateAble> void validationProcessAndValidationHandling(
         T validateAble, Consumer<T> applyToValidated, PollFields addToFieldsAfterSuccessfulValidation) {
         validationProcess(validateAble, addToFieldsAfterSuccessfulValidation).ifPresent(validated -> {
