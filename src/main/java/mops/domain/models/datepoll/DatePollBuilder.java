@@ -63,7 +63,7 @@ public final class DatePollBuilder {
     /*
      * hier liegt keine LawOfDemeter violation vor.
      */
-    @SuppressWarnings({"PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "DataflowAnomalyAnalysis"})
     private <T extends ValidateAble> void validationProcessAndValidationHandling(
             T validateAble, Consumer<T> applyToValidated, PollFields addToFieldsAfterSuccessfulValidation) {
         validationProcess(validateAble, addToFieldsAfterSuccessfulValidation).ifPresent(validated -> {
