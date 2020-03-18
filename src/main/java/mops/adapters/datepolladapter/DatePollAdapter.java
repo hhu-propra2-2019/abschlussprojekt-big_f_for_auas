@@ -29,6 +29,11 @@ public final class DatePollAdapter {
      * @param context im MessageContext können die Fehlermeldungen angehängt werden
      * @return ob die Transition in den nächsten State stattfinden soll oder nicht
      */
+    @SuppressWarnings({"PMD.LawOfDemeter"})
+    /*
+    * Verletzung wird in Kauf genommen um in Validation die entscheidung zu Kapseln wann eine Validierung erfolgreich
+    * war, aber die Validierung selbst kann nur das zu validierende Objekt selbst sinvoll lösen
+    */
     public boolean validate(MetaInfDto metaInfDto, MessageContext context) {
         final DatePollMetaInf metaInf = conversionService.convert(metaInfDto, DatePollMetaInf.class);
         final Validation validation = metaInf.validate();
