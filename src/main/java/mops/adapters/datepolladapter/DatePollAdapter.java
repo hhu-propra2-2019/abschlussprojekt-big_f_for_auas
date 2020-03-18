@@ -30,8 +30,8 @@ public final class DatePollAdapter {
      * @return ob die Transition in den nächsten State stattfinden soll oder nicht
      */
     public boolean validate(MetaInfDto metaInfDto, MessageContext context) {
-        DatePollMetaInf metaInf = conversionService.convert(metaInfDto, DatePollMetaInf.class);
-        Validation validation = metaInf.validate();
+        final DatePollMetaInf metaInf = conversionService.convert(metaInfDto, DatePollMetaInf.class);
+        final Validation validation = metaInf.validate();
         mapErrors(validation.getErrorMessages(), context);
         return validation.hasNoErrors();
     }
