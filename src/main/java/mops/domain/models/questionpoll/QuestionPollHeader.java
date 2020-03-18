@@ -1,6 +1,5 @@
 package mops.domain.models.questionpoll;
 
-import lombok.NonNull;
 import lombok.Value;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
