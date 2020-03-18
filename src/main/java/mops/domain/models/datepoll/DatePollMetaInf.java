@@ -33,7 +33,7 @@ public final class DatePollMetaInf implements ValidateAble {
     }
 
 
-    boolean isBeforeEnd(LocalDateTime time) {
+    public boolean isBeforeEnd(LocalDateTime time) {
         return datePollLifeCycle.isBeforeEnd(time);
     }
 
