@@ -22,7 +22,7 @@ public final class DatePollBuilder {
     private transient DatePollMetaInf metaInfTarget;
     private transient UserId pollCreatorTarget;
     private transient DatePollConfig configTarget;
-    private final transient List<DatePollOption> pollOptionTargets = new ArrayList<>();
+    private final transient List<DatePollEntry> pollOptionTargets = new ArrayList<>();
     private final transient List<UserId> pollParticipantTargets = new ArrayList<>();
     private transient DatePollLink linkTarget;
     @Getter
@@ -131,7 +131,7 @@ public final class DatePollBuilder {
         this.pollOptionTargets.addAll(validateAllAndGetCorrect(
 
                 datePollOptionsDtos.stream()
-                        .map(dto -> new DatePollOption(new Timespan(dto.getStartDate(), dto.getEndDate())))
+                        .map(dto -> new DatePollEntry(new Timespan(dto.getStartDate(), dto.getEndDate())))
                         .collect(Collectors.toList()),
                 PollFields.DATE_POLL_OPTIONS
         ));

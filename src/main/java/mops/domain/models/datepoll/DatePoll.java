@@ -16,7 +16,7 @@ public final class DatePoll {
     @Getter private DatePollMetaInf datePollMetaInf;
     private final UserId creator;
     private DatePollConfig datePollConfig;
-    private List<DatePollOption> datePollOptions;
+    private List<DatePollEntry> datePollEntries;
     private List<UserId> participants;
 
     /**
