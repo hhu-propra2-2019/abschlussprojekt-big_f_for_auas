@@ -24,5 +24,5 @@ public class QuestionPollEntryDao {
     @ManyToMany(
             fetch = FetchType.LAZY
     )
-    private Set<UserDao> userDaoSet;
+    private Set<UserDao> userVotesFor;
 }

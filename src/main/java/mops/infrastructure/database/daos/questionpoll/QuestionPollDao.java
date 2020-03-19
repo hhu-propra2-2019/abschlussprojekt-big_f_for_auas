@@ -33,14 +33,14 @@ public class QuestionPollDao {
     @Embedded
     private QuestionPollMetaInfDao questionPollMetaInfDao;
     @OneToOne
-    private UserDao creatorUserDao;
+    private UserDao creatorUser;
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<QuestionPollEntryDao> questionPollEntryDaoSet;
+    private Set<QuestionPollEntryDao> questionPollEntrySet;
     @ManyToMany(
             fetch = FetchType.LAZY
     )
-    private Set<UserDao> userDaoSet;
+    private Set<UserDao> userSet;
 }

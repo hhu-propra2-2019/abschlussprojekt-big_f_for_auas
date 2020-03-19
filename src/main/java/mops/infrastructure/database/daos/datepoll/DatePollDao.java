@@ -39,9 +39,9 @@ public class DatePollDao {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<DatePollOptionDao> datePollOptionDaoSet;
+    private Set<DatePollOptionDao> datePollOptionSet;
     @ManyToMany(
             fetch = FetchType.LAZY
     )
-    private Set<UserDao> userDaoSet;
+    private Set<UserDao> userSet;
 }

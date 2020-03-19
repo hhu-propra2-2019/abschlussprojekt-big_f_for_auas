@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToMany;
 import javax.persistence.FetchType;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
 import java.util.Set;
 
 @Getter
@@ -32,5 +34,8 @@ public class UserDao {
     private Set<QuestionPollDao> questionPollSet;
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<QuestionPollEntryDao> questionPollEntrySet;
+
+    @Enumerated(EnumType.STRING)
+    private PollStatusEnum pollStatusEnum;
 
 }
