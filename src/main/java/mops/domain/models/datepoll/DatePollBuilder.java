@@ -127,10 +127,9 @@ public final class DatePollBuilder {
      * streams stellen keine LawOfDemeter violation dar
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    public DatePollBuilder datePollOptions(Set<DatePollOptionDto> datePollOptionsDtos) {
+    public DatePollBuilder datePollOptions(Set<DatePollOptionDto> datePollOptionDtoSet) {
         this.pollOptionTargets.addAll(validateAllAndGetCorrect(
-
-                datePollOptionsDtos.stream()
+                datePollOptionDtoSet.stream()
                         .map(dto -> new DatePollEntry(new Timespan(dto.getStartDate(), dto.getEndDate())))
                         .collect(Collectors.toSet()),
                 PollFields.DATE_POLL_OPTIONS
@@ -180,7 +179,7 @@ public final class DatePollBuilder {
                     new DatePollRecordAndStatus(),
                     metaInfTarget, pollCreatorTarget, configTarget,
                     pollOptionTargets, pollParticipantTargets,
-                    new HashSet<DatePollBallot>() linkTarget
+                    new HashSet<DatePollBallot>(), linkTarget
             );
         } else {
             throw new IllegalStateException(COULD_NOT_CREATE);
