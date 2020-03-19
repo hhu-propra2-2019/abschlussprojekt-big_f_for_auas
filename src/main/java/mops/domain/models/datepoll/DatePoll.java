@@ -8,9 +8,6 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.pollstatus.PollStatus;
-import mops.domain.models.questionpoll.QuestionPoll;
-import mops.domain.models.questionpoll.QuestionPollBallot;
-import mops.domain.models.questionpoll.QuestionPollEntry;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 
@@ -18,7 +15,7 @@ import mops.domain.models.user.UserId;
 @SuppressFBWarnings(
         value = "URF_UNREAD_FIELD",
         justification = "Implemntierung folgt")
-public final class DatePoll {
+public final class  DatePoll {
 
     @Getter
     private DatePollRecordAndStatus datePollRecordAndStatus;
@@ -67,6 +64,7 @@ public final class DatePoll {
         Set<DatePollEntry> oldYesVotes = oldBallot.getSelectedEntriesYes();
         Set<DatePollEntry> oldMaybeVotes = oldBallot.getSelectedEntriesMaybe();
 
+        // select entries to be updated on yes vote
         Set<DatePollEntry> toBeIncremented = yesVotes.stream()
                 .filter(datePollEntry -> !oldYesVotes.contains(datePollEntry))
                 .collect(Collectors.toSet());
@@ -74,8 +72,28 @@ public final class DatePoll {
                 .filter(datePollEntry -> !yesVotes.contains(datePollEntry))
                 .collect(Collectors.toSet());
 
-        toBeIncremented.stream().forEach(datePollEntry -> datePollEntry.incYesVote());
-        toBeDecremented.stream().forEach(datePollEntry -> datePollEntry.decYesVote());
+        // update entries on yes vote
+        toBeIncremented.forEach(DatePollEntry::incYesVote);
+        toBeDecremented.forEach(DatePollEntry::decYesVote);
+
+        // select enties to be updated on maybe vote
+        toBeIncremented = maybeVotes.stream()
+            .filter(datePollEntry -> !oldMaybeVotes.contains(datePollEntry))
+            .collect(Collectors.toSet());
+        toBeDecremented = oldMaybeVotes.stream()
+            .filter(datePollEntry -> !maybeVotes.contains(datePollEntry))
+            .collect(Collectors.toSet());
+
+        // update enties on maybe vote
+        toBeIncremented.forEach(DatePollEntry::incMaybeVote);
+        toBeDecremented.forEach(DatePollEntry::decMaybeVote);
+
+        // update ballot
+        datePollBallots.stream()
+            .filter(castBallot -> ballotCaster.equals(castBallot.getUser()))
+            .findAny()
+            .ifPresent(castBallot -> datePollBallots.remove(castBallot));
+        datePollBallots.add(ballot);
     }
 
     private void updatePollStatus() {

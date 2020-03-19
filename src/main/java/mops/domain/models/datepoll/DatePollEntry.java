@@ -33,4 +33,12 @@ class DatePollEntry implements ValidateAble {
     void decYesVote() {
         yesVotes--;
     }
+
+    void incMaybeVote() {
+        yesVotes++;
+    }
+
+    void decMaybeVote() {
+        maybeVotes--;
+    }
 }
