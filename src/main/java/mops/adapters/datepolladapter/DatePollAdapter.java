@@ -1,5 +1,6 @@
 package mops.adapters.datepolladapter;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import mops.adapters.datepolladapter.dtos.ConfigDto;
 import mops.adapters.datepolladapter.dtos.MetaInfDto;
 import mops.domain.models.FieldErrorNames;
@@ -30,15 +31,20 @@ public final class DatePollAdapter {
 
     /**
      * Validiert MetaInfDto, nachdem Titel und evtl. Beschreibung und Ort eingegeben wurden.
+     *
      * @param metaInfDto ...
-     * @param context im MessageContext können die Fehlermeldungen angehängt werden
+     * @param context    im MessageContext können die Fehlermeldungen angehängt werden
      * @return ob die Transition in den nächsten State stattfinden soll oder nicht
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
+    @SuppressFBWarnings(
+            value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
+            justification = "Der eingesetzte Converter kann niemals eine null refrence zurückgeben, "
+                    + "auch wenn das Interface es erlaubt")
     /*
-    * Verletzung wird in Kauf genommen um in Validation die entscheidung zu Kapseln wann eine Validierung erfolgreich
-    * war, aber die Validierung selbst kann nur das zu validierende Objekt selbst sinvoll lösen
-    */
+     * Verletzung wird in Kauf genommen um in Validation die entscheidung zu Kapseln wann eine Validierung erfolgreich
+     * war, aber die Validierung selbst kann nur das zu validierende Objekt selbst sinvoll lösen
+     */
     public boolean validate(MetaInfDto metaInfDto, MessageContext context) {
         final DatePollMetaInf metaInf = conversionService.convert(metaInfDto, DatePollMetaInf.class);
         final Validation validation = metaInf.validate();

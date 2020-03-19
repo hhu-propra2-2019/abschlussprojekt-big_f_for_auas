@@ -3,8 +3,8 @@ package mops.domain.models.datepoll;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
-import mops.domain.models.PollFields;
 import mops.controllers.dtos.DatePollOptionDto;
+import mops.domain.models.PollFields;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
@@ -30,13 +30,13 @@ public final class DatePollBuilder {
     private final transient EnumSet<PollFields> validatedFields = EnumSet.noneOf(PollFields.class);
 
     private static final EnumSet<PollFields> VALID_SET = EnumSet.of(
-        PollFields.DATE_POLL_META_INF,
-        PollFields.DATE_POLL_LINK,
-        PollFields.DATE_POLL_CONFIG,
-        PollFields.DATE_POLL_OPTIONS,
-        PollFields.CREATOR,
-        PollFields.TIMESPAN,
-        PollFields.CREATOR);
+            PollFields.DATE_POLL_META_INF,
+            PollFields.DATE_POLL_LINK,
+            PollFields.DATE_POLL_CONFIG,
+            PollFields.DATE_POLL_OPTIONS,
+            PollFields.CREATOR,
+            PollFields.TIMESPAN,
+            PollFields.CREATOR);
 
     public DatePollBuilder() {
         validationState = Validation.noErrors();
@@ -177,11 +177,11 @@ public final class DatePollBuilder {
     public DatePoll build() {
         if (validationState.hasNoErrors() && validatedFields.equals(VALID_SET)) {
             return new DatePoll(
-                                new PollRecordAndStatus(),
-                                metaInfTarget, pollCreatorTarget, configTarget,
-                                pollOptionTargets, pollParticipantTargets,
-                                new HashSet<DatePollBallot>(), linkTarget
-                        );
+                    new DatePollRecordAndStatus(),
+                    metaInfTarget, pollCreatorTarget, configTarget,
+                    pollOptionTargets, pollParticipantTargets,
+                    new HashSet<DatePollBallot>() linkTarget
+            );
         } else {
             throw new IllegalStateException(COULD_NOT_CREATE);
         }

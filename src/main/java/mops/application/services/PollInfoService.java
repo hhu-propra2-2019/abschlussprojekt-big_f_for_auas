@@ -1,16 +1,16 @@
 package mops.application.services;
 
 import lombok.NoArgsConstructor;
-import mops.domain.repositories.DatePollRepository;
-import mops.domain.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 @NoArgsConstructor // PMD zuliebe
 public class PollInfoService {
 
+    /*
     private DatePollRepository datePollRepository;
     private UserRepository userRepository;
+     */
 
     /*
      * Gibt die Dtos für jeweils einen Eintrag im Dashboard zurück.
