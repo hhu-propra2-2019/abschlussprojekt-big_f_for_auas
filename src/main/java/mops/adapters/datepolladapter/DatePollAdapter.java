@@ -66,6 +66,10 @@ public final class DatePollAdapter {
         return conversionService.convert(metaInfDto, DatePollMetaInf.class).validate();
     }
 
+    @SuppressFBWarnings(
+            value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
+            justification = "Der eingesetzte Converter kann niemals eine null refrence zurückgeben, "
+                    + "auch wenn das Interface es erlaubt")
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public boolean validate(ConfigDto configDto, MessageContext context) {
         final DatePollConfig config = conversionService.convert(configDto, DatePollConfig.class);
