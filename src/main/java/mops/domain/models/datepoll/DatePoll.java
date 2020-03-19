@@ -1,8 +1,10 @@
 package mops.domain.models.datepoll;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Set;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.pollstatus.PollStatus;
@@ -53,6 +55,9 @@ public final class  DatePoll {
         if (datePollConfig.isSingleChoice() && yes.size() > 1) {
             return;
         }
+        if (datePollConfig.isOpenForOwnEntries()) {
+            aggregateNewEntries(yes,maybe);
+        }
 
         DatePollBallot ballot = datePollBallots.stream()
             .filter(datePollBallot -> datePollBallot.belongsTo(user))
@@ -63,6 +68,18 @@ public final class  DatePoll {
         ballot.updateMaybe(maybe);
     }
 
+    /**
+     * Fügt neue Terminvorschläge zur Liste hinzu.
+     * Wird sich wahrscheinlich noch ändern, sobald applicationService und Weboberfläche da sind.
+     * @param setOne
+     * @param setTwo
+     */
+    private void aggregateNewEntries(Set<DatePollEntry> setOne, Set<DatePollEntry> setTwo) {
+        Stream.concat(setOne.stream(), setTwo.stream())
+            .filter(potentialNewEntry -> datePollEntries.stream()
+                .noneMatch(knownEntry -> knownEntry.representsSamePeriod(potentialNewEntry)))
+            .forEach(newEntry -> datePollEntries.add(newEntry));
+    }
 
     private void updatePollStatus() {
         if (datePollMetaInf.isBeforeEnd(LocalDateTime.now())) {
