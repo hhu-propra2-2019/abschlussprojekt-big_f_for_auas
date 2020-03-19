@@ -55,7 +55,7 @@ public final class  DatePoll {
         Set<DatePollEntry> maybeVotes = ballot.getSelectedEntriesMaybe();
 
         DatePollBallot oldBallot = datePollBallots.stream()
-            .filter(oldBallots -> oldBallots.getUser().equals(ballotCaster))
+            .filter(oldBallots -> oldBallots.hasSameUserId(ballot))
             .findAny()
             .orElse(new DatePollBallot(ballotCaster,
                 new HashSet<DatePollEntry>(),
@@ -65,24 +65,16 @@ public final class  DatePoll {
         Set<DatePollEntry> oldMaybeVotes = oldBallot.getSelectedEntriesMaybe();
 
         // select entries to be updated on yes vote
-        Set<DatePollEntry> toBeIncremented = yesVotes.stream()
-                .filter(datePollEntry -> !oldYesVotes.contains(datePollEntry))
-                .collect(Collectors.toSet());
-        Set<DatePollEntry> toBeDecremented = oldYesVotes.stream()
-                .filter(datePollEntry -> !yesVotes.contains(datePollEntry))
-                .collect(Collectors.toSet());
+        Set<DatePollEntry> toBeIncremented = getSetDifferenceForEntries(yesVotes, oldYesVotes);
+        Set<DatePollEntry> toBeDecremented = getSetDifferenceForEntries(oldYesVotes, yesVotes);
 
         // update entries on yes vote
         toBeIncremented.forEach(DatePollEntry::incYesVote);
         toBeDecremented.forEach(DatePollEntry::decYesVote);
 
         // select enties to be updated on maybe vote
-        toBeIncremented = maybeVotes.stream()
-            .filter(datePollEntry -> !oldMaybeVotes.contains(datePollEntry))
-            .collect(Collectors.toSet());
-        toBeDecremented = oldMaybeVotes.stream()
-            .filter(datePollEntry -> !maybeVotes.contains(datePollEntry))
-            .collect(Collectors.toSet());
+        toBeIncremented = getSetDifferenceForEntries(maybeVotes, oldMaybeVotes);
+        toBeDecremented = getSetDifferenceForEntries(oldMaybeVotes, maybeVotes);
 
         // update enties on maybe vote
         toBeIncremented.forEach(DatePollEntry::incMaybeVote);
@@ -90,10 +82,16 @@ public final class  DatePoll {
 
         // update ballot
         datePollBallots.stream()
-            .filter(castBallot -> ballotCaster.equals(castBallot.getUser()))
+            .filter(castBallot -> castBallot.hasSameUserId(ballot))
             .findAny()
             .ifPresent(castBallot -> datePollBallots.remove(castBallot));
         datePollBallots.add(ballot);
+    }
+
+    private Set<DatePollEntry> getSetDifferenceForEntries(Set<DatePollEntry> setA, Set<DatePollEntry> setB) {
+        return setA.stream()
+            .filter(datePollEntry -> !setB.contains(datePollEntry))
+            .collect(Collectors.toSet());
     }
 
     private void updatePollStatus() {
