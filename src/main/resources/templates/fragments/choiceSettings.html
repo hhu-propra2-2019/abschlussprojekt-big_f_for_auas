@@ -8,30 +8,33 @@
     </th:block>
 </head>
 <body>
-    <form th:action method="post" th:fragment="form">
-        <div class="choice-amount form-group">
+    <form method="post" class="needs-validation" novalidate th:fragment="form"
+          th:object="${configDto}" id="datePollConfig" th:action="${flowExecutionUrl}" >
+        <div class="single-choice form-group">
             <label>Anzahl Auswahlmöglichkeiten</label>
             <div class="form-check">
-                <input class="form-check-input" name="choice-amount" type="radio" value="single-choice" onchange="showPriorities()" checked>
+                <input class="form-check-input" name="single-choice" type="radio"
+                       value="true" th:field="*{singleChoice}" checked>
                 <label class="form-check-label">
                     Single Choice
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" name="choice-amount" type="radio" value="multiple-choice" onchange="showPriorities()">
+                <input class="form-check-input" name="single-choice" type="radio"
+                       value="false" th:field="*{singleChoice}">
                 <label class="form-check-label">
                     Multiple Choice
                 </label>
             </div>
-            <div class="collapse pl-3" id="collapsePriorities">
+            <div class="form-check">
                 <div class="form-check">
-                    <input class="form-check-input" name="choice-weight" type="radio" value="choice-equal" checked>
+                    <input class="form-check-input" name="priority-choice" type="radio" value="false" th:field="*{priorityChoice}" checked>
                     <label class="form-check-label">
                         ja/nein
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" name="choice-weight" type="radio" value="choice-priorities">
+                    <input class="form-check-input" name="priority-choice" type="radio" value="true" th:field="*{priorityChoice}">
                     <label class="form-check-label">
                         ja/nein/vielleicht
                     </label>
@@ -40,13 +43,13 @@
             <hr>
             <label>Stimmabgabe</label>
             <div class="form-check">
-                <input class="form-check-input" name="choice-mutable" type="checkbox" onchange="showMutable()">
+                <input class="form-check-input" name="choice-mutable" type="checkbox" value="true" th:field="*{voteIsEditable}">
                 <label class="form-check-label">
                     Stimme im nachhinein editierbar
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" name="choice-addNew" type="checkbox" disabled>
+                <input class="form-check-input" name="choice-addNew" type="checkbox" value="true" th:field="*{openForOwnEntries}">
                 <label class="form-check-label">
                     Möglichkeiten ergänzbar
                 </label>
@@ -54,7 +57,7 @@
             <hr>
             <label>Namensanzeige</label>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox">
+                <input class="form-check-input" name="name-anonymous" type="checkbox" value="true" th:field="*{anonymous}">
                 <label class="form-check-label">
                     Anonym
                 </label>
