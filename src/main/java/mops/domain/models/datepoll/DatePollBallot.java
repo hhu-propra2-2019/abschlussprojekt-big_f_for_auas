@@ -63,5 +63,8 @@ public class DatePollBallot implements ValidateAble {
         return Validation.noErrors();
     }
 
+    public boolean hasSameUserId(DatePollBallot other) {
+        return this.user.equals(other.user);
+    }
 
 }
