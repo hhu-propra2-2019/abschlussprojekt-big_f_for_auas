@@ -9,6 +9,8 @@ import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.utils.DomainObjectCreationUtils;
 
+import java.time.LocalDateTime;
+
 @Getter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public final class DatePollMetaInf implements ValidateAble {
