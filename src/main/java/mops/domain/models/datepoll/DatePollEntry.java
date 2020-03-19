@@ -25,4 +25,9 @@ class DatePollEntry implements ValidateAble {
         final Validation validation = Validation.noErrors();
         return validation.appendValidation(suggestedPeriod.validate());
     }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof DatePollEntry;
+    }
+
 }
