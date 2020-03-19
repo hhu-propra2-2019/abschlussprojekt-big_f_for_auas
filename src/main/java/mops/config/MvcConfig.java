@@ -1,6 +1,7 @@
 package mops.config;
 
 import lombok.NoArgsConstructor;
+import mops.adapters.datepolladapter.converters.ConfigConverter;
 import mops.adapters.datepolladapter.converters.MetaInfConverter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -18,5 +19,6 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new MetaInfConverter());
+        registry.addConverter(new ConfigConverter());
     }
 }
