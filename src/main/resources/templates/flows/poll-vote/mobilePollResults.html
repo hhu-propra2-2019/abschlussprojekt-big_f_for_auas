@@ -6,6 +6,7 @@
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+        <link rel="stylesheet" th:href="@{/termine1.css}">
     </th:block>
 </head>
 <body>
@@ -18,42 +19,53 @@
     <div class="container">
         <!--<div th:replace="fragments/pollVote.html :: results"></div>-->
 
-    <div><canvas class="w-50 h-50" id="myChart" width="400" height="400"></canvas></div>
-    <script>
-        let ctx = document.getElementById('myChart').getContext('2d');
-        let myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['08.03.2020, 10:00 Uhr', '09.03.2020, 12:00 Uhr'],
-                datasets: [{
-                    data: [12, 13],
-                    label: 'Anzahl Stimmen',
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(255, 99, 132, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 99, 132, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
+        <div class="chart desktopResults"><canvas id="resultChart" width="400" height="400"></canvas></div>
+
+        <div class="mobileResults">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">M1 10 Stimmen (20%)</li>
+                <li class="list-group-item">M2 40 Stimmen (80%)</li>
+            </ul>
+        </div>
+
+
         <form th:action method="post">
             <button type="submit" name="_eventId_home" class="btn btn-primary float-left mt-5">Fertig</button>
             <button type="submit" name="_eventId_vote" class="btn btn-primary float-left mt-5">Ändern</button>
         </form>
+        <script>
+            let ctx = document.getElementById('resultChart').getContext('2d');
+            let resultChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['08.03.2020, 10:00 Uhr', '09.03.2020, 12:00 Uhr', '10.03.2020, 11:00 Uhr'],
+                    datasets: [{
+                        data: [12, 13, 14],
+                        label: 'Anzahl Stimmen',
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 99, 132, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        </script>
     </div>
 </main>
 </body>

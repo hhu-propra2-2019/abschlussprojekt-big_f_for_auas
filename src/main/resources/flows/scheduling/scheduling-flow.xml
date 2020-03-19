@@ -6,19 +6,59 @@
 
     <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
 
-    <view-state id="mobileSchedulingNameSettings" view="/flows/scheduling/mobileSchedulingNameSettings">
+    <input name="userId" type="mops.domain.models.user.UserId" required="true" />
+
+    <on-start>
+        <evaluate expression="new mops.adapters.datepolladapter.dtos.MetaInfDto()" result="flowScope.metaInfDto"/>
+        <evaluate expression="new mops.adapters.datepolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
+    </on-start>
+
+    <view-state id="mobileSchedulingNameSettings" view="/flows/scheduling/mobileSchedulingNameSettings"
+                model="metaInfDto">
+
+        <binder>
+            <binding property="title"/>
+            <binding property="description"/>
+            <binding property="location"/>
+        </binder>
+
         <transition on="home" to="home"/>
-        <transition on="access" to="mobileSchedulingAccessSettings"/>
+        <transition on="access" to="mobileSchedulingAccessSettings">
+            <evaluate expression="datePollAdapter.validate(metaInfDto, messageContext)"/>
+        </transition>
     </view-state>
 
-    <view-state id="mobileSchedulingAccessSettings" view="/flows/scheduling/mobileSchedulingAccessSettings">
+    <view-state id="mobileSchedulingAccessSettings" view="/flows/scheduling/mobileSchedulingAccessSettings"
+                model="metaInfDto">
+
+        <binder>
+            <binding property="startDate"/>
+            <binding property="startTime"/>
+            <binding property="endDate"/>
+            <binding property="endTime"/>
+        </binder>
+
         <transition on="name" to="mobileSchedulingNameSettings"/>
-        <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>
+        <transition on="choicesettings" to="mobileSchedulingChoiceSettings">
+            <evaluate expression="datePollAdapter.validate(metaInfDto, messageContext)"/>
+        </transition>
     </view-state>
 
-    <view-state id="mobileSchedulingChoiceSettings" view="flows/scheduling/mobileSchedulingChoiceSettings">
+    <view-state id="mobileSchedulingChoiceSettings" view="flows/scheduling/mobileSchedulingChoiceSettings"
+                model="configDto">
+
+        <binder>
+            <binding property="priorityChoice"/>
+            <binding property="anonymous"/>
+            <binding property="openForOwnEntries"/>
+            <binding property="open"/>
+            <binding property="singleChoice"/>
+        </binder>
+
         <transition on="access" to="mobileSchedulingAccessSettings"/>
-        <transition on="choiceoptions" to="mobileSchedulingChoiceOptions"/>
+        <transition on="choiceoptions" to="mobileSchedulingChoiceOptions">
+            <evaluate expression="datePollAdapter.validate(configDto, messageContext)"/>
+        </transition>
     </view-state>
 
     <view-state id="mobileSchedulingChoiceOptions" view="flows/scheduling/mobileSchedulingChoiceOptions">
@@ -36,6 +76,6 @@
         <transition on="submit" to="home"/>
     </view-state>
 
-    <end-state id="home" view="externalRedirect:contextRelative:/"/>
+    <end-state id="home" view="externalRedirect:/"/>
 
 </flow>

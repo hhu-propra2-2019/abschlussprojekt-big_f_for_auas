@@ -1,15 +1,11 @@
 package mops.domain.models.datepoll;
 
-import lombok.AllArgsConstructor;
 import lombok.Value;
-import lombok.With;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
 @Value
-@With
-@AllArgsConstructor
-public class DatePollConfig implements ValidateAble {
+public final class DatePollConfig implements ValidateAble {
 
     /**
      * true: User kann selbst Termine zur Abstimmung hinzufügen.
@@ -48,10 +44,6 @@ public class DatePollConfig implements ValidateAble {
         this.singleChoice = false;
     }
 
-    /**
-     * ...
-     * @return
-     */
     @Override
     public Validation validate() {
         return Validation.noErrors();
