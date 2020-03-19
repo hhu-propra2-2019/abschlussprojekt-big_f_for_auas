@@ -2,11 +2,8 @@ package mops.adapters.datepolladapter.dtos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

@@ -43,14 +43,15 @@ public final class DatePollAdapter {
      * war, aber die Validierung selbst kann nur das zu validierende Objekt selbst sinvoll lösen
      */
     public boolean validateFirstStep(MetaInfDto metaInfDto, MessageContext context) {
-        final Validation validation = validateMetaInf(metaInfDto, context)
+        final Validation validation = validateMetaInf(metaInfDto)
                 .removeErrors(PollFields.TIMESPAN);
         mapErrors(validation.getErrorMessages(), context);
         return validation.hasNoErrors();
     }
 
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     public boolean validateSecondStep(MetaInfDto metaInfDto, MessageContext context) {
-        final Validation validation = validateMetaInf(metaInfDto, context);
+        final Validation validation = validateMetaInf(metaInfDto);
         mapErrors(validation.getErrorMessages(), context);
         return validation.hasNoErrors();
     }
@@ -59,7 +60,8 @@ public final class DatePollAdapter {
             value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
             justification = "Der eingesetzte Converter kann niemals eine null refrence zurückgeben, "
                     + "auch wenn das Interface es erlaubt")
-    private Validation validateMetaInf(MetaInfDto metaInfDto, MessageContext context) {
+    @SuppressWarnings({"PMD.LawOfDemeter"})
+    private Validation validateMetaInf(MetaInfDto metaInfDto) {
         return conversionService.convert(metaInfDto, DatePollMetaInf.class).validate();
     }
 

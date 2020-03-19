@@ -40,10 +40,11 @@ public class MetaInfConverter implements Converter<MetaInfDto, DatePollMetaInf> 
     }
 
     // TODO: add error handling
+    @SuppressWarnings("PMD.LawOfDemeter")
     private Timespan parseTime(MetaInfDto metaInfDto) {
-        LocalDateTime startDate = LocalDate.parse(metaInfDto.getStartDate())
+        final LocalDateTime startDate = LocalDate.parse(metaInfDto.getStartDate())
                 .atTime(LocalTime.parse(metaInfDto.getStartTime()));
-        LocalDateTime endDate = LocalDate.parse(metaInfDto.getEndDate())
+        final LocalDateTime endDate = LocalDate.parse(metaInfDto.getEndDate())
                 .atTime(LocalTime.parse(metaInfDto.getEndTime()));
         return new Timespan(startDate, endDate);
     }
