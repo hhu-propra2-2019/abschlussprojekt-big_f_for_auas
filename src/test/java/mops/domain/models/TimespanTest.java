@@ -40,8 +40,9 @@ public class TimespanTest { //NOPMD
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void bothNull() {
         final Timespan timespan = new Timespan(null, null);
-        this.testValidator = this.testValidator.appendValidation(new Validation(FieldErrorNames.TIMESPAN_START_NULL));
-        this.testValidator = this.testValidator.appendValidation(new Validation(FieldErrorNames.TIMESPAN_END_NULL));
+        this.testValidator = this.testValidator
+                .appendValidation(new Validation(FieldErrorNames.TIMESPAN_START_NULL))
+                .appendValidation(new Validation(FieldErrorNames.TIMESPAN_END_NULL));
         final Validation validator = timespan.validate();
         assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
     }
