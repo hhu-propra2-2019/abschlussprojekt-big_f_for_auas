@@ -7,16 +7,17 @@ import java.util.HashSet;
 import mops.domain.models.Timespan;
 import org.junit.jupiter.api.Test;
 
-class DatePollEntryTest {
+class DatePollEntryTest { //NOPMD
 
     @Test
+    @SuppressWarnings("PMD.LawOfDemeter")
     public void identicalEntriesCantBeTwiceInSet() {
-        Timespan fakeTime = new Timespan(LocalDateTime.MIN, LocalDateTime.MAX);
+        final Timespan fakeTime = new Timespan(LocalDateTime.MIN, LocalDateTime.MAX);
 
-        DatePollEntry entry1 = new DatePollEntry(fakeTime);
-        DatePollEntry entry2 = new DatePollEntry(fakeTime);
+        final DatePollEntry entry1 = new DatePollEntry(fakeTime);
+        final DatePollEntry entry2 = new DatePollEntry(fakeTime);
 
-        HashSet<DatePollEntry> set = new HashSet<>();
+        final HashSet<DatePollEntry> set = new HashSet<>();
         set.add(entry1);
         set.add(entry2);
 
@@ -24,14 +25,15 @@ class DatePollEntryTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.LawOfDemeter")
     public void differentEntriesAreTwiceInSet() {
-        Timespan fakeTime1 = new Timespan(LocalDateTime.MAX, LocalDateTime.MAX);
-        Timespan fakeTime2 = new Timespan(LocalDateTime.MIN, LocalDateTime.MIN);
+        final Timespan fakeTime1 = new Timespan(LocalDateTime.MAX, LocalDateTime.MAX);
+        final Timespan fakeTime2 = new Timespan(LocalDateTime.MIN, LocalDateTime.MIN);
 
-        DatePollEntry entry1 = new DatePollEntry(fakeTime1);
-        DatePollEntry entry2 = new DatePollEntry(fakeTime2);
+        final DatePollEntry entry1 = new DatePollEntry(fakeTime1);
+        final DatePollEntry entry2 = new DatePollEntry(fakeTime2);
 
-        HashSet<DatePollEntry> set = new HashSet<>();
+        final HashSet<DatePollEntry> set = new HashSet<>();
         set.add(entry1);
         set.add(entry2);
 
