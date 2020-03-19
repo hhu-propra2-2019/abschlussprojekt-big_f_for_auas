@@ -1,7 +1,6 @@
 package mops.domain.models.datepoll;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Set;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.stream.Stream;
@@ -39,10 +38,10 @@ public final class  DatePoll {
     }
 
     /**
-     * Fügt ein neuen Stimmzettel hinzu, oder aktualisiert einen Bestehenden.
+     * Fügt einen neuen Stimmzettel hinzu, oder aktualisiert einen Bestehenden.
      * @param user
      * @param yes - DatePollEntries für welche der User mit ja gestimmt hat.
-     * @param maybe - DatePollEntrie für welche der User mit vielleicht gestimmt hat.
+     * @param maybe - DatePollEntries für welche der User mit vielleicht gestimmt hat.
      */
     public void castBallot(UserId user, Set<DatePollEntry> yes, Set<DatePollEntry> maybe) {
         updatePollStatus();
@@ -56,7 +55,7 @@ public final class  DatePoll {
             return;
         }
         if (datePollConfig.isOpenForOwnEntries()) {
-            aggregateNewEntries(yes,maybe);
+            aggregateNewEntries(yes, maybe);
         }
 
         DatePollBallot ballot = datePollBallots.stream()
@@ -70,7 +69,7 @@ public final class  DatePoll {
 
     /**
      * Fügt neue Terminvorschläge zur Liste hinzu.
-     * Wird sich wahrscheinlich noch ändern, sobald applicationService und Weboberfläche da sind.
+     * Wird sich wahrscheinlich noch ändern, sobald applicationService und Web Oberfläche da sind.
      * @param setOne
      * @param setTwo
      */
