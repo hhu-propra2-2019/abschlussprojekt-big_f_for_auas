@@ -62,4 +62,6 @@ public class DatePollBallot implements ValidateAble {
     public Validation validate() {
         return Validation.noErrors();
     }
+
+
 }
