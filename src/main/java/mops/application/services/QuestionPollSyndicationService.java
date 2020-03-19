@@ -21,7 +21,7 @@ public class QuestionPollSyndicationService {
     }
 
     /**
-     * Schließt den Factory Prozess ab und speichert den generierte QuestionPolll ab.
+     * Schließt den Builder Prozess ab und speichert den generierte QuestionPolll ab.
      * Gibt generierte Url zurück
      *
      * @param builder
