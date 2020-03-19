@@ -1,5 +1,7 @@
 package mops.domain.models.datepoll;
 
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
 import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.PollFields;
@@ -8,27 +10,26 @@ import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public final class DatePollBuilder {
+
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
     //muss nicht 1-1 im ByteCode bekannt sein.
     private transient DatePollMetaInf metaInfTarget;
     private transient UserId pollCreatorTarget;
     private transient DatePollConfig configTarget;
-    private final transient List<DatePollOption> pollOptionTargets = new ArrayList<>();
-    private final transient List<UserId> pollParticipantTargets = new ArrayList<>();
+    private final transient Set<DatePollEntry> pollOptionTargets = new HashSet<>();
+    private final transient Set<UserId> pollParticipantTargets = new HashSet<>();
     private transient DatePollLink linkTarget;
     @Getter
     private Validation validationState;
     private final transient EnumSet<PollFields> validatedFields = EnumSet.noneOf(PollFields.class);
 
-    private static final EnumSet<PollFields> VALIDSET = EnumSet.of(
+    private static final EnumSet<PollFields> VALID_SET = EnumSet.of(
             PollFields.DATE_POLL_META_INF,
             PollFields.DATE_POLL_LINK,
             PollFields.DATE_POLL_CONFIG,
@@ -75,12 +76,12 @@ public final class DatePollBuilder {
      * streams stellen keine LawOfDemeter violation dar
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    private <T extends ValidateAble> List<T> validateAllAndGetCorrect(List<T> mappedOptions, PollFields fields) {
+    private <T extends ValidateAble> Set<T> validateAllAndGetCorrect(Set<T> mappedOptions, PollFields fields) {
         return mappedOptions.stream()
                 .map((T validateAble) -> validationProcess(validateAble, fields))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -126,12 +127,11 @@ public final class DatePollBuilder {
      * streams stellen keine LawOfDemeter violation dar
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    public DatePollBuilder datePollOptions(List<DatePollOptionDto> datePollOptionsDtos) {
+    public DatePollBuilder datePollOptions(Set<DatePollOptionDto> datePollOptionDtoSet) {
         this.pollOptionTargets.addAll(validateAllAndGetCorrect(
-
-                datePollOptionsDtos.stream()
-                        .map(dto -> new DatePollOption(new Timespan(dto.getStartDate(), dto.getEndDate())))
-                        .collect(Collectors.toList()),
+                datePollOptionDtoSet.stream()
+                        .map(dto -> new DatePollEntry(new Timespan(dto.getStartDate(), dto.getEndDate())))
+                        .collect(Collectors.toSet()),
                 PollFields.DATE_POLL_OPTIONS
         ));
         if (!pollOptionTargets.isEmpty()) {
@@ -147,7 +147,7 @@ public final class DatePollBuilder {
      * @param participants Teilnehmer die zu dieser Terminfindung hinzugefügt werden sollen.
      * @return Referenz auf diesen DatePollBuilder.
      */
-    public DatePollBuilder participants(List<UserId> participants) {
+    public DatePollBuilder participants(Set<UserId> participants) {
         this.pollParticipantTargets.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPANTS));
         if (!this.pollParticipantTargets.isEmpty()) {
             validatedFields.add(PollFields.PARTICIPANTS);
@@ -174,11 +174,12 @@ public final class DatePollBuilder {
      * @return Ein DatePoll Objekt in einem validen State.
      */
     public DatePoll build() {
-        if (validationState.hasNoErrors() && validatedFields.equals(VALIDSET)) {
+        if (validationState.hasNoErrors() && validatedFields.equals(VALID_SET)) {
             return new DatePoll(
                     new DatePollRecordAndStatus(),
                     metaInfTarget, pollCreatorTarget, configTarget,
-                    pollOptionTargets, pollParticipantTargets, linkTarget
+                    pollOptionTargets, pollParticipantTargets,
+                    new HashSet<DatePollBallot>(), linkTarget
             );
         } else {
             throw new IllegalStateException(COULD_NOT_CREATE);

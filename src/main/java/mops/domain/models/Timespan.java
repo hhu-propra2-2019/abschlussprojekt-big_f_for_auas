@@ -31,4 +31,13 @@ public class Timespan implements ValidateAble {
         }
         return validation;
     }
+
+    /**
+     * Ist die übergebene Zeit vor dem Ende?
+     * @param time
+     * @return boolean
+     */
+    public boolean isBeforeEnd(LocalDateTime time) {
+        return this.endDate.isAfter(time);
+    }
 }

@@ -7,7 +7,7 @@ import mops.domain.models.user.UserId;
 import mops.domain.repositories.GroupRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Set;
 
 @Repository
 @NoArgsConstructor
@@ -28,7 +28,7 @@ public class GroupRepositoryImpl implements GroupRepository {
      * @return
      */
     @Override
-    public List<UserId> getUsersFromGroupByGroupId(GroupId groupId) {
+    public Set<UserId> getUsersFromGroupByGroupId(GroupId groupId) {
         throw new UnsupportedOperationException();
     }
 }

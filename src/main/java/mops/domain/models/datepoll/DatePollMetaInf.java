@@ -32,6 +32,11 @@ public final class DatePollMetaInf implements ValidateAble {
         this.datePollLifeCycle = lifecycle;
     }
 
+
+    public boolean isBeforeEnd(LocalDateTime time) {
+        return datePollLifeCycle.isBeforeEnd(time);
+    }
+
     @Override
     public Validation validate() {
         return validateSecondStep();
