@@ -10,7 +10,7 @@ import mops.domain.repositories.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -61,8 +61,8 @@ public class DatePollSyndicationService {
      * @param groupID Id der betreffenden Gruppe
      */
     public void forGroup(final DatePollBuilder builder, final GroupId groupID) {
-        final List<UserId> userList = groupRepository.getUsersFromGroupByGroupId(groupID);
-        forCertainUsers(builder, userList);
+        final Set<UserId> userSet = groupRepository.getUsersFromGroupByGroupId(groupID);
+        forCertainUsers(builder, userSet);
     }
 
     /**
@@ -72,7 +72,7 @@ public class DatePollSyndicationService {
      * @param builder      Builder für DatePoll
      * @param participants Liste der betreffenden User
      */
-    public void forCertainUsers(final DatePollBuilder builder, final List<UserId> participants) {
+    public void forCertainUsers(final DatePollBuilder builder, final Set<UserId> participants) {
         builder.participants(participants);
     }
 
@@ -81,10 +81,10 @@ public class DatePollSyndicationService {
      * Teilnehmer enthält.
      *
      * @param builder     Builder für DatePoll
-     * @param participant Liste der betreffenden User
+     * @param participant Set der betreffenden User
      */
     public void forCertainUser(final DatePollBuilder builder, final UserId participant) {
-        forCertainUsers(builder, List.of(participant));
+        forCertainUsers(builder, Set.of(participant));
     }
 
 }

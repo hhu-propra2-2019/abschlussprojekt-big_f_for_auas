@@ -28,15 +28,6 @@ public class Timespan implements ValidateAble {
     }
 
     /**
-     * Stimmen die start- und endzeiten überein?
-     * @param other
-     * @return boolean
-     */
-    public boolean isSameDate(Timespan other) {
-        return this.startDate == other.startDate && this.endDate == other.endDate;
-    }
-
-    /**
      * Ist die übergebene Zeit vor dem Ende?
      * @param time
      * @return boolean
