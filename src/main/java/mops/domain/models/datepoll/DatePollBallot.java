@@ -1,7 +1,6 @@
 package mops.domain.models.datepoll;
 
 import java.util.HashSet;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
@@ -69,7 +68,7 @@ public class DatePollBallot implements ValidateAble {
      * @param otherUser
      * @return boolean
      */
-    boolean belongsTo(UserId otherUser) {
+    boolean belongsTo(UserId otherUser) { //NOPMD
         return this.user.equals(otherUser);
     }
 
@@ -77,10 +76,11 @@ public class DatePollBallot implements ValidateAble {
      * Speichert eine neue Abstimmung eines Users. Passt Yes- Votes in den Entries entsprechend an.
      * @param newYes
      */
-    void updateYes(Set<DatePollEntry> newYes) {
-        Set<DatePollEntry> leftSetDifference = difference(newYes, selectedEntriesYes);
-        Set<DatePollEntry> rightSetDifference = difference(selectedEntriesYes, newYes);
-        leftSetDifference.forEach(DatePollEntry::incYesVote);
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DefaultPackage"})
+    void updateYes(Set<DatePollEntry> newYes) { //NOPMD
+        final Set<DatePollEntry> leftSetDifference = DatePollEntry.difference(newYes, selectedEntriesYes);
+        final Set<DatePollEntry> rightSetDifference = DatePollEntry.difference(selectedEntriesYes, newYes);
+        leftSetDifference.forEach(DatePollEntry::incYesVote); // PMD meckert. Wenn man es als Loop schreibt gehts durch
         rightSetDifference.forEach(DatePollEntry::decYesVote);
         this.selectedEntriesYes = newYes;
     }
@@ -89,24 +89,12 @@ public class DatePollBallot implements ValidateAble {
      * Wie updateYes nur für maybe Votes.
      * @param newMaybe
      */
-    void updateMaybe(Set<DatePollEntry> newMaybe) {
-        Set<DatePollEntry>  leftSetDifference = difference(newMaybe, selectedEntriesMaybe);
-        Set<DatePollEntry> rightSetDifference = difference(selectedEntriesMaybe, newMaybe);
-        leftSetDifference.forEach(DatePollEntry::incMaybeVote);
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DefaultPackage"})
+    void updateMaybe(Set<DatePollEntry> newMaybe) { //NOPMD
+        final Set<DatePollEntry>  leftSetDifference = DatePollEntry.difference(newMaybe, selectedEntriesMaybe);
+        final Set<DatePollEntry> rightSetDifference = DatePollEntry.difference(selectedEntriesMaybe, newMaybe);
+        leftSetDifference.forEach(DatePollEntry::incMaybeVote); // als loop wirft pmd hier kein lawOfDemeter (??)
         rightSetDifference.forEach(DatePollEntry::decMaybeVote);
         this.selectedEntriesMaybe = newMaybe;
-    }
-
-    /**
-     * Gibt SetA - SetB zurück.
-     * Bestimmt Gruppenzugehörigkeit nur an Hand der Timespan Objekten in DatePollEntry.
-     * @param setA
-     * @param setB
-     * @return SetA - SetB (alle Elemente aus A, welche nicht in B sind)
-     */
-    private static Set<DatePollEntry> difference(Set<DatePollEntry> setA, Set<DatePollEntry> setB) {
-        return setA.stream().filter(entryFromSetA -> setB.stream()
-                .noneMatch(entryFromSetB -> entryFromSetB.representsSamePeriod(entryFromSetA)))
-            .collect(Collectors.toSet());
     }
 }
