@@ -31,6 +31,11 @@ public final class DatePollMetaInf implements ValidateAble {
         this.datePollLifeCycle = lifecycle;
     }
 
+
+    public boolean isBeforeEnd(LocalDateTime time) {
+        return datePollLifeCycle.isBeforeEnd(time);
+    }
+
     @Override
     /*
      * noErrors() ist wie ein Konstruktor, nur mit expliziten namen, daher keine violation des LawOfDemeter
