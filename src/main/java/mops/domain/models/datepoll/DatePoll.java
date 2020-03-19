@@ -1,6 +1,7 @@
 package mops.domain.models.datepoll;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,8 +20,8 @@ public final class DatePoll {
     private DatePollMetaInf datePollMetaInf;
     private final UserId creator;
     private DatePollConfig datePollConfig;
-    private List<DatePollEntry> datePollEntries;
-    private List<UserId> participants;
+    private Set<DatePollEntry> datePollEntries;
+    private Set<UserId> participants;
     private Set<DatePollBallot> datePollBallots;
 
     @Getter
@@ -45,7 +46,6 @@ public final class DatePoll {
         if (datePollConfig.isSingleChoice() && ballot.getSelectedEntriesYes().size() > 1) {
             return;
         }
-
     }
 
     private void updatePollStatus() {
