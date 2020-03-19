@@ -1,4 +1,4 @@
-package mops.controllers.daos;
+package mops.database.daos;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

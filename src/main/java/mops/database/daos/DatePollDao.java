@@ -1,4 +1,4 @@
-package mops.controllers.daos;
+package mops.database.daos;
 
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
