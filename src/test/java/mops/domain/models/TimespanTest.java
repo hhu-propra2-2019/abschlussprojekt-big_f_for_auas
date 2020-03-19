@@ -53,7 +53,9 @@ public class TimespanTest {
 
     @Test
     public void sameTime() {
-        final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now());
+        LocalDateTime time1 = LocalDateTime.now();
+        LocalDateTime time2 = time1;
+        final Timespan timespan = new Timespan(time1, time2);
         this.testValidator = this.testValidator.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SAME));
         Validation validator = timespan.validate();
         assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());

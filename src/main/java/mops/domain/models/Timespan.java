@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 @Value
 public class Timespan implements ValidateAble {
 
-    private transient LocalDateTime startDate;
-    private transient LocalDateTime endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     /**
      * Stellt sicher, dass das startDate vor dem endDate liegt.
@@ -26,6 +26,8 @@ public class Timespan implements ValidateAble {
             }
         } else if (endDate.isBefore(startDate)) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SWAPPED));
+        } else if (startDate.equals(endDate)) {
+            validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SAME));
         }
         return validation;
     }
