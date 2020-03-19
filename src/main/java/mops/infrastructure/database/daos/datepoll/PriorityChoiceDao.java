@@ -1,5 +1,7 @@
-package mops.infrastructure.database.daos;
+package mops.infrastructure.database.daos.datepoll;
 
+
+import mops.infrastructure.database.daos.UserDao;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -25,6 +27,6 @@ public class PriorityChoiceDao  {
     private DatePollOptionDao datePollOptionDao;
 
     @Enumerated(EnumType.STRING)
-    private Enum<PriorityType> datePollPriority;
+    private PriorityType datePollPriority;
 
 }

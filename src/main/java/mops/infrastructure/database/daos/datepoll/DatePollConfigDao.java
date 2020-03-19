@@ -1,4 +1,4 @@
-package mops.infrastructure.database.daos;
+package mops.infrastructure.database.daos.datepoll;
 
 import lombok.Data;
 

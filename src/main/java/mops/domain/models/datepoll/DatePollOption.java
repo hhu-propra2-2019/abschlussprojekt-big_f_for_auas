@@ -11,6 +11,7 @@ class DatePollOption implements ValidateAble {
 
     private final Timespan suggestedPeriod;
     //Anzahl der Stimmen fuer diesen Termin.
+
     @Getter
     private int votes;
 

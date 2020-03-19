@@ -1,6 +1,10 @@
-package mops.infrastructure.database.daos;
+package mops.infrastructure.database.daos.datepoll;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import mops.infrastructure.database.daos.PollRecordAndStatusDao;
+import mops.infrastructure.database.daos.UserDao;
+
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Embedded;
@@ -14,7 +18,8 @@ import javax.persistence.FetchType;
 import java.util.Set;
 
 // TODO: refactoring @data annotation -> entities shouldn't have @Data annotation only getters and setters
-@Data
+@Getter
+@Setter
 @Entity(name = "DatePoll")
 @Table(name = "datepoll")
 public class DatePollDao {
@@ -31,12 +36,10 @@ public class DatePollDao {
     @OneToOne
     private UserDao creatorUserDao;
     @OneToMany(
-            mappedBy = "datepoll",
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private Set<DatePollOptionDao> datePollOptionDaoSet;
-
     @ManyToMany(
             fetch = FetchType.LAZY
     )

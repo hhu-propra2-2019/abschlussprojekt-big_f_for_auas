@@ -1,6 +1,7 @@
-package mops.infrastructure.database.daos;
+package mops.infrastructure.database.daos.datepoll;
 
 import lombok.Data;
+import mops.infrastructure.database.daos.PollLifeCycleDao;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;

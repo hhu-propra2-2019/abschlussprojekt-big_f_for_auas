@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Embeddable
 @Data
-class PollRecordAndStatusDao {
+public class PollRecordAndStatusDao {
     @DateTimeFormat
     private LocalDateTime lastmodified;
     private boolean isterminated;

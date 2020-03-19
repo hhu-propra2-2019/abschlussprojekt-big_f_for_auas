@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Embeddable
 @Data
-class PollLifeCycleDao {
+public class PollLifeCycleDao {
     @DateTimeFormat
     private LocalDateTime startdate;
     @DateTimeFormat
