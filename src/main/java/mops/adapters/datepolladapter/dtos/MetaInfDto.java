@@ -2,6 +2,7 @@ package mops.adapters.datepolladapter.dtos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -13,11 +14,11 @@ public class MetaInfDto extends GeneralDto implements Serializable {
 
     public static final long serialVersionUID = 452345657L;
 
-    private String title = "";
-    private String description = "";
-    private String location = "";
-    private LocalDate startDate = LocalDate.now();
-    private LocalTime startTime = LocalTime.now();
-    private LocalDate endDate = LocalDate.now();
-    private LocalTime endTime = LocalTime.now();
+    private String title;
+    private String description;
+    private String location;
+    private String startDate;
+    private String startTime;
+    private String endDate;
+    private String endTime;
 }

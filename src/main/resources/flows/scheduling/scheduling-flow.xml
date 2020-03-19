@@ -24,7 +24,7 @@
 
         <transition on="home" to="home"/>
         <transition on="access" to="mobileSchedulingAccessSettings">
-            <evaluate expression="datePollAdapter.validate(metaInfDto, messageContext)"/>
+            <evaluate expression="datePollAdapter.validateFirstStep(metaInfDto, messageContext)"/>
         </transition>
     </view-state>
 
@@ -40,7 +40,7 @@
 
         <transition on="name" to="mobileSchedulingNameSettings"/>
         <transition on="choicesettings" to="mobileSchedulingChoiceSettings">
-            <evaluate expression="datePollAdapter.validate(metaInfDto, messageContext)"/>
+            <evaluate expression="datePollAdapter.validateSecondStep(metaInfDto, messageContext)"/>
         </transition>
     </view-state>
 

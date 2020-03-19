@@ -4,6 +4,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import mops.adapters.datepolladapter.dtos.ConfigDto;
 import mops.adapters.datepolladapter.dtos.MetaInfDto;
 import mops.domain.models.FieldErrorNames;
+import mops.domain.models.PollFields;
 import mops.domain.models.Validation;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,23 +38,33 @@ public final class DatePollAdapter {
      * @return ob die Transition in den nächsten State stattfinden soll oder nicht
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    @SuppressFBWarnings(
-            value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
-            justification = "Der eingesetzte Converter kann niemals eine null refrence zurückgeben, "
-                    + "auch wenn das Interface es erlaubt")
     /*
      * Verletzung wird in Kauf genommen um in Validation die entscheidung zu Kapseln wann eine Validierung erfolgreich
      * war, aber die Validierung selbst kann nur das zu validierende Objekt selbst sinvoll lösen
      */
-    public boolean validate(MetaInfDto metaInfDto, MessageContext context) {
-        final DatePollMetaInf metaInf = conversionService.convert(metaInfDto, DatePollMetaInf.class);
-        final Validation validation = metaInf.validate();
+    public boolean validateFirstStep(MetaInfDto metaInfDto, MessageContext context) {
+        final Validation validation = validateMetaInf(metaInfDto, context)
+                .removeErrors(PollFields.TIMESPAN);
         mapErrors(validation.getErrorMessages(), context);
         return validation.hasNoErrors();
     }
 
-    public boolean validate(ConfigDto configDto, MessageContext context) {
-        return false;
+    public boolean validateSecondStep(MetaInfDto metaInfDto, MessageContext context) {
+        final Validation validation = validateMetaInf(metaInfDto, context);
+        mapErrors(validation.getErrorMessages(), context);
+        return validation.hasNoErrors();
+    }
+
+    @SuppressFBWarnings(
+            value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
+            justification = "Der eingesetzte Converter kann niemals eine null refrence zurückgeben, "
+                    + "auch wenn das Interface es erlaubt")
+    private Validation validateMetaInf(MetaInfDto metaInfDto, MessageContext context) {
+        return conversionService.convert(metaInfDto, DatePollMetaInf.class).validate();
+    }
+
+    public boolean validated(ConfigDto configDto, MessageContext context) {
+        return true;
     }
 
     private void mapErrors(EnumSet<FieldErrorNames> errors, MessageContext context) {
