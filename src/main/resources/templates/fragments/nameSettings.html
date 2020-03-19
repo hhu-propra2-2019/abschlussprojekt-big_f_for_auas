@@ -11,6 +11,8 @@
     <form method="post" class="needs-validation" novalidate th:fragment="form"
           th:object="${metaInfDto}" id="datePollMetaInf" th:action="${flowExecutionUrl}" >
 
+        <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
+
         <div class="form-group">
             <label for="fileUpload" th:if="${terminfindung}">Terminfindung hochladen</label>
             <label for="fileUpload" th:unless="${terminfindung}">Abstimmung hochladen</label>

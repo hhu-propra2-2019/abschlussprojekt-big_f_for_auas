@@ -12,17 +12,16 @@ import java.util.List;
 public final class DatePoll {
 
 
+    @Getter
     private PollRecordAndStatus pollRecordAndStatus;
-    @Getter private DatePollMetaInf datePollMetaInf;
+    @Getter
+    private DatePollMetaInf datePollMetaInf;
     private final UserId creator;
     private DatePollConfig datePollConfig;
     private List<DatePollOption> datePollOptions;
     private List<UserId> participants;
-
-    /**
-     * Link fuer den DatePoll.
-     */
-    @Getter private DatePollLink datePollLink;
+    @Getter
+    private DatePollLink datePollLink;
 
     public static DatePollBuilder builder() {
         return new DatePollBuilder();
