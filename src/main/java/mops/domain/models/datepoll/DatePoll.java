@@ -1,7 +1,6 @@
 package mops.domain.models.datepoll;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Set;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
@@ -9,8 +8,6 @@ import lombok.Getter;
 import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
-
-import java.util.List;
 
 @AllArgsConstructor
 @SuppressFBWarnings(
@@ -41,7 +38,7 @@ public final class DatePoll {
 
     public void castBallot(DatePollBallot ballot) {
         updatePollStatus();
-        if (pollRecordAndStatus.isTerminated()) {
+        if (datePollRecordAndStatus.isTerminated()) {
             return;
         }
         if (!datePollConfig.isOpen() && !participants.contains(ballot.getUser())) {
@@ -54,7 +51,7 @@ public final class DatePoll {
 
     private void updatePollStatus() {
         if (datePollMetaInf.isBeforeEnd(LocalDateTime.now())) {
-            pollRecordAndStatus.terminate();
+            datePollRecordAndStatus.terminate();
         }
     }
 }
