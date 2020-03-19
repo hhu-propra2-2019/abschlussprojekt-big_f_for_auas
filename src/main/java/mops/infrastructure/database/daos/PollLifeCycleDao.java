@@ -1,4 +1,4 @@
-package mops.database.daos;
+package mops.infrastructure.database.daos;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -8,8 +8,9 @@ import java.time.LocalDateTime;
 
 @Embeddable
 @Data
-class PollRecordAndStatusDao {
+class PollLifeCycleDao {
     @DateTimeFormat
-    private LocalDateTime lastmodified;
-    private boolean isterminated;
+    private LocalDateTime startdate;
+    @DateTimeFormat
+    private LocalDateTime enddate;
 }

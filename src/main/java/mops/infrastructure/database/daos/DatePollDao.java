@@ -1,5 +1,6 @@
-package mops.database.daos;
+package mops.infrastructure.database.daos;
 
+import lombok.Data;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Embedded;
@@ -12,6 +13,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import java.util.Set;
 
+// TODO: refactoring @data annotation -> entities shouldn't have @Data annotation only getters and setters
+@Data
 @Entity(name = "DatePoll")
 @Table(name = "datepoll")
 public class DatePollDao {

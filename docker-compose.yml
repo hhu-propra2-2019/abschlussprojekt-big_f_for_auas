@@ -1,15 +1,15 @@
 version: "3.3"
 services:
   database:
-    image: mariadb:10
+    image: mariadb:10.4
     volumes:
       - ./mariadb/db/entrypoint:/docker-entrypoint-initdb.d/
       - ./mariadb/db/config.cnf:/etc/mysql/conf.d/config.cnf
     ports:
       - "13306:3306"
     environment:
-     - MYSQL_ROOT_PASSWORD=geheim
      - MYSQL_DATABASE=termine1
+     - MYSQL_ROOT_PASSWORD=geheim
      - MYSQL_USER=test
      - MYSQL_PASSWORD=geheim2
   web:

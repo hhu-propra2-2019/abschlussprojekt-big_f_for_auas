@@ -1,4 +1,4 @@
-package mops.database.daos;
+package mops.infrastructure.database.daos;
 
 import lombok.Data;
 

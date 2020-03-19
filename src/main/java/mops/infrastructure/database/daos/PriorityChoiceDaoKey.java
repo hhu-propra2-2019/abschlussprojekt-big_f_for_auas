@@ -1,4 +1,4 @@
-package mops.database.daos;
+package mops.infrastructure.database.daos;
 
 import lombok.Data;
 
@@ -9,7 +9,6 @@ import java.io.Serializable;
 @Embeddable
 @Data
 public class PriorityChoiceDaoKey implements Serializable {
-
     @Column(name = "user_id")
     private Long userId;
     @Column(name = "datepolloption_id")
