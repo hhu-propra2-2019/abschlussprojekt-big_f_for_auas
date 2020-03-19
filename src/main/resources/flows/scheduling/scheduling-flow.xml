@@ -11,7 +11,28 @@
     <on-start>
         <evaluate expression="new mops.adapters.datepolladapter.dtos.MetaInfDto()" result="flowScope.metaInfDto"/>
         <evaluate expression="new mops.adapters.datepolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
+        <evaluate expression="new mops.adapters.datepolladapter.dtos.OptionsDto()" result="flowScope.optionsDto"/>
     </on-start>
+
+    <view-state id="mobileSchedulingChoiceOptions" view="flows/scheduling/mobileSchedulingChoiceOptions"
+                model="optionsDto">
+
+        <binder>
+            <binding property="question"/>
+            <binding property="options"/>
+            <binding property="addDate"/>
+            <binding property="addStartTime"/>
+            <binding property="addEndTime"/>
+        </binder>
+
+        <transition on="addoption" to="mobileSchedulingChoiceOptions">
+            <evaluate expression="datePollAdapter.addOption(optionsDto)"/>
+        </transition>
+
+        <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>
+        <transition on="publication" to="mobileSchedulingPublicationSettings">
+        </transition>
+    </view-state>
 
     <view-state id="mobileSchedulingNameSettings" view="/flows/scheduling/mobileSchedulingNameSettings"
                 model="metaInfDto">
@@ -62,10 +83,6 @@
         </transition>
     </view-state>
 
-    <view-state id="mobileSchedulingChoiceOptions" view="flows/scheduling/mobileSchedulingChoiceOptions">
-        <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>
-        <transition on="publication" to="mobileSchedulingPublicationSettings"/>
-    </view-state>
 
     <view-state id="mobileSchedulingPublicationSettings" view="flows/scheduling/mobileSchedulingPublicationSettings">
         <transition on="choiceoptions" to="mobileSchedulingChoiceOptions"/>

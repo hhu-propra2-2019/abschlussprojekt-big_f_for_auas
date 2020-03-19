@@ -1,0 +1,17 @@
+/* Mittleres Element der Terminvorschläge umklappen */
+@media (max-width: 575px) {
+
+    .wrap-check-icon {
+        width: 25%;
+    }
+
+    .wrap-von-bis {
+        width: 100%;
+        order: 3 !important;
+    }
+    .wrap-delete-button{
+        width:75%;
+        order:2 !important;
+
+    }
+}

@@ -3,6 +3,8 @@ package mops.adapters.datepolladapter;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import mops.adapters.datepolladapter.dtos.ConfigDto;
 import mops.adapters.datepolladapter.dtos.MetaInfDto;
+import mops.adapters.datepolladapter.dtos.OptionDto;
+import mops.adapters.datepolladapter.dtos.OptionsDto;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.PollFields;
 import mops.domain.models.Validation;
@@ -76,6 +78,24 @@ public final class DatePollAdapter {
         final Validation validation = config.validate();
         mapErrors(validation.getErrorMessages(), context);
         return validation.hasNoErrors();
+    }
+
+    public boolean validate(OptionsDto optionsDto, MessageContext context) {
+
+        return false;
+    }
+
+    public boolean addOption(OptionsDto optionsDto) {
+        //final LocalDateTime startDate = LocalDate.parse(optionsDto.getAddDate())
+        //        .atTime(LocalTime.parse(optionsDto.getAddStartTime()));
+        //final LocalDateTime endDate = LocalDate.parse(optionsDto.getAddDate())
+        //        .atTime(LocalTime.parse(optionsDto.getAddEndTime()));
+        //optionsDto.getOptions().add(new Timespan(startDate, endDate));
+        optionsDto.getOptions().add(
+                new OptionDto(optionsDto.getAddDate(),
+                optionsDto.getAddStartTime(),
+                optionsDto.getAddEndTime()));
+        return false;
     }
 
     private void mapErrors(EnumSet<FieldErrorNames> errors, MessageContext context) {

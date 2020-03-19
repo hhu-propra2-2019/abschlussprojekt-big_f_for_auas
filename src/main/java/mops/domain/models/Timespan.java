@@ -2,10 +2,11 @@ package mops.domain.models;
 
 import lombok.Value;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Value
-public class Timespan implements ValidateAble {
+public final class Timespan implements ValidateAble, Comparable<Timespan>, Serializable {
 
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -34,5 +35,10 @@ public class Timespan implements ValidateAble {
      */
     public boolean isBeforeEnd(LocalDateTime time) {
         return this.endDate.isAfter(time);
+    }
+
+    @Override
+    public int compareTo(Timespan timespan) {
+        return this.startDate.compareTo(timespan.startDate);
     }
 }
