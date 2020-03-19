@@ -48,6 +48,7 @@
                 model="configDto">
 
         <binder>
+            <binding property="voteIsEditable"/>
             <binding property="priorityChoice"/>
             <binding property="anonymous"/>
             <binding property="openForOwnEntries"/>

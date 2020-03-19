@@ -38,7 +38,7 @@ public final class DatePollAdapter {
      * @param context    im MessageContext können die Fehlermeldungen angehängt werden
      * @return ob die Transition in den nächsten State stattfinden soll oder nicht
      */
-    @SuppressWarnings({"PMD.LawOfDemeter"})
+    @SuppressWarnings("PMD.LawOfDemeter")//NOPMD
     /*
      * Verletzung wird in Kauf genommen um in Validation die entscheidung zu Kapseln wann eine Validierung erfolgreich
      * war, aber die Validierung selbst kann nur das zu validierende Objekt selbst sinvoll lösen
@@ -66,6 +66,7 @@ public final class DatePollAdapter {
         return conversionService.convert(metaInfDto, DatePollMetaInf.class).validate();
     }
 
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     public boolean validate(ConfigDto configDto, MessageContext context) {
         final DatePollConfig config = conversionService.convert(configDto, DatePollConfig.class);
         final Validation validation = config.validate();
