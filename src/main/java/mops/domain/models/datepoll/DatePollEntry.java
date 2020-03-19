@@ -26,6 +26,15 @@ class DatePollEntry implements ValidateAble {
         return validation.appendValidation(suggestedPeriod.validate());
     }
 
+    /**
+     * Vergleich von Entries an Hand des vorgeschlagenen Timeslots.
+     * @param other
+     * @return boolean
+     */
+    boolean representsSamePeriod(DatePollEntry other) {
+        return suggestedPeriod.equals(other.suggestedPeriod);
+    }
+
     void incYesVote() {
         yesVotes++;
     }

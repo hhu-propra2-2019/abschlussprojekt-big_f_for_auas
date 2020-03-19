@@ -1,10 +1,8 @@
 package mops.domain.models.datepoll;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.pollstatus.PollStatus;
@@ -38,61 +36,33 @@ public final class  DatePoll {
         return datePollRecordAndStatus.getUserStatus(user);
     }
 
-    public void castBallot(DatePollBallot ballot) {
+    /**
+     * Fügt ein neuen Stimmzettel hinzu, oder aktualisiert einen Bestehenden.
+     * @param user
+     * @param yes - DatePollEntries für welche der User mit ja gestimmt hat.
+     * @param maybe - DatePollEntrie für welche der User mit vielleicht gestimmt hat.
+     */
+    public void castBallot(UserId user, Set<DatePollEntry> yes, Set<DatePollEntry> maybe) {
         updatePollStatus();
         if (datePollRecordAndStatus.isTerminated()) {
             return;
         }
-        if (!datePollConfig.isOpen() && !participants.contains(ballot.getUser())) {
+        if (!datePollConfig.isOpen() && !participants.contains(user)) {
             return;
         }
-        if (datePollConfig.isSingleChoice() && ballot.getYesEntriesSize() > 1) {
+        if (datePollConfig.isSingleChoice() && yes.size() > 1) {
             return;
         }
 
-        UserId ballotCaster = ballot.getUser();
-        Set<DatePollEntry> yesVotes = ballot.getSelectedEntriesYes();
-        Set<DatePollEntry> maybeVotes = ballot.getSelectedEntriesMaybe();
-
-        DatePollBallot oldBallot = datePollBallots.stream()
-            .filter(oldBallots -> oldBallots.hasSameUserId(ballot))
+        DatePollBallot ballot = datePollBallots.stream()
+            .filter(datePollBallot -> datePollBallot.belongsTo(user))
             .findAny()
-            .orElse(new DatePollBallot(ballotCaster,
-                new HashSet<DatePollEntry>(),
-                new HashSet<DatePollEntry>()));
-
-        Set<DatePollEntry> oldYesVotes = oldBallot.getSelectedEntriesYes();
-        Set<DatePollEntry> oldMaybeVotes = oldBallot.getSelectedEntriesMaybe();
-
-        // select entries to be updated on yes vote
-        Set<DatePollEntry> toBeIncremented = getSetDifferenceForEntries(yesVotes, oldYesVotes);
-        Set<DatePollEntry> toBeDecremented = getSetDifferenceForEntries(oldYesVotes, yesVotes);
-
-        // update entries on yes vote
-        toBeIncremented.forEach(DatePollEntry::incYesVote);
-        toBeDecremented.forEach(DatePollEntry::decYesVote);
-
-        // select enties to be updated on maybe vote
-        toBeIncremented = getSetDifferenceForEntries(maybeVotes, oldMaybeVotes);
-        toBeDecremented = getSetDifferenceForEntries(oldMaybeVotes, maybeVotes);
-
-        // update enties on maybe vote
-        toBeIncremented.forEach(DatePollEntry::incMaybeVote);
-        toBeDecremented.forEach(DatePollEntry::decMaybeVote);
-
-        // update ballot
-        datePollBallots.stream()
-            .filter(castBallot -> castBallot.hasSameUserId(ballot))
-            .findAny()
-            .ifPresent(castBallot -> datePollBallots.remove(castBallot));
+            .orElse(new DatePollBallot(user, yes, maybe));
         datePollBallots.add(ballot);
+        ballot.updateYes(yes);
+        ballot.updateMaybe(maybe);
     }
 
-    private Set<DatePollEntry> getSetDifferenceForEntries(Set<DatePollEntry> setA, Set<DatePollEntry> setB) {
-        return setA.stream()
-            .filter(datePollEntry -> !setB.contains(datePollEntry))
-            .collect(Collectors.toSet());
-    }
 
     private void updatePollStatus() {
         if (datePollMetaInf.isBeforeEnd(LocalDateTime.now())) {
