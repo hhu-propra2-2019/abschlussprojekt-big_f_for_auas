@@ -8,17 +8,20 @@
     </th:block>
 </head>
 <body>
-    <form th:action method="post" th:fragment="form">
-        <div class="choice-amount form-group">
+    <form method="post" class="needs-validation" novalidate th:fragment="form"
+          th:object="${configDto}" id="datePollConfig" th:action="${flowExecutionUrl}" >
+        <div class="single-choice form-group">
             <label>Anzahl Auswahlmöglichkeiten</label>
             <div class="form-check">
-                <input class="form-check-input" name="choice-amount" type="radio" value="single-choice" onchange="showPriorities()" checked>
+                <input class="form-check-input" name="single-choice" type="radio"
+                       value="true" th:onchange="showPriorities()" checked>
                 <label class="form-check-label">
                     Single Choice
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" name="choice-amount" type="radio" value="multiple-choice" onchange="showPriorities()">
+                <input class="form-check-input" name="single-choice" type="radio"
+                       value="false" th:onchange="showPriorities()">
                 <label class="form-check-label">
                     Multiple Choice
                 </label>
