@@ -20,7 +20,8 @@ public class DatePollBallot implements ValidateAble {
      * @param selectedEntriesYes
      * @param selectedEntriesMaybe
      */
-    public DatePollBallot(UserId qpUserId, Set<DatePollEntry> selectedEntriesYes, Set<DatePollEntry> selectedEntriesMaybe) {
+    public DatePollBallot(UserId qpUserId, Set<DatePollEntry> selectedEntriesYes,
+        Set<DatePollEntry> selectedEntriesMaybe) {
         this.user = qpUserId;
         this.selectedEntriesYes = Collections.unmodifiableSet(selectedEntriesYes);
         this.selectedEntriesMaybe = Collections.unmodifiableSet(selectedEntriesMaybe);
