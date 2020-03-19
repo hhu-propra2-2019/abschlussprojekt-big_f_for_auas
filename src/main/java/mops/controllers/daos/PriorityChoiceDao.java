@@ -1,6 +1,13 @@
 package mops.controllers.daos;
 
-import javax.persistence.*;
+
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import javax.persistence.Enumerated;
+import javax.persistence.MapsId;
+import javax.persistence.EnumType;
 
 @Entity(name = "PriorityChoice")
 @Table(name = "prioritychoice")
@@ -17,6 +24,7 @@ public class PriorityChoiceDao  {
     @MapsId("datepolloption_id")
     private DatePollOptionDao datePollOptionDao;
 
-    private Enum<>;
+    @Enumerated(EnumType.STRING)
+    private Enum<PriorityType> datePollPriority;
 
 }
