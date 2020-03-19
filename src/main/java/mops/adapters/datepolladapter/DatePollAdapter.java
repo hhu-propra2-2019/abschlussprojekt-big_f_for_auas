@@ -34,7 +34,7 @@ public final class DatePollAdapter {
         final DatePollMetaInf metaInf = conversionService.convert(metaInfDto, DatePollMetaInf.class);
         final Validation validation = metaInf.validate();
         mapErrors(validation.getErrorMessages(), context);
-        return true;
+        return validation.hasNoErrors();
     }
 
     public boolean validate(ConfigDto configDto, MessageContext context) {

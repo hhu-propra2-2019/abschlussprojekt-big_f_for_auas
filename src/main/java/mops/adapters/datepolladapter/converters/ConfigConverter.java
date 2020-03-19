@@ -15,7 +15,15 @@ public class ConfigConverter implements Converter<ConfigDto, DatePollConfig> {
      */
     @Override
     public DatePollConfig convert(ConfigDto configDto) {
-        return new DatePollConfig(configDto.isOpenForOwnEntries(),
+        System.out.println("VoteIsEditable: " + configDto.isVoteIsEditable());
+        System.out.println("OpenForOwnEntries: " + configDto.isOpenForOwnEntries());
+        System.out.println("SingleChoice: " + configDto.isSingleChoice());
+        System.out.println("PriorityChoice: " + configDto.isPriorityChoice());
+        System.out.println("Anonymous: " + configDto.isAnonymous());
+        System.out.println("Open: " + configDto.isOpen());
+
+        return new DatePollConfig(configDto.isVoteIsEditable(),
+                configDto.isOpenForOwnEntries(),
                 configDto.isSingleChoice(),
                 configDto.isPriorityChoice(),
                 configDto.isAnonymous(),

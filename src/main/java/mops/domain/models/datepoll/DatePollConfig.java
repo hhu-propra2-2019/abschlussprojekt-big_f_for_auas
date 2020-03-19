@@ -11,6 +11,7 @@ import mops.domain.models.Validation;
 @AllArgsConstructor
 public class DatePollConfig implements ValidateAble {
 
+    private boolean voteIsEditable;
     /**
      * true: User kann selbst Termine zur Abstimmung hinzufügen.
      * false: User kann keine Termine zur Abstimmung hinzufügen.
