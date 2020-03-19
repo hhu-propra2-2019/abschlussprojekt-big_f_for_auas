@@ -3,16 +3,15 @@ $(document).ready(function(){
 });
 
 function initDatepicker(){
+    let today = new Date().toISOString().slice(0, 16);
+    let day = today.split("T")[0];
     // Wenn die Felder schon befüllt sind, sollen sie nicht nochmal initialisiert werden
-    if (document.getElementById("termin-startDate").value !== "") {
+    if (document.getElementById("termin-startDate").value.length === 0) {
         document.getElementById("termin-startDate").value = day;
         document.getElementById("termin-startTime").value = "12:00";
         document.getElementById("termin-endDate").value = addOneMonth(today);
         document.getElementById("termin-endTime").value = "12:00";
     }
-    console.info(document.getElementById("termin-startDate").value);
-    let today = new Date().toISOString().slice(0, 16);
-    let day = today.split("T")[0];
     document.getElementById("termin-startDate").min = day;
     document.getElementById("termin-startDate").max = addMaxYear(today);
     document.getElementById("termin-endDate").min = day;
