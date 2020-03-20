@@ -86,7 +86,7 @@ public final class  DatePoll {
     }
 
     public boolean isUserParticipant(UserId user) {
-        return participants.contains(user);
+        return datePollConfig.isOpen() || participants.contains(user);
     }
 
     public Set<DatePollEntryDto> getDatePollEntries() {
