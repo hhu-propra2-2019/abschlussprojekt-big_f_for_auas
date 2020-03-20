@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "group")
+@Table(name = "usergroup")
 class GroupDao {
     @Id
     @GeneratedValue

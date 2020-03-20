@@ -9,6 +9,7 @@ import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollLink;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.user.UserId;
+import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,6 +58,9 @@ public class DatePollRepoTest {
     }
     @Test
     public void saveOneDatePollDao() {
+        //datePollRepository.save(datePoll);
+        DatePollDao datePollDao = DatePollDao.of(datePoll);
+        System.out.println("Output Link:" + datePollDao.getLink());
         datePollRepository.save(datePoll);
     }
 }

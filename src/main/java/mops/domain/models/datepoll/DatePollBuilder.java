@@ -34,8 +34,9 @@ public final class DatePollBuilder {
             PollFields.DATE_POLL_CONFIG,
             PollFields.DATE_POLL_ENTRIES,
             PollFields.CREATOR,
-            PollFields.TIMESPAN,
-            PollFields.CREATOR);
+            //PollFields.TIMESPAN
+            PollFields.PARTICIPANTS
+    );
 
     public DatePollBuilder() {
         validationState = Validation.noErrors();

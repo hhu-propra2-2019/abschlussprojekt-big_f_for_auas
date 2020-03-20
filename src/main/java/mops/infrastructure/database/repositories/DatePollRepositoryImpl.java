@@ -6,6 +6,7 @@ import mops.domain.models.datepoll.DatePollLink;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
 
     private DatePollJpaRepository datePollJpaRepository;
 
+    @Autowired
     public DatePollRepositoryImpl(DatePollJpaRepository datePollJpaRepository) {
         this.datePollJpaRepository = datePollJpaRepository;
     }
