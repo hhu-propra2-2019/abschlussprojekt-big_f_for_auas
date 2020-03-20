@@ -84,9 +84,11 @@ public final class DatePollAdapter {
     }
 
     public boolean validate(OptionsDto optionsDto, MessageContext context) {
-        // Die Optionen werden in addOption() validiert, hier muss erst validiert werden, wenn es noch zusätzliche
-        // Felder in OptionsDto gibt
-        return true;
+        // Die Optionen werden in addOption() validiert. Hier wird nur validiert,
+        // dass minedestens ein Termin zur Auswahl steht
+        final boolean isvalid = !optionsDto.getOptions().isEmpty();
+        if (!isvalid) addMessage("DATE_POLL_NO_CHOICES", context);
+        return isvalid;
     }
 
     public boolean addOption(OptionsDto optionsDto,
