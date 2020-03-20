@@ -11,10 +11,14 @@ import java.time.ZoneOffset;
 @Data
 @AllArgsConstructor
 public final class OptionDto implements Comparable<OptionDto>, Serializable {
+
+    public static final long serialVersionUID = 575665475776735L;
+
     private String date;
     private String startTime;
     private String endTime;
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     @Override
     public int compareTo(OptionDto optionDto) {
         return (int) (LocalDate.parse(this.date)

@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 @Value
 public final class Timespan implements ValidateAble, Comparable<Timespan>, Serializable {
 
+    public static final long serialVersionUID = 9786879798798789L;
+
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
