@@ -19,7 +19,7 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Zeitraum')"></div>
-        <form th:replace="fragments/accessSettings.html :: form"></form>
+        <form th:replace="fragments/metaInf.html :: form-step2(terminfindung=true)"></form>
     </div>
 </main>
 </body>

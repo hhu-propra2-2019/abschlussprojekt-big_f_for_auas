@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+    </th:block>
+</head>
+<body>
+    <form method="post" novalidate th:fragment="form-step1"
+          th:object="${metaInfDto}" th:action="${flowExecutionUrl}" >
+
+        <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
+
+        <div th:replace="~{:: input-title}"></div>
+
+        <div th:replace="~{:: input-description}"></div>
+
+        <div th:if="${terminfindung}" th:replace="~{:: input-location}"></div>
+
+        <button type="submit" name="_eventId_access"  class="btn btn-primary float-right mt-5">Weiter</button>
+        <button type="submit" name="_eventId_home"  class="btn btn-primary float-left mt-5">Zurück</button>
+    </form>
+
+    <form method="post" th:fragment="form-step2"
+          th:object="${metaInfDto}" th:action="${flowExecutionUrl}">
+
+        <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
+
+        <div th:replace="~{:: input-start}"></div>
+
+        <div th:replace="~{:: input-end}"></div>
+
+        <button type="submit" name="_eventId_choicesettings" class="btn btn-primary float-right mt-5">Weiter</button>
+        <button type="submit" name="_eventId_name"  class="btn btn-primary float-left mt-5">Zurück</button>
+    </form>
+
+
+    <div class="form-group" th:fragment="input-title">
+        <!--<label for="fileUpload" th:if="${terminfindung}">Terminfindung hochladen</label>
+        <label for="fileUpload" th:unless="${terminfindung}">Abstimmung hochladen</label>
+        <input type="file" class="form-control-file" id="fileUpload" accept=".yml, .yaml">-->
+
+        <label for="title">Titel</label>
+        <input class="form-control" id="title" type="text" th:field="*{title}"
+               th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('title'), #fields.hasAnyErrors())}"
+               th:placeholder="${terminfindung} ? 'Neue Terminfindung' : 'Neue Abstimmung'">
+        <div class="invalid-feedback" th:errors="*{title}"></div>
+    </div>
+
+    <div class="form-group" th:fragment="input-description">
+        <label for="description">Beschreibung (optional)</label>
+        <input class="form-control" id="description" type="text" th:field="*{description}"
+               th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('description'), #fields.hasAnyErrors())}"
+               placeholder="Beschreibung">
+        <div class="invalid-feedback" th:errors="*{description}"></div>
+    </div>
+
+    <!--/*@thymesVar id="terminfindung" type=""*/-->
+    <div class="form-group" th:fragment="input-location">
+        <label for="location">Ort (optional)</label>
+        <input class="form-control" id="location" type="text" th:field="*{location}"
+               th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('location'), #fields.hasAnyErrors())}"
+               placeholder="Ort">
+        <div class="invalid-feedback" th:errors="*{location}"></div>
+    </div>
+
+    <div class="form-group" th:fragment="input-start">
+        <label>Start</label>
+        <div class="input-group">
+            <input class="form-control" type="date" id="termin-startDate" th:field="*{{startDate}}" required
+                   th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('startDate'), #fields.hasAnyErrors())}">
+            <input class="form-control" type="time" id="termin-startTime" th:field="*{startTime}" required
+                   th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('startDate'), #fields.hasAnyErrors())}">
+            <div class="input-group-append">
+                <span class="input-group-text">Uhr</span>
+            </div>
+            <div class="invalid-feedback" th:errors="*{startDate}"></div>
+        </div>
+    </div>
+
+    <div class="form-group" th:fragment="input-end">
+        <label>Ende</label>
+        <div class="input-group">
+            <input class="form-control" type="date" id="termin-endDate" th:field="*{endDate}" required
+                   th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('endDate'), #fields.hasAnyErrors())}">
+            <input class="form-control" type="time" id="termin-endTime" th:field="*{endTime}" required
+                   th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('endDate'), #fields.hasAnyErrors())}">
+            <div class="input-group-append">
+                <span class="input-group-text">Uhr</span>
+            </div>
+            <div class="invalid-feedback" th:errors="*{endDate}"></div>
+        </div>
+    </div>
+
+</body>
+</html>
