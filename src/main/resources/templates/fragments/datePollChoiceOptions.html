@@ -11,26 +11,29 @@
 <body>
 <div th:object="${optionsDto}" th:fragment="schedulingForm">
     <form method="post" id="schedulingChoiceOptions" novalidate th:action="${flowExecutionUrl}">
-        <div class="form-group">
+        <!--<div class="form-group">
             <input class="form-control" placeholder="Fragestellung" required>
             <div class="invalid-feedback">
                 Bitte gib einen Fragestellung ein.
             </div>
-        </div>
+        </div>-->
         <div class="card my-1">
             <div class="card-body p-2">
                 <div class="d-flex flex-row flex-wrap align-items-center no-gutters">
 
                     <div class="wrap-input-date order-1 d-flex align-items-center pl-2">
                         <i class="fa fa-check-square-o fa-2x"></i>
-                        <input class="form-control ml-3 mr-3" type="date" name="addDate" value="2020-05-20">
+                        <input class="form-control ml-3 mr-3" type="date" name="addDate" value="2020-05-20"
+                               th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('defaulterrors'), #fields.hasAnyErrors())}">
                     </div>
 
                     <div class="wrap-input-von-bis order-2 d-flex align-items-center ml-2 my-2 my-md-0">
                         <i class="fa fa-clock-o fa-2x"></i>
-                        <input class="form-control ml-3" type="time" name="addStartTime" value="15:00">
+                        <input class="form-control ml-3" type="time" name="addStartTime" value="15:00"
+                               th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('defaulterrors'), #fields.hasAnyErrors())}">
                         <h4 class="mb-0 ml-2">bis</h4>
-                        <input class="form-control ml-2" type="time" name="addEndTime" value="17:00">
+                        <input class="form-control ml-2" type="time" name="addEndTime" value="17:00"
+                               th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('defaulterrors'), #fields.hasAnyErrors())}">
                     </div>
 
                     <div class="wrap-input-add-button order-3 d-flex flex-row-reverse ml-auto">
@@ -38,6 +41,10 @@
                                 type="submit" name="_eventId_addoption">
                             <i class="fa fa-plus fa-2x"></i></button>
                     </div>
+
+                </div>
+                <div class="d-flex flex-row flex-wrap mx-5 mb-1">
+                    <div class="invalid-feedback d-inline" th:errors="*{defaulterrors}" th:text="${err}"></div>
                 </div>
             </div>
         </div>

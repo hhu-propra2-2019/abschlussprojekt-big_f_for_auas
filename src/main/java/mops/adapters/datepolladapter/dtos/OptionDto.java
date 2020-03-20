@@ -21,11 +21,17 @@ public final class OptionDto implements Comparable<OptionDto>, Serializable {
     @SuppressWarnings("PMD.LawOfDemeter")
     @Override
     public int compareTo(OptionDto optionDto) {
-        return (int) (LocalDate.parse(this.date)
+        long difference = (LocalDate.parse(this.date)
                 .atTime(LocalTime.parse(this.startTime))
                 .toEpochSecond(ZoneOffset.MIN)
                 - LocalDate.parse(optionDto.getDate())
                 .atTime(LocalTime.parse(optionDto.getStartTime()))
                 .toEpochSecond(ZoneOffset.MIN));
+        // Wenn das Startdatum und die Startzeit gleich sind, gibt die Endzeit den Ausschlag
+        if (difference == 0) {
+            return LocalTime.parse(this.endTime).toSecondOfDay()
+                    - LocalTime.parse(optionDto.getEndTime()).toSecondOfDay();
+        }
+        return (int) difference;
     }
 }

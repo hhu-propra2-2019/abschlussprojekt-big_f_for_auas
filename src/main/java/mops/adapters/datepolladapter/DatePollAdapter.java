@@ -18,6 +18,9 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.EnumSet;
 
 @Service
@@ -88,30 +91,51 @@ public final class DatePollAdapter {
     public boolean addOption(OptionsDto optionsDto,
                              String addDate,
                              String addStartTime,
-                             String addEndTime) {
-        //final LocalDateTime startDate = LocalDate.parse(optionsDto.getAddDate())
-        //        .atTime(LocalTime.parse(optionsDto.getAddStartTime()));
-        //final LocalDateTime endDate = LocalDate.parse(optionsDto.getAddDate())
-        //        .atTime(LocalTime.parse(optionsDto.getAddEndTime()));
-        //optionsDto.getOptions().add(new Timespan(startDate, endDate));
+                             String addEndTime,
+                             MessageContext context) {
+        // Testweise versuchen, das Datum und die Zeiten zu parsen
+        boolean isvalid = validate(new OptionDto(addDate, addStartTime, addEndTime), context);
+        if (!isvalid) {
+            return false;
+        }
         optionsDto.getOptions().add(new OptionDto(addDate, addStartTime, addEndTime));
-        return false;
+        return true;
     }
 
     public boolean deleteOption(OptionsDto optionsDto,
                                 String deleteDate,
                                 String deleteStartTime,
                                 String deleteEndTime) {
-        System.out.format("Delete Option: %s, %s - %s%n", deleteDate, deleteStartTime, deleteEndTime);
-        return false;
+        optionsDto.getOptions().remove(new OptionDto(deleteDate, deleteStartTime, deleteEndTime));
+        return true;
+    }
+
+    private boolean validate(OptionDto optionDto, MessageContext context) {
+        try {
+            LocalDate.parse(optionDto.getDate());
+        } catch (DateTimeParseException e) {
+            addMessage("DATE_POLL_DATE_NOT_PARSEABLE", context);
+            return false;
+        }
+        try {
+            LocalTime.parse(optionDto.getStartTime());
+            LocalTime.parse(optionDto.getEndTime());
+        } catch (DateTimeParseException e) {
+            addMessage("DATE_POLL_TIME_NOT_PARSEABLE", context);
+            return false;
+        }
+        return true;
     }
 
     private void mapErrors(EnumSet<FieldErrorNames> errors, MessageContext context) {
-        errors.forEach(error -> context.addMessage(
-                new MessageBuilder()
-                        .error()
-                        .code(error.toString())
-                        .source(errorEnvironment.getProperty(error.toString(), "defaulterrors"))
-                        .build()));
+        errors.forEach(error -> addMessage(error.toString(), context));
+    }
+
+    private void addMessage(String code, MessageContext context) {
+        context.addMessage(new MessageBuilder()
+                .error()
+                .code(code)
+                .source(errorEnvironment.getProperty(code, "defaulterrors"))
+                .build());
     }
 }

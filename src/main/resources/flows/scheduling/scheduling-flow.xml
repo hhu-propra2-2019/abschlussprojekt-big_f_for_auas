@@ -25,7 +25,8 @@
         <transition on="addoption" to="mobileSchedulingChoiceOptions">
             <evaluate expression="datePollAdapter.addOption(optionsDto, requestParameters.addDate,
                                                                            requestParameters.addStartTime,
-                                                                           requestParameters.addEndTime)"/>
+                                                                           requestParameters.addEndTime,
+                                                                           messageContext)"/>
         </transition>
 
         <transition on="deleteoption" to="mobileSchedulingChoiceOptions">
@@ -36,6 +37,7 @@
 
         <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>
         <transition on="publication" to="mobileSchedulingPublicationSettings">
+            <evaluate expression="datePollAdapter.validate(optionsDto, messageContext)"/>
         </transition>
     </view-state>
 
