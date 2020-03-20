@@ -12,7 +12,7 @@ import mops.domain.models.Validation;
 
 @EqualsAndHashCode
 @RequiredArgsConstructor
-class DatePollEntry implements ValidateAble {
+public class DatePollEntry implements ValidateAble {
 
     private final Timespan suggestedPeriod;
     //Anzahl der Stimmen fuer diesen Termin.
