@@ -9,6 +9,7 @@ import mops.domain.repositories.DatePollRepository;
 import mops.domain.repositories.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -32,8 +33,13 @@ public class DatePollSyndicationService {
      * @param builder Um an den datePollConfigDto
      * @return DatePoll Objekt.
      */
+    @Transactional
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     public DatePoll publishDatePoll(final DatePollBuilder builder) {
         final DatePoll created = builder.build();
+        datePollRepository.load(created.getDatePollLink()).ifPresent(datePoll -> {
+            throw new IllegalArgumentException(LINK_ALREADY_TAKEN);
+        });
         datePollRepository.save(created);
         return created;
     }
