@@ -1,8 +1,10 @@
 package mops.application.services;
 
+import mops.controllers.dtos.DatePollDto;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +25,6 @@ public class PollInfoService {
         DatePoll datePoll = datePollRepository.load(link).orElseThrow();
         return datePoll.getDatePollEntries();
     }
-
-    /*
-    private UserRepository userRepository;
-     */
 
     /*
      * Gibt die Dtos für jeweils einen Eintrag im Dashboard zurück.
@@ -52,23 +50,14 @@ public class PollInfoService {
     // TODO: Hier evtl. noch check einfügen, ob User berechtigt ist, diese Abstimmung zu sehen?
     // oder woanders? noch wird es jedenfalls ->nicht<- geprüft!!
 
-    /*
+    /**
      * Gibt das DTO für die Detailansicht einer Terminabstimmung zurück.
-     * @param userId für diesen User
      * @param datePollLink die Referenz für die Terminabstimmung
      * @return ...
      */
-    /*public DatePollDto datePollViewService(UserId userId, DatePollLink datePollLink) {
-        final DatePoll datePoll = datePollRepository.getDatePollByLink(datePollLink);
-        final DatePollDto datePollDto = new DatePollDto();
-        datePollDto.setDescription(datePoll.getDatePollMetaInf().getDatePollDescription().getDescription());
-        datePollDto.setEndDate(datePoll.getDatePollMetaInf().getDatePollLifeCycle().getEndDate());
-        datePollDto.setLocation(datePoll.getDatePollMetaInf().getDatePollLocation().getLocation());
-        datePollDto.setPollStatus(datePoll.getUserStatus(userRepository.getUserById(userId)).getIconName());
-        datePollDto.setTitle(datePoll.getDatePollMetaInf().getTitle());
-
-        return datePollDto;
-    }*/
+    public DatePoll datePollViewService(DatePollLink datePollLink) {
+        return datePollRepository.load(datePollLink).orElseThrow();
+    }
 
 
 }

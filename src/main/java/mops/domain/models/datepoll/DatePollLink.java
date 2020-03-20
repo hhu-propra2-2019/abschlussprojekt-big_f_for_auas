@@ -1,6 +1,5 @@
 package mops.domain.models.datepoll;
 
-import lombok.Data;
 import lombok.Value;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
@@ -22,6 +21,7 @@ public class DatePollLink implements ValidateAble {
 
     /**
      * ...
+     *
      * @return ...
      */
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
