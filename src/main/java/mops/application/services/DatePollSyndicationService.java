@@ -34,6 +34,7 @@ public class DatePollSyndicationService {
      * @return DatePoll Objekt.
      */
     @Transactional
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     public DatePoll publishDatePoll(final DatePollBuilder builder) {
         final DatePoll created = builder.build();
         datePollRepository.load(created.getDatePollLink()).ifPresent(datePoll -> {
