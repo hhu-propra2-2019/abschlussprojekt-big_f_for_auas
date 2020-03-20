@@ -1,9 +1,10 @@
 package mops.domain.models.datepoll;
 
 import lombok.Value;
-import mops.controllers.dtos.InputFieldNames;
+import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
+import mops.utils.DomainObjectCreationUtils;
 
 @Value
 public class DatePollLink implements ValidateAble {
@@ -13,7 +14,7 @@ public class DatePollLink implements ValidateAble {
     private String datePollIdentifier;
 
     public DatePollLink(final String newDatePollIdentifier) {
-        this.datePollIdentifier = newDatePollIdentifier;
+        this.datePollIdentifier = DomainObjectCreationUtils.convertNullToEmptyAndTrim(newDatePollIdentifier);
     }
 
     /**
@@ -24,8 +25,8 @@ public class DatePollLink implements ValidateAble {
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();
-        if (datePollIdentifier  == null) {
-            validation = new Validation(InputFieldNames.DATE_POLL_IDENTIFIER, "Date_poll_identifier is null");
+        if ("".equals(datePollIdentifier)) {
+            validation = new Validation(FieldErrorNames.DATE_POLL_IDENTIFIER_EMPTY);
         }
         return validation;
     }

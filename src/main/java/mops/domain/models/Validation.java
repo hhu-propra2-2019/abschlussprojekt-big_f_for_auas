@@ -1,47 +1,49 @@
 package mops.domain.models;
 
-import mops.controllers.dtos.InputFieldNames;
+import java.util.EnumSet;
 
-import java.util.EnumMap;
-
-public class Validation {
-    private EnumMap<InputFieldNames, String> errorMessages;
+public final class Validation {
+    private transient EnumSet<FieldErrorNames> errorMessages;
 
     private Validation() {
-        this.errorMessages = new EnumMap<>(InputFieldNames.class);
+        this.errorMessages = EnumSet.noneOf(FieldErrorNames.class);
     }
 
     public static Validation noErrors() {
         return new Validation();
     }
 
-    public Validation(InputFieldNames wrongInputfields, String message) {
-        initEnumIfNotPresent();
-        errorMessages.put(wrongInputfields, message);
+    public Validation(FieldErrorNames wrongInputfields) {
+        this();
+        errorMessages.add(wrongInputfields);
     }
 
-    /**
-     * ...
-     * @return ...
-     */
+    public EnumSet<FieldErrorNames> getErrorMessages() {
+        return EnumSet.copyOf(errorMessages);
+    }
+
     public boolean hasNoErrors() {
         return errorMessages.isEmpty();
     }
 
-    /**
-     * ...
-     * @param validation ...
-     * @return ...
-     */
-    public Validation appendValidation(Validation validation) {
-        initEnumIfNotPresent();
-        errorMessages.putAll(validation.errorMessages);
-        return this;
+    @SuppressWarnings({"PMD.LawOfDemeter"})
+    /* Keine LawOfDemeter Verletzung, da newValidation in der Methode erzeugt wird*/
+    public Validation appendValidation(final Validation validation) {
+        final Validation newValidation = noErrors();
+        newValidation.errorMessages = EnumSet.copyOf(errorMessages);
+        newValidation.errorMessages.addAll(validation.errorMessages);
+        return newValidation;
     }
 
-    private void initEnumIfNotPresent() {
-        if (errorMessages == null) {
-            this.errorMessages = new EnumMap<>(InputFieldNames.class);
-        }
+    @SuppressWarnings({"PMD.LawOfDemeter"})
+    /* Keine LawOfDemeter Verletzung, da newValidation in der Methode erzeugt wird*/
+    public Validation removeErrors(PollFields fieldTyp) {
+        final Validation newValidation = noErrors();
+        newValidation.errorMessages = EnumSet.copyOf(errorMessages);
+        newValidation.errorMessages
+                .stream()
+                .filter(error -> error.isChildOf(fieldTyp))
+                .forEach(newValidation.errorMessages::remove);
+        return newValidation;
     }
 }

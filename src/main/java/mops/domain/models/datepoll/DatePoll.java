@@ -1,54 +1,57 @@
 package mops.domain.models.datepoll;
 
+import java.time.LocalDateTime;
+import java.util.Set;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 
-import java.util.List;
-
-@Getter
 @AllArgsConstructor
+@SuppressFBWarnings(
+        value = "URF_UNREAD_FIELD",
+        justification = "Implemntierung folgt")
 public final class DatePoll {
 
-
-    /**
-     * Speichert Status der Umfrage, global und userspezifisch.
-     */
-    private PollRecordAndStatus pollRecordAndStatus;
-    /**
-     * Meta-Informationen zur DatePoll.
-     */
+    @Getter
+    private DatePollRecordAndStatus datePollRecordAndStatus;
+    @Getter
     private DatePollMetaInf datePollMetaInf;
-    /**
-     * Creator (Typ User) der DatePoll.
-     */
-    private UserId creator;
-    /**
-     * Konfiguration der DatePoll. Aggregiert in einem eigens dafür angelegten Objekt.
-     */
+    private final UserId creator;
     private DatePollConfig datePollConfig;
-    /**
-     * Liste der Terminoptionen der DatePoll.
-     */
-    private List<DatePollOption> datePollOptions;
-    /**
-     * Liste der User, die an der Abstimmung teilnehmen **können**.
-     */
-    private List<UserId> participants;
+    private Set<DatePollEntry> datePollEntries;
+    private Set<UserId> participants;
+    private Set<DatePollBallot> datePollBallots;
 
-    /**
-     * Link fuer den DatePoll.
-     */
-    private final DatePollLink datePollLink;
+    @Getter
+    private DatePollLink datePollLink;
 
     public static DatePollBuilder builder() {
         return new DatePollBuilder();
     }
 
     public PollStatus getUserStatus(User user) {
-        return pollRecordAndStatus.getUserStatus(user);
+        return datePollRecordAndStatus.getUserStatus(user);
     }
 
+    public void castBallot(DatePollBallot ballot) {
+        updatePollStatus();
+        if (datePollRecordAndStatus.isTerminated()) {
+            return;
+        }
+        if (!datePollConfig.isOpen() && !participants.contains(ballot.getUser())) {
+            return;
+        }
+        if (datePollConfig.isSingleChoice() && ballot.getYesEntriesSize() > 1) {
+            return;
+        }
+    }
+
+    private void updatePollStatus() {
+        if (datePollMetaInf.isBeforeEnd(LocalDateTime.now())) {
+            datePollRecordAndStatus.terminate();
+        }
+    }
 }
