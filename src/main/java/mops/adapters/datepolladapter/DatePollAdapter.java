@@ -94,7 +94,7 @@ public final class DatePollAdapter {
                              String addEndTime,
                              MessageContext context) {
         // Testweise versuchen, das Datum und die Zeiten zu parsen
-        boolean isvalid = validate(new OptionDto(addDate, addStartTime, addEndTime), context);
+        final boolean isvalid = validate(new OptionDto(addDate, addStartTime, addEndTime), context);
         if (!isvalid) {
             return false;
         }
