@@ -41,6 +41,11 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
 
     @Override
     public int compareTo(Timespan timespan) {
-        return this.startDate.compareTo(timespan.startDate);
+        final int difference = this.startDate.compareTo(timespan.startDate);
+        // Wenn Startdatum und -zeit gleich sind, ist das Enddatum ausschlaggebend
+        if (difference == 0) {
+            return this.endDate.compareTo(timespan.endDate);
+        }
+        return difference;
     }
 }
