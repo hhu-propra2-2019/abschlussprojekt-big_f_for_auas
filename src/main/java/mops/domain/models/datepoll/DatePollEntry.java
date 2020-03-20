@@ -1,13 +1,15 @@
 package mops.domain.models.datepoll;
 
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import mops.controllers.dtos.DatePollEntryDto;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @EqualsAndHashCode
 @RequiredArgsConstructor
@@ -29,6 +31,7 @@ public final class DatePollEntry implements ValidateAble {
 
     /**
      * Vergleich von Entries an Hand des vorgeschlagenen Timeslots.
+     *
      * @param other
      * @return boolean
      */
@@ -55,6 +58,7 @@ public final class DatePollEntry implements ValidateAble {
     /**
      * Gibt SetA - SetB zurück.
      * Bestimmt Gruppenzugehörigkeit nur an Hand der Timespan Objekten in DatePollEntry.
+     *
      * @param setA
      * @param setB
      * @return SetA - SetB (alle Elemente aus A, welche nicht in B sind)
@@ -63,7 +67,12 @@ public final class DatePollEntry implements ValidateAble {
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DefaultPackage"})
     static Set<DatePollEntry> difference(Set<DatePollEntry> setA, Set<DatePollEntry> setB) { //NOPMD
         return setA.stream().filter(entryFromSetA -> setB.stream()
-            .noneMatch(entryFromSetB -> entryFromSetB.representsSamePeriod(entryFromSetA)))
-            .collect(Collectors.toSet());
+                .noneMatch(entryFromSetB -> entryFromSetB.representsSamePeriod(entryFromSetA)))
+                .collect(Collectors.toSet());
+    }
+
+    public DatePollEntryDto toDto() {
+        return new DatePollEntryDto(this.suggestedPeriod.getStartDate(),
+                this.suggestedPeriod.getEndDate());
     }
 }
