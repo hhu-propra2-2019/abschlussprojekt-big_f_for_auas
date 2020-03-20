@@ -3,6 +3,7 @@ package mops.infrastructure.database.daos.datepoll;
 
 import lombok.Getter;
 import lombok.Setter;
+import mops.domain.models.datepoll.DatePollOption;
 import mops.infrastructure.database.daos.PollLifeCycleDao;
 import mops.infrastructure.database.daos.UserDao;
 
@@ -15,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
 import javax.persistence.FetchType;
 import java.util.Set;
+
 
 @Getter
 @Setter
@@ -30,4 +32,11 @@ public class DatePollOptionDao {
     private Set<UserDao> userVotesFor;
     @Embedded
     private PollLifeCycleDao pollLifeCycleDao;
+
+    public static DatePollOptionDao of(DatePollOption datePollOption, DatePollDao datePollDao) {
+        DatePollOptionDao currentOption = new DatePollOptionDao();
+        currentOption.setDatePoll(datePollDao);
+        currentOption.setPollLifeCycleDao(PollLifeCycleDao.of(datePollOption.getSuggestedPeriod()));
+        return currentOption;
+    }
 }
