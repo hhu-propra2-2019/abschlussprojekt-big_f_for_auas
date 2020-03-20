@@ -2,13 +2,14 @@ package mops.infrastructure.database.daos.datepoll;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import mops.domain.models.datepoll.DatePollConfig;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class DatePollConfigDao {
     private boolean prioritychoice;
     private boolean anonymous;
@@ -16,15 +17,4 @@ public class DatePollConfigDao {
     private boolean visible;
     private boolean singlechoice;
     private boolean voteIsEditable;
-
-    public static DatePollConfigDao of(DatePollConfig datePollConfig) {
-        return new DatePollConfigDao(
-                datePollConfig.isPriorityChoice(),
-                datePollConfig.isAnonymous(),
-                datePollConfig.isOpenForOwnEntries(),
-                datePollConfig.isOpen(),
-                datePollConfig.isSingleChoice(),
-                datePollConfig.isVoteIsEditable()
-        );
-    }
 }

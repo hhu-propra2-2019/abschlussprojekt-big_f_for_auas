@@ -3,7 +3,6 @@ package mops.infrastructure.database.daos.datepoll;
 
 import lombok.Getter;
 import lombok.Setter;
-import mops.domain.models.datepoll.DatePollEntry;
 import mops.infrastructure.database.daos.PollLifeCycleDao;
 import mops.infrastructure.database.daos.UserDao;
 
@@ -32,11 +31,4 @@ public class DatePollEntryDao {
     private Set<UserDao> userVotesFor;
     @Embedded
     private PollLifeCycleDao pollLifeCycleDao;
-
-    public static DatePollEntryDao of(DatePollEntry datePollOption, DatePollDao datePollDao) {
-        DatePollEntryDao currentOption = new DatePollEntryDao();
-        currentOption.setDatePoll(datePollDao);
-        currentOption.setPollLifeCycleDao(PollLifeCycleDao.of(datePollOption.getSuggestedPeriod()));
-        return currentOption;
-    }
 }
