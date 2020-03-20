@@ -3,7 +3,6 @@ package mops.domain.models.datepoll;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
-import mops.controllers.dtos.DatePollOptionDto;
 import mops.domain.models.PollFields;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
@@ -22,7 +21,7 @@ public final class DatePollBuilder {
     private transient DatePollMetaInf metaInfTarget;
     private transient UserId pollCreatorTarget;
     private transient DatePollConfig configTarget;
-    private final transient Set<DatePollEntry> pollOptionTargets = new HashSet<>();
+    private final transient Set<DatePollEntry> pollEntryTargets = new HashSet<>();
     private final transient Set<UserId> pollParticipantTargets = new HashSet<>();
     private transient DatePollLink linkTarget;
     @Getter
@@ -33,7 +32,7 @@ public final class DatePollBuilder {
             PollFields.DATE_POLL_META_INF,
             PollFields.DATE_POLL_LINK,
             PollFields.DATE_POLL_CONFIG,
-            PollFields.DATE_POLL_OPTIONS,
+            PollFields.DATE_POLL_ENTRIES,
             PollFields.CREATOR,
             PollFields.TIMESPAN,
             PollFields.CREATOR);
@@ -127,6 +126,7 @@ public final class DatePollBuilder {
      * streams stellen keine LawOfDemeter violation dar
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
+    /*
     public DatePollBuilder datePollOptions(Set<DatePollOptionDto> datePollOptionDtoSet) {
         this.pollOptionTargets.addAll(validateAllAndGetCorrect(
                 datePollOptionDtoSet.stream()
@@ -139,6 +139,21 @@ public final class DatePollBuilder {
         }
         return this;
     }
+    */
+    public DatePollBuilder datePollEntries(Set<DatePollEntry> datePollEntrySet) {
+        this.pollEntryTargets.addAll(validateAllAndGetCorrect(
+                datePollEntrySet.stream()
+                        .map(entry -> new DatePollEntry(new Timespan(
+                                entry.getSuggestedPeriod().getStartDate(), entry.getSuggestedPeriod().getEndDate())))
+                        .collect(Collectors.toSet()),
+                PollFields.DATE_POLL_ENTRIES
+        ));
+        if (!pollEntryTargets.isEmpty()) {
+            validatedFields.add(PollFields.DATE_POLL_ENTRIES);
+        }
+        return this;
+    }
+
 
 
     /**
@@ -178,7 +193,7 @@ public final class DatePollBuilder {
             return new DatePoll(
                     new DatePollRecordAndStatus(),
                     metaInfTarget, pollCreatorTarget, configTarget,
-                    pollOptionTargets, pollParticipantTargets,
+                    pollEntryTargets, pollParticipantTargets,
                     new HashSet<DatePollBallot>(), linkTarget
             );
         } else {
