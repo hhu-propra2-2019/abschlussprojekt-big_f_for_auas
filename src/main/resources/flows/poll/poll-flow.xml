@@ -10,6 +10,7 @@
 
     <on-start>
         <evaluate expression="new mops.adapters.questionpolladapter.dtos.HeaderDto()" result="flowScope.headerDto"/>
+        <evaluate expression="new mops.adapters.questionpolladapter.dtos.TimespanDto()" result="flowScope.timespanDto"/>
     </on-start>
 
     <view-state id="mobilePollNameSettings" view="/flows/poll/mobilePollNameSettings" model="headerDto">
@@ -26,9 +27,19 @@
         </transition>
     </view-state>
 
-    <view-state id="mobilePollAccessSettings" view="/flows/poll/mobilePollAccessSettings">
+    <view-state id="mobilePollAccessSettings" view="/flows/poll/mobilePollAccessSettings" model="timespanDto">
+
+        <binder>
+            <binding property="startDate"/>
+            <binding property="startTime"/>
+            <binding property="endDate"/>
+            <binding property="endTime"/>
+        </binder>
+
         <transition on="name" to="mobilePollNameSettings"/>
-        <transition on="choicesettings" to="mobilePollChoiceSettings"/>
+        <transition on="choicesettings" to="mobilePollChoiceSettings">
+            <evaluate expression="questionPollAdapter.validateTimespan(timespanDto, messageContext)"/>
+        </transition>
     </view-state>
 
     <view-state id="mobilePollChoiceSettings" view="flows/poll/mobilePollChoiceSettings">

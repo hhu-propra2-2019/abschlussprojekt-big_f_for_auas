@@ -2,7 +2,9 @@ package mops.adapters.questionpolladapter;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import mops.adapters.questionpolladapter.dtos.HeaderDto;
+import mops.adapters.questionpolladapter.dtos.TimespanDto;
 import mops.domain.models.FieldErrorNames;
+import mops.domain.models.Timespan;
 import mops.domain.models.Validation;
 import mops.domain.models.questionpoll.QuestionPollHeader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.EnumSet;
 
 @Service
@@ -40,6 +45,51 @@ public final class QuestionPollAdapter {
         return validation.hasNoErrors();
     }
 
+    @SuppressFBWarnings(
+            value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
+            justification = "Der eingesetzte Converter kann niemals eine null refrence zurückgeben, "
+                    + "auch wenn das Interface es erlaubt")
+    @SuppressWarnings({"PMD.LawOfDemeter"})
+    public boolean validateTimespan(TimespanDto timespanDto, MessageContext messageContext) {
+        if (!isTimeParsable(timespanDto, messageContext)) {
+            return false;
+        }
+        final Timespan timespan = conversionService.convert(timespanDto, Timespan.class);
+        final Validation validation = timespan.validate();
+        mapErrors(validation.getErrorMessages(), messageContext);
+        return validation.hasNoErrors();
+    }
+
+    @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
+    private boolean isTimeParsable(TimespanDto timespanDto, MessageContext messageContext) {
+        boolean parsable = true;
+        try {
+            LocalDate.parse(timespanDto.getStartDate());
+        } catch (DateTimeParseException e) {
+            addMessage("QUESTION_POLL_START_DATE_NOT_PARSABLE", messageContext);
+            parsable = false;
+        }
+        try {
+            LocalTime.parse(timespanDto.getStartTime());
+        } catch (DateTimeParseException e) {
+            addMessage("QUESTION_POLL_START_TIME_NOT_PARSABLE", messageContext);
+            parsable = false;
+        }
+        try {
+            LocalDate.parse(timespanDto.getEndDate());
+        } catch (DateTimeParseException e) {
+            addMessage("QUESTION_POLL_END_DATE_NOT_PARSABLE", messageContext);
+            parsable = false;
+        }
+        try {
+            LocalTime.parse(timespanDto.getEndTime());
+        } catch (DateTimeParseException e) {
+            addMessage("QUESTION_POLL_END_TIME_NOT_PARSABLE", messageContext);
+            parsable = false;
+        }
+        return parsable;
+    }
+
     private void mapErrors(EnumSet<FieldErrorNames> errors, MessageContext context) {
         errors.forEach(error -> context.addMessage(
                 new MessageBuilder()
@@ -47,5 +97,13 @@ public final class QuestionPollAdapter {
                         .code(error.toString())
                         .source(errorEnvironment.getProperty(error.toString(), "defaulterrors"))
                         .build()));
+    }
+
+    private void addMessage(String code, MessageContext context) {
+        context.addMessage(new MessageBuilder()
+                .error()
+                .code(code)
+                .source(errorEnvironment.getProperty(code, "defaulterrors"))
+                .build());
     }
 }
