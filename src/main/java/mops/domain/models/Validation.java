@@ -43,7 +43,7 @@ public final class Validation {
         newValidation.errorMessages
                 .stream()
                 .filter(error -> error.isChildOf(fieldTyp))
-                .forEach(errorMessages::remove);
+                .forEach(newValidation.errorMessages::remove);
         return newValidation;
     }
 }

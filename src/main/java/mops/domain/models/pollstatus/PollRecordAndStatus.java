@@ -30,7 +30,7 @@ public class PollRecordAndStatus {
     @Setter
     private LocalDateTime lastModified = LocalDateTime.now();
     private transient Map<User, PollStatus> votingRecord = new ConcurrentHashMap<>();
-    private transient boolean isTerminated;
+    @Getter private transient boolean isTerminated;
 
     /**
      * Sobald ein User abgestimmt hat, wird sein Status auf ONGOING gesetzt und bleibt dabei bis zum Ende der Umfrage,

@@ -1,6 +1,5 @@
 package mops.application.services;
 
-import lombok.NoArgsConstructor;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollLink;
@@ -8,18 +7,25 @@ import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import mops.domain.repositories.GroupRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Set;
 
 
 @Service
-@NoArgsConstructor // PMD zuliebe
 public class DatePollSyndicationService {
 
     public static final String LINK_ALREADY_TAKEN = "Link already taken";
-    private transient DatePollRepository datePollRepository;
-    private transient GroupRepository groupRepository;
+    private final transient DatePollRepository datePollRepository;
+    private final transient GroupRepository groupRepository;
+
+    @Autowired
+    public DatePollSyndicationService(DatePollRepository datePollRepository, GroupRepository groupRepository) {
+        this.datePollRepository = datePollRepository;
+        this.groupRepository = groupRepository;
+    }
 
     /**
      * Beendet den Erstellungsprozess und speichert die erstellte Terminfindung.
@@ -27,8 +33,13 @@ public class DatePollSyndicationService {
      * @param builder Um an den datePollConfigDto
      * @return DatePoll Objekt.
      */
+    @Transactional
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     public DatePoll publishDatePoll(final DatePollBuilder builder) {
         final DatePoll created = builder.build();
+        datePollRepository.load(created.getDatePollLink()).ifPresent(datePoll -> {
+            throw new IllegalArgumentException(LINK_ALREADY_TAKEN);
+        });
         datePollRepository.save(created);
         return created;
     }
@@ -56,8 +67,8 @@ public class DatePollSyndicationService {
      * @param groupID Id der betreffenden Gruppe
      */
     public void forGroup(final DatePollBuilder builder, final GroupId groupID) {
-        final List<UserId> userList = groupRepository.getUsersFromGroupByGroupId(groupID);
-        forCertainUsers(builder, userList);
+        final Set<UserId> userSet = groupRepository.getUsersFromGroupByGroupId(groupID);
+        forCertainUsers(builder, userSet);
     }
 
     /**
@@ -67,7 +78,7 @@ public class DatePollSyndicationService {
      * @param builder      Builder für DatePoll
      * @param participants Liste der betreffenden User
      */
-    public void forCertainUsers(final DatePollBuilder builder, final List<UserId> participants) {
+    public void forCertainUsers(final DatePollBuilder builder, final Set<UserId> participants) {
         builder.participants(participants);
     }
 
@@ -76,10 +87,10 @@ public class DatePollSyndicationService {
      * Teilnehmer enthält.
      *
      * @param builder     Builder für DatePoll
-     * @param participant Liste der betreffenden User
+     * @param participant Set der betreffenden User
      */
     public void forCertainUser(final DatePollBuilder builder, final UserId participant) {
-        forCertainUsers(builder, List.of(participant));
+        forCertainUsers(builder, Set.of(participant));
     }
 
 }

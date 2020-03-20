@@ -1,7 +1,8 @@
 package mops.domain.models.datepoll;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
@@ -11,7 +12,7 @@ import mops.utils.DomainObjectCreationUtils;
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public final class DatePollMetaInf implements ValidateAble {
 
     public static final int MAX_TITLE_LENGTH = 60;
@@ -24,7 +25,7 @@ public final class DatePollMetaInf implements ValidateAble {
         this.title = DomainObjectCreationUtils.convertNullToEmptyAndTrim(title);
         this.datePollDescription = new DatePollDescription(description);
         this.datePollLocation = new DatePollLocation(location);
-        this.datePollLifeCycle = new Timespan(LocalDateTime.now(), LocalDateTime.now().minusDays(1));
+        this.datePollLifeCycle = new Timespan(null, null);
     }
 
     public DatePollMetaInf(String title, String description, String location, Timespan lifecycle) {
@@ -32,16 +33,17 @@ public final class DatePollMetaInf implements ValidateAble {
         this.datePollLifeCycle = lifecycle;
     }
 
-    @Override
-    public Validation validate() {
-        return validateSecondStep();
+
+    public boolean isBeforeEnd(LocalDateTime time) {
+        return datePollLifeCycle.isBeforeEnd(time);
     }
 
+    @Override
     /*
      * noErrors() ist wie ein Konstruktor, nur mit expliziten namen, daher keine violation des LawOfDemeter
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    public Validation validateFirstStep() {
+    public Validation validate() {
         Validation validation = Validation.noErrors();
         if (title.length() == 0) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.DATE_POLL_TITLE_EMPTY));
@@ -50,15 +52,8 @@ public final class DatePollMetaInf implements ValidateAble {
         }
         return validation
                 .appendValidation(datePollLocation.validate())
-                .appendValidation(datePollDescription.validate());
+                .appendValidation(datePollDescription.validate())
+                .appendValidation(datePollLifeCycle.validate());
     }
 
-    /*
-     * ViolationFirstStep liegt in der selben Klasse und konstruiert das Validation Objekt sowieso, eine Violation ist
-     * hier nicht weiter tragisch, da sie den Sinn der Regel nicht verletzt.
-     */
-    @SuppressWarnings({"PMD.LawOfDemeter"})
-    public Validation validateSecondStep() {
-        return validateFirstStep().appendValidation(datePollLifeCycle.validate());
-    }
 }
