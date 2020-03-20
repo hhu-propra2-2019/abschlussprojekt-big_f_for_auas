@@ -4,7 +4,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.pollstatus.PollStatus;
-import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 
 import java.time.LocalDateTime;
