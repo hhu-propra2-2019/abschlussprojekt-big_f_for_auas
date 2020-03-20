@@ -47,7 +47,8 @@ public class DatePollDao {
     )
     private Set<DatePollEntryDao> datePollOptionSet;
     @ManyToMany(
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
     )
     private Set<UserDao> userSet;
 

@@ -1,6 +1,5 @@
 package mops.infrastructure.database.repositories;
 
-import lombok.NoArgsConstructor;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollLink;
 import mops.domain.models.user.UserId;
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@NoArgsConstructor
 public class DatePollRepositoryImpl implements DatePollRepository {
 
     private DatePollJpaRepository datePollJpaRepository;

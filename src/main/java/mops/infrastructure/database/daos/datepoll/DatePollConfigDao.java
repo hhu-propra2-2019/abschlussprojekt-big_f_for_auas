@@ -2,6 +2,7 @@ package mops.infrastructure.database.daos.datepoll;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import mops.domain.models.datepoll.DatePollConfig;
 
 import javax.persistence.Embeddable;
@@ -9,6 +10,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class DatePollConfigDao {
     private boolean prioritychoice;
     private boolean anonymous;
