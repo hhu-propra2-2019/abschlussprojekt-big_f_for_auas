@@ -38,13 +38,6 @@ public class DatePollVoteController {
         return new UserId(principal.getKeycloakSecurityContext().getIdToken().getEmail());
     }
 
-    @RolesAllowed({"ROLE_orga", "ROLE_studentin"})
-    @GetMapping("/")
-    public String returnDashboard(KeycloakAuthenticationToken token, Model model) {
-        model.addAttribute("userId", createUserIdFromPrincipal(token));
-        return "mobile-dashboard";
-    }
-
 
     @GetMapping("/vote/{link}")
     public String showPoll(Model model, @PathVariable DatePollLink link) {
