@@ -11,13 +11,12 @@ import mops.domain.models.Validation;
 
 @EqualsAndHashCode
 @RequiredArgsConstructor
-class DatePollEntry implements ValidateAble {
+@Getter
+public final class DatePollEntry implements ValidateAble {
 
     private final Timespan suggestedPeriod;
     //Anzahl der Stimmen fuer diesen Termin.
-    @Getter
     private int yesVotes;
-    @Getter
     private int maybeVotes;
 
     @SuppressWarnings({"PMD.LawOfDemeter"})

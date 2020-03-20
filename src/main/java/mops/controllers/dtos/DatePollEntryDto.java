@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class DatePollOptionDto {
+public class DatePollEntryDto {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 }
