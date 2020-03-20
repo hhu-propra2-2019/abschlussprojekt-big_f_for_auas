@@ -10,7 +10,6 @@ import mops.infrastructure.database.daos.questionpoll.QuestionPollEntryDao;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToMany;
 import javax.persistence.FetchType;
 import javax.persistence.Enumerated;
@@ -22,8 +21,8 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 public class UserDao {
+    @Setter
     @Id
-    @GeneratedValue
     private Long id;
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<DatePollDao> datePollSet;
@@ -34,6 +33,9 @@ public class UserDao {
     private Set<QuestionPollDao> questionPollSet;
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<QuestionPollEntryDao> questionPollEntrySet;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<GroupDao> groupSet;
 
     @Enumerated(EnumType.STRING)
     private PollStatusEnum pollStatusEnum;

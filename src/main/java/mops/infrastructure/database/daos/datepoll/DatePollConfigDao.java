@@ -1,15 +1,17 @@
 package mops.infrastructure.database.daos.datepoll;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
 @Data
-class DatePollConfigDao {
+@AllArgsConstructor
+public class DatePollConfigDao {
     private boolean prioritychoice;
-    private boolean anononymous;
+    private boolean anonymous;
     private boolean openforownentries;
-    private boolean visibility;
+    private boolean visible;
     private boolean singlechoice;
 }

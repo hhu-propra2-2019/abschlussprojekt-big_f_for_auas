@@ -20,9 +20,13 @@ public final class DatePoll {
     private DatePollRecordAndStatus datePollRecordAndStatus;
     @Getter
     private DatePollMetaInf datePollMetaInf;
+    @Getter
     private final UserId creator;
+    @Getter
     private DatePollConfig datePollConfig;
+    @Getter
     private List<DatePollOption> datePollOptions;
+    @Getter
     private List<UserId> participants;
     @Getter
     private DatePollLink datePollLink;

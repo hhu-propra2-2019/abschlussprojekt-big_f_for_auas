@@ -7,8 +7,9 @@ import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
 @RequiredArgsConstructor
-class DatePollOption implements ValidateAble {
+public final class DatePollOption implements ValidateAble {
 
+    @Getter
     private final Timespan suggestedPeriod;
     //Anzahl der Stimmen fuer diesen Termin.
 

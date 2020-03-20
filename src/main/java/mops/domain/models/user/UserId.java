@@ -13,7 +13,7 @@ public class UserId implements ValidateAble, Serializable {
 
     private static final long serialVersionUID = 1984021897420418247L;
 
-    private String id;
+    private Long id;
 
     /**
      * TODO: Validierung hinzufügen!

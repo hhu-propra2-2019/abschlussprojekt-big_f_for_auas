@@ -24,7 +24,6 @@ public class DatePollOptionDao {
     @Id
     @GeneratedValue
     private Long id;
-    private String description;
     @ManyToOne(fetch = FetchType.LAZY)
     private DatePollDao datePoll;
     @ManyToMany(fetch = FetchType.LAZY)

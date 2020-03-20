@@ -1,5 +1,6 @@
 package mops.infrastructure.database.daos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Embeddable
 @Data
+@AllArgsConstructor
 public class PollLifeCycleDao {
     @DateTimeFormat
     private LocalDateTime startdate;
