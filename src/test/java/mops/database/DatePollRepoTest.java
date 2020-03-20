@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -63,8 +64,12 @@ public class DatePollRepoTest {
     @Test
     public void saveOneDatePollDao() {
         DatePollDao datePollDao = DatePollDaoOfDatePoll.datePollDaoOf(datePoll);
+        String link = datePollDao.getLink();
         System.out.println("Output Link:" + datePollDao.getLink());
         datePollRepository.save(datePoll);
-        DatePollDao datepollFound = datePollRepository.findDatepollByLink("poll/link");
+        DatePollDao datepollFound = datePollRepository.getDatePollDao(link);
+        System.out.println("[+] Found DatePoll: " + datepollFound.getLink());
+        System.out.println("[+] Found DatePoll: " + datepollFound.getDatePollMetaInfDao().getLocation());
+        assertThat(datepollFound.getLink()).isEqualTo("poll/link");
     }
 }

@@ -4,6 +4,7 @@ import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollLink;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
+import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.translator.DatePollDaoOfDatePoll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -45,17 +46,24 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     /**
      * Lädt alle DatePolls in denen ein Nutzer Teilnimmt.
      * @param userId
-     * @return
+     * @return List<DatePoll>
      */
     @Override
     public List<DatePoll> getDatePollsByUserId(UserId userId) {
         throw new UnsupportedOperationException();
     }
-
     /**
      * Dopplung mit load.
      * @param datePollLink
-     * @return
+     * @return DatePollDao
+     */
+    public DatePollDao getDatePollDao(String datePollLink) {
+        return datePollJpaRepository.findDatePollDaoByLink(datePollLink);
+    }
+    /**
+     * Dopplung mit load.
+     * @param datePollLink
+     * @return DatePoll
      */
     @Override
     public DatePoll getDatePollByLink(DatePollLink datePollLink) {
