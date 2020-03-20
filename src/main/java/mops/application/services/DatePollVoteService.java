@@ -30,25 +30,9 @@ public class DatePollVoteService {
         return poll.getUserBallot(id).orElseThrow();
     }
 
-
+    @SuppressWarnings({"PMD.LawOfDemeter"})// Nullcheck
     public void vote(DatePollLink link, UserId user, Set<DatePollEntry> yes, Set<DatePollEntry> maybe) {
-        Optional<DatePoll> datePoll = datePollRepository.load(link);
-        if (datePoll.isPresent()) {
-            datePoll.get().castBallot(user, yes, maybe);
-        }
-    }
-
-    public Set<DatePollEntryDto> getEntryDtos(DatePollLink link) {
-        Optional<DatePoll> datePoll = datePollRepository.load(link);
-        if (datePoll.isPresent()) {
-            datePoll.get().getDatePollEntries();
-        }
-    }
-
-    public boolean isUserParticipant(UserId user, DatePollLink link) {
-        Optional<DatePoll> datePoll = datePollRepository.load(link);
-        if (datePoll.isPresent()) {
-            datePoll.get().isUserParticipant(user);
-        }
+        final DatePoll datepoll = datePollRepository.load(link).orElseThrow();
+        datepoll.castBallot(user, yes, maybe);
     }
 }
