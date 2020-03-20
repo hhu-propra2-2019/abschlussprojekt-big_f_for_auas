@@ -72,7 +72,7 @@ public final class DatePollEntry implements ValidateAble {
     }
 
     public DatePollEntryDto toDto() {
-        return new DatePollEntryDto(this.suggestedPeriod.getStartDate(),
-                this.suggestedPeriod.getEndDate());
+        return new DatePollEntryDto(this.suggestedPeriod.getStartDateTime(),
+                this.suggestedPeriod.getEndDateTime());
     }
 }

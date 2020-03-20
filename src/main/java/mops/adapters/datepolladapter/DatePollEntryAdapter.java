@@ -4,9 +4,11 @@ import mops.application.services.DatePollVoteService;
 import mops.application.services.PollInfoService;
 import mops.controllers.dtos.DatePollEntryDto;
 import mops.controllers.dtos.DatePollUserEntryOverview;
+import mops.controllers.dtos.FormattedDatePollEntryDto;
 import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.datepoll.DatePollLocation;
 import mops.domain.models.user.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,16 +50,28 @@ public class DatePollEntryAdapter {
     }
 
     public Set<DatePollEntryDto> showAllEntries(DatePollLink link) {
-        final Set<DatePollEntry> enties = infoService.getEntries(link);
-        return enties.stream()
+        final Set<DatePollEntry> entries = infoService.getEntries(link);
+        return entries.stream()
                 .map(this::toDTO)
+                .collect(Collectors.toSet());
+    }
+
+    public Set<FormattedDatePollEntryDto> getAllEntriesFormatted(DatePollLink link) {
+        final Set<DatePollEntry> entries = infoService.getEntries(link);
+        return entries.stream()
+                .map(this::toFormattedDTO)
                 .collect(Collectors.toSet());
     }
 
     private DatePollEntryDto toDTO(DatePollEntry entry) {
         return new DatePollEntryDto(
-                entry.getSuggestedPeriod().getStartDate(),
-                entry.getSuggestedPeriod().getEndDate()
+                entry.getSuggestedPeriod().getStartDateTime(),
+                entry.getSuggestedPeriod().getEndDateTime()
         );
+    }
+
+    private FormattedDatePollEntryDto toFormattedDTO(DatePollEntry entry) {
+        String formatted = entry.getSuggestedPeriod().toString();
+        return new FormattedDatePollEntryDto(formatted);
     }
 }
