@@ -19,7 +19,36 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Auswahleinstellungen')"></div>
-        <form th:replace="fragments/choiceSettings.html :: form"></form>
+        <form method="post" class="needs-validation" novalidate th:fragment="form"
+              th:object="${configDto}" id="datePollConfig" th:action="${flowExecutionUrl}" >
+            <div class="single-choice form-group">
+                <label>Anzahl Auswahlmöglichkeiten</label>
+                <div class="form-check">
+                    <input class="form-check-input" id="single-choice" type="radio"
+                           value="true" th:field="*{singleChoice}" checked>
+                    <label for="single-choice" class="form-check-label">
+                        Single Choice
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="single-choice" type="radio"
+                           value="false" th:field="*{singleChoice}">
+                    <label for="single-choice" class="form-check-label">
+                        Multiple Choice
+                    </label>
+                </div>
+                <hr>
+                <label>Namensanzeige</label>
+                <div class="form-check">
+                    <input class="form-check-input" id="name-anonymous" type="checkbox" value="true" th:field="*{anonymous}">
+                    <label for="name-anonymous" class="form-check-label">
+                        Anonym
+                    </label>
+                </div>
+                <button type="submit" name="_eventId_choiceoptions" class="btn btn-primary float-right mt-5">Weiter</button>
+                <button type="submit" name="_eventId_access"  class="btn btn-primary float-left mt-5">Zurück</button>
+            </div>
+        </form>
     </div>
 </main>
 </body>

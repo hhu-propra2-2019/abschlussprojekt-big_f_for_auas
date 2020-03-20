@@ -6,7 +6,7 @@ import mops.domain.models.questionpoll.QuestionPollHeader;
 import org.springframework.core.convert.converter.Converter;
 
 @NoArgsConstructor
-public class HeaderConverter implements Converter<HeaderDto, QuestionPollHeader>  {
+public class HeaderConverter implements Converter<HeaderDto, QuestionPollHeader> {
 
     /**
      * QuestionPollHeader converter.

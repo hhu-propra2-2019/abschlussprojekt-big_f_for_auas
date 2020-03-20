@@ -1,11 +1,13 @@
 package mops.adapters.questionpolladapter;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import mops.adapters.questionpolladapter.dtos.ConfigDto;
 import mops.adapters.questionpolladapter.dtos.HeaderDto;
 import mops.adapters.questionpolladapter.dtos.TimespanDto;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.Timespan;
 import mops.domain.models.Validation;
+import mops.domain.models.questionpoll.QuestionPollConfig;
 import mops.domain.models.questionpoll.QuestionPollHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageBuilder;
@@ -88,6 +90,18 @@ public final class QuestionPollAdapter {
             parsable = false;
         }
         return parsable;
+    }
+
+    @SuppressFBWarnings(
+            value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
+            justification = "Der eingesetzte Converter kann niemals eine null refrence zurückgeben, "
+                    + "auch wenn das Interface es erlaubt")
+    @SuppressWarnings({"PMD.LawOfDemeter"})
+    public boolean validateConfig(ConfigDto configDto, MessageContext messageContext) {
+        final QuestionPollConfig config = conversionService.convert(configDto, QuestionPollConfig.class);
+        final Validation validation = config.validate();
+        mapErrors(validation.getErrorMessages(), messageContext);
+        return validation.hasNoErrors();
     }
 
     private void mapErrors(EnumSet<FieldErrorNames> errors, MessageContext context) {

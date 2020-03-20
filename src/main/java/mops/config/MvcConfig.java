@@ -24,5 +24,6 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addConverter(new ConfigConverter());
         registry.addConverter(new HeaderConverter());
         registry.addConverter(new TimespanConverter());
+        registry.addConverter(new mops.adapters.questionpolladapter.converters.ConfigConverter());
     }
 }
