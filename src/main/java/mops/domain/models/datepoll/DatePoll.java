@@ -85,6 +85,10 @@ public final class  DatePoll {
         }
     }
 
+    public boolean isUserParticipant(UserId user) {
+        return participants.contains(user);
+    }
+
     public Set<DatePollEntryDto> getDatePollEntries() {
         return datePollEntries.stream().map(DatePollEntry::toDto).collect(Collectors.toSet());
     }
