@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import mops.controllers.dtos.DatePollEntryDto;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
@@ -66,5 +67,9 @@ class DatePollEntry implements ValidateAble {
         return setA.stream().filter(entryFromSetA -> setB.stream()
             .noneMatch(entryFromSetB -> entryFromSetB.representsSamePeriod(entryFromSetA)))
             .collect(Collectors.toSet());
+    }
+
+    public DatePollEntryDto toDto() {
+        return new DatePollEntryDto(this.suggestedPeriod, this.yesVotes, this.maybeVotes);
     }
 }
