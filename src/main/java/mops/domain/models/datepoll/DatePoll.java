@@ -1,7 +1,6 @@
 package mops.domain.models.datepoll;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.stream.Collectors;
