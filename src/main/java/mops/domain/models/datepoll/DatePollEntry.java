@@ -6,15 +6,17 @@ import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
+@EqualsAndHashCode
 @RequiredArgsConstructor
-public final class DatePollOption implements ValidateAble {
+class DatePollEntry implements ValidateAble {
 
     @Getter
     private final Timespan suggestedPeriod;
     //Anzahl der Stimmen fuer diesen Termin.
-
     @Getter
-    private int votes;
+    private int yesVotes;
+    @Getter
+    private int maybeVotes;
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
     @Override

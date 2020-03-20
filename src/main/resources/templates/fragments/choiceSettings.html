@@ -8,31 +8,34 @@
     </th:block>
 </head>
 <body>
-    <form th:action method="post" th:fragment="form">
-        <div class="choice-amount form-group">
+    <form method="post" class="needs-validation" novalidate th:fragment="form"
+          th:object="${configDto}" id="datePollConfig" th:action="${flowExecutionUrl}" >
+        <div class="single-choice form-group">
             <label>Anzahl Auswahlmöglichkeiten</label>
             <div class="form-check">
-                <input class="form-check-input" name="choice-amount" type="radio" value="single-choice" onchange="showPriorities()" checked>
-                <label class="form-check-label">
+                <input class="form-check-input" id="single-choice" type="radio"
+                       value="true" th:field="*{singleChoice}" checked>
+                <label for="single-choice" class="form-check-label">
                     Single Choice
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" name="choice-amount" type="radio" value="multiple-choice" onchange="showPriorities()">
-                <label class="form-check-label">
+                <input class="form-check-input" id="single-choice" type="radio"
+                       value="false" th:field="*{singleChoice}">
+                <label for="single-choice" class="form-check-label">
                     Multiple Choice
                 </label>
             </div>
-            <div class="collapse pl-3" id="collapsePriorities">
+            <div class="form-check">
                 <div class="form-check">
-                    <input class="form-check-input" name="choice-weight" type="radio" value="choice-equal" checked>
-                    <label class="form-check-label">
+                    <input class="form-check-input" id="priority-choice1" type="radio" value="false" th:field="*{priorityChoice}" checked>
+                    <label for="priority-choice1" class="form-check-label">
                         ja/nein
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" name="choice-weight" type="radio" value="choice-priorities">
-                    <label class="form-check-label">
+                    <input class="form-check-input" id="priority-choice2" type="radio" value="true" th:field="*{priorityChoice}">
+                    <label for="priority-choice2" class="form-check-label">
                         ja/nein/vielleicht
                     </label>
                 </div>
@@ -40,22 +43,22 @@
             <hr>
             <label>Stimmabgabe</label>
             <div class="form-check">
-                <input class="form-check-input" name="choice-mutable" type="checkbox" onchange="showMutable()">
-                <label class="form-check-label">
-                    Stimme im nachhinein editierbar
+                <input class="form-check-input" id="choice-mutable" type="checkbox" value="true" th:field="*{voteIsEditable}">
+                <label for="choice-mutable" class="form-check-label">
+                    Stimme im Nachhinein editierbar
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" name="choice-addNew" type="checkbox" disabled>
-                <label class="form-check-label">
+                <input class="form-check-input" id="choice-addNew" type="checkbox" value="true" th:field="*{openForOwnEntries}">
+                <label for="choice-addNew" class="form-check-label">
                     Möglichkeiten ergänzbar
                 </label>
             </div>
             <hr>
             <label>Namensanzeige</label>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox">
-                <label class="form-check-label">
+                <input class="form-check-input" id="name-anonymous" type="checkbox" value="true" th:field="*{anonymous}">
+                <label for="name-anonymous" class="form-check-label">
                     Anonym
                 </label>
             </div>

@@ -1,5 +1,6 @@
 package mops.domain.models.datepoll;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Value;
 import mops.domain.models.ValidateAble;
@@ -7,8 +8,14 @@ import mops.domain.models.Validation;
 
 @Value
 @Getter
+@AllArgsConstructor
 public final class DatePollConfig implements ValidateAble {
 
+    /**
+     * true: User kann die abgegebenen Stimmen im Nachhinein bearbeiten.
+     * false: User kann die abgegebenen Stimmen nicht im Nachhinein bearbeiten.
+     */
+    private boolean voteIsEditable;
     /**
      * true: User kann selbst Termine zur Abstimmung hinzufügen.
      * false: User kann keine Termine zur Abstimmung hinzufügen.
@@ -39,7 +46,7 @@ public final class DatePollConfig implements ValidateAble {
      * NoArgsConstructor - Default Werte fuer die Konfiguration einer Terminfindung.
      */
     public DatePollConfig() {
-        this.priorityChoice = false;
+        this.voteIsEditable = true;
         this.anonymous = false;
         this.openForOwnEntries = false;
         this.open = false;
