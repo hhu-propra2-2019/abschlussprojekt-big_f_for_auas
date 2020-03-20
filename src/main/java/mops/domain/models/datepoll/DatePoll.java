@@ -12,7 +12,7 @@ import mops.domain.models.user.UserId;
 @AllArgsConstructor
 @SuppressFBWarnings(
         value = "URF_UNREAD_FIELD",
-        justification = "Implemntierung folgt")
+        justification = "Implementierung folgt")
 public final class DatePoll {
 
     @Getter

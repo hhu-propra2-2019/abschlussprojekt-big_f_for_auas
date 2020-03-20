@@ -2,9 +2,6 @@ package mops.infrastructure.database.daos.datepoll;
 
 import lombok.Getter;
 import lombok.Setter;
-import mops.domain.models.datepoll.DatePoll;
-import mops.domain.models.datepoll.DatePollEntry;
-import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.UserDao;
 
@@ -19,7 +16,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Column;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
-import java.util.HashSet;
 import java.util.Set;
 
 // TODO: refactoring @data annotation -> entities shouldn't have @Data annotation only getters and setters
@@ -45,54 +41,39 @@ public class DatePollDao {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<DatePollEntryDao> datePollOptionSet;
+    private Set<DatePollEntryDao> datePollEntrySet;
     @ManyToMany(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
     )
     private Set<UserDao> userSet;
-
-    public static DatePollDao of(DatePoll datePoll) {
-        //Extract DatePollDaoMetaInf
-        DatePollMetaInfDao datePollMetaInfDao = DatePollMetaInfDao.of(datePoll.getDatePollMetaInf());
-        //Extract DatePollDaoConfig
-        DatePollConfigDao datePollConfigDao = DatePollConfigDao.of(datePoll.getDatePollConfig());
-        //Extract DatePollDaoRecordAndStatus
-        PollRecordAndStatusDao pollRecordAndStatusDao = PollRecordAndStatusDao.of(
-                datePoll.getDatePollRecordAndStatus());
+/*
+    public static DatePoll to(DatePollDao datePollDao) {
+        //Extract DatePollMetaInf
+        DatePollMetaInf datePollMetaInf = DatePollMetaInfDao.to(datePollDao.getDatePollMetaInfDao());
+        //Extract DatePollConfig
+        DatePollConfig datePollConfig = DatePollConfigDao.to(datePollDao.getDatePollConfigDao());
+        //Extract DatePollRecordAndStatus
+        PollRecordAndStatus pollRecordAndStatus = PollRecordAndStatusDao.to(
+                datePollDao.getPollRecordAndStatusDao());
         //Extract DatePollLink
-        String newLink = datePoll.getDatePollLink().getDatePollIdentifier();
+        DatePollLink newLink = new DatePollLink(datePollDao.getLink());
         //Create new DatePollDao and set current values
-        DatePollDao datePollDao = new DatePollDao();
-        datePollDao.setLink(newLink);
-        datePollDao.setDatePollMetaInfDao(datePollMetaInfDao);
-        datePollDao.setDatePollConfigDao(datePollConfigDao);
-        datePollDao.setPollRecordAndStatusDao(pollRecordAndStatusDao);
+        DatePoll datePoll = new DatePollBuilder()
+                .datePollLink(newLink)
+                .datePollMetaInf(datePollMetaInf)
+                .datePollConfig(datePollConfig)
+                //entries
+                .datePollEntries(datePollDao.getDatePollEntrySet())
+                //participants
+                //creator
+                //.creator(datePollDao.getCreatorUserDao())
+                .build();
+         datePoll.datePoll(pollRecordAndStatus);
         //Extract DatePollDaoOptions
-        datePollDao.setDatePollOptionSet(extractDatePollOptionDaos(datePoll, datePollDao));
+        datePoll.setDatePollOptionSet(extractDatePollOptionDaos(datePoll, datePollDao));
         //Extract DatePollDaoParticipants
         datePollDao.setUserSet(extractDatePollUser(datePoll));
-        return datePollDao;
-    }
 
-    private static Set<DatePollEntryDao> extractDatePollOptionDaos(DatePoll datePoll, DatePollDao datePollDao) {
-        Set<DatePollEntry> datePollEntries = datePoll.getDatePollEntries();
-        Set<DatePollEntryDao> datePollEntryDaos = new HashSet<>();
-        for (DatePollEntry datePollEntry:datePollEntries
-        ) {
-            DatePollEntryDao currentOption = DatePollEntryDao.of(datePollEntry, datePollDao);
-            datePollEntryDaos.add(currentOption);
-        }
-        return datePollEntryDaos;
-    }
-
-    private static Set<UserDao> extractDatePollUser(DatePoll datePoll) {
-        Set<UserId> userIds = datePoll.getParticipants();
-        Set<UserDao> userDaoSet = new HashSet<>();
-        for (UserId currentUserId:userIds
-        ) {
-            userDaoSet.add(UserDao.of(currentUserId));
-        }
-        return userDaoSet;
-    }
+    }*/
 }

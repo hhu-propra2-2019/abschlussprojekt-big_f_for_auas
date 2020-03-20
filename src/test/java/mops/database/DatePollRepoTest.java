@@ -10,6 +10,7 @@ import mops.domain.models.datepoll.DatePollLink;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
+import mops.infrastructure.database.daos.translator.DatePollDaoOfDatePoll;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,12 +22,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.mockito.Mockito.mock;
+
 @SpringBootTest
 public class DatePollRepoTest {
     @Autowired
     private DatePollRepositoryImpl datePollRepository;
     private DatePollRepositoryImpl mockedDatePollRepository;
-
     private DatePoll datePoll;
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
@@ -61,9 +62,9 @@ public class DatePollRepoTest {
     }
     @Test
     public void saveOneDatePollDao() {
-        //datePollRepository.save(datePoll);
-        DatePollDao datePollDao = DatePollDao.of(datePoll);
+        DatePollDao datePollDao = DatePollDaoOfDatePoll.datePollDaoOf(datePoll);
         System.out.println("Output Link:" + datePollDao.getLink());
         datePollRepository.save(datePoll);
+        DatePollDao datepollFound = datePollRepository.findDatepollByLink("poll/link");
     }
 }

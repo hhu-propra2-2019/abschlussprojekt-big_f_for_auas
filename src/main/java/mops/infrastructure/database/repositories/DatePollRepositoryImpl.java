@@ -4,7 +4,7 @@ import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollLink;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
-import mops.infrastructure.database.daos.datepoll.DatePollDao;
+import mops.infrastructure.database.daos.translator.DatePollDaoOfDatePoll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -23,11 +23,14 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     /**
      * Lädt das DatePoll aggregat anhand seines links.
      * @param link Eindeutig identifizierender link einer Terminfindung.
-     * @return
+     * @return An Inputlink gekoppeltes DatePoll
      */
-    @Override
     public Optional<DatePoll> load(DatePollLink link) {
-        throw new UnsupportedOperationException();
+        //DatePollDao loaded = datePollJpaRepository.findDatePollDaoByLink(link.getDatePollIdentifier());
+        //if (loaded != null) {
+        //    return DatePollDao.to(loaded);
+        //}
+        return Optional.empty();
     }
 
     /**
@@ -36,7 +39,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @Override
     public void save(DatePoll datePoll) {
-        datePollJpaRepository.save(DatePollDao.of(datePoll));
+        datePollJpaRepository.save(DatePollDaoOfDatePoll.datePollDaoOf(datePoll));
     }
 
     /**

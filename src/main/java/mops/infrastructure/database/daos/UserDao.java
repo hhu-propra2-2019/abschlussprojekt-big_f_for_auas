@@ -2,7 +2,6 @@ package mops.infrastructure.database.daos;
 
 import lombok.Getter;
 import lombok.Setter;
-import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
@@ -40,11 +39,4 @@ public class UserDao {
 
     @Enumerated(EnumType.STRING)
     private PollStatusEnum pollStatusEnum;
-
-    public static UserDao of(UserId userId) {
-        UserDao creator = new UserDao();
-        creator.setId(Long.parseLong(userId.getId()));
-        return creator;
-    }
-
 }
