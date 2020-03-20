@@ -13,6 +13,7 @@ import javax.persistence.Embedded;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DatePollMetaInfDao {
+    private String title;
     private String description;
     private String location;
     @Embedded

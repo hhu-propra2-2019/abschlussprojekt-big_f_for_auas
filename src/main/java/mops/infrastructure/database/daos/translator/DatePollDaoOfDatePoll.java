@@ -75,6 +75,7 @@ public class DatePollDaoOfDatePoll {
     public static DatePollMetaInfDao metaInfDaoOf(DatePollMetaInf datePollMetaInf) {
         PollLifeCycleDao lifeCycleDao = PollLifeCycleDao.of(datePollMetaInf.getDatePollLifeCycle());
         return new DatePollMetaInfDao(
+                datePollMetaInf.getTitle(),
                 datePollMetaInf.getDatePollDescription().getDescription(),
                 datePollMetaInf.getDatePollLocation().getLocation(), lifeCycleDao);
     }
