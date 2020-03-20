@@ -20,13 +20,18 @@
         <binder>
             <binding property="question"/>
             <binding property="options"/>
-            <binding property="addDate"/>
-            <binding property="addStartTime"/>
-            <binding property="addEndTime"/>
         </binder>
 
         <transition on="addoption" to="mobileSchedulingChoiceOptions">
-            <evaluate expression="datePollAdapter.addOption(optionsDto)"/>
+            <evaluate expression="datePollAdapter.addOption(optionsDto, requestParameters.addDate,
+                                                                           requestParameters.addStartTime,
+                                                                           requestParameters.addEndTime)"/>
+        </transition>
+
+        <transition on="deleteoption" to="mobileSchedulingChoiceOptions">
+            <evaluate expression="datePollAdapter.deleteOption(optionsDto, requestParameters.deleteDate,
+                                                                           requestParameters.deleteStartTime,
+                                                                           requestParameters.deleteEndTime)"/>
         </transition>
 
         <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>

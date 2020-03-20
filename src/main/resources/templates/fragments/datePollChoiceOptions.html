@@ -9,56 +9,74 @@
     </th:block>
 </head>
 <body>
-<form method="post" id="schedulingChoiceOptions" novalidate
-      th:fragment="schedulingForm"
-      th:action="${flowExecutionUrl}"
-      th:object="${optionsDto}">
-    <div class="mx-lg-5">
+<div th:object="${optionsDto}" th:fragment="schedulingForm">
+    <form method="post" id="schedulingChoiceOptions" novalidate th:action="${flowExecutionUrl}">
         <div class="form-group">
             <input class="form-control" placeholder="Fragestellung" required>
             <div class="invalid-feedback">
                 Bitte gib einen Fragestellung ein.
             </div>
         </div>
-        <div class="form-group">
+        <div class="card my-1">
+            <div class="card-body p-2">
+                <div class="d-flex flex-row flex-wrap align-items-center no-gutters">
 
-                <div class="card my-1" th:each="option, itemStat : *{options}">
-                    <div class="card-body p-2">
-                        <div class="d-flex flex-row flex-wrap align-items-center no-gutters">
+                    <div class="wrap-input-date order-1 d-flex align-items-center pl-2">
+                        <i class="fa fa-check-square-o fa-2x"></i>
+                        <input class="form-control ml-3 mr-3" type="date" name="addDate" value="2020-05-20">
+                    </div>
 
-                            <div class="wrap-check-icon order-1 d-flex align-items-center w-25 pl-2">
-                                <i class="fa fa-check-square-o fa-2x"></i>
-                                <h4 class="pl-2 pr-2 mb-0" th:text="*{options[__${itemStat.index}__].date}"></h4>
-                            </div>
+                    <div class="wrap-input-von-bis order-2 d-flex align-items-center ml-2 my-2 my-md-0">
+                        <i class="fa fa-clock-o fa-2x"></i>
+                        <input class="form-control ml-3" type="time" name="addStartTime" value="15:00">
+                        <h4 class="mb-0 ml-2">bis</h4>
+                        <input class="form-control ml-2" type="time" name="addEndTime" value="17:00">
+                    </div>
 
-                            <div class="wrap-von-bis order-2 d-flex align-items-center ml-2 my-2 my-sm-0">
-                                <i class="fa fa-clock-o fa-2x"></i>
-                                <input class="form-control ml-2" type="time" required
-                                       th:field="*{options[__${itemStat.index}__].startTime}">
-                                <h4 class="mb-0 ml-2">bis</h4>
-                                <input class="form-control ml-2" type="time" required
-                                       th:field="*{options[__${itemStat.index}__].endTime}">
-                            </div>
-
-                            <div class="wrap-delete-button order-3 d-flex flex-row-reverse ml-auto">
-                                <button class="btn btn-danger"><i class="fa fa-trash-o fa-2x"></i></button>
-                            </div>
-                        </div>
+                    <div class="wrap-input-add-button order-3 d-flex flex-row-reverse ml-auto">
+                        <button class="delete-button btn btn-success"
+                                type="submit" name="_eventId_addoption">
+                            <i class="fa fa-plus fa-2x"></i></button>
                     </div>
                 </div>
-
+            </div>
         </div>
-    </div>
+    </form>
 
-    <div class="form-group">
-        <input class="form-control" type="date" th:field="*{addDate}" value="2020-05-20">
-        <input class="form-control" type="time" th:field="*{addStartTime}" value="15-00">
-        <input class="form-control" type="time" th:field="*{addEndTime}" value="17-00">
-    </div>
-    <button type="submit" name="_eventId_addoption"  class="btn btn-primary float-right mt-5">Option hinzufügen</button>
+    <form method="post" th:each="option : ${optionsDto.options}" th:action="${flowExecutionUrl}">
+        <div class="card my-1">
+            <div class="card-body p-2">
+                <div class="d-flex flex-row flex-wrap align-items-center no-gutters">
 
-    <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right mt-5">Weiter</button>
-    <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
-</form>
+                    <div class="wrap-check-icon order-1 d-flex align-items-center w-25 pl-2">
+                        <i class="fa fa-check-square-o fa-2x"></i>
+                        <h4 class="pl-2 pr-2 mb-0" th:text="${option.getDate()}"></h4>
+                    </div>
+
+                    <div class="wrap-von-bis order-2 d-flex align-items-center ml-2 my-2 my-sm-0">
+                        <i class="fa fa-clock-o fa-2x"></i>
+                        <h4 class="mb-0 ml-2" th:text="${option.getStartTime()}"></h4>
+                        <h4 class="mb-0 ml-2">bis</h4>
+                        <h4 class="mb-0 ml-2" th:text="${option.getEndTime()}"></h4>
+                    </div>
+
+                    <div class="wrap-delete-button order-3 d-flex flex-row-reverse ml-auto">
+                        <input type="hidden" readonly name="deleteDate" th:value="${option.getDate()}">
+                        <input type="hidden" readonly name="deleteStartTime" th:value="${option.getStartTime()}">
+                        <input type="hidden" readonly name="deleteEndTime" th:value="${option.getEndTime()}">
+                        <button class="delete-button btn btn-danger"
+                                type="submit" name="_eventId_deleteoption">
+                            <i class="fa fa-trash-o fa-2x"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form method="post" id="schedulingChoiceOptions" novalidate th:action="${flowExecutionUrl}">
+        <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right mt-5">Weiter</button>
+        <button type="submit" name="_eventId_choicesettings"  class="btn btn-primary float-left mt-5">Zurück</button>
+    </form>
+</div>
 </body>
 </html>

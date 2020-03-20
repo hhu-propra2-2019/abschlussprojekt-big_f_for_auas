@@ -85,16 +85,24 @@ public final class DatePollAdapter {
         return false;
     }
 
-    public boolean addOption(OptionsDto optionsDto) {
+    public boolean addOption(OptionsDto optionsDto,
+                             String addDate,
+                             String addStartTime,
+                             String addEndTime) {
         //final LocalDateTime startDate = LocalDate.parse(optionsDto.getAddDate())
         //        .atTime(LocalTime.parse(optionsDto.getAddStartTime()));
         //final LocalDateTime endDate = LocalDate.parse(optionsDto.getAddDate())
         //        .atTime(LocalTime.parse(optionsDto.getAddEndTime()));
         //optionsDto.getOptions().add(new Timespan(startDate, endDate));
-        optionsDto.getOptions().add(
-                new OptionDto(optionsDto.getAddDate(),
-                optionsDto.getAddStartTime(),
-                optionsDto.getAddEndTime()));
+        optionsDto.getOptions().add(new OptionDto(addDate, addStartTime, addEndTime));
+        return false;
+    }
+
+    public boolean deleteOption(OptionsDto optionsDto,
+                                String deleteDate,
+                                String deleteStartTime,
+                                String deleteEndTime) {
+        System.out.format("Delete Option: %s, %s - %s%n", deleteDate, deleteStartTime, deleteEndTime);
         return false;
     }
 
