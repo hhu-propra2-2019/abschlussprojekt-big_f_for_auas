@@ -8,25 +8,34 @@
     </th:block>
 </head>
 <body>
-    <form th:action method="post" th:fragment="form">
+    <form method="post" th:fragment="form" th:action="${flowExecutionUrl}" th:object="${metaInfDto}">
+
+        <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
+
         <div class="form-group">
             <label>Start</label>
             <div class="input-group">
-                <input class="form-control" type="date" id="termin-startDate" required>
-                <input class="form-control optionTime" type="time" id="termin-startTime" required>
+                <input class="form-control" type="date" id="termin-startDate" th:field="*{{startDate}}" required
+                       th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('startDate'), #fields.hasAnyErrors())}">
+                <input class="form-control" type="time" id="termin-startTime" th:field="*{startTime}" required
+                       th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('startDate'), #fields.hasAnyErrors())}">
                 <div class="input-group-append">
                     <span class="input-group-text">Uhr</span>
                 </div>
+                <div class="invalid-feedback" th:errors="*{startDate}"></div>
             </div>
         </div>
         <div class="form-group">
             <label>Ende</label>
             <div class="input-group">
-                <input class="form-control" type="date" id="termin-endDate" required>
-                <input class="form-control optionTime" type="time" id="termin-endTime" required>
+                <input class="form-control" type="date" id="termin-endDate" th:field="*{endDate}" required
+                       th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('endDate'), #fields.hasAnyErrors())}">
+                <input class="form-control" type="time" id="termin-endTime" th:field="*{endTime}" required
+                       th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('endDate'), #fields.hasAnyErrors())}">
                 <div class="input-group-append">
                     <span class="input-group-text">Uhr</span>
                 </div>
+                <div class="invalid-feedback" th:errors="*{endDate}"></div>
             </div>
         </div>
         <button type="submit" name="_eventId_choicesettings" class="btn btn-primary float-right mt-5">Weiter</button>
