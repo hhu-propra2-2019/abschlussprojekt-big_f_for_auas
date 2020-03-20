@@ -1,6 +1,7 @@
 package mops.adapters.datepolladapter;
 
 import mops.application.services.DatePollVoteService;
+import mops.application.services.PollInfoService;
 import mops.controllers.dtos.DatePollEntryDto;
 import mops.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.datepoll.DatePollBallot;
@@ -10,6 +11,7 @@ import mops.domain.models.user.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:DesignForExtension"})
@@ -18,10 +20,12 @@ import java.util.stream.Collectors;
 public class DatePollEntryAdapter {
 
     private final transient DatePollVoteService voteService;
+    private final transient PollInfoService infoService;
 
     @Autowired
-    public DatePollEntryAdapter(DatePollVoteService voteService) {
+    public DatePollEntryAdapter(DatePollVoteService voteService, PollInfoService infoService) {
         this.voteService = voteService;
+        this.infoService = infoService;
     }
 
 
@@ -41,6 +45,13 @@ public class DatePollEntryAdapter {
                         .collect(Collectors.toSet())
         );
         return result;
+    }
+
+    public Set<DatePollEntryDto> showAllEntries(DatePollLink link) {
+        final Set<DatePollEntry> enties = infoService.getEntries(link);
+        return enties.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toSet());
     }
 
     private DatePollEntryDto toDTO(DatePollEntry entry) {

@@ -1,10 +1,12 @@
 package mops.domain.models.datepoll;
 
+import lombok.Data;
 import lombok.Value;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
-import mops.utils.DomainObjectCreationUtils;
+
+import java.util.UUID;
 
 @Value
 public class DatePollLink implements ValidateAble {
@@ -13,8 +15,9 @@ public class DatePollLink implements ValidateAble {
 
     private String datePollIdentifier;
 
-    public DatePollLink(final String newDatePollIdentifier) {
-        this.datePollIdentifier = DomainObjectCreationUtils.convertNullToEmptyAndTrim(newDatePollIdentifier);
+    public DatePollLink() {
+        UUID uuid = UUID.randomUUID();
+        this.datePollIdentifier = HOSTNAME + uuid.toString();
     }
 
     /**

@@ -25,6 +25,7 @@ public final class DatePoll {
     private DatePollMetaInf datePollMetaInf;
     private final UserId creator;
     private DatePollConfig datePollConfig;
+    @Getter
     private Set<DatePollEntry> datePollEntries;
     private Set<UserId> participants;
     private Set<DatePollBallot> datePollBallots;
@@ -96,9 +97,5 @@ public final class DatePoll {
 
     public boolean isUserParticipant(UserId user) {
         return datePollConfig.isOpen() || participants.contains(user);
-    }
-
-    public Set<DatePollEntryDto> getDatePollEntries() {
-        return datePollEntries.stream().map(DatePollEntry::toDto).collect(Collectors.toSet());
     }
 }
