@@ -16,8 +16,8 @@
             <a th:href="@{/scheduling(userId=${userId.getId()})}">Terminfindung erstellen</a>
         </li>
         <!--/*@thymesVar id="newAbstimmungActive" type=""*/-->
-        <li th:class="${newAbstimmungActive}? active">
-            <a href="/poll">Abstimmung erstellen</a>
+        <li th:class="${newAbstimmungActive}? active" th:if="${userId != null}">
+            <a th:href="@{/poll(userId=${userId.getId()})}">Abstimmung erstellen</a>
         </li>
         <li><a href="">Beitreten</a></li>
     </ul>

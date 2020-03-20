@@ -1,40 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flow xmlns="http://www.springframework.org/schema/webflow"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/webflow
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
                       http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
 
-  <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
+    <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
 
-  <view-state id="mobilePollNameSettings" view="/flows/poll/mobilePollNameSettings">
-    <transition on="home" to="home"/>
-    <transition on="access" to="mobilePollAccessSettings"/>
-  </view-state>
+    <input name="userId" type="mops.domain.models.user.UserId" required="true" />
 
-  <view-state id="mobilePollAccessSettings" view="/flows/poll/mobilePollAccessSettings">
-    <transition on="name" to="mobilePollNameSettings"/>
-    <transition on="choicesettings" to="mobilePollChoiceSettings"/>
-  </view-state>
+    <on-start>
+        <evaluate expression="new mops.adapters.questionpolladapter.dtos.HeaderDto()" result="flowScope.headerDto"/>
+    </on-start>
 
-  <view-state id="mobilePollChoiceSettings" view="flows/poll/mobilePollChoiceSettings">
-    <transition on="access" to="mobilePollAccessSettings"/>
-    <transition on="choiceoptions" to="mobilePollChoiceOptions"/>
-  </view-state>
+    <view-state id="mobilePollNameSettings" view="/flows/poll/mobilePollNameSettings" model="headerDto">
 
-  <view-state id="mobilePollChoiceOptions" view="flows/poll/mobilePollChoiceOptions">
-    <transition on="choicesettings" to="mobilePollChoiceSettings"/>
-    <transition on="publication" to="mobilePollPublicationSettings"/>
-  </view-state>
+        <binder>
+            <binding property="title"/>
+            <binding property="question"/>
+            <binding property="description"/>
+        </binder>
 
-  <view-state id="mobilePollPublicationSettings" view="flows/poll/mobilePollPublicationSettings">
-    <transition on="choiceoptions" to="mobilePollChoiceOptions"/>
-    <transition on="confirmation" to="mobilePollConfirmation"/>
-  </view-state>
+        <transition on="home" to="home"/>
+        <transition on="access" to="mobilePollAccessSettings">
+            <evaluate expression="questionPollAdapter.validateHeader(headerDto, messageContext)"/>
+        </transition>
+    </view-state>
 
-  <view-state id="mobilePollConfirmation" view="flows/poll/mobilePollConfirmation">
-    <transition on="publication" to="mobilePollPublicationSettings"/>
-    <transition on="submit" to="home"/>
-  </view-state>
+    <view-state id="mobilePollAccessSettings" view="/flows/poll/mobilePollAccessSettings">
+        <transition on="name" to="mobilePollNameSettings"/>
+        <transition on="choicesettings" to="mobilePollChoiceSettings"/>
+    </view-state>
 
-  <end-state id="home" view="externalRedirect:contextRelative:/"/>
+    <view-state id="mobilePollChoiceSettings" view="flows/poll/mobilePollChoiceSettings">
+        <transition on="access" to="mobilePollAccessSettings"/>
+        <transition on="choiceoptions" to="mobilePollChoiceOptions"/>
+    </view-state>
+
+    <view-state id="mobilePollChoiceOptions" view="flows/poll/mobilePollChoiceOptions">
+        <transition on="choicesettings" to="mobilePollChoiceSettings"/>
+        <transition on="publication" to="mobilePollPublicationSettings"/>
+    </view-state>
+
+    <view-state id="mobilePollPublicationSettings" view="flows/poll/mobilePollPublicationSettings">
+        <transition on="choiceoptions" to="mobilePollChoiceOptions"/>
+        <transition on="confirmation" to="mobilePollConfirmation"/>
+    </view-state>
+
+    <view-state id="mobilePollConfirmation" view="flows/poll/mobilePollConfirmation">
+        <transition on="publication" to="mobilePollPublicationSettings"/>
+        <transition on="submit" to="home"/>
+    </view-state>
+
+    <end-state id="home" view="externalRedirect:contextRelative:/"/>
 </flow>
