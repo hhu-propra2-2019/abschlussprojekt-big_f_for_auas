@@ -76,7 +76,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
 
         //DatePollDaoCreator
         UserDao creator = new UserDao();
-        creator.setId(datePoll.getCreator().getId());
+        creator.setId(Long.parseLong(datePoll.getCreator().getId()));
 
         //DatePollLink
         String newLink = datePoll.getDatePollLink().getDatePollIdentifier();
@@ -115,7 +115,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         for (UserId currentUserId:userIds
              ) {
             UserDao userDao = new UserDao();
-            userDao.setId(currentUserId.getId());
+            userDao.setId(Long.parseLong(currentUserId.getId()));
             userDaoSet.add(userDao);
         }
         return userDaoSet;
