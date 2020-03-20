@@ -14,6 +14,12 @@ import java.util.Optional;
 @NoArgsConstructor
 public class DatePollRepositoryImpl implements DatePollRepository {
 
+    private DatePollJpaRepository datePollJpaRepository;
+
+    public DatePollRepositoryImpl(DatePollJpaRepository datePollJpaRepository) {
+        this.datePollJpaRepository = datePollJpaRepository;
+    }
+
     /**
      * Lädt das DatePoll aggregat anhand seines links.
      * @param link Eindeutig identifizierender link einer Terminfindung.
