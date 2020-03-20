@@ -1,23 +1,26 @@
 package mops.domain.models.datepoll;
 
-import lombok.Data;
+import java.nio.ByteBuffer;
 import lombok.Value;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
 import java.util.UUID;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 
 @Value
 public class DatePollLink implements ValidateAble {
 
     private static final String HOSTNAME = "mops.cs.hhu.de/";
+    private static Encoder encoder = Base64.getUrlEncoder();
 
     private String datePollIdentifier;
 
     public DatePollLink() {
-        UUID uuid = UUID.randomUUID();
-        this.datePollIdentifier = HOSTNAME + uuid.toString();
+        final UUID uuid = UUID.randomUUID();
+        this.datePollIdentifier = HOSTNAME + encodeUUIDtoBase64(uuid);
     }
 
     /**
@@ -32,5 +35,13 @@ public class DatePollLink implements ValidateAble {
             validation = new Validation(FieldErrorNames.DATE_POLL_IDENTIFIER_EMPTY);
         }
         return validation;
+    }
+
+    @SuppressWarnings("PMD.LawOfDemeter")
+    private static String encodeUUIDtoBase64(final UUID uuid) {
+        final ByteBuffer buff = ByteBuffer.allocate(Long.BYTES * 2);
+        buff.putLong(uuid.getLeastSignificantBits());
+        buff.putLong(uuid.getMostSignificantBits());
+        return encoder.encodeToString(buff.array()).substring(0, 22); //removes trailing ==
     }
 }
