@@ -1,14 +1,30 @@
 package mops.application.services;
 
-import lombok.NoArgsConstructor;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollEntry;
+import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.repositories.DatePollRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
+@SuppressWarnings("checkstyle:DesignForExtension")
 @Service
-@NoArgsConstructor // PMD zuliebe
 public class PollInfoService {
 
+
+    private final transient DatePollRepository datePollRepository;
+
+    public PollInfoService(DatePollRepository datePollRepository) {
+        this.datePollRepository = datePollRepository;
+    }
+
+    public Set<DatePollEntry> getEntries(DatePollLink link) {
+        DatePoll datePoll = datePollRepository.load(link).orElseThrow();
+        return datePoll.getDatePollEntries();
+    }
+
     /*
-    private DatePollRepository datePollRepository;
     private UserRepository userRepository;
      */
 
