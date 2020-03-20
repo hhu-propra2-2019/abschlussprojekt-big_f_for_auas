@@ -15,6 +15,7 @@ public class DatePollConfigDao {
     private boolean openforownentries;
     private boolean visible;
     private boolean singlechoice;
+    private boolean voteIsEditable;
 
     public static DatePollConfigDao of(DatePollConfig datePollConfig) {
         return new DatePollConfigDao(
@@ -22,7 +23,8 @@ public class DatePollConfigDao {
                 datePollConfig.isAnonymous(),
                 datePollConfig.isOpenForOwnEntries(),
                 datePollConfig.isOpen(),
-                datePollConfig.isSingleChoice()
+                datePollConfig.isSingleChoice(),
+                datePollConfig.isVoteIsEditable()
         );
     }
 }

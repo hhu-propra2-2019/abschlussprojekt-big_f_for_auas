@@ -3,7 +3,7 @@ package mops.infrastructure.database.daos.datepoll;
 import lombok.Getter;
 import lombok.Setter;
 import mops.domain.models.datepoll.DatePoll;
-import mops.domain.models.datepoll.DatePollOption;
+import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.UserDao;
@@ -20,7 +20,6 @@ import javax.persistence.Column;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 // TODO: refactoring @data annotation -> entities shouldn't have @Data annotation only getters and setters
@@ -46,7 +45,7 @@ public class DatePollDao {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<DatePollOptionDao> datePollOptionSet;
+    private Set<DatePollEntryDao> datePollOptionSet;
     @ManyToMany(
             fetch = FetchType.LAZY
     )
@@ -75,19 +74,19 @@ public class DatePollDao {
         return datePollDao;
     }
 
-    private static Set<DatePollOptionDao> extractDatePollOptionDaos(DatePoll datePoll, DatePollDao datePollDao) {
-        List<DatePollOption> datePollOptionList = datePoll.getDatePollOptions();
-        Set<DatePollOptionDao> datePollOptionDaos = new HashSet<>();
-        for (DatePollOption datePollOption:datePollOptionList
+    private static Set<DatePollEntryDao> extractDatePollOptionDaos(DatePoll datePoll, DatePollDao datePollDao) {
+        Set<DatePollEntry> datePollEntries = datePoll.getDatePollEntries();
+        Set<DatePollEntryDao> datePollEntryDaos = new HashSet<>();
+        for (DatePollEntry datePollEntry:datePollEntries
         ) {
-            DatePollOptionDao currentOption = DatePollOptionDao.of(datePollOption, datePollDao);
-            datePollOptionDaos.add(currentOption);
+            DatePollEntryDao currentOption = DatePollEntryDao.of(datePollEntry, datePollDao);
+            datePollEntryDaos.add(currentOption);
         }
-        return datePollOptionDaos;
+        return datePollEntryDaos;
     }
 
     private static Set<UserDao> extractDatePollUser(DatePoll datePoll) {
-        List<UserId> userIds = datePoll.getParticipants();
+        Set<UserId> userIds = datePoll.getParticipants();
         Set<UserDao> userDaoSet = new HashSet<>();
         for (UserId currentUserId:userIds
         ) {

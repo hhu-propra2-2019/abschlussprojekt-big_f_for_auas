@@ -1,10 +1,11 @@
 package mops.database;
 
-import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.*;
-import mops.domain.models.pollstatus.PollRecordAndStatus;
-import mops.domain.models.user.UserId;
-import mops.infrastructure.database.daos.PollLifeCycleDao;
+//import mops.domain.models.Timespan;
+
+//import mops.domain.models.pollstatus.PollRecordAndStatus;
+//import mops.domain.models.user.UserId;
+//import mops.infrastructure.database.daos.PollLifeCycleDao;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

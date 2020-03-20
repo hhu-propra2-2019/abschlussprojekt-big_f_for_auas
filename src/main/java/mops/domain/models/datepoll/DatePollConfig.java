@@ -51,6 +51,7 @@ public final class DatePollConfig implements ValidateAble {
         this.openForOwnEntries = false;
         this.open = false;
         this.singleChoice = false;
+        this.priorityChoice = false;
     }
 
     @Override

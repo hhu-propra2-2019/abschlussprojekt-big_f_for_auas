@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
-import mops.infrastructure.database.daos.datepoll.DatePollOptionDao;
+import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollEntryDao;
 
@@ -28,7 +28,7 @@ public class UserDao {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
     private Set<DatePollDao> datePollSet;
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userVotesFor")
-    private Set<DatePollOptionDao> datePollOptionSet;
+    private Set<DatePollEntryDao> datePollOptionSet;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
     private Set<QuestionPollDao> questionPollSet;

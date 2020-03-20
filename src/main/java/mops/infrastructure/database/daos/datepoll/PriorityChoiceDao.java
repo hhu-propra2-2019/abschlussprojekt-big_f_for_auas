@@ -24,7 +24,7 @@ public class PriorityChoiceDao  {
 
     @ManyToOne
     @MapsId("datepolloption_id")
-    private DatePollOptionDao datePollOption;
+    private DatePollEntryDao datePollOption;
 
     @Enumerated(EnumType.STRING)
     private PriorityType datePollPriority;

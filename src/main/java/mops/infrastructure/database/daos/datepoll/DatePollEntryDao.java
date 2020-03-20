@@ -3,7 +3,7 @@ package mops.infrastructure.database.daos.datepoll;
 
 import lombok.Getter;
 import lombok.Setter;
-import mops.domain.models.datepoll.DatePollOption;
+import mops.domain.models.datepoll.DatePollEntry;
 import mops.infrastructure.database.daos.PollLifeCycleDao;
 import mops.infrastructure.database.daos.UserDao;
 
@@ -22,7 +22,7 @@ import java.util.Set;
 @Setter
 @Entity(name = "DatePollOptionDao")
 @Table(name = "datepolloption")
-public class DatePollOptionDao {
+public class DatePollEntryDao {
     @Id
     @GeneratedValue
     private Long id;
@@ -33,8 +33,8 @@ public class DatePollOptionDao {
     @Embedded
     private PollLifeCycleDao pollLifeCycleDao;
 
-    public static DatePollOptionDao of(DatePollOption datePollOption, DatePollDao datePollDao) {
-        DatePollOptionDao currentOption = new DatePollOptionDao();
+    public static DatePollEntryDao of(DatePollEntry datePollOption, DatePollDao datePollDao) {
+        DatePollEntryDao currentOption = new DatePollEntryDao();
         currentOption.setDatePoll(datePollDao);
         currentOption.setPollLifeCycleDao(PollLifeCycleDao.of(datePollOption.getSuggestedPeriod()));
         return currentOption;
