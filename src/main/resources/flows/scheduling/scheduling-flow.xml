@@ -14,33 +14,6 @@
         <evaluate expression="new mops.adapters.datepolladapter.dtos.OptionsDto()" result="flowScope.optionsDto"/>
     </on-start>
 
-    <view-state id="mobileSchedulingChoiceOptions" view="flows/scheduling/mobileSchedulingChoiceOptions"
-                model="optionsDto">
-
-        <binder>
-            <binding property="question"/>
-            <binding property="options"/>
-        </binder>
-
-        <transition on="addoption" to="mobileSchedulingChoiceOptions">
-            <evaluate expression="datePollAdapter.addOption(optionsDto, requestParameters.addDate,
-                                                                           requestParameters.addStartTime,
-                                                                           requestParameters.addEndTime,
-                                                                           messageContext)"/>
-        </transition>
-
-        <transition on="deleteoption" to="mobileSchedulingChoiceOptions">
-            <evaluate expression="datePollAdapter.deleteOption(optionsDto, requestParameters.deleteDate,
-                                                                           requestParameters.deleteStartTime,
-                                                                           requestParameters.deleteEndTime)"/>
-        </transition>
-
-        <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>
-        <transition on="publication" to="mobileSchedulingPublicationSettings">
-            <evaluate expression="datePollAdapter.validate(optionsDto, messageContext)"/>
-        </transition>
-    </view-state>
-
     <view-state id="mobileSchedulingNameSettings" view="/flows/scheduling/mobileSchedulingNameSettings"
                 model="metaInfDto">
 
@@ -90,6 +63,31 @@
         </transition>
     </view-state>
 
+    <view-state id="mobileSchedulingChoiceOptions" view="flows/scheduling/mobileSchedulingChoiceOptions"
+                model="optionsDto">
+
+        <binder>
+            <binding property="options"/>
+        </binder>
+
+        <transition on="addoption" to="mobileSchedulingChoiceOptions">
+            <evaluate expression="datePollAdapter.addOption(optionsDto, requestParameters.addDate,
+                                                                           requestParameters.addStartTime,
+                                                                           requestParameters.addEndTime,
+                                                                           messageContext)"/>
+        </transition>
+
+        <transition on="deleteoption" to="mobileSchedulingChoiceOptions">
+            <evaluate expression="datePollAdapter.deleteOption(optionsDto, requestParameters.deleteDate,
+                                                                           requestParameters.deleteStartTime,
+                                                                           requestParameters.deleteEndTime)"/>
+        </transition>
+
+        <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>
+        <transition on="publication" to="mobileSchedulingPublicationSettings">
+            <evaluate expression="datePollAdapter.validate(optionsDto, messageContext)"/>
+        </transition>
+    </view-state>
 
     <view-state id="mobileSchedulingPublicationSettings" view="flows/scheduling/mobileSchedulingPublicationSettings">
         <transition on="choiceoptions" to="mobileSchedulingChoiceOptions"/>

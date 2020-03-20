@@ -84,8 +84,9 @@ public final class DatePollAdapter {
     }
 
     public boolean validate(OptionsDto optionsDto, MessageContext context) {
-
-        return false;
+        // Die Optionen werden in addOption() validiert, hier muss erst validiert werden, wenn es noch zusätzliche
+        // Felder in OptionsDto gibt
+        return true;
     }
 
     public boolean addOption(OptionsDto optionsDto,
