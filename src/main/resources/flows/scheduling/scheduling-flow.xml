@@ -6,7 +6,7 @@
 
     <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
 
-    <input name="userId" type="mops.domain.models.user.UserId" required="true" />
+    <input name="account" type="mops.controllers.dtos.Account" required="true" />
 
     <on-start>
         <evaluate expression="new mops.adapters.datepolladapter.dtos.MetaInfDto()" result="flowScope.metaInfDto"/>
