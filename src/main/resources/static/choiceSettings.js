@@ -1,5 +1,5 @@
 function showPriorities(){
-    if( $("input[name=choice-amount]:checked").val() === "multiple-choice" ){
+    if( $("input[name=single-choice]:checked").val() === "false" ){
         $('#collapsePriorities').collapse('show');
     }
     else{

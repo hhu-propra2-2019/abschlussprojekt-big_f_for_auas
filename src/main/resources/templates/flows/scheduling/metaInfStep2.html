@@ -6,10 +6,8 @@
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script type="text/javascript" th:src="@{/accessSettings.js}"></script>
         <link rel="stylesheet" th:href="@{/termine1.css}">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script type="text/javascript" th:src="@{/choiceOptions.js}"></script>
-        <script type="text/javascript" th:src="@{/validation.js}"></script>
     </th:block>
 </head>
 <body>
@@ -18,11 +16,12 @@
         <ul th:replace="fragments/general.html :: navigationList(newTerminActive=true)"></ul>
     </nav>
 </header>
-<main th:fragment="bodycontent" class="d-flex flex-column" style="min-height: 100vh">
-    <div class="container flex-fill">
-        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Auswahlmöglichkeiten')"></div>
-        <form th:replace="fragments/choiceOptions.html :: schedulingForm"></form>
+<main th:fragment="bodycontent">
+    <div class="container">
+        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Zeitraum')"></div>
+        <form th:replace="fragments/metaInf.html :: form-step2(terminfindung=true)"></form>
     </div>
 </main>
 </body>
 </html>
+

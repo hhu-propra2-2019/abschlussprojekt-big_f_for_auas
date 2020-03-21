@@ -11,6 +11,11 @@ import mops.domain.models.Validation;
 public final class DatePollConfig implements ValidateAble {
 
     /**
+     * true: User kann die abgegebenen Stimmen im Nachhinein bearbeiten.
+     * false: User kann die abgegebenen Stimmen nicht im Nachhinein bearbeiten.
+     */
+    private boolean voteIsEditable;
+    /**
      * true: User kann selbst Termine zur Abstimmung hinzufügen.
      * false: User kann keine Termine zur Abstimmung hinzufügen.
      */
@@ -40,6 +45,7 @@ public final class DatePollConfig implements ValidateAble {
      * NoArgsConstructor - Default Werte fuer die Konfiguration einer Terminfindung.
      */
     public DatePollConfig() {
+        this.voteIsEditable = true;
         this.priorityChoice = false;
         this.anonymous = false;
         this.openForOwnEntries = false;
