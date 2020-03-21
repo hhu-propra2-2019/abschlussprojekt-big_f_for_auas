@@ -10,7 +10,7 @@ import mops.utils.DomainObjectCreationUtils;
 @Value
 public final class DatePollDescription implements ValidateAble {
 
-    public static final int MAX_TITLE_LENGTH = 600;
+    public static final int MAX_DESCRIPTION_LENGTH = 600;
     private String description;
 
     public DatePollDescription(String description) {
@@ -20,7 +20,7 @@ public final class DatePollDescription implements ValidateAble {
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();
-        if (description.length() > MAX_TITLE_LENGTH) {
+        if (description.length() > MAX_DESCRIPTION_LENGTH) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.DATE_POLL_DESCRIPTION_TOO_LONG));
         }
         return validation;

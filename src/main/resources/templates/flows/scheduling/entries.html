@@ -8,8 +8,7 @@
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <link rel="stylesheet" th:href="@{/termine1.css}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script type="text/javascript" th:src="@{/choiceOptions.js}"></script>
-        <script type="text/javascript" th:src="@{/validation.js}"></script>
+        <link rel="stylesheet" th:href="@{/datePollOptions.css}">
     </th:block>
 </head>
 <body>
@@ -21,7 +20,7 @@
 <main th:fragment="bodycontent" class="d-flex flex-column" style="min-height: 100vh">
     <div class="container flex-fill">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Auswahlmöglichkeiten')"></div>
-        <form th:replace="fragments/choiceOptions.html :: schedulingForm"></form>
+        <form th:replace="fragments/datePollEntries.html :: schedulingForm"></form>
     </div>
 </main>
 </body>

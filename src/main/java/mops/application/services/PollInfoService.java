@@ -1,16 +1,29 @@
 package mops.application.services;
 
-import lombok.NoArgsConstructor;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollEntry;
+import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.repositories.DatePollRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
+@SuppressWarnings("checkstyle:DesignForExtension")
 @Service
-@NoArgsConstructor // PMD zuliebe
 public class PollInfoService {
 
-    /*
-    private DatePollRepository datePollRepository;
-    private UserRepository userRepository;
-     */
+
+    private final transient DatePollRepository datePollRepository;
+
+    public PollInfoService(DatePollRepository datePollRepository) {
+        this.datePollRepository = datePollRepository;
+    }
+
+    @SuppressWarnings("PMD.LawOfDemeter")
+    public Set<DatePollEntry> getEntries(DatePollLink link) {
+        final DatePoll datePoll = datePollRepository.load(link).orElseThrow();
+        return datePoll.getDatePollEntries();
+    }
 
     /*
      * Gibt die Dtos für jeweils einen Eintrag im Dashboard zurück.
@@ -36,23 +49,15 @@ public class PollInfoService {
     // TODO: Hier evtl. noch check einfügen, ob User berechtigt ist, diese Abstimmung zu sehen?
     // oder woanders? noch wird es jedenfalls ->nicht<- geprüft!!
 
-    /*
+    /**
      * Gibt das DTO für die Detailansicht einer Terminabstimmung zurück.
-     * @param userId für diesen User
      * @param datePollLink die Referenz für die Terminabstimmung
      * @return ...
      */
-    /*public DatePollDto datePollViewService(UserId userId, DatePollLink datePollLink) {
-        final DatePoll datePoll = datePollRepository.getDatePollByLink(datePollLink);
-        final DatePollDto datePollDto = new DatePollDto();
-        datePollDto.setDescription(datePoll.getDatePollMetaInf().getDatePollDescription().getDescription());
-        datePollDto.setEndDate(datePoll.getDatePollMetaInf().getDatePollLifeCycle().getEndDate());
-        datePollDto.setLocation(datePoll.getDatePollMetaInf().getDatePollLocation().getLocation());
-        datePollDto.setPollStatus(datePoll.getUserStatus(userRepository.getUserById(userId)).getIconName());
-        datePollDto.setTitle(datePoll.getDatePollMetaInf().getTitle());
-
-        return datePollDto;
-    }*/
+    @SuppressWarnings("PMD.LawOfDemeter") // stream
+    public DatePoll datePollViewService(DatePollLink datePollLink) {
+        return datePollRepository.load(datePollLink).orElseThrow();
+    }
 
 
 }

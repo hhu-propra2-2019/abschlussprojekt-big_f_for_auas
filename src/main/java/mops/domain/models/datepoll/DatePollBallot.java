@@ -1,18 +1,18 @@
 package mops.domain.models.datepoll;
 
+import java.util.HashSet;
 import lombok.Getter;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
 
-import java.util.Collections;
 import java.util.Set;
 
 @Getter
 public class DatePollBallot implements ValidateAble {
     private final UserId user;
-    private final Set<DatePollEntry> selectedEntriesYes;
-    private final Set<DatePollEntry> selectedEntriesMaybe;
+    private Set<DatePollEntry> selectedEntriesYes;
+    private Set<DatePollEntry> selectedEntriesMaybe;
 
     /**
      * Konstruktor wo man ja und vielleicht abstimmen kann.
@@ -23,8 +23,8 @@ public class DatePollBallot implements ValidateAble {
     public DatePollBallot(UserId qpUserId, Set<DatePollEntry> selectedEntriesYes,
         Set<DatePollEntry> selectedEntriesMaybe) {
         this.user = qpUserId;
-        this.selectedEntriesYes = Collections.unmodifiableSet(selectedEntriesYes);
-        this.selectedEntriesMaybe = Collections.unmodifiableSet(selectedEntriesMaybe);
+        this.selectedEntriesYes = selectedEntriesYes;
+        this.selectedEntriesMaybe = selectedEntriesMaybe;
     }
 
     /** Konstruktor wo man ja und vielleicht abstimmen kann.
@@ -34,8 +34,8 @@ public class DatePollBallot implements ValidateAble {
      */
     public DatePollBallot(UserId qpUserId, Set<DatePollEntry> selectedEntriesYes) {
         this.user = qpUserId;
-        this.selectedEntriesYes = Collections.unmodifiableSet(selectedEntriesYes);
-        this.selectedEntriesMaybe = Collections.unmodifiableSet(Collections.emptySet());
+        this.selectedEntriesYes = selectedEntriesYes;
+        this.selectedEntriesMaybe = new HashSet<>();
     }
 
     /**
@@ -61,5 +61,40 @@ public class DatePollBallot implements ValidateAble {
     @Override
     public Validation validate() {
         return Validation.noErrors();
+    }
+
+    /**
+     * Gibt an ob das Ballot dem übergebenem User gehört.
+     * @param otherUser
+     * @return boolean
+     */
+    boolean belongsTo(UserId otherUser) { //NOPMD
+        return this.user.equals(otherUser);
+    }
+
+    /**
+     * Speichert eine neue Abstimmung eines Users. Passt Yes- Votes in den Entries entsprechend an.
+     * @param newYes
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DefaultPackage"})
+    void updateYes(Set<DatePollEntry> newYes) { //NOPMD
+        final Set<DatePollEntry> leftSetDifference = DatePollEntry.difference(newYes, selectedEntriesYes);
+        final Set<DatePollEntry> rightSetDifference = DatePollEntry.difference(selectedEntriesYes, newYes);
+        leftSetDifference.forEach(DatePollEntry::incYesVote); // PMD meckert. Wenn man es als Loop schreibt gehts durch
+        rightSetDifference.forEach(DatePollEntry::decYesVote);
+        this.selectedEntriesYes = newYes;
+    }
+
+    /**
+     * Wie updateYes nur für maybe Votes.
+     * @param newMaybe
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DefaultPackage"})
+    void updateMaybe(Set<DatePollEntry> newMaybe) { //NOPMD
+        final Set<DatePollEntry>  leftSetDifference = DatePollEntry.difference(newMaybe, selectedEntriesMaybe);
+        final Set<DatePollEntry> rightSetDifference = DatePollEntry.difference(selectedEntriesMaybe, newMaybe);
+        leftSetDifference.forEach(DatePollEntry::incMaybeVote); // als loop wirft pmd hier kein lawOfDemeter (??)
+        rightSetDifference.forEach(DatePollEntry::decMaybeVote);
+        this.selectedEntriesMaybe = newMaybe;
     }
 }

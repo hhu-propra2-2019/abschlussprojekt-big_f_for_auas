@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
-        <script type="text/javascript" th:src="@{validation.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script type="text/javascript" th:src="@{/accessSettings.js}"></script>
+        <link rel="stylesheet" th:href="@{/termine1.css}">
     </th:block>
 </head>
 <body>
@@ -16,9 +18,10 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Allgemeines')"></div>
-        <form th:replace="fragments/nameSettings.html :: form(terminfindung=true)"></form>
+        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Zeitraum')"></div>
+        <form th:replace="fragments/metaInf.html :: form-step2(terminfindung=true)"></form>
     </div>
 </main>
 </body>
 </html>
+
