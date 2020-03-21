@@ -83,11 +83,14 @@ public final class DatePollAdapter {
         return validation.hasNoErrors();
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     public boolean validate(OptionsDto optionsDto, MessageContext context) {
         // Die Optionen werden in addOption() validiert. Hier wird nur validiert,
         // dass minedestens ein Termin zur Auswahl steht
         final boolean isvalid = !optionsDto.getOptions().isEmpty();
-        if (!isvalid) addMessage("DATE_POLL_NO_CHOICES", context);
+        if (!isvalid) {
+            addMessage("DATE_POLL_NO_CHOICES", context);
+        }
         return isvalid;
     }
 
