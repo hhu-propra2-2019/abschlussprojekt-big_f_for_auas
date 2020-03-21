@@ -19,7 +19,7 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Zeitraum')"></div>
-        <form method="post" th:fragment="form" th:action="${flowExecutionUrl}" th:object="${timespanDto}">
+        <form method="post" th:action="${flowExecutionUrl}" th:object="${timespanDto}">
 
             <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
 

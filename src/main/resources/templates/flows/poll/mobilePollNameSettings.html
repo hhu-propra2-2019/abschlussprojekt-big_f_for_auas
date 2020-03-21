@@ -17,7 +17,7 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Allgemeines')"></div>
-        <form method="post" class="needs-validation" novalidate th:fragment="form"
+        <form method="post" class="needs-validation" novalidate
               th:object="${headerDto}" id="questionPollHeader" th:action="${flowExecutionUrl}" >
 
             <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>

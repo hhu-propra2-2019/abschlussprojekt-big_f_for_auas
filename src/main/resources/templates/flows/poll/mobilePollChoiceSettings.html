@@ -19,7 +19,7 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Auswahleinstellungen')"></div>
-        <form method="post" class="needs-validation" novalidate th:fragment="form"
+        <form method="post" class="needs-validation" novalidate
               th:object="${configDto}" id="datePollConfig" th:action="${flowExecutionUrl}" >
             <div class="single-choice form-group">
                 <label>Anzahl Auswahlmöglichkeiten</label>
