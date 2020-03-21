@@ -13,7 +13,7 @@
         <li th:class="${dashboardActive}? active"><a href="/">Dashboard</a></li>
         <!--/*@thymesVar id="newTerminActive" type=""*/-->
         <li th:class="${newTerminActive}? active" th:if="${userId != null}">
-            <a th:href="@{/scheduling(userId=${userId.getId()})}">Terminfindung erstellen</a>
+            <a th:href="@{/scheduling}">Terminfindung erstellen</a>
         </li>
         <!--/*@thymesVar id="newAbstimmungActive" type=""*/-->
         <li th:class="${newAbstimmungActive}? active">

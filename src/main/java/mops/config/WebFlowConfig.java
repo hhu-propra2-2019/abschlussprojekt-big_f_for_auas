@@ -1,5 +1,6 @@
 package mops.config;
 
+import mops.infrastructure.interceptors.WebFlowHandlerAdapterAndInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -86,7 +87,6 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource
                 = new ReloadableResourceBundleMessageSource();
-
         messageSource.setBasename("classpath:messages/flow-messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
@@ -105,14 +105,14 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     }
 
     /**
-     * Die Methode setSaveOutputToFlashScopeOnRedirect muss eventuell noch angepasst werden.
+     * Die Einstellung setSaveOutputToFlashScopeOnRedirect muss eventuell noch angepasst werden.
      * @return für uns egal
      */
     @Bean
     public FlowHandlerAdapter flowHandlerAdapter() {
-        FlowHandlerAdapter handlerAdapter = new FlowHandlerAdapter();
+        FlowHandlerAdapter handlerAdapter = new WebFlowHandlerAdapterAndInterceptor();
         handlerAdapter.setFlowExecutor(this.flowExecutor());
-        handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
+        //handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
         return handlerAdapter;
     }
 

@@ -15,7 +15,6 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
 
     /**
      * Stellt sicher, dass das startDate vor dem endDate liegt.
-     *
      * @return Validation-Objekt mit oder ohne Error
      */
     @Override
@@ -43,6 +42,22 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
      */
     public boolean isBeforeEnd(LocalDateTime time) {
         return this.endDate.isAfter(time);
+    }
+
+    /**
+     * Formatiert die Timespan als String.
+     * @return formattierten String.
+     */
+    @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
+    public String toString() {
+        final String startDateString = startDate.toLocalDate().toString();
+        final String startTimeString = startDate.toLocalTime().toString();
+        final String endDateString = endDate.toLocalDate().toString();
+        final String endTimeString = endDate.toLocalTime().toString();
+
+        return startDateString + ", " + startTimeString + " Uhr " + " - "
+                + endDateString + ", " + endTimeString + " Uhr";
     }
 
     @Override
