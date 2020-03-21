@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import mops.domain.models.PollFields;
+import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;

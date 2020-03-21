@@ -1,10 +1,7 @@
-package mops.domain.models.datepoll;
+package mops.domain.models;
 
 import java.nio.ByteBuffer;
 import lombok.Value;
-import mops.domain.models.FieldErrorNames;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
 
 import java.util.UUID;
 import java.util.Base64;
