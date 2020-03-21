@@ -9,7 +9,7 @@ import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
-public final class OptionDto implements Comparable<OptionDto>, Serializable {
+public final class EntryDto implements Comparable<EntryDto>, Serializable {
 
     public static final long serialVersionUID = 575665475776735L;
 
@@ -19,13 +19,13 @@ public final class OptionDto implements Comparable<OptionDto>, Serializable {
 
     @SuppressWarnings("PMD.LawOfDemeter")
     @Override
-    public int compareTo(OptionDto optionDto) {
+    public int compareTo(EntryDto entryDto) {
         final int difference = LocalDate.parse(this.date).atTime(LocalTime.parse(this.startTime))
-                .compareTo(LocalDate.parse(optionDto.getDate()).atTime(LocalTime.parse(optionDto.getStartTime())));
+                .compareTo(LocalDate.parse(entryDto.getDate()).atTime(LocalTime.parse(entryDto.getStartTime())));
         // Wenn das Startdatum und die Startzeit gleich sind, gibt die Endzeit den Ausschlag
         if (difference == 0) {
             return LocalTime.parse(this.endTime)
-                    .compareTo(LocalTime.parse(optionDto.getEndTime()));
+                    .compareTo(LocalTime.parse(entryDto.getEndTime()));
         }
         return difference;
     }

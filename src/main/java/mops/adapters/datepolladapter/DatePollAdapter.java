@@ -3,8 +3,8 @@ package mops.adapters.datepolladapter;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import mops.adapters.datepolladapter.dtos.ConfigDto;
 import mops.adapters.datepolladapter.dtos.MetaInfDto;
-import mops.adapters.datepolladapter.dtos.OptionDto;
-import mops.adapters.datepolladapter.dtos.OptionsDto;
+import mops.adapters.datepolladapter.dtos.EntryDto;
+import mops.adapters.datepolladapter.dtos.EntriesDto;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.PollFields;
 import mops.domain.models.Validation;
@@ -84,48 +84,48 @@ public final class DatePollAdapter {
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
-    public boolean validate(OptionsDto optionsDto, MessageContext context) {
+    public boolean validate(EntriesDto entriesDto, MessageContext context) {
         // Die Optionen werden in addOption() validiert. Hier wird nur validiert,
         // dass minedestens ein Termin zur Auswahl steht
-        final boolean isvalid = !optionsDto.getOptions().isEmpty();
+        final boolean isvalid = !entriesDto.getOptions().isEmpty();
         if (!isvalid) {
-            addMessage("DATE_POLL_NO_CHOICES", context);
+            addMessage("DATE_POLL_NO_ENTRIES", context);
         }
         return isvalid;
     }
 
-    public boolean addOption(OptionsDto optionsDto,
+    public boolean addOption(EntriesDto entriesDto,
                              String addDate,
                              String addStartTime,
                              String addEndTime,
                              MessageContext context) {
         // Testweise versuchen, das Datum und die Zeiten zu parsen
-        final boolean isvalid = validate(new OptionDto(addDate, addStartTime, addEndTime), context);
+        final boolean isvalid = validate(new EntryDto(addDate, addStartTime, addEndTime), context);
         if (!isvalid) {
             return false;
         }
-        optionsDto.getOptions().add(new OptionDto(addDate, addStartTime, addEndTime));
+        entriesDto.getOptions().add(new EntryDto(addDate, addStartTime, addEndTime));
         return true;
     }
 
-    public boolean deleteOption(OptionsDto optionsDto,
+    public boolean deleteOption(EntriesDto entriesDto,
                                 String deleteDate,
                                 String deleteStartTime,
                                 String deleteEndTime) {
-        optionsDto.getOptions().remove(new OptionDto(deleteDate, deleteStartTime, deleteEndTime));
+        entriesDto.getOptions().remove(new EntryDto(deleteDate, deleteStartTime, deleteEndTime));
         return true;
     }
 
-    private boolean validate(OptionDto optionDto, MessageContext context) {
+    private boolean validate(EntryDto entryDto, MessageContext context) {
         try {
-            LocalDate.parse(optionDto.getDate());
+            LocalDate.parse(entryDto.getDate());
         } catch (DateTimeParseException e) {
             addMessage("DATE_POLL_DATE_NOT_PARSEABLE", context);
             return false;
         }
         try {
-            LocalTime.parse(optionDto.getStartTime());
-            LocalTime.parse(optionDto.getEndTime());
+            LocalTime.parse(entryDto.getStartTime());
+            LocalTime.parse(entryDto.getEndTime());
         } catch (DateTimeParseException e) {
             addMessage("DATE_POLL_TIME_NOT_PARSEABLE", context);
             return false;

@@ -9,7 +9,7 @@
     </th:block>
 </head>
 <body>
-<div th:object="${optionsDto}" th:fragment="schedulingForm">
+<div th:object="${entriesDto}" th:fragment="schedulingForm">
     <form method="post" id="schedulingChoiceOptions" novalidate th:action="${flowExecutionUrl}">
         <!--<div class="form-group">
             <input class="form-control" placeholder="Fragestellung" required>
@@ -53,7 +53,7 @@
         </div>
     </form>
 
-    <form method="post" th:each="option : ${optionsDto.options}" th:action="${flowExecutionUrl}">
+    <form method="post" th:each="option : ${entriesDto.options}" th:action="${flowExecutionUrl}">
         <div class="card my-1">
             <div class="card-body p-2">
                 <div class="d-flex flex-row flex-wrap align-items-center no-gutters">

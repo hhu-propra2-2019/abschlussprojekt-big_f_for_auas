@@ -9,11 +9,11 @@ import java.util.TreeSet;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class OptionsDto extends GeneralDto implements Serializable {
+public class EntriesDto extends GeneralDto implements Serializable {
 
     public static final long serialVersionUID = 123423432424L;
 
     //private String question;
-    private Set<OptionDto> options = new TreeSet<>();
+    private Set<EntryDto> options = new TreeSet<>();
 
 }

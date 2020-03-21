@@ -20,7 +20,7 @@
 <main th:fragment="bodycontent" class="d-flex flex-column" style="min-height: 100vh">
     <div class="container flex-fill">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Auswahlmöglichkeiten')"></div>
-        <form th:replace="fragments/datePollChoices.html :: schedulingForm"></form>
+        <form th:replace="fragments/datePollEntries.html :: schedulingForm"></form>
     </div>
 </main>
 </body>
