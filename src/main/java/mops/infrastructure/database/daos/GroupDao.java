@@ -1,12 +1,14 @@
 package mops.infrastructure.database.daos;
 
 import lombok.Data;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
 import java.util.Set;
 
 @Data
@@ -16,6 +18,6 @@ class GroupDao {
     @Id
     @GeneratedValue
     private Long id;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserDao> userSet;
 }

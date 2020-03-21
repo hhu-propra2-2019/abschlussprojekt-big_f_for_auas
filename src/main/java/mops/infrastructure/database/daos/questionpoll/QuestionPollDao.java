@@ -37,6 +37,7 @@ public class QuestionPollDao {
     )
     private Set<QuestionPollEntryDao> questionPollEntrySet;
     @ManyToMany(
+            cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
     private Set<UserDao> userSet;

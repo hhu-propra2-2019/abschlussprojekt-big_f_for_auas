@@ -7,11 +7,12 @@ import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollEntryDao;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.FetchType;
+import javax.persistence.Table;
 import java.util.Set;
 
 @Getter
@@ -22,16 +23,16 @@ public class UserDao {
     @Setter
     @Id
     private Long id;
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userSet")
     private Set<DatePollDao> datePollSet;
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userVotesFor")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userVotesFor")
     private Set<DatePollEntryDao> datePollEntrySet;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userSet")
     private Set<QuestionPollDao> questionPollSet;
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userVotesFor")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userVotesFor")
     private Set<QuestionPollEntryDao> questionPollEntrySet;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userSet")
     private Set<GroupDao> groupSet;
 }

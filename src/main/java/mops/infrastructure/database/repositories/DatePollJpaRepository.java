@@ -3,9 +3,7 @@ import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface DatePollJpaRepository extends JpaRepository<DatePollDao, Long> {
-    @Override
+public interface DatePollJpaRepository extends JpaRepository<DatePollDao, String> {
     <S extends DatePollDao> S save(S entity);
     DatePollDao findDatePollDaoByLink(String link);
-    //DatePollDao findByUserSetContaining(Long userId);
 }
