@@ -6,8 +6,8 @@
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script type="text/javascript" th:src="@{/accessSettings.js}"></script>
-        <link rel="stylesheet" th:href="@{/termine1.css}">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" th:src="@{/choiceSettings.js}"></script>
     </th:block>
 </head>
 <body>
@@ -18,10 +18,9 @@
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Zeitraum')"></div>
-        <form th:replace="fragments/accessSettings.html :: form"></form>
+        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Auswahleinstellungen')"></div>
+        <form th:replace="fragments/settings.html :: form"></form>
     </div>
 </main>
 </body>
 </html>
-
