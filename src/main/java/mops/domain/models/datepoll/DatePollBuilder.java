@@ -3,10 +3,7 @@ package mops.domain.models.datepoll;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
-import mops.domain.models.PollFields;
-import mops.domain.models.Timespan;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
+import mops.domain.models.*;
 import mops.domain.models.user.UserId;
 
 import java.util.EnumSet;
@@ -23,7 +20,7 @@ public final class DatePollBuilder {
     private transient DatePollConfig configTarget;
     private final transient Set<DatePollEntry> pollEntryTargets = new HashSet<>();
     private final transient Set<UserId> pollParticipantTargets = new HashSet<>();
-    private transient DatePollLink linkTarget;
+    private transient PollLink linkTarget;
     @Getter
     private Validation validationState;
     private final transient EnumSet<PollFields> validatedFields = EnumSet.noneOf(PollFields.class);
@@ -174,12 +171,12 @@ public final class DatePollBuilder {
     /**
      * Setzt den Link, wenn dieser die Validierung durchläuft.
      *
-     * @param datePollLink der veröfentlichungs Link.
+     * @param pollLink der veröfentlichungs Link.
      * @return Referenz auf diesen DatePollBuilder.
      */
-    public DatePollBuilder datePollLink(DatePollLink datePollLink) {
+    public DatePollBuilder datePollLink(PollLink pollLink) {
         validationProcessAndValidationHandling(
-                datePollLink, link -> this.linkTarget = link, PollFields.DATE_POLL_LINK
+                pollLink, link -> this.linkTarget = link, PollFields.DATE_POLL_LINK
         );
         return this;
     }

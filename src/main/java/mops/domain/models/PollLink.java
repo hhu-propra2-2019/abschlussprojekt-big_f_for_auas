@@ -1,20 +1,17 @@
-package mops.domain.models.datepoll;
+package mops.domain.models;
 
 import lombok.Value;
-import mops.domain.models.FieldErrorNames;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
 import mops.utils.DomainObjectCreationUtils;
 
 @Value
-public class DatePollLink implements ValidateAble {
+public class PollLink implements ValidateAble {
 
     private static final String HOSTNAME = "mops.cs.hhu.de/";
 
-    private String datePollIdentifier;
+    private String pollIdentifier;
 
-    public DatePollLink(final String newDatePollIdentifier) {
-        this.datePollIdentifier = DomainObjectCreationUtils.convertNullToEmptyAndTrim(newDatePollIdentifier);
+    public PollLink(final String newPollIdentifier) {
+        this.pollIdentifier = DomainObjectCreationUtils.convertNullToEmptyAndTrim(newPollIdentifier);
     }
 
     /**
@@ -25,7 +22,7 @@ public class DatePollLink implements ValidateAble {
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();
-        if ("".equals(datePollIdentifier)) {
+        if ("".equals(pollIdentifier)) {
             validation = new Validation(FieldErrorNames.DATE_POLL_IDENTIFIER_EMPTY);
         }
         return validation;

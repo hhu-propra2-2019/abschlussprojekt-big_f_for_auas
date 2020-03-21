@@ -1,8 +1,8 @@
 package mops.infrastructure.database.repositories;
 
 import lombok.NoArgsConstructor;
+import mops.domain.models.PollLink;
 import mops.domain.models.questionpoll.QuestionPoll;
-import mops.domain.models.questionpoll.QuestionPollLink;
 import mops.domain.models.repository.QuestionPollRepositoryInterface;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +15,7 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepositoryInterfa
      * @return QuestionPollLink ...
      */
     @Override
-    public QuestionPollLink save(QuestionPoll questionPoll) {
+    public PollLink save(QuestionPoll questionPoll) {
         throw new UnsupportedOperationException();
     }
 }

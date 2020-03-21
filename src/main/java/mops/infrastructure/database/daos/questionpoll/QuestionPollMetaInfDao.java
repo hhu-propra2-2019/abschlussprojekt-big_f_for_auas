@@ -2,7 +2,7 @@ package mops.infrastructure.database.daos.questionpoll;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import mops.infrastructure.database.daos.PollLifeCycleDao;
+import mops.infrastructure.database.daos.TimespanDao;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
@@ -15,5 +15,5 @@ class QuestionPollMetaInfDao {
     private String description;
     private String question;
     @Embedded
-    private PollLifeCycleDao pollLifeCycle;
+    private TimespanDao pollLifeCycle;
 }

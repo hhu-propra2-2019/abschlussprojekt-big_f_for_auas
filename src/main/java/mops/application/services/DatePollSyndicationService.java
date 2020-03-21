@@ -2,7 +2,7 @@ package mops.application.services;
 
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
-import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
@@ -37,7 +37,7 @@ public class DatePollSyndicationService {
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public DatePoll publishDatePoll(final DatePollBuilder builder) {
         final DatePoll created = builder.build();
-        datePollRepository.load(created.getDatePollLink()).ifPresent(datePoll -> {
+        datePollRepository.load(created.getPollLink()).ifPresent(datePoll -> {
             throw new IllegalArgumentException(LINK_ALREADY_TAKEN);
         });
         datePollRepository.save(created);
@@ -52,7 +52,7 @@ public class DatePollSyndicationService {
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
     /* Optional check stellt keine wirkliche Verletzungs des Prinzip von LawOfDemeter da*/
-    public void requestLink(final DatePollBuilder builder, final DatePollLink link) {
+    public void requestLink(final DatePollBuilder builder, final PollLink link) {
         datePollRepository.load(link).ifPresent(datePoll -> {
             throw new IllegalArgumentException(LINK_ALREADY_TAKEN);
         });

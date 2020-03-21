@@ -3,7 +3,7 @@ package mops.infrastructure.database.daos.datepoll;
 
 import lombok.Getter;
 import lombok.Setter;
-import mops.infrastructure.database.daos.PollLifeCycleDao;
+import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
 
 import javax.persistence.Id;
@@ -22,6 +22,7 @@ import java.util.Set;
 @Entity(name = "DatePollOptionDao")
 @Table(name = "datepolloption")
 public class DatePollEntryDao {
+    //TODO: add yes/maybe/no votes ???
     @Id
     @GeneratedValue
     private Long id;
@@ -30,5 +31,5 @@ public class DatePollEntryDao {
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<UserDao> userVotesFor;
     @Embedded
-    private PollLifeCycleDao pollLifeCycleDao;
+    private TimespanDao timespanDao;
 }

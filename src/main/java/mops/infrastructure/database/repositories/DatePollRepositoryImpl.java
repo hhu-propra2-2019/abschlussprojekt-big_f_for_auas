@@ -1,11 +1,11 @@
 package mops.infrastructure.database.repositories;
 
 import mops.domain.models.datepoll.DatePoll;
-import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
-import mops.infrastructure.database.daos.translator.DatePollDaoOfDatePoll;
+import mops.infrastructure.database.daos.translator.DaoOfModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -26,7 +26,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @param link Eindeutig identifizierender link einer Terminfindung.
      * @return An Inputlink gekoppeltes DatePoll
      */
-    public Optional<DatePoll> load(DatePollLink link) {
+    public Optional<DatePoll> load(PollLink link) {
         //DatePollDao loaded = datePollJpaRepository.findDatePollDaoByLink(link.getDatePollIdentifier());
         //if (loaded != null) {
         //    return DatePollDao.to(loaded);
@@ -40,7 +40,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @Override
     public void save(DatePoll datePoll) {
-        datePollJpaRepository.save(DatePollDaoOfDatePoll.datePollDaoOf(datePoll));
+        datePollJpaRepository.save(DaoOfModel.datePollDaoOf(datePoll));
     }
 
     /**
@@ -62,11 +62,11 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     }
     /**
      * Dopplung mit load.
-     * @param datePollLink
+     * @param pollLink
      * @return DatePoll
      */
     @Override
-    public DatePoll getDatePollByLink(DatePollLink datePollLink) {
+    public DatePoll getDatePollByLink(PollLink pollLink) {
         throw new UnsupportedOperationException();
     }
 }

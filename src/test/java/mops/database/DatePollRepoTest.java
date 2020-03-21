@@ -6,11 +6,11 @@ import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
-import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.PollLink;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
-import mops.infrastructure.database.daos.translator.DatePollDaoOfDatePoll;
+import mops.infrastructure.database.daos.translator.DaoOfModel;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,7 +43,7 @@ public class DatePollRepoTest {
             UserId newUser = new UserId(Integer.toString(i));
             participants.add(newUser);
         }
-        DatePollLink datePollLink = new DatePollLink("poll/link");
+        PollLink pollLink = new PollLink("poll/link");
         Set<DatePollEntry> pollEntries = new HashSet<>();
         for (int i = 0; i < 3; i++) {
             DatePollEntry entry = new DatePollEntry(
@@ -58,12 +58,12 @@ public class DatePollRepoTest {
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
                 .participants(participants)
-                .datePollLink(datePollLink)
+                .datePollLink(pollLink)
                 .build();
     }
     @Test
     public void saveOneDatePollDao() {
-        DatePollDao datePollDao = DatePollDaoOfDatePoll.datePollDaoOf(datePoll);
+        DatePollDao datePollDao = DaoOfModel.datePollDaoOf(datePoll);
         String link = datePollDao.getLink();
         System.out.println("Output Link:" + datePollDao.getLink());
         datePollRepository.save(datePoll);

@@ -1,7 +1,7 @@
 package mops.domain.repositories;
 
 import mops.domain.models.datepoll.DatePoll;
-import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public interface DatePollRepository {
      * @param link Eindeutig identifizierender link einer Terminfindung.
      * @return DatePoll;
      */
-    Optional<DatePoll> load(DatePollLink link);
+    Optional<DatePoll> load(PollLink link);
 
     /**
      * Methodenkopf für die DatePoll-Speichermethode.
@@ -25,5 +25,5 @@ public interface DatePollRepository {
     void save(DatePoll datePoll);
 
     List<DatePoll> getDatePollsByUserId(UserId userId);
-    DatePoll getDatePollByLink(DatePollLink datePollLink);
+    DatePoll getDatePollByLink(PollLink pollLink);
 }
