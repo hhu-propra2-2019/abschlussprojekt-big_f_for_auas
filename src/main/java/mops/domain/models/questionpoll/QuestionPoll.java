@@ -1,25 +1,27 @@
 package mops.domain.models.questionpoll;
 
-import java.util.List;
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.PollLink;
-import mops.domain.models.Timespan;
 import mops.domain.models.user.UserId;
 
 @AllArgsConstructor
 @Getter
 public class QuestionPoll {
 
-    private final PollLink questionPollLink;
-    private final List<QuestionPollEntry> entries;
-    private final List<QuestionPollBallot> questionPollBallots;
-    private final Timespan lifecycle;
-
-    private final UserId ownerId;
-    private final QuestionPollHeader header;
+    private final QuestionPollMetaInf metaInf;
+    private final UserId creator;
     private final QuestionPollConfig config;
-    private final QuestionPollAccessibility accessor;
+    private final Set<QuestionPollEntry> entries;
+
+    //TODO: remove accessibility
+    //private final QuestionPollAccessibility accessor;
+    private final Set<UserId> participants;
+
+    private final Set<QuestionPollBallot> ballots;
+    private final PollLink pollLink;
 
     public static QuestionPollBuilder builder() {
         return new QuestionPollBuilder();

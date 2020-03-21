@@ -1,6 +1,7 @@
 package mops.domain.models.questionpoll;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
@@ -11,6 +12,7 @@ import mops.domain.models.Validation;
  *  verfolgt wie oft für diese Option abgestimmt wurde.
  */
 public class QuestionPollEntry implements ValidateAble {
+    @Getter
     private final String title;
 
     //Vorläufige Werte

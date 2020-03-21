@@ -26,19 +26,19 @@ public class QuestionPollDao {
     @Embedded
     private PollRecordAndStatusDao pollRecordAndStatusDao;
     @Embedded
-    private QuesionPollConfigDao questionPollConfigDao;
+    private QuestionPollConfigDao configDao;
     @Embedded
-    private QuestionPollMetaInfDao questionPollMetaInfDao;
+    private QuestionPollMetaInfDao metaInfDao;
     @OneToOne
-    private UserDao creatorUser;
+    private UserDao creatorUserDao;
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private Set<QuestionPollEntryDao> questionPollEntrySet;
+    private Set<QuestionPollEntryDao> entryDaos;
     @ManyToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private Set<UserDao> userSet;
+    private Set<UserDao> userDaos;
 }

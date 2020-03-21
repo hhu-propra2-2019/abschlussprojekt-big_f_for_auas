@@ -17,12 +17,11 @@ import mops.domain.models.user.UserId;
 @SuppressWarnings({"PMD.TooManyMethods"})
 public class QuestionPollBuilder {
 
-    private transient UserId ownerTarget;
+    private transient UserId creatorTarget;
     private transient PollLink linkTarget;
     private transient QuestionPollConfig configTarget;
-    private transient QuestionPollHeader headerTarget;
-    private transient Timespan lifecycleTarget;
-    private final transient List<QuestionPollEntry> entriesTarget = new ArrayList<>();
+    private transient QuestionPollMetaInf metaInfTarget;
+    private final transient Set<QuestionPollEntry> entriesTarget = new HashSet<>();
     private final transient Set<UserId> participants = new HashSet<>();
     private transient boolean accessRestriction;
 
@@ -75,12 +74,12 @@ public class QuestionPollBuilder {
     /**
      * Setzt den Header, wenn diese die Validierung durchläufen.
      *
-     * @param questionPollHeader Der Header.
+     * @param questionPollMetaInf Der Header.
      * @return Referenz auf diesen QuestionPollBuilder.
      */
-    public QuestionPollBuilder questionPollHeader(QuestionPollHeader questionPollHeader) {
+    public QuestionPollBuilder questionPollHeader(QuestionPollMetaInf questionPollMetaInf) {
         validationProcessAndValidationHandling(
-            questionPollHeader, header -> this.headerTarget = header, PollFields.QUESTION_POLL_HEADER
+                questionPollMetaInf, header -> this.metaInfTarget = header, PollFields.QUESTION_POLL_HEADER
         );
         return this;
     }
@@ -93,7 +92,7 @@ public class QuestionPollBuilder {
      */
     public QuestionPollBuilder owner(UserId owner) {
         validationProcessAndValidationHandling(
-            owner, id -> this.ownerTarget = id, PollFields.CREATOR
+            owner, id -> this.creatorTarget = id, PollFields.CREATOR
         );
         return this;
     }
@@ -164,18 +163,6 @@ public class QuestionPollBuilder {
     }
 
     /**
-     * Setzt den Lifecycle, wenn diese die Validierung durchläuft.
-     * @param questionPollLifecycle
-     * @return Referenz auf diesen QuestionPollBuilder.
-     */
-    public QuestionPollBuilder questionPollLifecycle(Timespan questionPollLifecycle) {
-        validationProcessAndValidationHandling(
-            questionPollLifecycle, lifecycle -> this.lifecycleTarget = lifecycle, PollFields.QUESTION_POLL_LIFECYCLE
-        );
-        return this;
-    }
-
-    /**
      * Baut den QuestionPoll wenn alle Konstruktionsschritte zumindest
      * ein Mal korrekt die Validierung korrekt durchlaufen haben.
      *
@@ -185,14 +172,14 @@ public class QuestionPollBuilder {
     public QuestionPoll build() {
         if (validationState.hasNoErrors() && validatedFields.equals(VALIDSET)) {
             return new QuestionPoll(
-                linkTarget,
-                Collections.unmodifiableList(entriesTarget),
-                new ArrayList<QuestionPollBallot>(),
-                lifecycleTarget,
-                ownerTarget,
-                headerTarget,
-                configTarget,
-                new QuestionPollAccessibility(accessRestriction, participants)
+                    metaInfTarget,
+                    creatorTarget,
+                    configTarget,
+                    entriesTarget,
+                    participants,
+                    new HashSet<QuestionPollBallot>(),
+                    //new QuestionPollAccessibility(accessRestriction, participants),
+                    linkTarget
             );
         } else {
             throw new IllegalStateException(INVALID_BUILDER_STATE);

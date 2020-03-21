@@ -10,10 +10,10 @@ import javax.persistence.Embedded;
 @Data
 @Embeddable
 @AllArgsConstructor
-class QuestionPollMetaInfDao {
+public class QuestionPollMetaInfDao {
     private String title;
-    private String description;
     private String question;
+    private String description;
     @Embedded
-    private TimespanDao pollLifeCycle;
+    private TimespanDao timespan;
 }

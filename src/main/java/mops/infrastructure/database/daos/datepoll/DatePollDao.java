@@ -27,9 +27,9 @@ public class DatePollDao {
     @Embedded
     private PollRecordAndStatusDao pollRecordAndStatusDao;
     @Embedded
-    private DatePollConfigDao datePollConfigDao;
+    private DatePollConfigDao configDao;
     @Embedded
-    private DatePollMetaInfDao datePollMetaInfDao;
+    private DatePollMetaInfDao metaInfDao;
     @OneToOne
     private UserDao creatorUserDao;
     @OneToMany(
@@ -37,10 +37,10 @@ public class DatePollDao {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private Set<DatePollEntryDao> datePollEntrySet;
+    private Set<DatePollEntryDao> entryDaos;
     @ManyToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private Set<UserDao> userSet;
+    private Set<UserDao> userDaos;
 }

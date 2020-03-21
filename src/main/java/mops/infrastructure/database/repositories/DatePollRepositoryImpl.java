@@ -40,7 +40,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @Override
     public void save(DatePoll datePoll) {
-        datePollJpaRepository.save(DaoOfModel.datePollDaoOf(datePoll));
+        datePollJpaRepository.save(DaoOfModel.pollDaoOf(datePoll));
     }
 
     /**

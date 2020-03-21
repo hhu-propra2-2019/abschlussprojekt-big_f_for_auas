@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class QuestionPollHeaderTest { //NOPMD
+public class QuestionPollMetaInfTest { //NOPMD
     private Validation testValidator; //NOPMD
 
     //Entspricht Vorläufigen Werten
@@ -32,7 +32,7 @@ public class QuestionPollHeaderTest { //NOPMD
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})//NOPMD
     public void longTitle() {
-        final QuestionPollHeader header = new QuestionPollHeader(LONG_TITLE, VALID_QUESTION, "");
+        final QuestionPollMetaInf header = new QuestionPollMetaInf(LONG_TITLE, VALID_QUESTION, "");
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_LONG));
         final Validation validator = header.validate();
@@ -42,7 +42,7 @@ public class QuestionPollHeaderTest { //NOPMD
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void shortTitle() {
-        final QuestionPollHeader header = new QuestionPollHeader(SHORT_TITLE, VALID_QUESTION, "");
+        final QuestionPollMetaInf header = new QuestionPollMetaInf(SHORT_TITLE, VALID_QUESTION, "");
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_SHORT));
         final Validation validator = header.validate();
@@ -52,7 +52,7 @@ public class QuestionPollHeaderTest { //NOPMD
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void emptyTitle() {
-        final QuestionPollHeader header = new QuestionPollHeader("", VALID_QUESTION, "");
+        final QuestionPollMetaInf header = new QuestionPollMetaInf("", VALID_QUESTION, "");
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_EMPTY));
         final Validation validator = header.validate();
@@ -62,7 +62,7 @@ public class QuestionPollHeaderTest { //NOPMD
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void nullTitle() {
-        final QuestionPollHeader header = new QuestionPollHeader(null, "Question", "");
+        final QuestionPollMetaInf header = new QuestionPollMetaInf(null, "Question", "");
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_EMPTY));
         final Validation validator = header.validate();
@@ -72,7 +72,7 @@ public class QuestionPollHeaderTest { //NOPMD
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void longQuestion() {
-        final QuestionPollHeader header = new QuestionPollHeader(VALID_TITLE,
+        final QuestionPollMetaInf header = new QuestionPollMetaInf(VALID_TITLE,
                 LONG_QUESTION, "");
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_TOO_LONG));
@@ -83,7 +83,7 @@ public class QuestionPollHeaderTest { //NOPMD
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void shortQuestion() {
-        final QuestionPollHeader header = new QuestionPollHeader(VALID_TITLE, SHORT_QUESTION, "");
+        final QuestionPollMetaInf header = new QuestionPollMetaInf(VALID_TITLE, SHORT_QUESTION, "");
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_TOO_SHORT));
         final Validation validator = header.validate();
@@ -93,7 +93,7 @@ public class QuestionPollHeaderTest { //NOPMD
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void emptyQuestion() {
-        final QuestionPollHeader header = new QuestionPollHeader(VALID_TITLE, "", "");
+        final QuestionPollMetaInf header = new QuestionPollMetaInf(VALID_TITLE, "", "");
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_EMPTY));
         final Validation validator = header.validate();
@@ -103,7 +103,7 @@ public class QuestionPollHeaderTest { //NOPMD
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void nullQuestion() {
-        final QuestionPollHeader header = new QuestionPollHeader(VALID_TITLE, null, "");
+        final QuestionPollMetaInf header = new QuestionPollMetaInf(VALID_TITLE, null, "");
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_EMPTY));
         final Validation validator = header.validate();
@@ -113,7 +113,7 @@ public class QuestionPollHeaderTest { //NOPMD
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void longDescription() {
-        final QuestionPollHeader header = new QuestionPollHeader(VALID_TITLE, VALID_QUESTION, LONG_DESCRIPTION);
+        final QuestionPollMetaInf header = new QuestionPollMetaInf(VALID_TITLE, VALID_QUESTION, LONG_DESCRIPTION);
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_DESCRIPTION_IS_TOO_LONG));
         final Validation validator = header.validate();
@@ -123,7 +123,7 @@ public class QuestionPollHeaderTest { //NOPMD
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void completeHeader() {
-        final QuestionPollHeader header = new QuestionPollHeader(VALID_TITLE, VALID_QUESTION, VALID_DESCRIPTION);
+        final QuestionPollMetaInf header = new QuestionPollMetaInf(VALID_TITLE, VALID_QUESTION, VALID_DESCRIPTION);
         final Validation validator = header.validate();
         assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
     }
@@ -131,7 +131,7 @@ public class QuestionPollHeaderTest { //NOPMD
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void allEmpty() {
-        final QuestionPollHeader header = new QuestionPollHeader("", "", "");
+        final QuestionPollMetaInf header = new QuestionPollMetaInf("", "", "");
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_EMPTY));
         this.testValidator = this.testValidator.appendValidation(

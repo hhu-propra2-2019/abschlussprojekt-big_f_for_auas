@@ -21,7 +21,7 @@ public class QuestionPollEntryDao {
     @Id
     @GeneratedValue
     private Long id;
-    private String choiceoption;
+    private String entryName;
     @ManyToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY

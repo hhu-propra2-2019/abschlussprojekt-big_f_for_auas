@@ -8,8 +8,8 @@ import javax.persistence.Embeddable;
 @Data
 @Embeddable
 @AllArgsConstructor
-class QuesionPollConfigDao {
+public class QuestionPollConfigDao {
+    private boolean singleChoice;
     private boolean anonymous;
-    private boolean visibility;
-    private boolean singlechoice;
+    private boolean open;
 }

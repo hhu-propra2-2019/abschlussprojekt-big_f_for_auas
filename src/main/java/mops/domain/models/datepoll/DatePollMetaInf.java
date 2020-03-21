@@ -3,10 +3,7 @@ package mops.domain.models.datepoll;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import mops.domain.models.FieldErrorNames;
-import mops.domain.models.Timespan;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
+import mops.domain.models.*;
 import mops.utils.DomainObjectCreationUtils;
 
 import java.time.LocalDateTime;
@@ -17,25 +14,25 @@ public final class DatePollMetaInf implements ValidateAble {
 
     public static final int MAX_TITLE_LENGTH = 60;
     private String title;
-    private DatePollDescription datePollDescription;
-    private DatePollLocation datePollLocation;
-    private Timespan datePollLifeCycle;
+    private PollDescription description;
+    private DatePollLocation location;
+    private Timespan timespan;
 
     public DatePollMetaInf(String title, String description, String location) {
         this.title = DomainObjectCreationUtils.convertNullToEmptyAndTrim(title);
-        this.datePollDescription = new DatePollDescription(description);
-        this.datePollLocation = new DatePollLocation(location);
-        this.datePollLifeCycle = new Timespan(null, null);
+        this.description = new PollDescription(description);
+        this.location = new DatePollLocation(location);
+        this.timespan = new Timespan(null, null);
     }
 
-    public DatePollMetaInf(String title, String description, String location, Timespan lifecycle) {
+    public DatePollMetaInf(String title, String description, String location, Timespan timespan) {
         this(title, description, location);
-        this.datePollLifeCycle = lifecycle;
+        this.timespan = timespan;
     }
 
 
     public boolean isBeforeEnd(LocalDateTime time) {
-        return datePollLifeCycle.isBeforeEnd(time);
+        return timespan.isBeforeEnd(time);
     }
 
     @Override
@@ -51,9 +48,9 @@ public final class DatePollMetaInf implements ValidateAble {
             validation = validation.appendValidation(new Validation(FieldErrorNames.DATE_POLL_TITLE_TOO_LONG));
         }
         return validation
-                .appendValidation(datePollLocation.validate())
-                .appendValidation(datePollDescription.validate())
-                .appendValidation(datePollLifeCycle.validate());
+                .appendValidation(location.validate())
+                .appendValidation(description.validate())
+                .appendValidation(timespan.validate());
     }
 
 }

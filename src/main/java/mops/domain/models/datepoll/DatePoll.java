@@ -11,26 +11,20 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
+@Getter
 @AllArgsConstructor
 @SuppressFBWarnings(
         value = "URF_UNREAD_FIELD",
         justification = "Implementierung folgt")
 public final class DatePoll {
 
-    @Getter
-    private DatePollRecordAndStatus datePollRecordAndStatus;
-    @Getter
-    private DatePollMetaInf datePollMetaInf;
-    @Getter
+    private DatePollRecordAndStatus recordAndStatus;
+    private DatePollMetaInf metaInf;
     private final UserId creator;
-    @Getter
-    private DatePollConfig datePollConfig;
-    @Getter
-    private Set<DatePollEntry> datePollEntries;
-    @Getter
+    private DatePollConfig config;
+    private Set<DatePollEntry> entries;
     private Set<UserId> participants;
-    private Set<DatePollBallot> datePollBallots;
-    @Getter
+    private Set<DatePollBallot> ballots;
     private PollLink pollLink;
 
     public static DatePollBuilder builder() {
@@ -38,12 +32,12 @@ public final class DatePoll {
     }
 
     public PollStatus getUserStatus(UserId user) {
-        return datePollRecordAndStatus.getUserStatus(user);
+        return recordAndStatus.getUserStatus(user);
     }
 
     @SuppressWarnings({"PMD.LawOfDemeter"}) //stream
     public Optional<DatePollBallot> getUserBallot(UserId user) {
-        return datePollBallots.stream()
+        return ballots.stream()
                 .filter(datePollBallot -> datePollBallot.belongsTo(user))
                 .findAny();
     }
@@ -57,23 +51,23 @@ public final class DatePoll {
      */
     public void castBallot(UserId user, Set<DatePollEntry> yes, Set<DatePollEntry> maybe) {
         updatePollStatus();
-        if (datePollRecordAndStatus.isTerminated()) {
+        if (recordAndStatus.isTerminated()) {
             return;
         }
-        if (!datePollConfig.isOpen() && !participants.contains(user)) {
+        if (!config.isOpen() && !participants.contains(user)) {
             return;
         }
-        if (datePollConfig.isSingleChoice() && yes.size() > 1) {
+        if (config.isSingleChoice() && yes.size() > 1) {
             return;
         }
-        if (datePollConfig.isOpenForOwnEntries()) {
+        if (config.isOpenForOwnEntries()) {
             aggregateNewEntries(yes);
             aggregateNewEntries(maybe);
         }
 
         final DatePollBallot ballot = getUserBallot(user)
                 .orElse(new DatePollBallot(user, yes, maybe));
-        datePollBallots.add(ballot);
+        ballots.add(ballot);
         ballot.updateYes(yes);
         ballot.updateMaybe(maybe);
     }
@@ -85,17 +79,17 @@ public final class DatePoll {
      * @param potentialNewEntries
      */
     private void aggregateNewEntries(Set<DatePollEntry> potentialNewEntries) {
-        final Set<DatePollEntry> newEntries = DatePollEntry.difference(datePollEntries, potentialNewEntries);
-        datePollEntries.addAll(newEntries);
+        final Set<DatePollEntry> newEntries = DatePollEntry.difference(entries, potentialNewEntries);
+        entries.addAll(newEntries);
     }
 
     private void updatePollStatus() {
-        if (datePollMetaInf.isBeforeEnd(LocalDateTime.now())) {
-            datePollRecordAndStatus.terminate();
+        if (metaInf.isBeforeEnd(LocalDateTime.now())) {
+            recordAndStatus.terminate();
         }
     }
 
     public boolean isUserParticipant(UserId user) {
-        return datePollConfig.isOpen() || participants.contains(user);
+        return config.isOpen() || participants.contains(user);
     }
 }

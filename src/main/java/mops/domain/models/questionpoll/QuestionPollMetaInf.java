@@ -1,26 +1,22 @@
 package mops.domain.models.questionpoll;
 
 import lombok.Value;
-import mops.domain.models.FieldErrorNames;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
+import mops.domain.models.*;
+import mops.utils.DomainObjectCreationUtils;
 
 @Value
-public class QuestionPollHeader implements ValidateAble {
+public class QuestionPollMetaInf implements ValidateAble {
 
-    private final String title;
-
-    private final String question;
-
-    private final String description;
+    private String title;
+    private String question;
+    private PollDescription description;
+    private Timespan timespan;
 
     // Vorläufige Werte.
     private static final int MAX_TITLE_LENGTH = 20;
     private static final int MIN_TITLE_LENGTH = 5;
     private static final int MAX_QUESTION_LENGTH = 40;
     private static final int MIN_QUESTION_LENGTH = 5;
-    private static final int MAX_DESCRIPTION_LENGTH = 80;
-    private static final int MIN_DESCRIPTION_LENGTH = 0;
 
     /**
      * Speichert den Titel, die Frage und die optionale Beschreibung für eine QuestionPoll.
@@ -28,22 +24,18 @@ public class QuestionPollHeader implements ValidateAble {
      * @param question
      * @param description
      */
-    public QuestionPollHeader(final String title, final String question, final String description) {
-        if (title == null) {
-            this.title = "";
-        } else {
-            this.title = title.trim();
-        }
-        if (question == null) {
-            this.question = "";
-        } else {
-            this.question = question.trim();
-        }
-        if (description == null || description.trim().isBlank()) {
-            this.description = "";
-        } else {
-            this.description = description.trim();
-        }
+    public QuestionPollMetaInf(String title, String question, String description) {
+        this.title = DomainObjectCreationUtils.convertNullToEmptyAndTrim(title);
+        this.question = DomainObjectCreationUtils.convertNullToEmptyAndTrim(question);
+        this.description = new PollDescription(description);
+        this.timespan = new Timespan(null, null);
+    }
+
+    public QuestionPollMetaInf(String title, String question, String description, Timespan timespan) {
+        this.title = DomainObjectCreationUtils.convertNullToEmptyAndTrim(title);
+        this.question = DomainObjectCreationUtils.convertNullToEmptyAndTrim(question);
+        this.description = new PollDescription(description);
+        this.timespan = timespan;
     }
 
     /**
@@ -55,7 +47,6 @@ public class QuestionPollHeader implements ValidateAble {
         Validation validator = Validation.noErrors();
         validator = validateTitle(validator);
         validator = validateQuestion(validator);
-        validator = validateDescription(validator);
         return validator;
     }
 
@@ -95,15 +86,6 @@ public class QuestionPollHeader implements ValidateAble {
                 newValidator = newValidator.appendValidation(
                         new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_TOO_LONG));
             }
-        }
-        return newValidator;
-    }
-
-    private Validation validateDescription(Validation validator) {
-        Validation newValidator = validator;
-        if (this.description != null && this.description.length() > MAX_DESCRIPTION_LENGTH) {
-            newValidator = newValidator.appendValidation(
-                    new Validation(FieldErrorNames.QUESTION_POLL_DESCRIPTION_IS_TOO_LONG));
         }
         return newValidator;
     }

@@ -2,7 +2,7 @@ package mops.domain.models.translator;
 
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePollConfig;
-import mops.domain.models.datepoll.DatePollDescription;
+import mops.domain.models.PollDescription;
 import mops.domain.models.datepoll.DatePollLocation;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.user.User;
@@ -43,10 +43,10 @@ public class TranslatorTests {
         DatePollMetaInf metaInf = ModelOfDao.metaInfOf(dao);
 
         assertThat(metaInf.getTitle()).isEqualTo(title);
-        assertThat(metaInf.getDatePollDescription()).isEqualTo(new DatePollDescription(description));
-        assertThat(metaInf.getDatePollLocation()).isEqualTo(new DatePollLocation(location));
-        assertThat(metaInf.getDatePollLifeCycle().getStartDate()).isEqualTo(startDate);
-        assertThat(metaInf.getDatePollLifeCycle().getEndDate()).isEqualTo(endDate);
+        assertThat(metaInf.getDescription()).isEqualTo(new PollDescription(description));
+        assertThat(metaInf.getLocation()).isEqualTo(new DatePollLocation(location));
+        assertThat(metaInf.getTimespan().getStartDate()).isEqualTo(startDate);
+        assertThat(metaInf.getTimespan().getEndDate()).isEqualTo(endDate);
     }
 
     //TODO: geht so nicht wegen Id !!!

@@ -80,19 +80,19 @@ public class DatabaseIntegrityTest {
     }
     @Test
     public void saveOneDatePollDao() {
-        DatePollDao datePollDao = DaoOfModel.datePollDaoOf(datePoll);
+        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
         String link = datePollDao.getLink();
         System.out.println("Output Link:" + datePollDao.getLink());
         datePollJpaRepository.save(datePollDao);
         DatePollDao datepollFound = datePollJpaRepository.findDatePollDaoByLink(link);
         System.out.println("[+] Found DatePoll: " + datepollFound.getLink());
-        System.out.println("[+] Found DatePoll: " + datepollFound.getDatePollMetaInfDao().getLocation());
+        System.out.println("[+] Found DatePoll: " + datepollFound.getMetaInfDao().getLocation());
         assertThat(datepollFound.getLink()).isEqualTo("poll/link");
     }
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testUsersOfDatePollPresence() {
-        DatePollDao datePollDao = DaoOfModel.datePollDaoOf(datePoll);
+        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
         datePollJpaRepository.save(datePollDao);
         Set<UserDao> userDaoSet = userJpaRepository.findByDatePollSetContains(datePollDao);
         userDaoSet.forEach(userDao -> System.out.println("[+] Found User: " + userDao.getId()));
@@ -101,7 +101,7 @@ public class DatabaseIntegrityTest {
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testDatePollEntryPresence() {
-        DatePollDao datePollDao = DaoOfModel.datePollDaoOf(datePoll);
+        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
         datePollJpaRepository.save(datePollDao);
         Set<DatePollEntryDao> datePollEntryDaoSet = datePollEntryJpaRepository.findByDatePoll(datePollDao);
         for (DatePollEntryDao datePollEntryDao : datePollEntryDaoSet) {
