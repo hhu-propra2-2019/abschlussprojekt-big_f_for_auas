@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 @NoArgsConstructor
@@ -39,7 +40,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @return
      */
     @Override
-    public List<DatePoll> getDatePollsByUserId(UserId userId) {
+    public Set<DatePoll> getDatePollsByUserId(UserId userId) {
         throw new UnsupportedOperationException();
     }
 

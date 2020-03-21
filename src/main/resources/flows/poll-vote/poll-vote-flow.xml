@@ -6,7 +6,7 @@
 
   <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
 
-  <view-state id="mobilePollVote" view="/flows/poll-vote/mobilePollVote">
+  <view-state id="mobilePollVote" view="/templates/mobilePollVote.html/poll-vote/mobilePollVote">
     <transition on="home" to="home"/>
     <transition on="results" to="mobilePollResults"/>
   </view-state>

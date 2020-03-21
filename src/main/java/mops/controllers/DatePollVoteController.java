@@ -41,10 +41,10 @@ public class DatePollVoteController {
      * @return string
      */
     @GetMapping("/vote/{link}")
-    public String showPoll(Model model, @PathVariable DatePollLink link) {
-        final Set<FormattedDatePollEntryDto> formattedEntries = entryAdapter.getAllEntriesFormatted(link);
-        model.addAttribute("entries", formattedEntries);
-        return "pollVote";
+    public String showPoll(Model model, @PathVariable String link) {
+      //  final Set<FormattedDatePollEntryDto> formattedEntries = entryAdapter.getAllEntriesFormatted(link);
+       // model.addAttribute("entries", formattedEntries);
+        return "mobilePollVote";
     }
 
     /**
@@ -55,7 +55,7 @@ public class DatePollVoteController {
      * @return string
      */
     @PostMapping("/vote/{link}")
-    public String votePoll(Model model, @PathVariable DatePollLink link, Set<FormattedDatePollEntryDto>  dtos) {
+    public String votePoll(Model model, @PathVariable String link, Set<FormattedDatePollEntryDto>  dtos) {
 
         return "redirect:/vote/";
     }
