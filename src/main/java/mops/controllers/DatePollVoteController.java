@@ -1,7 +1,6 @@
 package mops.controllers;
 
 import mops.adapters.datepolladapter.DatePollEntryAdapter;
-import mops.controllers.dtos.DatePollEntryDto;
 import mops.controllers.dtos.FormattedDatePollEntryDto;
 import mops.domain.models.datepoll.DatePollLink;
 import mops.domain.models.user.UserId;
@@ -15,14 +14,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.annotation.SessionScope;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.Set;
 
 @Controller
 @SessionScope
 public class DatePollVoteController {
 
-    DatePollEntryAdapter entryAdapter;
+    private final DatePollEntryAdapter entryAdapter;
     private final UserId user;
 
     @Autowired

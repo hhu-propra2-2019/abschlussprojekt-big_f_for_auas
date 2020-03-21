@@ -1,10 +1,8 @@
 package mops.application.services;
 
-import mops.controllers.dtos.DatePollDto;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollLink;
-import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import org.springframework.stereotype.Service;
 
