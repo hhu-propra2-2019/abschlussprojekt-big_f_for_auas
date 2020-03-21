@@ -20,13 +20,13 @@ import java.util.Set;
 @SessionScope
 public class DatePollVoteController {
 
-    private final DatePollEntryAdapter entryAdapter;
+    private final transient DatePollEntryAdapter entryAdapter;
     @Autowired
     public DatePollVoteController(DatePollEntryAdapter adapter) {
         this.entryAdapter = adapter;
     }
 
-    @SuppressWarnings({"PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.UnusedPrivateMethod"})
     /* Verletzung in externer API*/
     private UserId createUserIdFromPrincipal(KeycloakAuthenticationToken token) {
         final KeycloakPrincipal principal = (KeycloakPrincipal) token.getPrincipal();
