@@ -1,6 +1,6 @@
 package mops.infrastructure.database.daos.datepoll;
 
-
+import mops.infrastructure.database.daos.PollStatusEnum;
 import mops.infrastructure.database.daos.UserDao;
 
 import javax.persistence.CascadeType;
@@ -12,22 +12,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-@Entity(name = "PriorityChoice")
-@Table(name = "prioritychoice")
-public class PriorityChoiceDao  {
-
+@Entity
+@Table(name = "datepollstatus")
+public class DatePollStatusDao {
     @EmbeddedId
-    private PriorityChoiceDaoKey id;
+    private DatePollStatusDaoKey id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @MapsId("user_id")
     private UserDao participant;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @MapsId("datepollentry_id")
-    private DatePollEntryDao datePollEntry;
+    @MapsId("datepoll_link")
+    private DatePollDao datePoll;
 
     @Enumerated(EnumType.STRING)
-    private PriorityTypeEnum datePollPriority;
+    private PollStatusEnum userStatusForDatePoll;
 
 }

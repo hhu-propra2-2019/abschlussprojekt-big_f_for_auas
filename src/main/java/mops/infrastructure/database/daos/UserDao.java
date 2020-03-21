@@ -12,8 +12,6 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.FetchType;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
 import java.util.Set;
 
 @Getter
@@ -36,7 +34,4 @@ public class UserDao {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
     private Set<GroupDao> groupSet;
-
-    @Enumerated(EnumType.STRING)
-    private PollStatusEnum pollStatusEnum;
 }

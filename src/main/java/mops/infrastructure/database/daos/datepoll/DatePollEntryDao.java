@@ -19,8 +19,8 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Entity(name = "DatePollOptionDao")
-@Table(name = "datepolloption")
+@Entity(name = "DatePollEntryDao")
+@Table(name = "datepollentry")
 public class DatePollEntryDao {
     //TODO: add yes/maybe/no votes ???
     @Id

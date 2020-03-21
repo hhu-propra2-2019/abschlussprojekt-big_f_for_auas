@@ -7,14 +7,12 @@ import mops.infrastructure.database.daos.UserDao;
 
 
 import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.OneToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
-import javax.persistence.Column;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import java.util.Set;
@@ -24,9 +22,6 @@ import java.util.Set;
 @Table(name = "questionpoll")
 public class QuestionPollDao {
     @Id
-    @GeneratedValue
-    private Long id;
-    @Column(unique = true)
     private String link;
     @Embedded
     private PollRecordAndStatusDao pollRecordAndStatusDao;
