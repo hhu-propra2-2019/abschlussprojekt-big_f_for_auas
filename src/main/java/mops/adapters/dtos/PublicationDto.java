@@ -7,8 +7,8 @@ import java.io.Serializable;
 @Data
 public class PublicationDto implements Serializable {
 
-    private boolean isPublic;
+    private boolean ispublic;
     private String link;
-
-    private Set<>
+    private String people;
+    private String groups;
 }

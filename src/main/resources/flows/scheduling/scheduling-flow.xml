@@ -12,7 +12,9 @@
         <evaluate expression="new mops.adapters.datepolladapter.dtos.MetaInfDto()" result="flowScope.metaInfDto"/>
         <evaluate expression="new mops.adapters.datepolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
         <evaluate expression="new mops.adapters.datepolladapter.dtos.EntriesDto()" result="flowScope.entriesDto"/>
+        <evaluate expression="new mops.adapters.dtos.PublicationDto()" result="flowScope.publicationDto"/>
     </on-start>
+
 
     <view-state id="metaInfStep1" view="/flows/scheduling/metaInfStep1"
                 model="metaInfDto">
@@ -29,6 +31,7 @@
         </transition>
     </view-state>
 
+
     <view-state id="metaInfStep2" view="/flows/scheduling/metaInfStep2"
                 model="metaInfDto">
 
@@ -44,6 +47,7 @@
             <evaluate expression="datePollAdapter.validateSecondStep(metaInfDto, messageContext)"/>
         </transition>
     </view-state>
+
 
     <view-state id="settings" view="flows/scheduling/settings"
                 model="configDto">
@@ -62,6 +66,7 @@
             <evaluate expression="datePollAdapter.validate(configDto, messageContext)"/>
         </transition>
     </view-state>
+
 
     <view-state id="entries" view="flows/scheduling/entries"
                 model="entriesDto">
@@ -89,10 +94,23 @@
         </transition>
     </view-state>
 
-    <view-state id="publication" view="flows/scheduling/publication">
+
+    <view-state id="publication" view="flows/scheduling/publication"
+                model="publicationDto">
+
+        <binder>
+            <binding property="ispublic"/>
+            <binding property="link"/>
+            <binding property="people"/>
+            <binding property="groups"/>
+        </binder>
+
         <transition on="entries" to="entries"/>
-        <transition on="confirmation" to="confirmation"/>
+        <transition on="confirmation" to="confirmation">
+            <evaluate expression="datePollAdapter.validate(publicationDto, messageContext)"/>
+        </transition>
     </view-state>
+
 
     <view-state id="confirmation" view="flows/scheduling/confirmation">
         <transition on="publication" to="publication"/>
