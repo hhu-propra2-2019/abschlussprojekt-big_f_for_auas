@@ -19,6 +19,7 @@ public class PollInfoService {
         this.datePollRepository = datePollRepository;
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     public Set<DatePollEntry> getEntries(DatePollLink link) {
         final DatePoll datePoll = datePollRepository.load(link).orElseThrow();
         return datePoll.getDatePollEntries();
@@ -53,6 +54,7 @@ public class PollInfoService {
      * @param datePollLink die Referenz für die Terminabstimmung
      * @return ...
      */
+    @SuppressWarnings("PMD.LawOfDemeter") // stream
     public DatePoll datePollViewService(DatePollLink datePollLink) {
         return datePollRepository.load(datePollLink).orElseThrow();
     }

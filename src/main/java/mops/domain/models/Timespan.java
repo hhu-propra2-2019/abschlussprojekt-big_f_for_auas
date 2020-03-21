@@ -44,6 +44,7 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
      * @return formattierten String.
      */
     @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
     public String toString() {
         final String startDateString = startDate.toLocalDate().toString();
         final String startTimeString = startDate.toLocalTime().toString();
