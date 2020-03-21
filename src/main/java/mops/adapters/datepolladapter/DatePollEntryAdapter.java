@@ -70,7 +70,7 @@ public class DatePollEntryAdapter {
     }
 
     private FormattedDatePollEntryDto toFormattedDTO(DatePollEntry entry) {
-        String formatted = entry.getSuggestedPeriod().toString();
+        final String formatted = entry.getSuggestedPeriod().toString();
         return new FormattedDatePollEntryDto(formatted);
     }
 }

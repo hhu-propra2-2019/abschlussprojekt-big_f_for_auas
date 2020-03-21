@@ -45,7 +45,7 @@ public class DatePollVoteController {
      */
     @GetMapping("/vote/{link}")
     public String showPoll(Model model, @PathVariable DatePollLink link) {
-        Set<FormattedDatePollEntryDto> formattedEntries = entryAdapter.getAllEntriesFormatted(link);
+        final Set<FormattedDatePollEntryDto> formattedEntries = entryAdapter.getAllEntriesFormatted(link);
         model.addAttribute("entries", formattedEntries);
         return "pollVote";
     }

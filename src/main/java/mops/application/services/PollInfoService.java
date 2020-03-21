@@ -20,7 +20,7 @@ public class PollInfoService {
     }
 
     public Set<DatePollEntry> getEntries(DatePollLink link) {
-        DatePoll datePoll = datePollRepository.load(link).orElseThrow();
+        final DatePoll datePoll = datePollRepository.load(link).orElseThrow();
         return datePoll.getDatePollEntries();
     }
 
