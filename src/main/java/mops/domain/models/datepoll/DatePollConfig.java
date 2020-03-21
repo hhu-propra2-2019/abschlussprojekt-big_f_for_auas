@@ -2,6 +2,7 @@ package mops.domain.models.datepoll;
 
 import lombok.AllArgsConstructor;
 import lombok.Value;
+import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
@@ -54,6 +55,10 @@ public final class DatePollConfig implements ValidateAble {
 
     @Override
     public Validation validate() {
-        return Validation.noErrors();
+        Validation validator = Validation.noErrors();
+        if (this.singleChoice && this.priorityChoice) {
+            validator = validator.appendValidation(new Validation(FieldErrorNames.DATE_POLL_CONFIGURATION_CONFLICT));
+        }
+        return validator;
     }
 }

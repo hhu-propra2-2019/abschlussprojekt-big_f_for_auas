@@ -21,13 +21,17 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();
-        if (startDate == null) {
-            validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_START_NULL));
-        }
-        if (endDate == null) {
-            validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_END_NULL));
+        if (startDate == null || endDate == null) {
+            if (startDate == null) {
+                validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_START_NULL));
+            }
+            if (endDate == null) {
+                validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_END_NULL));
+            }
         } else if (endDate.isBefore(startDate)) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SWAPPED));
+        } else if (startDate.equals(endDate)) {
+            validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SAME));
         }
         return validation;
     }
