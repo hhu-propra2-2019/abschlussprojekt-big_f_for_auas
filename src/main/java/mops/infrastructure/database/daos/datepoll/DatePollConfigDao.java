@@ -11,10 +11,10 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DatePollConfigDao {
-    private boolean prioritychoice;
-    private boolean anonymous;
-    private boolean openforownentries;
-    private boolean visible;
-    private boolean singlechoice;
     private boolean voteIsEditable;
+    private boolean openForOwnEntries;
+    private boolean singleChoice;
+    private boolean priorityChoice;
+    private boolean anonymous;
+    private boolean open;
 }

@@ -3,7 +3,7 @@ package mops.infrastructure.database.daos.datepoll;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mops.infrastructure.database.daos.PollLifeCycleDao;
+import mops.infrastructure.database.daos.TimespanDao;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
@@ -17,5 +17,5 @@ public class DatePollMetaInfDao {
     private String description;
     private String location;
     @Embedded
-    private PollLifeCycleDao pollLifeCycleDao;
+    private TimespanDao timespan;
 }

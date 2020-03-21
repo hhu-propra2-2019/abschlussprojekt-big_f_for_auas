@@ -1,10 +1,12 @@
 package mops.infrastructure.database.daos.translator;
 
+import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.*;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
-import mops.infrastructure.database.daos.PollLifeCycleDao;
+import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollConfigDao;
@@ -15,33 +17,34 @@ import mops.infrastructure.database.daos.datepoll.DatePollMetaInfDao;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DatePollOfDatePollDao {
+public class ModelOfDao {
     public static DatePoll datePollOf(DatePollDao datePollDao){
         PollRecordAndStatus pollRecordAndStatus =
-                DatePollOfDatePollDao.pollRecordAndStatusOf(datePollDao.getPollRecordAndStatusDao());
+                ModelOfDao.pollRecordAndStatusOf(datePollDao.getPollRecordAndStatusDao());
 
         DatePollMetaInf datePollMetaInf =
-                DatePollOfDatePollDao.metaInfOf(datePollDao.getDatePollMetaInfDao());
+                ModelOfDao.metaInfOf(datePollDao.getDatePollMetaInfDao());
 
-        UserId creator = userOf(datePollDao.getCreatorUserDao());
+        User creator = userOf(datePollDao.getCreatorUserDao());
 
         DatePollConfig datePollConfig =
-                DatePollOfDatePollDao.configOf(datePollDao.getDatePollConfigDao());
+                ModelOfDao.configOf(datePollDao.getDatePollConfigDao());
 
         Set<DatePollEntry> datePollEntries = extractDatePollEntries(datePollDao.getDatePollEntrySet());
 
-        Set<UserId> participants = extractDatePollUser(datePollDao.getUserSet());
+        //TODO: add extract UserId Set from User Set method
+        Set<User> participants = extractDatePollUser(datePollDao.getUserSet());
 
         //TODO: add
         Set<DatePollBallot> datePollBallots = null;
 
-        DatePollLink newLink = new DatePollLink(datePollDao.getLink());
+        PollLink newLink = new PollLink(datePollDao.getLink());
 
         /*
         DatePoll datePoll = new DatePoll(
                 pollRecordAndStatus,
                 datePollMetaInf,
-                creator,
+                creator.getId(),
                 datePollConfig,
                 datePollEntries,
                 participants,
@@ -53,7 +56,7 @@ public class DatePollOfDatePollDao {
         return null;
     }
 
-    private static PollRecordAndStatus pollRecordAndStatusOf(PollRecordAndStatusDao dao) {
+    public static PollRecordAndStatus pollRecordAndStatusOf(PollRecordAndStatusDao dao) {
         /*return new PollRecordAndStatus(
                 dao.getLastmodified()
         );*/
@@ -61,53 +64,55 @@ public class DatePollOfDatePollDao {
     }
 
     public static DatePollMetaInf metaInfOf(DatePollMetaInfDao dao) {
-        PollLifeCycleDao pollLifeCycleDao = dao.getPollLifeCycleDao();
+        TimespanDao timespanDao = dao.getTimespan();
         return new DatePollMetaInf(
                 dao.getTitle(),
                 dao.getDescription(),
                 dao.getLocation(),
-                new Timespan(pollLifeCycleDao.getStartdate(), pollLifeCycleDao.getEnddate())
+                new Timespan(timespanDao.getStartDate(), timespanDao.getEndDate())
         );
     }
 
-    private static UserId userOf(UserDao dao) {
-        return new UserId(Long.toString(dao.getId()));
+    //TODO: geht so nicht wegen Id !!!
+    public static User userOf(UserDao dao) {
+        UserId userId = new UserId(Long.toString(dao.getId()));
+        return new User(userId);
     }
 
-    private static DatePollConfig configOf(DatePollConfigDao dao) {
+    public static DatePollConfig configOf(DatePollConfigDao dao) {
         return new DatePollConfig(
-                dao.isPrioritychoice(),
+                dao.isVoteIsEditable(),
+                dao.isOpenForOwnEntries(),
+                dao.isSingleChoice(),
+                dao.isPriorityChoice(),
                 dao.isAnonymous(),
-                dao.isOpenforownentries(),
-                dao.isVisible(),
-                dao.isSinglechoice(),
-                dao.isVoteIsEditable()
+                dao.isOpen()
         );
     }
 
     private static Set<DatePollEntry> extractDatePollEntries(Set<DatePollEntryDao> daoEntries){
         Set<DatePollEntry> datePollEntries = new HashSet<>();
         for (DatePollEntryDao daoEntry : daoEntries) {
-            DatePollEntry currentEntry = DatePollOfDatePollDao.entryOf(daoEntry);
+            DatePollEntry currentEntry = ModelOfDao.entryOf(daoEntry);
             datePollEntries.add(currentEntry);
         }
         return datePollEntries;
     }
 
-    private static DatePollEntry entryOf(DatePollEntryDao dao) {
-        Timespan entryTimespan = timespanOf(dao.getPollLifeCycleDao());
+    public static DatePollEntry entryOf(DatePollEntryDao dao) {
+        Timespan entryTimespan = timespanOf(dao.getTimespanDao());
         //TODO: add votes
         return new DatePollEntry(entryTimespan);
     }
 
-    private static Timespan timespanOf(PollLifeCycleDao dao) {
-        return new Timespan(dao.getStartdate(), dao.getEnddate());
+    public static Timespan timespanOf(TimespanDao dao) {
+        return new Timespan(dao.getStartDate(), dao.getEndDate());
     }
 
-    private static Set<UserId> extractDatePollUser(Set<UserDao> daoUser) {
-        Set<UserId> datePollUser = new HashSet<>();
+    private static Set<User> extractDatePollUser(Set<UserDao> daoUser) {
+        Set<User> datePollUser = new HashSet<>();
         for (UserDao dao : daoUser) {
-            UserId currentUser = DatePollOfDatePollDao.userOf(dao);
+            User currentUser = ModelOfDao.userOf(dao);
             datePollUser.add(currentUser);
         }
         return datePollUser;

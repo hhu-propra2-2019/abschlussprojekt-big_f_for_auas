@@ -11,17 +11,14 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
-import mops.domain.models.PollFields;
-import mops.domain.models.Timespan;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
+import mops.domain.models.*;
 import mops.domain.models.user.UserId;
 
 @SuppressWarnings({"PMD.TooManyMethods"})
 public class QuestionPollBuilder {
 
     private transient UserId ownerTarget;
-    private transient QuestionPollLink linkTarget;
+    private transient PollLink linkTarget;
     private transient QuestionPollConfig configTarget;
     private transient QuestionPollHeader headerTarget;
     private transient Timespan lifecycleTarget;
@@ -156,12 +153,12 @@ public class QuestionPollBuilder {
 
     /**
      * Setzt den Link, wenn dieser die Validierung durchläuft.
-     * @param questionPollLink
+     * @param pollLink
      * @return Referenz auf diesen QuestionPollBuilder.
      */
-    public QuestionPollBuilder questionPollLink(QuestionPollLink questionPollLink) {
+    public QuestionPollBuilder pollLink(PollLink pollLink) {
         validationProcessAndValidationHandling(
-            questionPollLink, link -> this.linkTarget = link, PollFields.QUESTION_POLL_LINK
+            pollLink, link -> this.linkTarget = link, PollFields.QUESTION_POLL_LINK
         );
         return this;
     }

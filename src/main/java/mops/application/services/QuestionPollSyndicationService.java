@@ -1,8 +1,8 @@
 package mops.application.services;
 
 
+import mops.domain.models.PollLink;
 import mops.domain.models.questionpoll.QuestionPollBuilder;
-import mops.domain.models.questionpoll.QuestionPollLink;
 import mops.domain.models.repository.QuestionPollRepositoryInterface;
 import mops.domain.models.user.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class QuestionPollSyndicationService {
      * @param builder
      * @return QuestionPollLink
      */
-    public QuestionPollLink publishQuestionPoll(final QuestionPollBuilder builder) {
+    public PollLink publishQuestionPoll(final QuestionPollBuilder builder) {
         return questionPollRepo.save(builder.build());
     }
 

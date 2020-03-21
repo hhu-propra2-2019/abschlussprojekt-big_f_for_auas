@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PollLifeCycleDao {
+public class TimespanDao {
     @DateTimeFormat
-    private LocalDateTime startdate;
+    private LocalDateTime startDate;
     @DateTimeFormat
-    private LocalDateTime enddate;
+    private LocalDateTime endDate;
 
-    public static PollLifeCycleDao of(Timespan pollTimeSpan) {
-        return new PollLifeCycleDao(pollTimeSpan.getStartDate(), pollTimeSpan.getEndDate());
+    public static TimespanDao of(Timespan pollTimeSpan) {
+        return new TimespanDao(pollTimeSpan.getStartDate(), pollTimeSpan.getEndDate());
     }
 }
