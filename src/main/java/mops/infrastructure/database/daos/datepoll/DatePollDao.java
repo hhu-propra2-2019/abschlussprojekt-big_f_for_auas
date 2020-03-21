@@ -33,13 +33,13 @@ public class DatePollDao {
     @OneToOne
     private UserDao creatorUserDao;
     @OneToMany(
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
     private Set<DatePollEntryDao> datePollEntrySet;
     @ManyToMany(
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
     private Set<UserDao> userSet;

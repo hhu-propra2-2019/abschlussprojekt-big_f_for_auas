@@ -25,7 +25,7 @@ public class UserDao {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
     private Set<DatePollDao> datePollSet;
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userVotesFor")
-    private Set<DatePollEntryDao> datePollOptionSet;
+    private Set<DatePollEntryDao> datePollEntrySet;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "userSet")
     private Set<QuestionPollDao> questionPollSet;

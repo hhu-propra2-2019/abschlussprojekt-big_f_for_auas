@@ -3,11 +3,19 @@ package mops.database;
 import mops.MopsApplication;
 import mops.config.H2DatabaseConfigForTests;
 import mops.domain.models.Timespan;
-import mops.domain.models.datepoll.*;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollBuilder;
+import mops.domain.models.datepoll.DatePollConfig;
+import mops.domain.models.datepoll.DatePollEntry;
+import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.user.UserId;
+import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.translator.DatePollDaoOfDatePoll;
+import mops.infrastructure.database.repositories.DatePollJpaRepository;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
+import mops.infrastructure.database.repositories.UserJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +28,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-//import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @ActiveProfiles("test")
@@ -30,6 +38,10 @@ import java.util.Set;
 public class DatabaseIntegrityTest {
     @Autowired
     private DatePollRepositoryImpl datePollRepository;
+    @Autowired
+    private DatePollJpaRepository datePollJpaRepository;
+    @Autowired
+    private UserJpaRepository userJpaRepository;
     private DatePoll datePoll;
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
@@ -60,16 +72,29 @@ public class DatabaseIntegrityTest {
                 .participants(participants)
                 .datePollLink(datePollLink)
                 .build();
+        System.out.println("[+] Created DatePoll: " + datePoll.getDatePollLink().getDatePollIdentifier());
     }
     @Test
     public void saveOneDatePollDao() {
         DatePollDao datePollDao = DatePollDaoOfDatePoll.datePollDaoOf(datePoll);
         String link = datePollDao.getLink();
         System.out.println("Output Link:" + datePollDao.getLink());
-        /*datePollRepository.save(datePoll);
-        DatePollDao datepollFound = datePollRepository.getDatePollDao(link);
+        datePollJpaRepository.save(datePollDao);
+        DatePollDao datepollFound = datePollJpaRepository.findDatePollDaoByLink(link);
         System.out.println("[+] Found DatePoll: " + datepollFound.getLink());
         System.out.println("[+] Found DatePoll: " + datepollFound.getDatePollMetaInfDao().getLocation());
-        assertThat(datepollFound.getLink()).isEqualTo("poll/link");*/
+        assertThat(datepollFound.getLink()).isEqualTo("poll/link");
     }
+    @SuppressWarnings("checkstyle:MagicNumber")
+    @Test
+    public void getAllUsersOfDatePollDao() {
+        DatePollDao datePollDao = DatePollDaoOfDatePoll.datePollDaoOf(datePoll);
+        datePollJpaRepository.save(datePollDao);
+        Set<UserDao> userDaoSet = userJpaRepository.findByDatePollSetContains(datePollDao);
+        userDaoSet.forEach(userDao -> System.out.println("[+] Found User: " + userDao.getId()));
+        assertThat(userDaoSet).hasSize(3);
+    }
+
+    /*@Test
+    public void testVotesForDatePollEntries( )*/
 }

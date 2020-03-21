@@ -10,5 +10,5 @@ import java.util.Set;
 public interface UserJpaRepository extends JpaRepository<UserDao, Long> {
     Set<UserDao> findByDatePollSetContains(DatePollDao datePollDao);
     //Anzahl aller user die fuer die datepolloption gestimmt haben
-    Long countByDatePollOptionSetContains(DatePollEntryDao datePollEntryDao);
+    Long countByDatePollEntrySetContains(DatePollEntryDao datePollEntryDao);
 }
