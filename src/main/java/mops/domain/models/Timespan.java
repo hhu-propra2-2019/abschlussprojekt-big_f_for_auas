@@ -15,6 +15,7 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
 
     /**
      * Stellt sicher, dass das startDate vor dem endDate liegt.
+     *
      * @return Validation-Objekt mit oder ohne Error
      */
     @Override
@@ -22,7 +23,8 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
         Validation validation = Validation.noErrors();
         if (startDate == null) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_START_NULL));
-        } else if (endDate == null) {
+        }
+        if (endDate == null) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_END_NULL));
         } else if (endDate.isBefore(startDate)) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SWAPPED));
