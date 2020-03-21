@@ -21,12 +21,9 @@ import java.util.Set;
 public class DatePollVoteController {
 
     private final DatePollEntryAdapter entryAdapter;
-    private final UserId user;
-
     @Autowired
-    public DatePollVoteController(DatePollEntryAdapter adapter, KeycloakAuthenticationToken token) {
+    public DatePollVoteController(DatePollEntryAdapter adapter) {
         this.entryAdapter = adapter;
-        this.user = createUserIdFromPrincipal(token);
     }
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
