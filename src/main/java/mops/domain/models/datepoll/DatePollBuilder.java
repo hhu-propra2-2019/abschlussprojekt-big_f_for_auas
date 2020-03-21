@@ -3,7 +3,7 @@ package mops.domain.models.datepoll;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
-import mops.controllers.dtos.DatePollOptionDto;
+import mops.controllers.dtos.DatePollEntryDto;
 import mops.domain.models.PollFields;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
@@ -127,9 +127,9 @@ public final class DatePollBuilder {
      * streams stellen keine LawOfDemeter violation dar
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    public DatePollBuilder datePollOptions(Set<DatePollOptionDto> datePollOptionDtoSet) {
+    public DatePollBuilder datePollOptions(Set<DatePollEntryDto> datePollEntryDtoSet) {
         this.pollOptionTargets.addAll(validateAllAndGetCorrect(
-                datePollOptionDtoSet.stream()
+                datePollEntryDtoSet.stream()
                         .map(dto -> new DatePollEntry(new Timespan(dto.getStartDate(), dto.getEndDate())))
                         .collect(Collectors.toSet()),
                 PollFields.DATE_POLL_OPTIONS
