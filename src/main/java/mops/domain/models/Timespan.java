@@ -10,8 +10,8 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
 
     public static final long serialVersionUID = 9786879798798789L;
 
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 
     /**
      * Stellt sicher, dass das startDate vor dem endDate liegt.
@@ -20,11 +20,11 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();
-        if (startDateTime == null) {
+        if (startDate == null) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_START_NULL));
-        } else if (endDateTime == null) {
+        } else if (endDate == null) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_END_NULL));
-        } else if (endDateTime.isBefore(startDateTime)) {
+        } else if (endDate.isBefore(startDate)) {
             validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SWAPPED));
         }
         return validation;
@@ -36,7 +36,7 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
      * @return boolean
      */
     public boolean isBeforeEnd(LocalDateTime time) {
-        return this.endDateTime.isAfter(time);
+        return this.endDate.isAfter(time);
     }
 
     /**
@@ -44,10 +44,10 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
      * @return formattierten String.
      */
     public String toString() {
-        final String startDateString = startDateTime.toLocalDate().toString();
-        final String startTimeString = startDateTime.toLocalTime().toString();
-        final String endDateString = endDateTime.toLocalDate().toString();
-        final String endTimeString = endDateTime.toLocalTime().toString();
+        final String startDateString = startDate.toLocalDate().toString();
+        final String startTimeString = startDate.toLocalTime().toString();
+        final String endDateString = endDate.toLocalDate().toString();
+        final String endTimeString = endDate.toLocalTime().toString();
 
         return startDateString + ", " + startTimeString + " Uhr " + " - "
                 + endDateString + ", " + endTimeString + " Uhr";

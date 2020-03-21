@@ -64,8 +64,8 @@ public class DatePollEntryAdapter {
 
     private DatePollEntryDto toDTO(DatePollEntry entry) {
         return new DatePollEntryDto(
-                entry.getSuggestedPeriod().getStartDateTime(),
-                entry.getSuggestedPeriod().getEndDateTime()
+                entry.getSuggestedPeriod().getStartDate(),
+                entry.getSuggestedPeriod().getEndDate()
         );
     }
 

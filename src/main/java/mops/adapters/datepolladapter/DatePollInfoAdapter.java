@@ -25,7 +25,7 @@ public class DatePollInfoAdapter {
         dto.setDescription(poll.getDatePollMetaInf().getDatePollDescription().getDescription());
         dto.setLocation(poll.getDatePollMetaInf().getDatePollLocation().getLocation());
         dto.setPollStatus(poll.getUserStatus(userId).getIconName());
-        dto.setEndDate(poll.getDatePollMetaInf().getDatePollLifeCycle().getEndDateTime());
+        dto.setEndDate(poll.getDatePollMetaInf().getDatePollLifeCycle().getEndDate());
         return dto;
     }
 }
