@@ -2,10 +2,13 @@ package mops.domain.models;
 
 import lombok.Value;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Value
-public class Timespan implements ValidateAble {
+public final class Timespan implements ValidateAble, Comparable<Timespan>, Serializable {
+
+    public static final long serialVersionUID = 9786879798798789L;
 
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
@@ -48,5 +51,15 @@ public class Timespan implements ValidateAble {
 
         return startDateString + ", " + startTimeString + " Uhr " + " - "
                 + endDateString + ", " + endTimeString + " Uhr";
+    }
+
+    @Override
+    public int compareTo(Timespan timespan) {
+        final int difference = this.startDate.compareTo(timespan.startDate);
+        // Wenn Startdatum und -zeit gleich sind, ist das Enddatum ausschlaggebend
+        if (difference == 0) {
+            return this.endDate.compareTo(timespan.endDate);
+        }
+        return difference;
     }
 }
