@@ -19,8 +19,8 @@
 
         <div th:if="${terminfindung}" th:replace="~{:: input-location}"></div>
 
-        <button type="submit" name="_eventId_home"  class="btn btn-primary float-left mt-5">Zurück</button>
         <button type="submit" name="_eventId_metaInfStep2"  class="btn btn-primary float-right mt-5">Weiter</button>
+        <button type="submit" name="_eventId_home"  class="btn btn-primary float-left mt-5">Zurück</button>
     </form>
 
     <form method="post" th:fragment="form-step2"
@@ -32,8 +32,8 @@
 
         <div th:replace="~{:: input-end}"></div>
 
-        <button type="submit" name="_eventId_metaInfStep1"  class="btn btn-primary float-left mt-5">Zurück</button>
         <button type="submit" name="_eventId_settings" class="btn btn-primary float-right mt-5">Weiter</button>
+        <button type="submit" name="_eventId_metaInfStep1"  class="btn btn-primary float-left mt-5">Zurück</button>
     </form>
 
 
