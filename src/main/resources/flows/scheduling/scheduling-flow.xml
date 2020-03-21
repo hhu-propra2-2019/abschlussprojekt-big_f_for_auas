@@ -11,9 +11,10 @@
     <on-start>
         <evaluate expression="new mops.adapters.datepolladapter.dtos.MetaInfDto()" result="flowScope.metaInfDto"/>
         <evaluate expression="new mops.adapters.datepolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
+        <evaluate expression="new mops.adapters.datepolladapter.dtos.OptionsDto()" result="flowScope.optionsDto"/>
     </on-start>
 
-    <view-state id="mobileSchedulingNameSettings" view="/flows/scheduling/mobileSchedulingNameSettings"
+    <view-state id="metaInfStep1" view="/flows/scheduling/metaInfStep1"
                 model="metaInfDto">
 
         <binder>
@@ -23,12 +24,12 @@
         </binder>
 
         <transition on="home" to="home"/>
-        <transition on="access" to="mobileSchedulingAccessSettings">
+        <transition on="metaInfStep2" to="metaInfStep2">
             <evaluate expression="datePollAdapter.validateFirstStep(metaInfDto, messageContext)"/>
         </transition>
     </view-state>
 
-    <view-state id="mobileSchedulingAccessSettings" view="/flows/scheduling/mobileSchedulingAccessSettings"
+    <view-state id="metaInfStep2" view="/flows/scheduling/metaInfStep2"
                 model="metaInfDto">
 
         <binder>
@@ -38,13 +39,13 @@
             <binding property="endTime"/>
         </binder>
 
-        <transition on="name" to="mobileSchedulingNameSettings"/>
-        <transition on="choicesettings" to="mobileSchedulingChoiceSettings">
+        <transition on="metaInfStep1" to="metaInfStep1"/>
+        <transition on="settings" to="settings">
             <evaluate expression="datePollAdapter.validateSecondStep(metaInfDto, messageContext)"/>
         </transition>
     </view-state>
 
-    <view-state id="mobileSchedulingChoiceSettings" view="flows/scheduling/mobileSchedulingChoiceSettings"
+    <view-state id="settings" view="flows/scheduling/settings"
                 model="configDto">
 
         <binder>
@@ -56,24 +57,45 @@
             <binding property="singleChoice"/>
         </binder>
 
-        <transition on="access" to="mobileSchedulingAccessSettings"/>
-        <transition on="choiceoptions" to="mobileSchedulingChoiceOptions">
+        <transition on="metaInfStep2" to="metaInfStep2"/>
+        <transition on="choices" to="choices">
             <evaluate expression="datePollAdapter.validate(configDto, messageContext)"/>
         </transition>
     </view-state>
 
-    <view-state id="mobileSchedulingChoiceOptions" view="flows/scheduling/mobileSchedulingChoiceOptions">
-        <transition on="choicesettings" to="mobileSchedulingChoiceSettings"/>
-        <transition on="publication" to="mobileSchedulingPublicationSettings"/>
+    <view-state id="choices" view="flows/scheduling/choices"
+                model="optionsDto">
+
+        <binder>
+            <binding property="options"/>
+        </binder>
+
+        <transition on="addoption" to="choices">
+            <evaluate expression="datePollAdapter.addOption(optionsDto, requestParameters.addDate,
+                                                                           requestParameters.addStartTime,
+                                                                           requestParameters.addEndTime,
+                                                                           messageContext)"/>
+        </transition>
+
+        <transition on="deleteoption" to="choices">
+            <evaluate expression="datePollAdapter.deleteOption(optionsDto, requestParameters.deleteDate,
+                                                                           requestParameters.deleteStartTime,
+                                                                           requestParameters.deleteEndTime)"/>
+        </transition>
+
+        <transition on="settings" to="settings"/>
+        <transition on="publication" to="publication">
+            <evaluate expression="datePollAdapter.validate(optionsDto, messageContext)"/>
+        </transition>
     </view-state>
 
-    <view-state id="mobileSchedulingPublicationSettings" view="flows/scheduling/mobileSchedulingPublicationSettings">
-        <transition on="choiceoptions" to="mobileSchedulingChoiceOptions"/>
-        <transition on="confirmation" to="mobileSchedulingConfirmation"/>
+    <view-state id="publication" view="flows/scheduling/publication">
+        <transition on="choices" to="choices"/>
+        <transition on="confirmation" to="confirmation"/>
     </view-state>
 
-    <view-state id="mobileSchedulingConfirmation" view="flows/scheduling/mobileSchedulingConfirmation">
-        <transition on="publication" to="mobileSchedulingPublicationSettings"/>
+    <view-state id="confirmation" view="flows/scheduling/confirmation">
+        <transition on="publication" to="publication"/>
         <transition on="submit" to="home"/>
     </view-state>
 
