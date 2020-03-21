@@ -11,7 +11,7 @@
     <on-start>
         <evaluate expression="new mops.adapters.datepolladapter.dtos.MetaInfDto()" result="flowScope.metaInfDto"/>
         <evaluate expression="new mops.adapters.datepolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
-        <evaluate expression="new mops.adapters.datepolladapter.dtos.OptionsDto()" result="flowScope.optionsDto"/>
+        <evaluate expression="new mops.adapters.datepolladapter.dtos.EntriesDto()" result="flowScope.entriesDto"/>
     </on-start>
 
     <view-state id="metaInfStep1" view="/flows/scheduling/metaInfStep1"
@@ -58,39 +58,39 @@
         </binder>
 
         <transition on="metaInfStep2" to="metaInfStep2"/>
-        <transition on="choices" to="choices">
+        <transition on="entries" to="entries">
             <evaluate expression="datePollAdapter.validate(configDto, messageContext)"/>
         </transition>
     </view-state>
 
-    <view-state id="choices" view="flows/scheduling/choices"
-                model="optionsDto">
+    <view-state id="entries" view="flows/scheduling/entries"
+                model="entriesDto">
 
         <binder>
             <binding property="options"/>
         </binder>
 
-        <transition on="addoption" to="choices">
-            <evaluate expression="datePollAdapter.addOption(optionsDto, requestParameters.addDate,
+        <transition on="addoption" to="entries">
+            <evaluate expression="datePollAdapter.addOption(entriesDto, requestParameters.addDate,
                                                                            requestParameters.addStartTime,
                                                                            requestParameters.addEndTime,
                                                                            messageContext)"/>
         </transition>
 
-        <transition on="deleteoption" to="choices">
-            <evaluate expression="datePollAdapter.deleteOption(optionsDto, requestParameters.deleteDate,
+        <transition on="deleteoption" to="entries">
+            <evaluate expression="datePollAdapter.deleteOption(entriesDto, requestParameters.deleteDate,
                                                                            requestParameters.deleteStartTime,
                                                                            requestParameters.deleteEndTime)"/>
         </transition>
 
         <transition on="settings" to="settings"/>
         <transition on="publication" to="publication">
-            <evaluate expression="datePollAdapter.validate(optionsDto, messageContext)"/>
+            <evaluate expression="datePollAdapter.validate(entriesDto, messageContext)"/>
         </transition>
     </view-state>
 
     <view-state id="publication" view="flows/scheduling/publication">
-        <transition on="choices" to="choices"/>
+        <transition on="entries" to="entries"/>
         <transition on="confirmation" to="confirmation"/>
     </view-state>
 
