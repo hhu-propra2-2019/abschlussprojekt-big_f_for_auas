@@ -37,25 +37,25 @@ public class DatePollDaoOfDatePoll {
         datePollDao.setDatePollConfigDao(datePollConfigDao);
         datePollDao.setPollRecordAndStatusDao(pollRecordAndStatusDao);
         //TODO: datePollDao.setCreatorUserDao(datePoll.getCreator());
-        datePollDao.setDatePollEntrySet(extractDatePollEntryDaos(datePoll, datePollDao));
+        datePollDao.setDatePollEntrySet(extractDatePollEntryDaos(datePoll.getDatePollEntries(), datePollDao));
         datePollDao.setUserSet(extractDatePollUser(datePoll));
         return datePollDao;
     }
 
-    public static DatePollEntryDao entryDaoOf(DatePollEntry datePollOption, DatePollDao datePollDao) {
-        DatePollEntryDao currentOption = new DatePollEntryDao();
-        currentOption.setDatePoll(datePollDao);
-        currentOption.setPollLifeCycleDao(PollLifeCycleDao.of(datePollOption.getSuggestedPeriod()));
-        return currentOption;
+    private static DatePollEntryDao entryDaoOf(DatePollEntry datePollOption, DatePollDao datePollDao) {
+        DatePollEntryDao entry = new DatePollEntryDao();
+        entry.setDatePoll(datePollDao);
+        entry.setPollLifeCycleDao(PollLifeCycleDao.of(datePollOption.getSuggestedPeriod()));
+        return entry;
     }
 
-    public static UserDao userDaoOf(UserId userId) {
+    private static UserDao userDaoOf(UserId userId) {
         UserDao user = new UserDao();
         user.setId(Long.parseLong(userId.getId()));
         return user;
     }
 
-    public static DatePollConfigDao configDaoOf(DatePollConfig datePollConfig) {
+    private static DatePollConfigDao configDaoOf(DatePollConfig datePollConfig) {
         return new DatePollConfigDao(
                 datePollConfig.isPriorityChoice(),
                 datePollConfig.isAnonymous(),
@@ -66,13 +66,13 @@ public class DatePollDaoOfDatePoll {
         );
     }
 
-    public static PollRecordAndStatusDao pollRecordAndStatusDaoOf(PollRecordAndStatus pollRecordAndStatus) {
+    private static PollRecordAndStatusDao pollRecordAndStatusDaoOf(PollRecordAndStatus pollRecordAndStatus) {
         return new PollRecordAndStatusDao(
                 pollRecordAndStatus.getLastModified()
         );
     }
 
-    public static DatePollMetaInfDao metaInfDaoOf(DatePollMetaInf datePollMetaInf) {
+    private static DatePollMetaInfDao metaInfDaoOf(DatePollMetaInf datePollMetaInf) {
         PollLifeCycleDao lifeCycleDao = PollLifeCycleDao.of(datePollMetaInf.getDatePollLifeCycle());
         return new DatePollMetaInfDao(
                 datePollMetaInf.getTitle(),
@@ -80,12 +80,11 @@ public class DatePollDaoOfDatePoll {
                 datePollMetaInf.getDatePollLocation().getLocation(), lifeCycleDao);
     }
 
-    private static Set<DatePollEntryDao> extractDatePollEntryDaos(DatePoll datePoll, DatePollDao datePollDao) {
-        Set<DatePollEntry> datePollEntries = datePoll.getDatePollEntries();
+    private static Set<DatePollEntryDao> extractDatePollEntryDaos(Set<DatePollEntry> datePollEntries, DatePollDao datePollDao) {
         Set<DatePollEntryDao> datePollEntryDaos = new HashSet<>();
-        for (DatePollEntry datePollEntry:datePollEntries) {
-            DatePollEntryDao currentOption = DatePollDaoOfDatePoll.entryDaoOf(datePollEntry, datePollDao);
-            datePollEntryDaos.add(currentOption);
+        for (DatePollEntry datePollEntry : datePollEntries) {
+            DatePollEntryDao currentEntry = DatePollDaoOfDatePoll.entryDaoOf(datePollEntry, datePollDao);
+            datePollEntryDaos.add(currentEntry);
         }
         return datePollEntryDaos;
     }
@@ -93,8 +92,9 @@ public class DatePollDaoOfDatePoll {
     private static Set<UserDao> extractDatePollUser(DatePoll datePoll) {
         Set<UserId> userIds = datePoll.getParticipants();
         Set<UserDao> userDaoSet = new HashSet<>();
-        for (UserId currentUserId:userIds) {
-            userDaoSet.add(DatePollDaoOfDatePoll.userDaoOf(currentUserId));
+        for (UserId currentUserId : userIds) {
+            UserDao currentUser = DatePollDaoOfDatePoll.userDaoOf(currentUserId);
+            userDaoSet.add(currentUser);
         }
         return userDaoSet;
     }
