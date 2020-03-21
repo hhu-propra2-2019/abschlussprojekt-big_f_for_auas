@@ -43,6 +43,7 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
      * Formatiert die Timespan als String.
      * @return formattierten String.
      */
+    @Override
     public String toString() {
         final String startDateString = startDate.toLocalDate().toString();
         final String startTimeString = startDate.toLocalTime().toString();
