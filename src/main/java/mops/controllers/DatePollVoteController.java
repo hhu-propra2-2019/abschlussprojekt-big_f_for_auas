@@ -37,6 +37,12 @@ public class DatePollVoteController {
     }
 
 
+    /**
+     * getmapping.
+     * @param model
+     * @param link
+     * @return string
+     */
     @GetMapping("/vote/{link}")
     public String showPoll(Model model, @PathVariable DatePollLink link) {
         Set<FormattedDatePollEntryDto> formattedEntries = entryAdapter.getAllEntriesFormatted(link);
@@ -44,6 +50,13 @@ public class DatePollVoteController {
         return "pollVote";
     }
 
+    /**
+     * postmapping.
+     * @param model
+     * @param link
+     * @param dtos
+     * @return string
+     */
     @PostMapping("/vote/{link}")
     public String votePoll(Model model, @PathVariable DatePollLink link, Set<FormattedDatePollEntryDto>  dtos) {
 
