@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
@@ -35,7 +37,7 @@ public class QuestionPollBuilder {
             PollFields.CREATOR,
             PollFields.PARTICIPANTS
     );
-
+    private static final Logger LOGGER = Logger.getLogger(QuestionPollBuilder.class.getName());
     private static final int MIN_ENTRIES = 2;
 
     @Getter
@@ -175,7 +177,7 @@ public class QuestionPollBuilder {
         } else {
             final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
             for (final FieldErrorNames error : errorNames) {
-                System.out.println(error);
+                LOGGER.log(Level.SEVERE, error.toString());
             }
             throw new IllegalStateException(INVALID_BUILDER_STATE);
         }
