@@ -1,10 +1,8 @@
 package mops.controllers;
 
 import mops.domain.models.user.UserId;
-import mops.infrastructure.database.repositories.DatePollJpaRepository;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
