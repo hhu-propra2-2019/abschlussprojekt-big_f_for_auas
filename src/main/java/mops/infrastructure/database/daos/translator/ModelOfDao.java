@@ -30,9 +30,10 @@ import mops.infrastructure.database.daos.questionpoll.QuestionPollMetaInfDao;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 public class ModelOfDao {
-    public static DatePoll pollOf(DatePollDao pollDao) {
+    public static DatePoll pollOf(DatePollDao pollDao){
         PollRecordAndStatus pollRecordAndStatus =
                 ModelOfDao.pollRecordAndStatusOf(pollDao.getPollRecordAndStatusDao());
 
@@ -51,8 +52,8 @@ public class ModelOfDao {
 
         //TODO: add
         Set<DatePollBallot> ballots = null;
-        PollLink newLink = new PollLink(); //pollDao.getLink()
 
+        PollLink newLink = ModelOfDao.linkOf(pollDao.getLink());
 
         DatePoll datePoll = new DatePoll(
                 (DatePollRecordAndStatus) pollRecordAndStatus,
@@ -88,7 +89,7 @@ public class ModelOfDao {
         Set<QuestionPollBallot> ballots = null;
 
         //TODO: need method to set specific link
-        PollLink newLink = new PollLink(); //pollDao.getLink()
+        PollLink newLink = ModelOfDao.linkOf(pollDao.getLink());
 
         //TODO: add pollRecordAndStatus
         QuestionPoll questionPoll = new QuestionPoll(
@@ -203,6 +204,10 @@ public class ModelOfDao {
             userIds.add(id);
         }
         return userIds;
+    }
+
+    public static PollLink linkOf(String link) {
+        return new PollLink(UUID.fromString(link));
     }
 
 }

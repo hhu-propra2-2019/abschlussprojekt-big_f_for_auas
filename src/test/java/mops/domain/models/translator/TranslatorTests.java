@@ -32,10 +32,7 @@ public class TranslatorTests {
         String location = "TestLocation";
         LocalDateTime startDate = LocalDateTime.of(2020,3,20,12, 30);
         LocalDateTime endDate = LocalDateTime.of(2020,6,5,5, 20);
-        TimespanDao testLifeCycleDao = new TimespanDao(
-                startDate,
-                endDate
-        );
+        TimespanDao testLifeCycleDao = new TimespanDao(startDate, endDate);
         DatePollMetaInfDao dao = new DatePollMetaInfDao(
                 title, description, location, testLifeCycleDao
         );
@@ -93,6 +90,11 @@ public class TranslatorTests {
     @Test
     public void ballotTest() {
         return;
+    }
+
+    @Test
+    public void linkTest() {
+
     }
 
     @Test
