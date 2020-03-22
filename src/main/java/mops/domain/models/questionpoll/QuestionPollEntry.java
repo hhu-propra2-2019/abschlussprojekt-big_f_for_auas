@@ -16,7 +16,7 @@ public class QuestionPollEntry implements ValidateAble {
 
     //Vorläufige Werte
     private static final int MAX_LENGTH_TITLE = 40;
-    private static final int MIN_LENGTH_TITLE = 10;
+    private static final int MIN_LENGTH_TITLE = 3;
 
     public QuestionPollEntry(final String title) {
         this.title = title == null ? "" : title.trim();

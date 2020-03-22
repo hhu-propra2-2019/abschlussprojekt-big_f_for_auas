@@ -94,7 +94,7 @@ public final class DaoOfModelUtil {
         return entry;
     }
 
-    private static UserDao userDaoOf(UserId userId) {
+    public static UserDao userDaoOf(UserId userId) {
         final UserDao user = new UserDao();
         user.setId(Long.parseLong(userId.getId()));
         return user;
@@ -119,7 +119,7 @@ public final class DaoOfModelUtil {
         );
     }
 
-    private static PollRecordAndStatusDao pollRecordAndStatusDaoOf(PollRecordAndStatus pollRecordAndStatus) {
+    public static PollRecordAndStatusDao pollRecordAndStatusDaoOf(PollRecordAndStatus pollRecordAndStatus) {
         return new PollRecordAndStatusDao(
                 pollRecordAndStatus.getLastModified()
         );

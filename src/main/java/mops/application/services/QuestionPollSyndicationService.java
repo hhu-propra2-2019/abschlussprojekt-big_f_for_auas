@@ -3,20 +3,20 @@ package mops.application.services;
 
 import mops.domain.models.PollLink;
 import mops.domain.models.questionpoll.QuestionPollBuilder;
-import mops.domain.models.repository.QuestionPollRepositoryInterface;
 import mops.domain.models.user.UserId;
+import mops.domain.repositories.QuestionPollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
-
+//TODO: was ist das hier?
 @Service
 public class QuestionPollSyndicationService {
 
-    private final transient QuestionPollRepositoryInterface questionPollRepo;
+    private final transient QuestionPollRepository questionPollRepo;
 
     @Autowired
-    public QuestionPollSyndicationService(QuestionPollRepositoryInterface questionPollRepo) {
+    public QuestionPollSyndicationService(QuestionPollRepository questionPollRepo) {
         this.questionPollRepo = questionPollRepo;
     }
 
@@ -27,9 +27,11 @@ public class QuestionPollSyndicationService {
      * @param builder
      * @return QuestionPollLink
      */
+    /*
     public PollLink publishQuestionPoll(final QuestionPollBuilder builder) {
         return questionPollRepo.save(builder.build());
     }
+    */
 
 
     /**

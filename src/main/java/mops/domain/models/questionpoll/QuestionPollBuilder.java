@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import lombok.Getter;
 
+import mops.domain.models.FieldErrorNames;
 import mops.domain.models.PollFields;
 import mops.domain.models.PollLink;
 import mops.domain.models.ValidateAble;
@@ -26,13 +27,15 @@ public class QuestionPollBuilder {
     private final transient Set<QuestionPollEntry> entriesTarget = new HashSet<>();
     private final transient Set<UserId> participants = new HashSet<>();
 
+    @Getter
     private static final EnumSet<PollFields> VALIDSET = EnumSet.of(
-        PollFields.TIMESPAN,
-        PollFields.QUESTION_POLL_CONFIG,
-        PollFields.QUESTION_POLL_ENTRY,
-        PollFields.QUESTION_POLL_METAINF,
-        PollFields.POLL_LINK,
-        PollFields.CREATOR);
+            PollFields.QUESTION_POLL_METAINF,
+            PollFields.POLL_LINK,
+            PollFields.QUESTION_POLL_CONFIG,
+            PollFields.QUESTION_POLL_ENTRY,
+            PollFields.CREATOR,
+            PollFields.PARTICIPANTS
+    );
 
     private static final int MIN_ENTRIES = 2;
 
@@ -87,12 +90,12 @@ public class QuestionPollBuilder {
     /**
      * Setzt den Ersteller, wenn dieser die Validierung durchläuft.
      *
-     * @param owner der Ersteller einer Umfrage.
+     * @param creator der Ersteller einer Umfrage.
      * @return Referenz auf diesen QuestionPollBuilder.
      */
-    public QuestionPollBuilder owner(UserId owner) {
+    public QuestionPollBuilder creator(UserId creator) {
         validationProcessAndValidationHandling(
-            owner, id -> this.creatorTarget = id, PollFields.CREATOR
+            creator, id -> this.creatorTarget = id, PollFields.CREATOR
         );
         return this;
     }
@@ -171,6 +174,10 @@ public class QuestionPollBuilder {
                     linkTarget
             );
         } else {
+            EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
+            for (FieldErrorNames error : errorNames) {
+                System.out.println(error);
+            }
             throw new IllegalStateException(INVALID_BUILDER_STATE);
         }
     }
