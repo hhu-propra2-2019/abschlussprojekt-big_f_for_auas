@@ -8,7 +8,7 @@ import mops.domain.models.user.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 public class QuestionPollSyndicationService {
@@ -39,7 +39,7 @@ public class QuestionPollSyndicationService {
      * @param builder
      * @param userIds
      */
-    public void addParticipants(final QuestionPollBuilder builder, List<UserId> userIds) {
-        builder.questionPollParticipants(userIds);
+    public void addParticipants(final QuestionPollBuilder builder, Set<UserId> userIds) {
+        builder.participants(userIds);
     }
 }

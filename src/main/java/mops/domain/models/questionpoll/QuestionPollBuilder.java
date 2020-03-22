@@ -1,10 +1,7 @@
 package mops.domain.models.questionpoll;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -12,6 +9,7 @@ import java.util.stream.Collectors;
 
 import lombok.Getter;
 import mops.domain.models.*;
+import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.UserId;
 
 @SuppressWarnings({"PMD.TooManyMethods"})
@@ -23,15 +21,13 @@ public class QuestionPollBuilder {
     private transient QuestionPollMetaInf metaInfTarget;
     private final transient Set<QuestionPollEntry> entriesTarget = new HashSet<>();
     private final transient Set<UserId> participants = new HashSet<>();
-    private transient boolean accessRestriction;
 
     private static final EnumSet<PollFields> VALIDSET = EnumSet.of(
-        PollFields.QUESTION_POLL_LIFECYCLE,
-        PollFields.QUESTION_POLL_ACCESSIBILITY,
+        PollFields.TIMESPAN,
         PollFields.QUESTION_POLL_CONFIG,
         PollFields.QUESTION_POLL_ENTRY,
-        PollFields.QUESTION_POLL_HEADER,
-        PollFields.QUESTION_POLL_LINK,
+        PollFields.QUESTION_POLL_METAINF,
+        PollFields.POLL_LINK,
         PollFields.CREATOR);
 
     private static final int MIN_ENTRIES = 2;
@@ -63,12 +59,12 @@ public class QuestionPollBuilder {
     }
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    private <T extends ValidateAble> List<T> validateAllAndGetCorrect(List<T> mappedOptions, PollFields fields) {
+    private <T extends ValidateAble> Set<T> validateAllAndGetCorrect(Set<T> mappedOptions, PollFields fields) {
         return mappedOptions.stream()
             .map((T validateAble) -> validationProcess(validateAble, fields))
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .collect(Collectors.toList());
+            .collect(Collectors.toSet());
     }
 
     /**
@@ -77,9 +73,9 @@ public class QuestionPollBuilder {
      * @param questionPollMetaInf Der Header.
      * @return Referenz auf diesen QuestionPollBuilder.
      */
-    public QuestionPollBuilder questionPollHeader(QuestionPollMetaInf questionPollMetaInf) {
+    public QuestionPollBuilder questionPollMetaInf(QuestionPollMetaInf questionPollMetaInf) {
         validationProcessAndValidationHandling(
-                questionPollMetaInf, header -> this.metaInfTarget = header, PollFields.QUESTION_POLL_HEADER
+                questionPollMetaInf, header -> this.metaInfTarget = header, PollFields.QUESTION_POLL_METAINF
         );
         return this;
     }
@@ -115,7 +111,7 @@ public class QuestionPollBuilder {
      * @param questionPollEntries Vorschläge die zu dieser Umfrage hinzugefügt werden sollen.
      * @return Referenz auf diesen QuestionPollBuilder.
      */
-    public QuestionPollBuilder questionPollEntries(List<QuestionPollEntry> questionPollEntries) {
+    public QuestionPollBuilder questionPollEntries(Set<QuestionPollEntry> questionPollEntries) {
         this.entriesTarget.addAll(validateAllAndGetCorrect(questionPollEntries, PollFields.QUESTION_POLL_ENTRY));
         if (this.entriesTarget.size() >= MIN_ENTRIES) {
             validatedFields.add(PollFields.QUESTION_POLL_ENTRY);
@@ -131,22 +127,11 @@ public class QuestionPollBuilder {
      * @param participants Teilnehmer die zu dieser Terminfindung hinzugefügt werden sollen.
      * @return Referenz auf diesen QuestionPollBuilder.
      */
-    public QuestionPollBuilder questionPollParticipants(List<UserId> participants) {
-        this.participants.addAll(validateAllAndGetCorrect(participants, PollFields.QUESTION_POLL_ACCESSIBILITY));
+    public QuestionPollBuilder participants(Set<UserId> participants) {
+        this.participants.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPANTS));
         if (!this.participants.isEmpty()) {
             validatedFields.add(PollFields.PARTICIPANTS);
         }
-        return this;
-    }
-
-    /**
-     * Setzt ob die Umfrage offen oder geschlossen ist.
-     * Da es sich hier um einen Primitive handelt findet keine Validierung statt.
-     * @param restrictAccess boolean
-     * @return Referenz auf diesen QuestionPollBuilder.
-     */
-    public QuestionPollBuilder restrictAccess(final boolean restrictAccess) {
-        this.accessRestriction = restrictAccess;
         return this;
     }
 
@@ -157,7 +142,7 @@ public class QuestionPollBuilder {
      */
     public QuestionPollBuilder pollLink(PollLink pollLink) {
         validationProcessAndValidationHandling(
-            pollLink, link -> this.linkTarget = link, PollFields.QUESTION_POLL_LINK
+            pollLink, link -> this.linkTarget = link, PollFields.POLL_LINK
         );
         return this;
     }
@@ -172,13 +157,13 @@ public class QuestionPollBuilder {
     public QuestionPoll build() {
         if (validationState.hasNoErrors() && validatedFields.equals(VALIDSET)) {
             return new QuestionPoll(
+                    new PollRecordAndStatus(),
                     metaInfTarget,
                     creatorTarget,
                     configTarget,
                     entriesTarget,
                     participants,
                     new HashSet<QuestionPollBallot>(),
-                    //new QuestionPollAccessibility(accessRestriction, participants),
                     linkTarget
             );
         } else {

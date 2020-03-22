@@ -31,11 +31,10 @@ public final class DatePollBuilder {
 
     private static final EnumSet<PollFields> VALID_SET = EnumSet.of(
             PollFields.DATE_POLL_META_INF,
-            PollFields.DATE_POLL_LINK,
+            PollFields.POLL_LINK,
             PollFields.DATE_POLL_CONFIG,
             PollFields.DATE_POLL_ENTRIES,
             PollFields.CREATOR,
-            //PollFields.TIMESPAN
             PollFields.PARTICIPANTS
     );
 
@@ -180,7 +179,7 @@ public final class DatePollBuilder {
      */
     public DatePollBuilder datePollLink(PollLink pollLink) {
         validationProcessAndValidationHandling(
-                pollLink, link -> this.linkTarget = link, PollFields.DATE_POLL_LINK
+                pollLink, link -> this.linkTarget = link, PollFields.POLL_LINK
         );
         return this;
     }

@@ -93,6 +93,7 @@ public class ModelOfDao {
 
         //TODO: add pollRecordAndStatus
         QuestionPoll questionPoll = new QuestionPoll(
+                pollRecordAndStatus,
                 metaInf,
                 creator.getId(),
                 config,

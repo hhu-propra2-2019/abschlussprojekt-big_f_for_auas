@@ -40,7 +40,7 @@ public class DaoOfModel {
 
         String newLink = DaoOfModel.linkDaoOf(poll.getPollLink());
 
-        UserDao creator = userDaoOf(poll.getCreator());
+        UserDao creator = DaoOfModel.userDaoOf(poll.getCreator());
 
         DatePollDao datePollDao = new DatePollDao();
         datePollDao.setLink(newLink);
@@ -60,9 +60,8 @@ public class DaoOfModel {
         QuestionPollConfigDao configDao =
                 DaoOfModel.configDaoOf(poll.getConfig());
 
-        //TODO: pollRecordAndStatus?
-        //PollRecordAndStatusDao pollRecordAndStatusDao =
-        //        DaoOfModel.pollRecordAndStatusDaoOf(poll.getRecordAndStatus());
+        PollRecordAndStatusDao pollRecordAndStatusDao =
+                DaoOfModel.pollRecordAndStatusDaoOf(poll.getRecordAndStatus());
 
         String newLink = DaoOfModel.linkDaoOf(poll.getPollLink());
 
@@ -72,11 +71,10 @@ public class DaoOfModel {
         questionPollDao.setLink(newLink);
         questionPollDao.setMetaInfDao(metaInfDao);
         questionPollDao.setConfigDao(configDao);
-        //questionPollDao.setPollRecordAndStatusDao(pollRecordAndStatusDao);
+        questionPollDao.setPollRecordAndStatusDao(pollRecordAndStatusDao);
         questionPollDao.setCreatorUserDao(creator);
         questionPollDao.setEntryDaos(extractQuestionPollEntryDaos(poll.getEntries(), questionPollDao));
-        //TODO: add participants
-        //questionPollDao.setUserDaos(extractUser(poll.getParticipants()));
+        questionPollDao.setUserDaos(extractUser(poll.getParticipants()));
         return questionPollDao;
     }
 
