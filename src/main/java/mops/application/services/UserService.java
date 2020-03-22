@@ -1,4 +1,8 @@
 package mops.application.services;
 
-public class UserService {
+import mops.domain.models.user.UserId;
+
+public interface UserService {
+
+    boolean userExists(UserId userId);
 }
