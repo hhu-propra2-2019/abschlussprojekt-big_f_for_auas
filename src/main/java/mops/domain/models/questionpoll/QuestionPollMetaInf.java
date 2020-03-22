@@ -1,7 +1,11 @@
 package mops.domain.models.questionpoll;
 
 import lombok.Value;
-import mops.domain.models.*;
+import mops.domain.models.FieldErrorNames;
+import mops.domain.models.PollDescription;
+import mops.domain.models.Timespan;
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
 import mops.utils.DomainObjectCreationUtils;
 
 @Value

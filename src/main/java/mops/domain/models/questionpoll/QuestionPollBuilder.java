@@ -8,7 +8,11 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
-import mops.domain.models.*;
+
+import mops.domain.models.PollFields;
+import mops.domain.models.PollLink;
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.UserId;
 
