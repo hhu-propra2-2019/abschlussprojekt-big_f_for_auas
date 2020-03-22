@@ -85,7 +85,8 @@ public class DaoOfModel {
         return entry;
     }
 
-    private static QuestionPollEntryDao entryDaoOf(QuestionPollEntry questionPollEntry, QuestionPollDao questionPollDao) {
+    private static QuestionPollEntryDao entryDaoOf(QuestionPollEntry questionPollEntry,
+        QuestionPollDao questionPollDao) {
         QuestionPollEntryDao entry = new QuestionPollEntryDao();
         entry.setQuestionPoll(questionPollDao);
         entry.setEntryName(questionPollEntry.getTitle());
@@ -141,7 +142,8 @@ public class DaoOfModel {
                 timespanDao);
     }
 
-    private static Set<DatePollEntryDao> extractDatePollEntryDaos(Set<DatePollEntry> datePollEntries, DatePollDao datePollDao) {
+    private static Set<DatePollEntryDao> extractDatePollEntryDaos(Set<DatePollEntry> datePollEntries,
+        DatePollDao datePollDao) {
         Set<DatePollEntryDao> datePollEntryDaos = new HashSet<>();
         for (DatePollEntry datePollEntry : datePollEntries) {
             DatePollEntryDao currentEntry = DaoOfModel.entryDaoOf(datePollEntry, datePollDao);
@@ -150,7 +152,8 @@ public class DaoOfModel {
         return datePollEntryDaos;
     }
 
-    private static Set<QuestionPollEntryDao> extractQuestionPollEntryDaos(Set<QuestionPollEntry> questionPollEntries, QuestionPollDao questionPollDao) {
+    private static Set<QuestionPollEntryDao> extractQuestionPollEntryDaos(
+        Set<QuestionPollEntry> questionPollEntries, QuestionPollDao questionPollDao) {
         Set<QuestionPollEntryDao> questionPollEntryDaos = new HashSet<>();
         for (QuestionPollEntry questionPollEntry : questionPollEntries) {
             QuestionPollEntryDao currentEntry = DaoOfModel.entryDaoOf(questionPollEntry, questionPollDao);

@@ -1,13 +1,21 @@
 package mops.infrastructure.database.daos.questionpoll;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import mops.infrastructure.database.daos.UserDao;
-import mops.infrastructure.database.daos.datepoll.DatePollDao;
 
-import javax.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Id;
+
 
 @Getter
 @Setter

@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 
+@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:WhitespaceAfter"})
 public class TranslatorTests {
     //TODO: add
     @Test
@@ -30,8 +31,8 @@ public class TranslatorTests {
         String title = "TestDAO";
         String description = "TestMetaInfDao";
         String location = "TestLocation";
-        LocalDateTime startDate = LocalDateTime.of(2020,3,20,12, 30);
-        LocalDateTime endDate = LocalDateTime.of(2020,6,5,5, 20);
+        LocalDateTime startDate = LocalDateTime.of(2020, 3, 20, 12, 30);
+        LocalDateTime endDate = LocalDateTime.of(2020, 6, 5, 5, 20);
         TimespanDao testLifeCycleDao = new TimespanDao(startDate, endDate);
         DatePollMetaInfDao dao = new DatePollMetaInfDao(
                 title, description, location, testLifeCycleDao
@@ -98,12 +99,12 @@ public class TranslatorTests {
     }
 
     @Test
-    public void toDAO_recordAndStatusTest() {
+    public void toDAOrecordAndStatusTest() {
         return;
     }
 
     @Test
-    public void toDAO_metaInfTest() {
+    public void toDAOmetaInfTest() {
         String title = "Test";
         String description = "TestMetaInf";
         String location = "TestLocation";
@@ -128,12 +129,12 @@ public class TranslatorTests {
 
     //TODO: geht so nicht wegen Id !!!
     @Test
-    public void toDAO_userTest() {
+    public void toDAOuserTest() {
         return;
     }
 
     @Test
-    public void toDAO_configTest() {
+    public void toDAOconfigTest() {
         boolean voteIsEditable = true;
         boolean openForOwnEntries = false;
         boolean singleChoice = false;
@@ -155,12 +156,12 @@ public class TranslatorTests {
     }
 
     @Test
-    public void toDAO_entryTest() {
+    public void toDAOentryTest() {
         return;
     }
 
     @Test
-    public void toDAO_ballotTest() {
+    public void toDAOballotTest() {
         return;
     }
 }

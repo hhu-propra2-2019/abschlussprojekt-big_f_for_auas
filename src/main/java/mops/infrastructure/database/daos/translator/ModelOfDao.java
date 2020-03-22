@@ -33,7 +33,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class ModelOfDao {
-    public static DatePoll pollOf(DatePollDao pollDao){
+    public static DatePoll pollOf(DatePollDao pollDao) {
         PollRecordAndStatus pollRecordAndStatus =
                 ModelOfDao.pollRecordAndStatusOf(pollDao.getPollRecordAndStatusDao());
 
