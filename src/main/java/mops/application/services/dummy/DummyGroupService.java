@@ -1,6 +1,7 @@
-package mops.application.services;
+package mops.application.services.dummy;
 
         import lombok.NoArgsConstructor;
+        import mops.application.services.GroupService;
         import mops.domain.models.group.GroupId;
         import org.springframework.stereotype.Service;
 

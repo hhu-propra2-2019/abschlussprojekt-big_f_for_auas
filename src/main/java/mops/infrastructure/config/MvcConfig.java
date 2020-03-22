@@ -1,8 +1,8 @@
-package mops.config;
+package mops.infrastructure.config;
 
 import lombok.NoArgsConstructor;
-import mops.adapters.datepolladapter.converters.ConfigConverter;
-import mops.adapters.datepolladapter.converters.MetaInfConverter;
+import mops.infrastructure.adapters.webflow.datepoll.converters.ConfigConverter;
+import mops.infrastructure.adapters.webflow.datepoll.converters.MetaInfConverter;
 import mops.infrastructure.interceptors.AccountInterceptor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

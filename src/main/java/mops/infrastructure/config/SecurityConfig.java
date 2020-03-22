@@ -1,4 +1,4 @@
-package mops.config;
+package mops.infrastructure.config;
 
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;

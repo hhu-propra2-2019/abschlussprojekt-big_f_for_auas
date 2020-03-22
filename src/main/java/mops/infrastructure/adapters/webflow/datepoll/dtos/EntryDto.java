@@ -1,4 +1,4 @@
-package mops.adapters.datepolladapter.dtos;
+package mops.infrastructure.adapters.webflow.datepoll.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

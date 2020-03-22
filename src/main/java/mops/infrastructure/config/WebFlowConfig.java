@@ -1,4 +1,4 @@
-package mops.config;
+package mops.infrastructure.config;
 
 import mops.infrastructure.interceptors.WebFlowHandlerAdapterAndInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;

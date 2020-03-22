@@ -1,4 +1,4 @@
-package mops.adapters;
+package mops.infrastructure.adapters.webflow;
 
 import mops.domain.models.FieldErrorNames;
 import org.springframework.binding.message.MessageBuilder;

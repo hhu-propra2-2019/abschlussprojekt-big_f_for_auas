@@ -1,4 +1,4 @@
-package mops.adapters.dtos;
+package mops.infrastructure.adapters.webflow.dtos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

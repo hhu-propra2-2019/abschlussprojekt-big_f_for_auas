@@ -1,8 +1,8 @@
-package mops.adapters.datepolladapter.dtos;
+package mops.infrastructure.adapters.webflow.datepoll.dtos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import mops.adapters.dtos.GeneralDto;
+import mops.infrastructure.adapters.webflow.dtos.GeneralDto;
 
 import java.io.Serializable;
 

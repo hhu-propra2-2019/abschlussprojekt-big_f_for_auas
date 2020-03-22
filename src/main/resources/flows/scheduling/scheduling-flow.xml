@@ -9,9 +9,9 @@
     <input name="account" type="mops.controllers.dtos.Account" required="true" />
 
     <on-start>
-        <evaluate expression="datePollAdapter.initializeMetaInfDto()" result="flowScope.metaInfDto"/>
-        <evaluate expression="datePollAdapter.initializeConfigDto()" result="flowScope.configDto"/>
-        <evaluate expression="datePollAdapter.initializeEntriesDto()" result="flowScope.entriesDto"/>
+        <evaluate expression="datePollWebFlowValidationAdapter.initializeMetaInfDto()" result="flowScope.metaInfDto"/>
+        <evaluate expression="datePollWebFlowValidationAdapter.initializeConfigDto()" result="flowScope.configDto"/>
+        <evaluate expression="datePollWebFlowValidationAdapter.initializeEntriesDto()" result="flowScope.entriesDto"/>
         <evaluate expression="publicationAdapter.initializeDto()" result="flowScope.publicationDto"/>
     </on-start>
 
@@ -27,7 +27,7 @@
 
         <transition on="home" to="home"/>
         <transition on="metaInfStep2" to="metaInfStep2">
-            <evaluate expression="datePollAdapter.validateFirstStep(metaInfDto, messageContext)"/>
+            <evaluate expression="datePollWebFlowValidationAdapter.validateFirstStep(metaInfDto, messageContext)"/>
         </transition>
     </view-state>
 
@@ -44,7 +44,7 @@
 
         <transition on="metaInfStep1" to="metaInfStep1"/>
         <transition on="settings" to="settings">
-            <evaluate expression="datePollAdapter.validateSecondStep(metaInfDto, messageContext)"/>
+            <evaluate expression="datePollWebFlowValidationAdapter.validateSecondStep(metaInfDto, messageContext)"/>
         </transition>
     </view-state>
 
@@ -63,7 +63,7 @@
 
         <transition on="metaInfStep2" to="metaInfStep2"/>
         <transition on="entries" to="entries">
-            <evaluate expression="datePollAdapter.validate(configDto, messageContext)"/>
+            <evaluate expression="datePollWebFlowValidationAdapter.validate(configDto, messageContext)"/>
         </transition>
     </view-state>
 
@@ -76,21 +76,21 @@
         </binder>
 
         <transition on="addoption" to="entries">
-            <evaluate expression="datePollAdapter.addOption(entriesDto, requestParameters.addDate,
+            <evaluate expression="datePollWebFlowValidationAdapter.addOption(entriesDto, requestParameters.addDate,
                                                                            requestParameters.addStartTime,
                                                                            requestParameters.addEndTime,
                                                                            messageContext)"/>
         </transition>
 
         <transition on="deleteoption" to="entries">
-            <evaluate expression="datePollAdapter.deleteOption(entriesDto, requestParameters.deleteDate,
+            <evaluate expression="datePollWebFlowValidationAdapter.deleteOption(entriesDto, requestParameters.deleteDate,
                                                                            requestParameters.deleteStartTime,
                                                                            requestParameters.deleteEndTime)"/>
         </transition>
 
         <transition on="settings" to="settings"/>
         <transition on="publication" to="publication">
-            <evaluate expression="datePollAdapter.validate(entriesDto, messageContext)"/>
+            <evaluate expression="datePollWebFlowValidationAdapter.validate(entriesDto, messageContext)"/>
         </transition>
     </view-state>
 
@@ -112,9 +112,18 @@
     </view-state>
 
 
-    <view-state id="confirmation" view="flows/scheduling/confirmation">
+    <view-state id="confirmation" view="flows/scheduling/confirmation" model="confirmationDto">
+
+        <var name="confirmationDto" class="mops.infrastructure.adapters.webflow.datepoll.dtos.ConfirmationDto"/>
+
+        <on-entry>
+            <set name="confirmationDto" value="datePollWebFlowPublicationAdapter.buildConfirmationDto(metaInfDto, configDto, entriesDto, publicationDto)"/>
+        </on-entry>
+
         <transition on="publication" to="publication"/>
-        <transition on="submit" to="home"/>
+        <transition on="submit" to="home">
+            <evaluate expression="datePollWebFlowPublicationAdapter.publishDatePoll(confirmationDto)"/>
+        </transition>
     </view-state>
 
     <end-state id="home" view="externalRedirect:/"/>

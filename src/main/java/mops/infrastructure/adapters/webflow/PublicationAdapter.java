@@ -1,6 +1,6 @@
-package mops.adapters;
+package mops.infrastructure.adapters.webflow;
 
-import mops.adapters.dtos.PublicationDto;
+import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import mops.application.services.GroupService;
 import mops.application.services.UserService;
 import mops.domain.models.group.GroupId;
@@ -15,11 +15,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static mops.adapters.ErrorMessageHelper.addMessage;
-import static mops.adapters.ErrorMessageHelper.addMessageWithArguments;
+import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage;
+import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessageWithArguments;
 
 @Service
-@PropertySource(value = "classpath:errormappings/publicationmappings.properties", encoding = "UTF-8")
+@PropertySource(value = "classpath:flows/errormappings/publicationmappings.properties", encoding = "UTF-8")
 public class PublicationAdapter {
 
     private final transient GroupService groupService;

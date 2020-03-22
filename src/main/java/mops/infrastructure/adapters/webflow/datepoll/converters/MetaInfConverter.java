@@ -1,7 +1,7 @@
-package mops.adapters.datepolladapter.converters;
+package mops.infrastructure.adapters.webflow.datepoll.converters;
 
 import lombok.NoArgsConstructor;
-import mops.adapters.datepolladapter.dtos.MetaInfDto;
+import mops.infrastructure.adapters.webflow.datepoll.dtos.MetaInfDto;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import org.springframework.core.convert.converter.Converter;

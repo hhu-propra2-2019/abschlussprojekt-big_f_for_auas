@@ -1,10 +1,10 @@
-package mops.adapters.datepolladapter;
+package mops.infrastructure.adapters.webflow.datepoll;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import mops.adapters.datepolladapter.dtos.ConfigDto;
-import mops.adapters.datepolladapter.dtos.EntriesDto;
-import mops.adapters.datepolladapter.dtos.EntryDto;
-import mops.adapters.datepolladapter.dtos.MetaInfDto;
+import mops.infrastructure.adapters.webflow.datepoll.dtos.ConfigDto;
+import mops.infrastructure.adapters.webflow.datepoll.dtos.EntriesDto;
+import mops.infrastructure.adapters.webflow.datepoll.dtos.EntryDto;
+import mops.infrastructure.adapters.webflow.datepoll.dtos.MetaInfDto;
 import mops.domain.models.PollFields;
 import mops.domain.models.Validation;
 import mops.domain.models.datepoll.DatePollConfig;
@@ -20,18 +20,18 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 
-import static mops.adapters.ErrorMessageHelper.addMessage;
-import static mops.adapters.ErrorMessageHelper.mapErrors;
+import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage;
+import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.mapErrors;
 
 @Service
-@PropertySource(value = "classpath:errormappings/datepollmappings.properties", encoding = "UTF-8")
-public final class DatePollAdapter {
+@PropertySource(value = "classpath:flows/errormappings/datepollmappings.properties", encoding = "UTF-8")
+public final class DatePollWebFlowValidationAdapter {
 
     private final transient ConversionService conversionService;
     private final transient Environment errorEnvironment;
 
     @Autowired
-    public DatePollAdapter(ConversionService conversionService, Environment env) {
+    public DatePollWebFlowValidationAdapter(ConversionService conversionService, Environment env) {
         this.conversionService = conversionService;
         this.errorEnvironment = env;
     }
