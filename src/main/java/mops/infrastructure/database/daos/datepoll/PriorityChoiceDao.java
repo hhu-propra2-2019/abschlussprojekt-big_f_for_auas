@@ -1,6 +1,8 @@
 package mops.infrastructure.database.daos.datepoll;
 
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import mops.infrastructure.database.daos.UserDao;
 
@@ -13,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
+@Getter
+@Setter
 @Entity(name = "PriorityChoice")
 @Table(name = "prioritychoice")
 @NoArgsConstructor
