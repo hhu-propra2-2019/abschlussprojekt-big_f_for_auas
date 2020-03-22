@@ -30,7 +30,7 @@ public class QuestionPollDao {
     private QuestionPollConfigDao configDao;
     @Embedded
     private QuestionPollMetaInfDao metaInfDao;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private UserDao creatorUserDao;
     @OneToMany(
             cascade = CascadeType.ALL,
