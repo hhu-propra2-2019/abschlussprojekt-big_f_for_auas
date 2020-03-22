@@ -1,6 +1,7 @@
 package mops.infrastructure.database.daos.datepoll;
 
 
+import lombok.NoArgsConstructor;
 import mops.infrastructure.database.daos.UserDao;
 
 import javax.persistence.CascadeType;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 
 @Entity(name = "PriorityChoice")
 @Table(name = "prioritychoice")
+@NoArgsConstructor
 public class PriorityChoiceDao  {
 
     @EmbeddedId

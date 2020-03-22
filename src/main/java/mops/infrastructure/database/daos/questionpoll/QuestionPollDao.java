@@ -1,6 +1,7 @@
 package mops.infrastructure.database.daos.questionpoll;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.UserDao;
@@ -21,6 +22,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "questionpoll")
+@NoArgsConstructor
 public class QuestionPollDao {
     @Id
     private String link;

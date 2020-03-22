@@ -8,6 +8,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mops.infrastructure.database.daos.UserDao;
 
@@ -21,6 +22,7 @@ import javax.persistence.Id;
 @Setter
 @Entity
 @Table(name = "questionpollentry")
+@NoArgsConstructor
 public class QuestionPollEntryDao {
     @Id
     @GeneratedValue
