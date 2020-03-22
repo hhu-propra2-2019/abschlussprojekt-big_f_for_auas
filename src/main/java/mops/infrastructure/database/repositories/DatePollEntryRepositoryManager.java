@@ -12,9 +12,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class DatePollEntryRepositoryManager {
-    private DatePollJpaRepository datePollJpaRepository;
-    private DatePollEntryJpaRepository datePollEntryJpaRepository;
-    private UserJpaRepository userJpaRepository;
+    private final transient DatePollJpaRepository datePollJpaRepository;
+    private final transient DatePollEntryJpaRepository datePollEntryJpaRepository;
+    private final transient UserJpaRepository userJpaRepository;
     @Autowired
     public DatePollEntryRepositoryManager(
             DatePollJpaRepository datePollJpaRepository,
