@@ -3,7 +3,12 @@ package mops.domain.models.datepoll;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
-import mops.domain.models.*;
+import mops.domain.models.FieldErrorNames;
+import mops.domain.models.PollFields;
+import mops.domain.models.PollLink;
+import mops.domain.models.Timespan;
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
 
 import java.util.EnumSet;
@@ -198,8 +203,8 @@ public final class DatePollBuilder {
                     linkTarget
             );
         } else {
-            EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
-            for (FieldErrorNames error : errorNames) {
+            final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
+            for (final FieldErrorNames error : errorNames) {
                 System.out.println(error);
             }
             throw new IllegalStateException(COULD_NOT_CREATE);

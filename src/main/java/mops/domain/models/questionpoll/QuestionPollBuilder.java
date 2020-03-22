@@ -173,8 +173,8 @@ public class QuestionPollBuilder {
                     linkTarget
             );
         } else {
-            EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
-            for (FieldErrorNames error : errorNames) {
+            final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
+            for (final FieldErrorNames error : errorNames) {
                 System.out.println(error);
             }
             throw new IllegalStateException(INVALID_BUILDER_STATE);
