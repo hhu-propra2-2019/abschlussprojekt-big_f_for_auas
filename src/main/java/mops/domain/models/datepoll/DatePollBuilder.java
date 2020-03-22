@@ -2,8 +2,15 @@ package mops.domain.models.datepoll;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.Getter;
-import mops.domain.models.*;
+import mops.domain.models.FieldErrorNames;
+import mops.domain.models.PollFields;
+import mops.domain.models.PollLink;
+import mops.domain.models.Timespan;
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
 import mops.domain.models.user.UserId;
 
 import java.util.EnumSet;
@@ -14,6 +21,7 @@ import java.util.stream.Collectors;
 public final class DatePollBuilder {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
+    private static final Logger LOGGER = Logger.getLogger(DatePollBuilder.class.getName());
     //muss nicht 1-1 im ByteCode bekannt sein.
     private transient DatePollMetaInf metaInfTarget;
     private transient UserId pollCreatorTarget;
@@ -59,7 +67,7 @@ public final class DatePollBuilder {
     /*
      * hier liegt keine LawOfDemeter violation vor.
      */
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis", "PMD.UnusedPrivateMethod"})
     private <T extends ValidateAble> void validationProcessAndValidationHandling(
             T validateAble, Consumer<T> applyToValidated, PollFields addToFieldsAfterSuccessfulValidation) {
         validationProcess(validateAble, addToFieldsAfterSuccessfulValidation).ifPresent(validated -> {
@@ -198,9 +206,9 @@ public final class DatePollBuilder {
                     linkTarget
             );
         } else {
-            EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
-            for (FieldErrorNames error : errorNames) {
-                System.out.println(error);
+            final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
+            for (final FieldErrorNames error : errorNames) {
+                LOGGER.log(Level.SEVERE, error.toString());
             }
             throw new IllegalStateException(COULD_NOT_CREATE);
         }

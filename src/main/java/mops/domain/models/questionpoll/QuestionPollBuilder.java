@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
@@ -24,7 +26,7 @@ public class QuestionPollBuilder {
     private transient QuestionPollConfig configTarget;
     private transient QuestionPollMetaInf metaInfTarget;
     private final transient Set<QuestionPollEntry> entriesTarget = new HashSet<>();
-    private final transient Set<UserId> participants = new HashSet<>();
+    private final transient Set<UserId> participantsTarget = new HashSet<>();
 
     @Getter
     private static final EnumSet<PollFields> VALIDSET = EnumSet.of(
@@ -35,7 +37,7 @@ public class QuestionPollBuilder {
             PollFields.CREATOR,
             PollFields.PARTICIPANTS
     );
-
+    private static final Logger LOGGER = Logger.getLogger(QuestionPollBuilder.class.getName());
     private static final int MIN_ENTRIES = 2;
 
     @Getter
@@ -55,7 +57,7 @@ public class QuestionPollBuilder {
         return newValidation.hasNoErrors() ? Optional.of(validateAble) : Optional.empty();
     }
 
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis", "PMD.UnusedPrivateMethod"})
     private <T extends ValidateAble> void validationProcessAndValidationHandling(
         T validateAble, Consumer<T> applyToValidated, PollFields addToFieldsAfterSuccessfulValidation) {
         validationProcess(validateAble, addToFieldsAfterSuccessfulValidation).ifPresent(validated -> {
@@ -134,8 +136,8 @@ public class QuestionPollBuilder {
      * @return Referenz auf diesen QuestionPollBuilder.
      */
     public QuestionPollBuilder participants(Set<UserId> participants) {
-        this.participants.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPANTS));
-        if (!this.participants.isEmpty()) {
+        this.participantsTarget.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPANTS));
+        if (!this.participantsTarget.isEmpty()) {
             validatedFields.add(PollFields.PARTICIPANTS);
         }
         return this;
@@ -168,14 +170,14 @@ public class QuestionPollBuilder {
                     creatorTarget,
                     configTarget,
                     entriesTarget,
-                    participants,
+                    participantsTarget,
                     new HashSet<QuestionPollBallot>(),
                     linkTarget
             );
         } else {
-            EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
-            for (FieldErrorNames error : errorNames) {
-                System.out.println(error);
+            final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
+            for (final FieldErrorNames error : errorNames) {
+                LOGGER.log(Level.SEVERE, error.toString());
             }
             throw new IllegalStateException(INVALID_BUILDER_STATE);
         }

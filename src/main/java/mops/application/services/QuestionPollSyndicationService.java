@@ -1,7 +1,6 @@
 package mops.application.services;
 
 
-import mops.domain.models.PollLink;
 import mops.domain.models.questionpoll.QuestionPollBuilder;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.QuestionPollRepository;

@@ -16,7 +16,7 @@ import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.datepoll.PriorityChoiceDao;
 import mops.infrastructure.database.daos.datepoll.PriorityChoiceDaoKey;
 import mops.infrastructure.database.daos.datepoll.PriorityTypeEnum;
-import mops.infrastructure.database.daos.translator.DaoOfModel;
+import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.repositories.interfaces.DatePollEntryJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.PriorityChoiceJpaRepository;
@@ -78,7 +78,7 @@ public class UserVotesForDatePollTest {
                 .participants(participants)
                 .datePollLink(datePollLink)
                 .build();
-        datePollJpaRepository.save(DaoOfModel.pollDaoOf(datePoll));
+        datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll));
     }
 
     @Test

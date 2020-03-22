@@ -11,7 +11,7 @@ import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
-import mops.infrastructure.database.daos.translator.DaoOfModel;
+import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +67,7 @@ public class FindDatePollEntryTests {
                 .participants(participants)
                 .datePollLink(datePollLink)
                 .build();
-        datePollJpaRepository.save(DaoOfModel.pollDaoOf(datePoll));
+        datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll));
     }
     @Test
     public void findDatePollEntry() {

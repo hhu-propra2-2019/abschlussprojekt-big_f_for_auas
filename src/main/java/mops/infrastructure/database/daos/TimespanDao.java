@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SuppressWarnings("PMD.ShortMethodName")
 public class TimespanDao {
     @DateTimeFormat
     private LocalDateTime startDate;
