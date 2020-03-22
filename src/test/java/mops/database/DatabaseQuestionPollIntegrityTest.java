@@ -13,7 +13,7 @@ import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollEntryDao;
-import mops.infrastructure.database.daos.translator.DaoOfModel;
+import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.repositories.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,7 +77,7 @@ public class DatabaseQuestionPollIntegrityTest {
     }
     @Test
     public void saveOneQuestionPollDao() {
-        QuestionPollDao questionPollDao = DaoOfModel.pollDaoOf(questionPoll);
+        QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
         System.out.println("[+] UserId of QuestionPollDao: " + questionPollDao.getCreatorUserDao().getId());
         String link = questionPollDao.getLink();
         System.out.println("Output Link:" + questionPollDao.getLink());
@@ -90,7 +90,7 @@ public class DatabaseQuestionPollIntegrityTest {
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testUsersOfQuestionPollPresence() {
-        QuestionPollDao questionPollDao = DaoOfModel.pollDaoOf(questionPoll);
+        QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
         questionPollJpaRepository.save(questionPollDao);
         Set<UserDao> userDaoSet = userJpaRepository.findByQuestionPollSetContains(questionPollDao);
         userDaoSet.forEach(userDao -> System.out.println("[+] Found User: " + userDao.getId()));
@@ -99,7 +99,7 @@ public class DatabaseQuestionPollIntegrityTest {
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testQuestionPollEntryPresence() {
-        QuestionPollDao questionPollDao = DaoOfModel.pollDaoOf(questionPoll);
+        QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
         questionPollJpaRepository.save(questionPollDao);
         Set<QuestionPollEntryDao> questionPollEntryDaoSet = questionPollEntryJpaRepository.findByQuestionPoll(questionPollDao);
         for (QuestionPollEntryDao questionPollEntryDao : questionPollEntryDaoSet) {
@@ -110,7 +110,7 @@ public class DatabaseQuestionPollIntegrityTest {
 
     @Test
     public void testVotesForQuestionPollEntryAreZero() {
-        QuestionPollDao questionPollDao = DaoOfModel.pollDaoOf(questionPoll);
+        QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
         questionPollJpaRepository.save(questionPollDao);
         QuestionPollEntryDao questionPollEntryDao = questionPollDao.getEntryDaos().iterator().next();
         System.out.println("[+] QuestionPollEntryId: " + questionPollEntryDao.getId());

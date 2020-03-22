@@ -13,8 +13,8 @@ import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollConfigDao;
 import mops.infrastructure.database.daos.datepoll.DatePollMetaInfDao;
-import mops.infrastructure.database.daos.translator.DaoOfModel;
-import mops.infrastructure.database.daos.translator.ModelOfDao;
+import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
+import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,7 +27,7 @@ public class TranslatorTests {
         LocalDateTime lastModified = LocalDateTime.of(2020, 3, 20, 12, 30);
         PollRecordAndStatusDao dao = new PollRecordAndStatusDao(lastModified);
 
-        PollRecordAndStatus pollRecordAndStatus = ModelOfDao.pollRecordAndStatusOf(dao);
+        PollRecordAndStatus pollRecordAndStatus = ModelOfDaoUtil.pollRecordAndStatusOf(dao);
 
         assertThat(pollRecordAndStatus.getLastModified()).isEqualTo(lastModified);
     }
@@ -44,7 +44,7 @@ public class TranslatorTests {
                 title, description, location, testLifeCycleDao
         );
 
-        DatePollMetaInf metaInf = ModelOfDao.metaInfOf(dao);
+        DatePollMetaInf metaInf = ModelOfDaoUtil.metaInfOf(dao);
 
         assertThat(metaInf.getTitle()).isEqualTo(title);
         assertThat(metaInf.getDescription()).isEqualTo(new PollDescription(description));
@@ -59,7 +59,7 @@ public class TranslatorTests {
         UserDao dao = new UserDao();
         dao.setId(userId);
 
-        User user = ModelOfDao.userOf(dao);
+        User user = ModelOfDaoUtil.userOf(dao);
 
         assertThat(user.getId().getId()).isEqualTo(Long.toString(userId));
     }
@@ -76,7 +76,7 @@ public class TranslatorTests {
                 voteIsEditable, openForOwnEntries, singleChoice, priorityChoice, anonymous, open
         );
 
-        DatePollConfig config = ModelOfDao.configOf(dao);
+        DatePollConfig config = ModelOfDaoUtil.configOf(dao);
 
         assertThat(config.isVoteIsEditable()).isEqualTo(voteIsEditable);
         assertThat(config.isOpenForOwnEntries()).isEqualTo(openForOwnEntries);
@@ -104,7 +104,7 @@ public class TranslatorTests {
         PollRecordAndStatus pollRecordAndStatus = new PollRecordAndStatus();
         pollRecordAndStatus.setLastModified(lastModified);
 
-        PollRecordAndStatusDao dao = DaoOfModel.pollRecordAndStatusDaoOf(pollRecordAndStatus);
+        PollRecordAndStatusDao dao = DaoOfModelUtil.pollRecordAndStatusDaoOf(pollRecordAndStatus);
 
         assertThat(dao.getLastmodified()).isEqualTo(lastModified);
     }
@@ -124,7 +124,7 @@ public class TranslatorTests {
                 title, description, location, testLifeCycle
         );
 
-        DatePollMetaInfDao metaInfDao = DaoOfModel.metaInfDaoOf(metaInf);
+        DatePollMetaInfDao metaInfDao = DaoOfModelUtil.metaInfDaoOf(metaInf);
 
         assertThat(metaInfDao.getTitle()).isEqualTo(title);
         assertThat(metaInfDao.getDescription()).isEqualTo(description);
@@ -138,7 +138,7 @@ public class TranslatorTests {
         long id = 1232454412L;
         UserId userId = new UserId(Long.toString(id));
 
-        UserDao dao = DaoOfModel.userDaoOf(userId);
+        UserDao dao = DaoOfModelUtil.userDaoOf(userId);
 
         assertThat(dao.getId()).isEqualTo(id);
     }
@@ -155,7 +155,7 @@ public class TranslatorTests {
                 voteIsEditable, openForOwnEntries, singleChoice, priorityChoice, anonymous, open
         );
 
-        DatePollConfigDao dao = DaoOfModel.configDaoOf(config);
+        DatePollConfigDao dao = DaoOfModelUtil.configDaoOf(config);
 
         assertThat(dao.isVoteIsEditable()).isEqualTo(voteIsEditable);
         assertThat(dao.isOpenForOwnEntries()).isEqualTo(openForOwnEntries);

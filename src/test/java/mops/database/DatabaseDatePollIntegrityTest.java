@@ -13,7 +13,7 @@ import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
-import mops.infrastructure.database.daos.translator.DaoOfModel;
+import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.repositories.DatePollEntryJpaRepository;
 import mops.infrastructure.database.repositories.DatePollJpaRepository;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
@@ -81,7 +81,7 @@ public class DatabaseDatePollIntegrityTest {
     }
     @Test
     public void saveOneDatePollDao() {
-        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
+        DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
         System.out.println("[+] UserId of DatePollDao: " + datePollDao.getCreatorUserDao().getId());
         String link = datePollDao.getLink();
         System.out.println("Output Link:" + datePollDao.getLink());
@@ -94,7 +94,7 @@ public class DatabaseDatePollIntegrityTest {
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testUsersOfDatePollPresence() {
-        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
+        DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
         datePollJpaRepository.save(datePollDao);
         Set<UserDao> userDaoSet = userJpaRepository.findByDatePollSetContains(datePollDao);
         userDaoSet.forEach(userDao -> System.out.println("[+] Found User: " + userDao.getId()));
@@ -103,7 +103,7 @@ public class DatabaseDatePollIntegrityTest {
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testDatePollEntryPresence() {
-        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
+        DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
         datePollJpaRepository.save(datePollDao);
         Set<DatePollEntryDao> datePollEntryDaoSet = datePollEntryJpaRepository.findByDatePoll(datePollDao);
         for (DatePollEntryDao datePollEntryDao : datePollEntryDaoSet) {
@@ -114,7 +114,7 @@ public class DatabaseDatePollIntegrityTest {
 
     @Test
     public void testVotesForDatePollEntryAreZero() {
-        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
+        DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
         datePollJpaRepository.save(datePollDao);
         DatePollEntryDao datePollEntry = datePollDao.getEntryDaos().iterator().next();
         System.out.println("[+] DatePollEntryId: " + datePollEntry.getId());
