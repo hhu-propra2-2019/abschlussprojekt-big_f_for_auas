@@ -20,7 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 
-@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:WhitespaceAfter"})
+@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:WhitespaceAfter", "PMD.LawOfDemeter", "PMD.AtLeastOneConstructor","PMD.TooManyMethods"})
+// zu tooManyMethods: lieber tests für die einzelnen translation der jeweiligen daos schreiben
 public class TranslatorTests {
     @Test
     public void recordAndStatusTest() {
@@ -33,6 +34,7 @@ public class TranslatorTests {
     }
 
     @Test
+    @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts") // da die Strings innerhalb der metainf noch gekapselt sind ist hier das testen etwas umständlicher
     public void metaInfTest() {
         final String title = "TestDAO";
         final String description = "TestMetaInfDao";
@@ -55,7 +57,7 @@ public class TranslatorTests {
 
     @Test
     public void userTest() {
-        final long userId = 1232454412L;
+        final long userId = 1L;
         final UserDao dao = new UserDao();
         dao.setId(userId);
 
@@ -78,28 +80,25 @@ public class TranslatorTests {
 
         final DatePollConfig config = ModelOfDaoUtil.configOf(dao);
 
-        assertThat(config.isVoteIsEditable()).isEqualTo(voteIsEditable);
-        assertThat(config.isOpenForOwnEntries()).isEqualTo(openForOwnEntries);
-        assertThat(config.isSingleChoice()).isEqualTo(singleChoice);
-        assertThat(config.isPriorityChoice()).isEqualTo(priorityChoice);
-        assertThat(config.isAnonymous()).isEqualTo(anonymous);
-        assertThat(config.isOpen()).isEqualTo(open);
+        assertThat(config).isEqualToComparingFieldByField(dao);
     }
 
     //TODO: add
     @Test
+    @SuppressWarnings({"PMD.JUnitTestsShouldIncludeAssert", "PMD.AvoidDuplicateLiterals"}) // not yet implemented, duplicate Literal is PMD Suppression
     public void entryTest() {
-        return;
+        //
     }
 
     //TODO: add
     @Test
+    @SuppressWarnings({"PMD.JUnitTestsShouldIncludeAssert"}) // not yet implemented
     public void ballotTest() {
-        return;
+        //
     }
 
     @Test
-    public void toDAOrecordAndStatusTest() {
+    public void recordAndStatusToDAOTest() {
         final LocalDateTime lastModified = LocalDateTime.of(2020, 3, 20, 12, 30);
         final PollRecordAndStatus pollRecordAndStatus = new PollRecordAndStatus();
         pollRecordAndStatus.setLastModified(lastModified);
@@ -110,7 +109,8 @@ public class TranslatorTests {
     }
 
     @Test
-    public void toDAOmetaInfTest() {
+    @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
+    public void metaInfToDAOTest() {
         final String title = "Test";
         final String description = "TestMetaInf";
         final String location = "TestLocation";
@@ -134,8 +134,8 @@ public class TranslatorTests {
     }
 
     @Test
-    public void toDAOuserTest() {
-        final long id = 1232454412L;
+    public void userToDAOTest() {
+        final long id = 1L;
         final UserId userId = new UserId(Long.toString(id));
 
         final UserDao dao = DaoOfModelUtil.userDaoOf(userId);
@@ -144,7 +144,7 @@ public class TranslatorTests {
     }
 
     @Test
-    public void toDAOconfigTest() {
+    public void configToDAOTest() {
         final boolean voteIsEditable = true;
         final boolean openForOwnEntries = false;
         final boolean singleChoice = false;
@@ -157,21 +157,18 @@ public class TranslatorTests {
 
         final DatePollConfigDao dao = DaoOfModelUtil.configDaoOf(config);
 
-        assertThat(dao.isVoteIsEditable()).isEqualTo(voteIsEditable);
-        assertThat(dao.isOpenForOwnEntries()).isEqualTo(openForOwnEntries);
-        assertThat(dao.isSingleChoice()).isEqualTo(singleChoice);
-        assertThat(dao.isPriorityChoice()).isEqualTo(priorityChoice);
-        assertThat(dao.isAnonymous()).isEqualTo(anonymous);
-        assertThat(dao.isOpen()).isEqualTo(open);
+        assertThat(dao).isEqualToComparingFieldByField(config);
     }
 
     @Test
-    public void toDAOentryTest() {
-        return;
+    @SuppressWarnings({"PMD.JUnitTestsShouldIncludeAssert"}) // not yet implemented
+    public void entryToDAOTest() {
+        //
     }
 
     @Test
-    public void toDAOballotTest() {
-        return;
+    @SuppressWarnings({"PMD.JUnitTestsShouldIncludeAssert"}) // not yet implemented
+    public void ballotToDAOTest() {
+        //
     }
 }

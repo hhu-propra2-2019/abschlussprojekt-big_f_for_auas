@@ -50,19 +50,19 @@ public class DatabaseDatePollIntegrityTest {
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
     public void setupDatePollRepoTest() {
-        Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
-        DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
-        UserId creator = new UserId("1234");
-        DatePollConfig datePollConfig = new DatePollConfig();
-        Set<UserId> participants = new HashSet<>();
+        final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
+        final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
+        final UserId creator = new UserId("1234");
+        final DatePollConfig datePollConfig = new DatePollConfig();
+        final Set<UserId> participants = new HashSet<>();
         for (int i = 0; i < 3; i++) {
-            UserId newUser = new UserId(Integer.toString(i));
+            final UserId newUser = new UserId(Integer.toString(i));
             participants.add(newUser);
         }
-        PollLink datePollLink = new PollLink();
-        Set<DatePollEntry> pollEntries = new HashSet<>();
+        final PollLink datePollLink = new PollLink();
+        final Set<DatePollEntry> pollEntries = new HashSet<>();
         for (int i = 0; i < 3; i++) {
-            DatePollEntry entry = new DatePollEntry(
+            final DatePollEntry entry = new DatePollEntry(
                     new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
             );
             pollEntries.add(entry);
@@ -76,48 +76,42 @@ public class DatabaseDatePollIntegrityTest {
                 .participants(participants)
                 .datePollLink(datePollLink)
                 .build();
-        System.out.println("[+] UserId: " + creator.getId());
-        System.out.println("[+] Created DatePoll: " + datePoll.getPollLink().getPollIdentifier());
     }
+
     @Test
     public void saveOneDatePollDao() {
-        DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
-        System.out.println("[+] UserId of DatePollDao: " + datePollDao.getCreatorUserDao().getId());
-        String link = datePollDao.getLink();
-        System.out.println("Output Link:" + datePollDao.getLink());
+        final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
+        final String link = datePollDao.getLink();
         datePollJpaRepository.save(datePollDao);
-        DatePollDao datepollFound = datePollJpaRepository.findDatePollDaoByLink(link);
-        System.out.println("[+] Found DatePoll: " + datepollFound.getLink());
-        System.out.println("[+] Found DatePoll: " + datepollFound.getMetaInfDao().getLocation());
+        final DatePollDao datepollFound = datePollJpaRepository.findDatePollDaoByLink(link);
+
         assertThat(datepollFound.getLink()).isEqualTo(datepollFound.getLink());
     }
+
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testUsersOfDatePollPresence() {
-        DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
+        final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
         datePollJpaRepository.save(datePollDao);
-        Set<UserDao> userDaoSet = userJpaRepository.findByDatePollSetContains(datePollDao);
-        userDaoSet.forEach(userDao -> System.out.println("[+] Found User: " + userDao.getId()));
+        final Set<UserDao> userDaoSet = userJpaRepository.findByDatePollSetContains(datePollDao);
+
         assertThat(userDaoSet).hasSize(3);
     }
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testDatePollEntryPresence() {
-        DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
+        final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
         datePollJpaRepository.save(datePollDao);
-        Set<DatePollEntryDao> datePollEntryDaoSet = datePollEntryJpaRepository.findByDatePoll(datePollDao);
-        for (DatePollEntryDao datePollEntryDao : datePollEntryDaoSet) {
-            System.out.println("[+] Found DatePollEntry: " + datePollEntryDao.getId());
-        }
+        final Set<DatePollEntryDao> datePollEntryDaoSet = datePollEntryJpaRepository.findByDatePoll(datePollDao);
+
         assertThat(datePollEntryDaoSet).hasSize(3);
     }
 
     @Test
     public void testVotesForDatePollEntryAreZero() {
-        DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
+        final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
         datePollJpaRepository.save(datePollDao);
-        DatePollEntryDao datePollEntry = datePollDao.getEntryDaos().iterator().next();
-        System.out.println("[+] DatePollEntryId: " + datePollEntry.getId());
+        final DatePollEntryDao datePollEntry = datePollDao.getEntryDaos().iterator().next();
 
         assertThat(datePollEntry.getUserVotesFor().size()).isEqualTo(0);
     }

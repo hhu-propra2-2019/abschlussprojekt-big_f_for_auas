@@ -52,19 +52,19 @@ public class UserVotesForDatePollTest {
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
     public void setupDatePollRepoTest() {
-        Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
-        DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
-        UserId creator = new UserId("1234");
-        DatePollConfig datePollConfig = new DatePollConfig();
-        Set<UserId> participants = new HashSet<>();
+        final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
+        final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
+        final UserId creator = new UserId("1234");
+        final DatePollConfig datePollConfig = new DatePollConfig();
+        final Set<UserId> participants = new HashSet<>();
         for (int i = 0; i < 3; i++) {
-            UserId newUser = new UserId(Integer.toString(i));
+            final UserId newUser = new UserId(Integer.toString(i));
             participants.add(newUser);
         }
-        PollLink datePollLink = new PollLink();
-        Set<DatePollEntry> pollEntries = new HashSet<>();
+        final PollLink datePollLink = new PollLink();
+        final Set<DatePollEntry> pollEntries = new HashSet<>();
         for (int i = 0; i < 3; i++) {
-            DatePollEntry entry = new DatePollEntry(
+            final DatePollEntry entry = new DatePollEntry(
                     new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
             );
             pollEntries.add(entry);
@@ -83,31 +83,31 @@ public class UserVotesForDatePollTest {
 
     @Test
     public void testUserVotesForDatePollEntry() {
-        DatePollDao datePollDao = datePollJpaRepository.
+        final DatePollDao datePollDao = datePollJpaRepository.
                 findDatePollDaoByLink(datePoll.getPollLink().getPollIdentifier());
-        DatePollEntryDao datePollEntryDao = datePollDao.getEntryDaos().iterator().next();
-        UserDao userDao = datePollDao.getUserDaos().iterator().next();
+        final DatePollEntryDao datePollEntryDao = datePollDao.getEntryDaos().iterator().next();
+        final UserDao userDao = datePollDao.getUserDaos().iterator().next();
         datePollEntryDao.getUserVotesFor().add(userDao);
         userDao.getDatePollEntrySet().add(datePollEntryDao);
         datePollEntryJpaRepository.save(datePollEntryDao);
         userJpaRepository.save(userDao);
-        Long number = userJpaRepository.countByDatePollEntrySetContaining(datePollEntryDao);
+        final Long number = userJpaRepository.countByDatePollEntrySetContaining(datePollEntryDao);
         assertThat(datePollDao).isNotNull();
         assertThat(number).isEqualTo(1);
     }
     @Test
     public void testUserPriorityForDatePollEntryIsNotAppreciated() {
         //Get DatePoll and datePollEntryDao
-        DatePollDao datePollDao = datePollJpaRepository.
+        final DatePollDao datePollDao = datePollJpaRepository.
                 findDatePollDaoByLink(datePoll.getPollLink().getPollIdentifier());
-        DatePollEntryDao datePollEntryDao = datePollDao.getEntryDaos().iterator().next();
-        UserDao userDao = datePollDao.getUserDaos().iterator().next();
+        final DatePollEntryDao datePollEntryDao = datePollDao.getEntryDaos().iterator().next();
+        final UserDao userDao = datePollDao.getUserDaos().iterator().next();
 
         PriorityChoiceDao priorityChoiceDao = new PriorityChoiceDao();
         priorityChoiceDao.setDatePollEntry(datePollEntryDao);
         priorityChoiceDao.setParticipant(userDao);
         priorityChoiceDao.setDatePollPriority(PriorityTypeEnum.NOT_APPRECIATED);
-        PriorityChoiceDaoKey priorityChoiceDaoKey = new PriorityChoiceDaoKey();
+        final PriorityChoiceDaoKey priorityChoiceDaoKey = new PriorityChoiceDaoKey();
         priorityChoiceDao.setId(priorityChoiceDaoKey);
         priorityChoiceJpaRepository.save(priorityChoiceDao);
         priorityChoiceDao = priorityChoiceJpaRepository.getOne(priorityChoiceDaoKey);
