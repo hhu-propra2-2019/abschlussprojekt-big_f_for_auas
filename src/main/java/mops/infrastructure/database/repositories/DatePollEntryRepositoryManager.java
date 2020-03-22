@@ -37,10 +37,10 @@ public class DatePollEntryRepositoryManager {
              PollLink pollLink,
              DatePollEntry datePollEntry
      ) {
-         DatePollDao currentDatePollDao = datePollJpaRepository.
+         final DatePollDao currentDatePollDao = datePollJpaRepository.
                  findDatePollDaoByLink(pollLink.getPollIdentifier());
-         Timespan periodOfDatePollEntry = datePollEntry.getSuggestedPeriod();
-         TimespanDao timespanDao = TimespanDao.of(periodOfDatePollEntry);
+         final Timespan periodOfDatePollEntry = datePollEntry.getSuggestedPeriod();
+         final TimespanDao timespanDao = TimespanDao.of(periodOfDatePollEntry);
          return datePollEntryJpaRepository.findByDatePollAndAndTimespanDao(currentDatePollDao, timespanDao);
      }
 }
