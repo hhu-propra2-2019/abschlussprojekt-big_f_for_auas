@@ -23,4 +23,10 @@ public class UserId implements ValidateAble, Serializable {
     public Validation validate() {
         return Validation.noErrors();
     }
+
+    @SuppressWarnings("checkstyle:DesignForExtension")
+    @Override
+    public String toString() {
+        return id;
+    }
 }
