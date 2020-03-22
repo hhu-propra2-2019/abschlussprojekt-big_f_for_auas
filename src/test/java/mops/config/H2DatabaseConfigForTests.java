@@ -18,16 +18,17 @@ import java.util.Objects;
 @ActiveProfiles("test")
 @TestPropertySource("application-test.properties")
 @EnableTransactionManagement
+@SuppressWarnings("PMD.AtLeastOneConstructor")
 public class H2DatabaseConfigForTests {
     @Autowired
-    private Environment env;
+    private transient Environment env;
     /**
      * Konfiguration einer H2 Datenbank fuer Testzwecke.
      * @return datasource ...
      */
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("jdbc.driverClassName")));
         dataSource.setUrl(env.getProperty("jdbc.url"));
         dataSource.setUsername(env.getProperty("jdbc.user"));
