@@ -59,8 +59,10 @@ public final class WebFlowHandlerAdapterAndInterceptor extends FlowHandlerAdapte
         if (inputMap == null) {
             inputMap = new LocalAttributeMap<>(1, 1);
         }
-        inputMap.put("account",
-                createAccountFromToken((KeycloakAuthenticationToken) request.getUserPrincipal()));
+        if (request.getUserPrincipal() != null) {
+            inputMap.put("account",
+                    createAccountFromToken((KeycloakAuthenticationToken) request.getUserPrincipal()));
+        }
         return inputMap;
     }
 }
