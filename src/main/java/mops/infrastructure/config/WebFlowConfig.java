@@ -19,16 +19,18 @@ import org.springframework.webflow.security.SecurityFlowExecutionListener;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 
 @Configuration
 @SuppressWarnings("PMD")
 public class WebFlowConfig extends AbstractFlowConfiguration {
 
-    @SuppressWarnings("checkstyle:JavadocVariable")
     @Autowired
-    private ThymeleafViewResolver thymeleafViewResolver;
+    private ITemplateResolver defaultTemplateResolver;
 
     /**
      * WebFlow muss wissen, wo die Flows liegen. Das wird in dieser Methode konfiguriert.
@@ -37,7 +39,7 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     @Bean
     public FlowDefinitionRegistry flowRegistry() {
         return getFlowDefinitionRegistryBuilder() //
-                .setBasePath("classpath:flows") //
+                .setBasePath("classpath:flows/definitions") //
                 .addFlowLocationPattern("/**/*-flow.xml") //
                 .setFlowBuilderServices(this.flowBuilderServices()) //
                 .build();
@@ -87,7 +89,7 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource
                 = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath:messages/flow-messages");
+        messageSource.setBasename("classpath:flows/messages/flow-messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
@@ -123,35 +125,50 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     @Bean
     public ViewFactoryCreator mvcViewFactoryCreator() {
         MvcViewFactoryCreator factoryCreator = new MvcViewFactoryCreator();
-        factoryCreator.setViewResolvers(Collections.singletonList(thymeleafViewResolver));
+        factoryCreator.setViewResolvers(Collections.singletonList(webFlowViewResolver()));
         factoryCreator.setUseSpringBeanBinding(true);
         return factoryCreator;
     }
 
     /**
-     * Hier wird konfiguriert, wo Thymeleaf die Templates sucht. Aufgrund von setPrefix("templates/")
-     * werden die Templates für den Flow xyz in templates/flows/xyz gesucht.
-     * @return für uns egal
+     * Wir konfigurieren einen eigenen ViewResolver, um die Templateresolver konfigurieren zu können.
+     * @return ...
      */
     @Bean
-    public ClassLoaderTemplateResolver templateResolver() {
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setPrefix("templates/");
-        templateResolver.setCacheable(false);
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode("HTML");
-        templateResolver.setCharacterEncoding("UTF-8");
-        return templateResolver;
+    public ThymeleafViewResolver webFlowViewResolver() {
+        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(webFlowTemplateEngine());
+        viewResolver.setCharacterEncoding("UTF-8");
+        return viewResolver;
     }
 
     /**
-     * Die Template-Engine (Thymeleaf) muss für Web FLow manuell gesetzt werden.
+     * Neben dem TemplateResolver, der in flows/ sucht, benötigen wir noch den standardmäßig konfigurierten,
+     * um die Templates für die Menüelemente usw. finden zu können.
      * @return für uns egal
      */
     @Bean
-    public SpringTemplateEngine templateEngine() {
+    public SpringTemplateEngine webFlowTemplateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(this.templateResolver());
+        templateEngine.addTemplateResolver(webFlowTemplateResolver());
+        templateEngine.addTemplateResolver(defaultTemplateResolver);
         return templateEngine;
+    }
+
+    /**
+     * Hier wird konfiguriert, wo Thymeleaf die Templates sucht.
+     * @return für uns egal
+     */
+    @Bean
+    public ITemplateResolver webFlowTemplateResolver() {
+        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        templateResolver.setPrefix("flows/templates/");
+        templateResolver.setResolvablePatterns(new HashSet<>(Arrays.asList("fragments/*", "scheduling/*", "poll/*")));
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode("HTML");
+        templateResolver.setCharacterEncoding("UTF-8");
+        templateResolver.setCheckExistence(true);
+        templateResolver.setOrder(-1);
+        return templateResolver;
     }
 }

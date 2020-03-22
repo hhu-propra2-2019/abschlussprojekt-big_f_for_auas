@@ -16,8 +16,7 @@
     </on-start>
 
 
-    <view-state id="metaInfStep1" view="/flows/scheduling/metaInfStep1"
-                model="metaInfDto">
+    <view-state id="metaInfStep1" view="scheduling/metaInfStep1" model="metaInfDto">
 
         <binder>
             <binding property="title"/>
@@ -32,8 +31,7 @@
     </view-state>
 
 
-    <view-state id="metaInfStep2" view="/flows/scheduling/metaInfStep2"
-                model="metaInfDto">
+    <view-state id="metaInfStep2" view="scheduling/metaInfStep2" model="metaInfDto">
 
         <binder>
             <binding property="startDate"/>
@@ -49,8 +47,7 @@
     </view-state>
 
 
-    <view-state id="settings" view="flows/scheduling/settings"
-                model="configDto">
+    <view-state id="settings" view="scheduling/settings" model="configDto">
 
         <binder>
             <binding property="voteIsEditable"/>
@@ -68,8 +65,7 @@
     </view-state>
 
 
-    <view-state id="entries" view="flows/scheduling/entries"
-                model="entriesDto">
+    <view-state id="entries" view="scheduling/entries" model="entriesDto">
 
         <binder>
             <binding property="options"/>
@@ -95,8 +91,7 @@
     </view-state>
 
 
-    <view-state id="publication" view="flows/scheduling/publication"
-                model="publicationDto">
+    <view-state id="publication" view="scheduling/publication" model="publicationDto">
 
         <binder>
             <binding property="ispublic"/>
@@ -112,7 +107,7 @@
     </view-state>
 
 
-    <view-state id="confirmation" view="flows/scheduling/confirmation" model="confirmationDto">
+    <view-state id="confirmation" view="scheduling/confirmation" model="confirmationDto">
 
         <var name="confirmationDto" class="mops.infrastructure.adapters.webflow.datepoll.dtos.ConfirmationDto"/>
 
