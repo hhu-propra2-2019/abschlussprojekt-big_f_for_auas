@@ -9,10 +9,10 @@
     <input name="account" type="mops.controllers.dtos.Account" required="true" />
 
     <on-start>
-        <evaluate expression="new mops.adapters.datepolladapter.dtos.MetaInfDto()" result="flowScope.metaInfDto"/>
-        <evaluate expression="new mops.adapters.datepolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
-        <evaluate expression="new mops.adapters.datepolladapter.dtos.EntriesDto()" result="flowScope.entriesDto"/>
-        <evaluate expression="new mops.adapters.dtos.PublicationDto()" result="flowScope.publicationDto"/>
+        <evaluate expression="datePollAdapter.initializeMetaInfDto()" result="flowScope.metaInfDto"/>
+        <evaluate expression="datePollAdapter.initializeConfigDto()" result="flowScope.configDto"/>
+        <evaluate expression="datePollAdapter.initializeEntriesDto()" result="flowScope.entriesDto"/>
+        <evaluate expression="publicationAdapter.initializeDto()" result="flowScope.publicationDto"/>
     </on-start>
 
 

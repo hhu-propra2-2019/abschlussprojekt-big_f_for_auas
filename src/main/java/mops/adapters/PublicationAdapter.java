@@ -31,7 +31,7 @@ public class PublicationAdapter {
      *
      * @return ...
      */
-    public PublicationDto initialize() {
+    public PublicationDto initializeDto() {
         final PublicationDto publicationDto = new PublicationDto();
         publicationDto.setLink("dummylink");
         return publicationDto;

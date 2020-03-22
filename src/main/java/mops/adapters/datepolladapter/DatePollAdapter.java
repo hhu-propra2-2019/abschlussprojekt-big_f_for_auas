@@ -36,6 +36,18 @@ public final class DatePollAdapter {
         this.errorEnvironment = env;
     }
 
+    public MetaInfDto initializeMetaInfDto() {
+        return new MetaInfDto();
+    }
+
+    public ConfigDto initializeConfigDto() {
+        return  new ConfigDto();
+    }
+
+    public EntriesDto initializeEntriesDto() {
+        return new EntriesDto();
+    }
+
     /**
      * Validiert MetaInfDto, nachdem Titel und evtl. Beschreibung und Ort eingegeben wurden.
      *
