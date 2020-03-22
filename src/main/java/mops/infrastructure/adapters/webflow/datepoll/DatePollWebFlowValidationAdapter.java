@@ -25,6 +25,7 @@ import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.mapErrors;
 
 @Service
 @PropertySource(value = "classpath:flows/errormappings/datepollmappings.properties", encoding = "UTF-8")
+@SuppressWarnings("PMD.TooManyMethods")
 public final class DatePollWebFlowValidationAdapter {
 
     private final transient ConversionService conversionService;

@@ -4,5 +4,5 @@ import mops.domain.models.datepoll.DatePoll;
 
 public interface PublicationService {
 
-    public boolean publishDatePoll(DatePoll datePoll);
+    boolean publishDatePoll(DatePoll datePoll);
 }
