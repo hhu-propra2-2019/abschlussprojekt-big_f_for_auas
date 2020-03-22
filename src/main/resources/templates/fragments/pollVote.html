@@ -8,7 +8,7 @@
     </th:block>
 </head>
 <body>
-<form th:action method="post" th:fragment="voteform" th:object="${datePollEntries}">
+<form th:action method="post" th:fragment="voteform" th:object="${ballot}">
     <div class="row">
         <div class="col-md-4">
             <div class="card">
@@ -18,14 +18,25 @@
                     <p class="mb-0">Abstimmungsbeschreibung</p>
                 </div>
                 <hr>
-                <div th:each="datePollEntry : ${datePollEntries}" class="ml-4">
+                <div th:each="entry : ${entries}" class="ml-4">
                     <div class="form-check mb-4">
-                        <input class="form-check-input" th:name="questionName" type="radio" >
-                        <label class="form-check-label ml-2">
-                            <span th:text="${datePollEntry.}"
-                        </label>
-                    </div>
 
+                        <!--
+                        <input class="form-check-input" th:name="yes" type="checkbox" >
+                        <span th:text="*{selectedEntriesYes[__${stat.index}__].startDate}" />
+                        <span th:text="*{selectedEntriesYes[__${stat.index}__].startDate}" />
+                        -->
+                        <label th:text="${entry.formatString()}"></label>
+                        <label th:text="${entry.title}"></label>
+                        <input type="checkbox" th:field="${ballot.selectedEntriesYes}" th:value="${entry.getTimespan()}" />
+                    <!--    <input type="hidden" th:field="${entry.title}"> -->
+
+                        <label class="form-check-label ml-2">
+             <!--               <span th:text="${entry.formatString()}"></span> -->
+                        </label>
+
+                    </div>
+                    <!--
                     <div class="form-check mb-4">
                         <input class="form-check-input" th:name="questionName" type="radio" >
                         <label class="form-check-label ml-2">Fanta</label>
@@ -39,6 +50,7 @@
                         <input class="form-check-input" th:name="questionName" type="radio" >
                         <label class="form-check-label ml-2">Wasser</label>
                     </div>
+                                    -->
                 </div>
                 <hr>
 
