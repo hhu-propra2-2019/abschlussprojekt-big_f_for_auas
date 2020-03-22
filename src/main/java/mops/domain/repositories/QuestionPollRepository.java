@@ -4,11 +4,11 @@ import mops.domain.models.PollLink;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.user.UserId;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
- * Repository interface für questionPolls
+ * Repository interface für questionPolls.
  */
 public interface QuestionPollRepository {
     /**
@@ -24,6 +24,5 @@ public interface QuestionPollRepository {
      */
     void save(QuestionPoll questionPoll);
 
-    List<QuestionPoll> getQuestionPollsByUserId(UserId userId);
-    QuestionPoll getQuestionPollByLink(PollLink pollLink);
+    Set<QuestionPoll> getQuestionPollsByUserId(UserId userId);
 }

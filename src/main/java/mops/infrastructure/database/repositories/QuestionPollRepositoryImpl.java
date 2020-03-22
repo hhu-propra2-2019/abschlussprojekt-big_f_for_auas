@@ -1,24 +1,25 @@
 package mops.infrastructure.database.repositories;
 
-import lombok.NoArgsConstructor;
 import mops.domain.models.PollLink;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.QuestionPollRepository;
+import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
+import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import mops.infrastructure.database.repositories.interfaces.QuestionPollJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
-@NoArgsConstructor
 public class QuestionPollRepositoryImpl implements QuestionPollRepository {
 
-    private QuestionPollJpaRepository questionPollJpaRepository;
+    private final transient QuestionPollJpaRepository questionPollJpaRepository;
 
     @Autowired
     public QuestionPollRepositoryImpl(QuestionPollJpaRepository questionPollJpaRepository) {
@@ -32,7 +33,9 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
      */
     @Override
     public Optional<QuestionPoll> load(PollLink link) {
-        return Optional.empty();
+        final QuestionPollDao questionPollDao = questionPollJpaRepository.
+                findQuestionPollDaoByLink(link.getPollIdentifier());
+        return Optional.of(ModelOfDaoUtil.pollOf(questionPollDao));
     }
 
     /**
@@ -46,26 +49,17 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
 
     /**
      * Lädt alle QuestionPolls in denen ein Nutzer Teilnimmt.
-     * @param userId
-     * @return List<QuestionPoll>
+     * @param userId Der User, welcher an den QuestionPolls teilnimmt.
+     * @return Set<QuestionPoll> Die entsprechenden QuestionPolls.
      */
-    public List<QuestionPoll> getQuestionPollsByUserId(UserId userId) {
-        throw new UnsupportedOperationException();
-    }
-    /**
-     * Dopplung mit load.
-     * @param questionPollLink
-     * @return QuestionPollDao
-     */
-    public QuestionPollDao getQuestionPollDao(String questionPollLink) {
-        return questionPollJpaRepository.findQuestionPollDaoByLink(questionPollLink);
-    }
-    /**
-     * Dopplung mit load.
-     * @param pollLink
-     * @return QuestionPoll
-     */
-    public QuestionPoll getQuestionPollByLink(PollLink pollLink) {
-        throw new UnsupportedOperationException();
+    @SuppressWarnings("PMD.LawOfDemeter")
+    public Set<QuestionPoll> getQuestionPollsByUserId(UserId userId) {
+        final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
+        final Set<QuestionPollDao> questionPollDaosFromUser = questionPollJpaRepository.
+                findQuestionPollDaoByUserDaosContaining(targetUser);
+        final Set<QuestionPoll> targetQuestionPolls = new HashSet<>();
+        questionPollDaosFromUser.forEach(
+                datePollDao -> targetQuestionPolls.add(ModelOfDaoUtil.pollOf(datePollDao)));
+        return targetQuestionPolls;
     }
 }

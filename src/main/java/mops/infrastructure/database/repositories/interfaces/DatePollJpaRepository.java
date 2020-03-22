@@ -7,8 +7,7 @@ import java.util.Set;
 
 
 public interface DatePollJpaRepository extends JpaRepository<DatePollDao, String> {
-    @Override
-    <S extends DatePollDao> S save(S entity);
     DatePollDao findDatePollDaoByLink(String link);
+    DatePollDao findByCreatorUserDao(UserDao userDao);
     Set<DatePollDao> findDatePollDaoByUserDaosContaining(UserDao userDao);
 }

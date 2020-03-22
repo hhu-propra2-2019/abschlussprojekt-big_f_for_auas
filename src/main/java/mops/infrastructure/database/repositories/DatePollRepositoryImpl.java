@@ -18,7 +18,7 @@ import java.util.Set;
 @Repository
 public class DatePollRepositoryImpl implements DatePollRepository {
 
-    private DatePollJpaRepository datePollJpaRepository;
+    private final transient DatePollJpaRepository datePollJpaRepository;
 
     @Autowired
     public DatePollRepositoryImpl(DatePollJpaRepository datePollJpaRepository) {
@@ -26,14 +26,14 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     }
 
     /**
-     * Lädt das DatePoll aggregat anhand seines links.
+     * Lädt das DatePoll Aggregat anhand seines links.
      * @param link Eindeutig identifizierender link einer Terminfindung.
      * @return An Inputlink gekoppeltes DatePoll
      */
     @Override
     public Optional<DatePoll> load(PollLink link) {
-        DatePollDao loaded = datePollJpaRepository.findDatePollDaoByLink(link.getPollIdentifier());
-        DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
+        final DatePollDao loaded = datePollJpaRepository.findDatePollDaoByLink(link.getPollIdentifier());
+        final DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
         return Optional.of(targetDatePoll);
     }
 
@@ -47,17 +47,30 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     }
 
     /**
-     * Lädt alle DatePolls in denen ein Nutzer Teilnimmt.
-     * @param userId
-     * @return List<DatePoll>
+     * Lädt alle DatePolls in denen ein Nutzer teilnimmt.
+     * @param userId Der User, welcher an den DatePolls teilnimmt.
+     * @return Set<DatePoll> die entsprechenden DatePolls.
      */
+    @SuppressWarnings("PMD.LawOfDemeter")
     @Override
     public Set<DatePoll> getDatePollsByUserId(UserId userId) {
-        UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
-        Set<DatePollDao> datePollDaosFromUser = datePollJpaRepository.findDatePollDaoByUserDaosContaining(targetUser);
-        Set<DatePoll> targetDatePolls = new HashSet<>();
+        final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
+        final Set<DatePollDao> datePollDaosFromUser = datePollJpaRepository.
+                findDatePollDaoByUserDaosContaining(targetUser);
+        final Set<DatePoll> targetDatePolls = new HashSet<>();
         datePollDaosFromUser.forEach(
                 datePollDao -> targetDatePolls.add(ModelOfDaoUtil.pollOf(datePollDao)));
         return targetDatePolls;
+    }
+    /**
+     *Die Methode gibt den DatePoll anhand des Erstellers zurueck.
+     * @param userId Die userId des DatePoll Creators.
+     * @return Optional<DatePoll> Das DatePoll Objekt, welches vom User mit userId erstellt wurde.
+     */
+    @Override
+    public Optional<DatePoll> getDatePollByCreator(UserId userId) {
+        final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
+        final DatePollDao byCreatorUserDao = datePollJpaRepository.findByCreatorUserDao(targetUser);
+        return Optional.of(ModelOfDaoUtil.pollOf(byCreatorUserDao));
     }
 }
