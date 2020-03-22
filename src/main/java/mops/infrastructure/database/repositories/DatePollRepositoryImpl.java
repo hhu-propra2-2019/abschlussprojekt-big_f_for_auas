@@ -5,7 +5,7 @@ import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
-import mops.infrastructure.database.daos.translator.DaoOfModel;
+import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -41,7 +41,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @Override
     public void save(DatePoll datePoll) {
-        datePollJpaRepository.save(DaoOfModel.pollDaoOf(datePoll));
+        datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll));
     }
 
     /**
