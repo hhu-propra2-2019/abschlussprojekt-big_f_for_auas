@@ -5,8 +5,9 @@ import mops.application.services.GroupService;
 import mops.application.services.UserService;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
-import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -14,16 +15,22 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static mops.adapters.ErrorMessageHelper.addMessage;
+import static mops.adapters.ErrorMessageHelper.addMessageWithArguments;
+
 @Service
+@PropertySource(value = "classpath:errormappings/publicationmappings.properties", encoding = "UTF-8")
 public class PublicationAdapter {
 
     private final transient GroupService groupService;
     private final transient UserService userService;
+    private final transient Environment errorEnvironment;
 
     //@Autowired
-    public PublicationAdapter(GroupService groupService, UserService userService) {
+    public PublicationAdapter(GroupService groupService, UserService userService, Environment env) {
         this.groupService = groupService;
         this.userService = userService;
+        this.errorEnvironment = env;
     }
 
     /**
@@ -54,11 +61,7 @@ public class PublicationAdapter {
     @SuppressWarnings("PMD.LawOfDemeter")//NOPMD
     private boolean validateGroupsAndUsers(PublicationDto publicationDto, MessageContext context) {
         if (publicationDto.getPeople().isBlank() && publicationDto.getGroups().isBlank()) {
-            context.addMessage(new MessageBuilder()
-                    .error()
-                    .code("PUBLICATION_PRIVATE_NO_PARTICIPANTS")
-                    .source("ispublic")
-                    .build());
+            addMessage("PUBLICATION_PRIVATE_NO_PARTICIPANTS", context, errorEnvironment);
             publicationDto.setIspublic(true);
             return false;
         }
@@ -96,12 +99,9 @@ public class PublicationAdapter {
         if (invalidUsers.isEmpty()) {
             return;
         }
-        context.addMessage(new MessageBuilder()
-                .error()
-                .code("PUBLICATION_USERS_NOT_FOUND")
-                .source("people")
-                .resolvableArg(invalidUsers.stream().map(UserId::toString).collect(Collectors.joining(", ")))
-                .build());
+        addMessageWithArguments(
+                "PUBLICATION_USERS_NOT_FOUND", context, errorEnvironment,
+                invalidUsers.stream().map(UserId::toString).collect(Collectors.joining(", ")));
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
@@ -109,11 +109,8 @@ public class PublicationAdapter {
         if (invalidGroups.isEmpty()) {
             return;
         }
-        context.addMessage(new MessageBuilder()
-                .error()
-                .code("PUBLICATION_GROUPS_NOT_FOUND")
-                .source("groups")
-                .resolvableArg(invalidGroups.stream().map(GroupId::toString).collect(Collectors.joining(", ")))
-                .build());
+        addMessageWithArguments(
+                "PUBLICATION_GROUPS_NOT_FOUND", context, errorEnvironment,
+                invalidGroups.stream().map(GroupId::toString).collect(Collectors.joining(", ")));
     }
 }

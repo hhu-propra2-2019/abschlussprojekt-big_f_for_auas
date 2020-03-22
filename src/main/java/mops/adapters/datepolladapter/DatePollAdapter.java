@@ -2,16 +2,14 @@ package mops.adapters.datepolladapter;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import mops.adapters.datepolladapter.dtos.ConfigDto;
-import mops.adapters.datepolladapter.dtos.MetaInfDto;
-import mops.adapters.datepolladapter.dtos.EntryDto;
 import mops.adapters.datepolladapter.dtos.EntriesDto;
-import mops.domain.models.FieldErrorNames;
+import mops.adapters.datepolladapter.dtos.EntryDto;
+import mops.adapters.datepolladapter.dtos.MetaInfDto;
 import mops.domain.models.PollFields;
 import mops.domain.models.Validation;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.convert.ConversionService;
@@ -21,7 +19,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
-import java.util.EnumSet;
+
+import static mops.adapters.ErrorMessageHelper.addMessage;
+import static mops.adapters.ErrorMessageHelper.mapErrors;
 
 @Service
 @PropertySource(value = "classpath:errormappings/datepollmappings.properties", encoding = "UTF-8")
@@ -61,16 +61,16 @@ public final class DatePollAdapter {
      * war, aber die Validierung selbst kann nur das zu validierende Objekt selbst sinvoll lösen
      */
     public boolean validateFirstStep(MetaInfDto metaInfDto, MessageContext context) {
-        final Validation validation = validateMetaInf(metaInfDto)
+        final Validation validation = validate(metaInfDto)
                 .removeErrors(PollFields.TIMESPAN);
-        mapErrors(validation.getErrorMessages(), context);
+        mapErrors(validation.getErrorMessages(), context, errorEnvironment);
         return validation.hasNoErrors();
     }
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public boolean validateSecondStep(MetaInfDto metaInfDto, MessageContext context) {
-        final Validation validation = validateMetaInf(metaInfDto);
-        mapErrors(validation.getErrorMessages(), context);
+        final Validation validation = validate(metaInfDto);
+        mapErrors(validation.getErrorMessages(), context, errorEnvironment);
         return validation.hasNoErrors();
     }
 
@@ -79,7 +79,7 @@ public final class DatePollAdapter {
             justification = "Der eingesetzte Converter kann niemals eine null refrence zurückgeben, "
                     + "auch wenn das Interface es erlaubt")
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    private Validation validateMetaInf(MetaInfDto metaInfDto) {
+    private Validation validate(MetaInfDto metaInfDto) {
         return conversionService.convert(metaInfDto, DatePollMetaInf.class).validate();
     }
 
@@ -91,7 +91,7 @@ public final class DatePollAdapter {
     public boolean validate(ConfigDto configDto, MessageContext context) {
         final DatePollConfig config = conversionService.convert(configDto, DatePollConfig.class);
         final Validation validation = config.validate();
-        mapErrors(validation.getErrorMessages(), context);
+        mapErrors(validation.getErrorMessages(), context, errorEnvironment);
         return validation.hasNoErrors();
     }
 
@@ -101,7 +101,7 @@ public final class DatePollAdapter {
         // dass minedestens ein Termin zur Auswahl steht
         final boolean isvalid = !entriesDto.getOptions().isEmpty();
         if (!isvalid) {
-            addMessage("DATE_POLL_NO_ENTRIES", context);
+            addMessage("DATE_POLL_NO_ENTRIES", context, errorEnvironment);
         }
         return isvalid;
     }
@@ -111,7 +111,6 @@ public final class DatePollAdapter {
                              String addStartTime,
                              String addEndTime,
                              MessageContext context) {
-        // Testweise versuchen, das Datum und die Zeiten zu parsen
         final boolean isvalid = validate(new EntryDto(addDate, addStartTime, addEndTime), context);
         if (!isvalid) {
             return false;
@@ -132,28 +131,16 @@ public final class DatePollAdapter {
         try {
             LocalDate.parse(entryDto.getDate());
         } catch (DateTimeParseException e) {
-            addMessage("DATE_POLL_DATE_NOT_PARSEABLE", context);
+            addMessage("DATE_POLL_DATE_NOT_PARSEABLE", context, errorEnvironment);
             return false;
         }
         try {
             LocalTime.parse(entryDto.getStartTime());
             LocalTime.parse(entryDto.getEndTime());
         } catch (DateTimeParseException e) {
-            addMessage("DATE_POLL_TIME_NOT_PARSEABLE", context);
+            addMessage("DATE_POLL_TIME_NOT_PARSEABLE", context, errorEnvironment);
             return false;
         }
         return true;
-    }
-
-    private void mapErrors(EnumSet<FieldErrorNames> errors, MessageContext context) {
-        errors.forEach(error -> addMessage(error.toString(), context));
-    }
-
-    private void addMessage(String code, MessageContext context) {
-        context.addMessage(new MessageBuilder()
-                .error()
-                .code(code)
-                .source(errorEnvironment.getProperty(code, "defaulterrors"))
-                .build());
     }
 }
