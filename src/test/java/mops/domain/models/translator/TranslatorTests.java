@@ -5,8 +5,10 @@ import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.PollDescription;
 import mops.domain.models.datepoll.DatePollLocation;
 import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
+import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollConfigDao;
@@ -20,10 +22,14 @@ import java.time.LocalDateTime;
 
 @SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:WhitespaceAfter"})
 public class TranslatorTests {
-    //TODO: add
     @Test
     public void recordAndStatusTest() {
-        return;
+        LocalDateTime lastModified = LocalDateTime.of(2020, 3, 20, 12, 30);
+        PollRecordAndStatusDao dao = new PollRecordAndStatusDao(lastModified);
+
+        PollRecordAndStatus pollRecordAndStatus = ModelOfDao.pollRecordAndStatusOf(dao);
+
+        assertThat(pollRecordAndStatus.getLastModified()).isEqualTo(lastModified);
     }
 
     @Test
@@ -47,7 +53,6 @@ public class TranslatorTests {
         assertThat(metaInf.getTimespan().getEndDate()).isEqualTo(endDate);
     }
 
-    //TODO: geht so nicht wegen Id !!!
     @Test
     public void userTest() {
         long userId = 1232454412L;
@@ -56,7 +61,7 @@ public class TranslatorTests {
 
         User user = ModelOfDao.userOf(dao);
 
-        assertThat(user.getId()).isEqualTo(new UserId(Long.toString(userId)));
+        assertThat(user.getId().getId()).isEqualTo(Long.toString(userId));
     }
 
     @Test
@@ -94,13 +99,14 @@ public class TranslatorTests {
     }
 
     @Test
-    public void linkTest() {
-
-    }
-
-    @Test
     public void toDAOrecordAndStatusTest() {
-        return;
+        LocalDateTime lastModified = LocalDateTime.of(2020, 3, 20, 12, 30);
+        PollRecordAndStatus pollRecordAndStatus = new PollRecordAndStatus();
+        pollRecordAndStatus.setLastModified(lastModified);
+
+        PollRecordAndStatusDao dao = DaoOfModel.pollRecordAndStatusDaoOf(pollRecordAndStatus);
+
+        assertThat(dao.getLastmodified()).isEqualTo(lastModified);
     }
 
     @Test
@@ -127,10 +133,14 @@ public class TranslatorTests {
         assertThat(metaInfDao.getTimespan().getEndDate()).isEqualTo(endDate);
     }
 
-    //TODO: geht so nicht wegen Id !!!
     @Test
     public void toDAOuserTest() {
-        return;
+        long id = 1232454412L;
+        UserId userId = new UserId(Long.toString(id));
+
+        UserDao dao = DaoOfModel.userDaoOf(userId);
+
+        assertThat(dao.getId()).isEqualTo(id);
     }
 
     @Test
