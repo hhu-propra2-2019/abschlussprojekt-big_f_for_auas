@@ -2,9 +2,18 @@ package mops.infrastructure.database.daos.translator;
 
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
-import mops.domain.models.datepoll.*;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollBallot;
+import mops.domain.models.datepoll.DatePollConfig;
+import mops.domain.models.datepoll.DatePollEntry;
+import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.datepoll.DatePollRecordAndStatus;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
-import mops.domain.models.questionpoll.*;
+import mops.domain.models.questionpoll.QuestionPoll;
+import mops.domain.models.questionpoll.QuestionPollBallot;
+import mops.domain.models.questionpoll.QuestionPollConfig;
+import mops.domain.models.questionpoll.QuestionPollEntry;
+import mops.domain.models.questionpoll.QuestionPollMetaInf;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.TimespanDao;
@@ -23,7 +32,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ModelOfDao {
-    public static DatePoll pollOf(DatePollDao pollDao){
+    public static DatePoll pollOf(DatePollDao pollDao) {
         PollRecordAndStatus pollRecordAndStatus =
                 ModelOfDao.pollRecordAndStatusOf(pollDao.getPollRecordAndStatusDao());
 
@@ -42,8 +51,8 @@ public class ModelOfDao {
 
         //TODO: add
         Set<DatePollBallot> ballots = null;
+        PollLink newLink = new PollLink(); //pollDao.getLink()
 
-        PollLink newLink = new PollLink(pollDao.getLink());
 
         DatePoll datePoll = new DatePoll(
                 (DatePollRecordAndStatus) pollRecordAndStatus,
@@ -79,7 +88,7 @@ public class ModelOfDao {
         Set<QuestionPollBallot> ballots = null;
 
         //TODO: need method to set specific link
-        PollLink newLink = new PollLink(pollDao.getLink());
+        PollLink newLink = new PollLink(); //pollDao.getLink()
 
         //TODO: add pollRecordAndStatus
         QuestionPoll questionPoll = new QuestionPoll(

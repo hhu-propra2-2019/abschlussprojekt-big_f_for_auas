@@ -19,5 +19,5 @@ class GroupDao {
     @GeneratedValue
     private Long id;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<UserDao> userSet;
+    private Set<UserDao> userDaos;
 }
