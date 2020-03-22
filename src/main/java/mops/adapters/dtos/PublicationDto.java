@@ -1,9 +1,11 @@
 package mops.adapters.dtos;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class PublicationDto extends GeneralDto implements Serializable {
 

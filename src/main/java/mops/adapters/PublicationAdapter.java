@@ -72,7 +72,11 @@ public class PublicationAdapter {
         return true;
     }
 
-    @SuppressWarnings("PMD.LawOfDemeter")
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CloseResource"})
+    // https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html
+    // https://stackoverflow.com/questions/38698182/close-java-8-stream
+    // "Generally, only streams whose source is an IO channel will require closing. Most streams are backed
+    // by collections, arrays, or generating functions, which require no special resource management."
     private Set<UserId> invalidUsers(PublicationDto publicationDto) {
         // https://stackoverflow.com/questions/41953388/java-split-and-trim-in-one-shot
         final Stream<String> people =
@@ -80,7 +84,7 @@ public class PublicationAdapter {
         return people.map(UserId::new).dropWhile(userService::userExists).collect(Collectors.toSet());
     }
 
-    @SuppressWarnings("PMD.LawOfDemeter")
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CloseResource"})
     private Set<GroupId> invalidGroups(PublicationDto publicationDto) {
         final Stream<String> groups =
                 Arrays.stream(publicationDto.getGroups().trim().split("\\s*,\\s*")).dropWhile(String::isBlank);
