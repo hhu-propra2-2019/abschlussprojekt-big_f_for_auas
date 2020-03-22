@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+//TODO: Refactoring im Sinne der vorhandenen Repositories
 @SuppressWarnings("checkstyle:DesignForExtension")
 @Service
 public class DatePollVoteService {

@@ -6,7 +6,8 @@ import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.QuestionPollRepository;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
-import mops.infrastructure.database.daos.translator.DaoOfModel;
+import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
+import mops.infrastructure.database.repositories.interfaces.QuestionPollJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -40,7 +41,7 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
      */
     @Override
     public void save(QuestionPoll questionPoll) {
-        questionPollJpaRepository.save(DaoOfModel.pollDaoOf(questionPoll));
+        questionPollJpaRepository.save(DaoOfModelUtil.pollDaoOf(questionPoll));
     }
 
     /**

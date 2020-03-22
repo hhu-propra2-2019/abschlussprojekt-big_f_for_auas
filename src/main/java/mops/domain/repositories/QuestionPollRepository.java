@@ -10,7 +10,6 @@ import java.util.Optional;
 /**
  * Repository interface für questionPolls
  */
-
 public interface QuestionPollRepository {
     /**
      * Methodenkopf für die QuestionPoll-Lademethode.

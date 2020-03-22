@@ -1,4 +1,4 @@
-package mops.infrastructure.database;
+package mops.infrastructure.database.repositories;
 
 import lombok.NoArgsConstructor;
 import mops.domain.models.user.User;
