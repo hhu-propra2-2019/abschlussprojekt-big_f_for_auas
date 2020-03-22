@@ -59,7 +59,7 @@ public class DatabaseIntegrityTest {
             UserId newUser = new UserId(Integer.toString(i));
             participants.add(newUser);
         }
-        PollLink datePollLink = new PollLink("poll/link");
+        PollLink datePollLink = new PollLink();
         Set<DatePollEntry> pollEntries = new HashSet<>();
         for (int i = 0; i < 3; i++) {
             DatePollEntry entry = new DatePollEntry(
@@ -76,18 +76,20 @@ public class DatabaseIntegrityTest {
                 .participants(participants)
                 .datePollLink(datePollLink)
                 .build();
+        System.out.println("[+] UserId: " + creator.getId());
         System.out.println("[+] Created DatePoll: " + datePoll.getPollLink().getPollIdentifier());
     }
     @Test
     public void saveOneDatePollDao() {
         DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
+        System.out.println("[+] UserId of DatePollDao: " + datePollDao.getCreatorUserDao().getId());
         String link = datePollDao.getLink();
         System.out.println("Output Link:" + datePollDao.getLink());
         datePollJpaRepository.save(datePollDao);
         DatePollDao datepollFound = datePollJpaRepository.findDatePollDaoByLink(link);
         System.out.println("[+] Found DatePoll: " + datepollFound.getLink());
         System.out.println("[+] Found DatePoll: " + datepollFound.getMetaInfDao().getLocation());
-        assertThat(datepollFound.getLink()).isEqualTo("poll/link");
+        assertThat(datepollFound.getLink()).isEqualTo(datepollFound.getLink());
     }
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test

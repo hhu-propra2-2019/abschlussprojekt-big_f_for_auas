@@ -30,7 +30,7 @@ public class DatePollDao {
     private DatePollConfigDao configDao;
     @Embedded
     private DatePollMetaInfDao metaInfDao;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private UserDao creatorUserDao;
     @OneToMany(
             cascade = CascadeType.ALL,
