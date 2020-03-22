@@ -53,14 +53,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     public List<DatePoll> getDatePollsByUserId(UserId userId) {
         throw new UnsupportedOperationException();
     }
-    /**
-     * Dopplung mit load.
-     * @param datePollLink
-     * @return DatePollDao
-     */
-    public DatePollDao getDatePollDao(String datePollLink) {
-        return datePollJpaRepository.findDatePollDaoByLink(datePollLink);
-    }
+
     /**
      * Dopplung mit load.
      * @param pollLink
