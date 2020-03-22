@@ -49,20 +49,20 @@ public class DatabaseQuestionPollIntegrityTest {
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
     public void setupQuestionPollRepoTest() {
-        Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
-        QuestionPollMetaInf questionPollMetaInf = new QuestionPollMetaInf("TestQuestionPoll",
+        final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
+        final QuestionPollMetaInf questionPollMetaInf = new QuestionPollMetaInf("TestQuestionPoll",
             "Testing is useful?", "Testdescription", timespan);
-        UserId creator = new UserId("1234");
-        QuestionPollConfig questionPollConfig = new QuestionPollConfig();
-        Set<UserId> participants = new HashSet<>();
+        final UserId creator = new UserId("1234");
+        final QuestionPollConfig questionPollConfig = new QuestionPollConfig();
+        final Set<UserId> participants = new HashSet<>();
         for (int i = 0; i < 3; i++) {
-            UserId newUser = new UserId(Integer.toString(i));
+            final UserId newUser = new UserId(Integer.toString(i));
             participants.add(newUser);
         }
-        PollLink questionPollLink = new PollLink();
-        Set<QuestionPollEntry> pollEntries = new HashSet<>();
+        final PollLink questionPollLink = new PollLink();
+        final Set<QuestionPollEntry> pollEntries = new HashSet<>();
         for (int i = 0; i < 3; i++) {
-            QuestionPollEntry entry = new QuestionPollEntry(
+            final QuestionPollEntry entry = new QuestionPollEntry(
                    "title" + i
             );
             pollEntries.add(entry);
@@ -81,12 +81,12 @@ public class DatabaseQuestionPollIntegrityTest {
     }
     @Test
     public void saveOneQuestionPollDao() {
-        QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
+        final QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
         System.out.println("[+] UserId of QuestionPollDao: " + questionPollDao.getCreatorUserDao().getId());
-        String link = questionPollDao.getLink();
+        final String link = questionPollDao.getLink();
         System.out.println("Output Link:" + questionPollDao.getLink());
         questionPollJpaRepository.save(questionPollDao);
-        QuestionPollDao questionpollFound = questionPollJpaRepository.findQuestionPollDaoByLink(link);
+        final QuestionPollDao questionpollFound = questionPollJpaRepository.findQuestionPollDaoByLink(link);
         System.out.println("[+] Found QuestionPoll: " + questionpollFound.getLink());
         System.out.println("[+] Found QuestionPoll: " + questionpollFound.getMetaInfDao().getQuestion());
         assertThat(questionpollFound.getLink()).isEqualTo(questionpollFound.getLink());
@@ -94,20 +94,20 @@ public class DatabaseQuestionPollIntegrityTest {
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testUsersOfQuestionPollPresence() {
-        QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
+        final QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
         questionPollJpaRepository.save(questionPollDao);
-        Set<UserDao> userDaoSet = userJpaRepository.findByQuestionPollSetContains(questionPollDao);
+        final Set<UserDao> userDaoSet = userJpaRepository.findByQuestionPollSetContains(questionPollDao);
         userDaoSet.forEach(userDao -> System.out.println("[+] Found User: " + userDao.getId()));
         assertThat(userDaoSet).hasSize(3);
     }
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testQuestionPollEntryPresence() {
-        QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
+        final QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
         questionPollJpaRepository.save(questionPollDao);
-        Set<QuestionPollEntryDao> questionPollEntryDaoSet = questionPollEntryJpaRepository
+        final Set<QuestionPollEntryDao> questionPollEntryDaoSet = questionPollEntryJpaRepository
             .findByQuestionPoll(questionPollDao);
-        for (QuestionPollEntryDao questionPollEntryDao : questionPollEntryDaoSet) {
+        for (final QuestionPollEntryDao questionPollEntryDao : questionPollEntryDaoSet) {
             System.out.println("[+] Found QuestionPollEntry: " + questionPollEntryDao.getId());
         }
         assertThat(questionPollEntryDaoSet).hasSize(3);
@@ -115,9 +115,9 @@ public class DatabaseQuestionPollIntegrityTest {
 
     @Test
     public void testVotesForQuestionPollEntryAreZero() {
-        QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
+        final QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
         questionPollJpaRepository.save(questionPollDao);
-        QuestionPollEntryDao questionPollEntryDao = questionPollDao.getEntryDaos().iterator().next();
+        final QuestionPollEntryDao questionPollEntryDao = questionPollDao.getEntryDaos().iterator().next();
         System.out.println("[+] QuestionPollEntryId: " + questionPollEntryDao.getId());
 
         assertThat(questionPollEntryDao.getUserVotesFor().size()).isEqualTo(0);

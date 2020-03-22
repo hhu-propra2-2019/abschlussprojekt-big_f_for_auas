@@ -41,19 +41,19 @@ public class FindDatePollEntryTests {
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
     public void setupDatePollRepoTest() {
-        Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
-        DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
-        UserId creator = new UserId("1234");
-        DatePollConfig datePollConfig = new DatePollConfig();
-        Set<UserId> participants = new HashSet<>();
+        final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
+        final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
+        final UserId creator = new UserId("1234");
+        final DatePollConfig datePollConfig = new DatePollConfig();
+        final Set<UserId> participants = new HashSet<>();
         for (int i = 0; i < 3; i++) {
-            UserId newUser = new UserId(Integer.toString(i));
+            final UserId newUser = new UserId(Integer.toString(i));
             participants.add(newUser);
         }
-        PollLink datePollLink = new PollLink();
-        Set<DatePollEntry> pollEntries = new HashSet<>();
+        final PollLink datePollLink = new PollLink();
+        final Set<DatePollEntry> pollEntries = new HashSet<>();
         for (int i = 0; i < 3; i++) {
-            DatePollEntry entry = new DatePollEntry(
+            final DatePollEntry entry = new DatePollEntry(
                     new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
             );
             pollEntries.add(entry);
@@ -71,8 +71,8 @@ public class FindDatePollEntryTests {
     }
     @Test
     public void findDatePollEntry() {
-        DatePollEntry datePollEntry = datePoll.getEntries().iterator().next();
-        DatePollEntryDao datePollEntryDao = datePollEntryRepositoryManager.
+        final DatePollEntry datePollEntry = datePoll.getEntries().iterator().next();
+        final DatePollEntryDao datePollEntryDao = datePollEntryRepositoryManager.
                 findDatePollEntryDao(datePoll.getPollLink(), datePollEntry);
         assertThat(datePollEntryDao.getTimespanDao().getStartDate()).
                 isEqualTo(datePollEntry.getSuggestedPeriod().getStartDate());
