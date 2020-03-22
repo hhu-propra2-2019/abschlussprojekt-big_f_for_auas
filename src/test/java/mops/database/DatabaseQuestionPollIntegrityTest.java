@@ -76,19 +76,15 @@ public class DatabaseQuestionPollIntegrityTest {
                 .participants(participants)
                 .pollLink(questionPollLink)
                 .build();
-        System.out.println("[+] UserId: " + creator.getId());
-        System.out.println("[+] Created QuestionPoll: " + questionPoll.getPollLink().getPollIdentifier());
     }
+
     @Test
     public void saveOneQuestionPollDao() {
         final QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
-        System.out.println("[+] UserId of QuestionPollDao: " + questionPollDao.getCreatorUserDao().getId());
         final String link = questionPollDao.getLink();
-        System.out.println("Output Link:" + questionPollDao.getLink());
         questionPollJpaRepository.save(questionPollDao);
         final QuestionPollDao questionpollFound = questionPollJpaRepository.findQuestionPollDaoByLink(link);
-        System.out.println("[+] Found QuestionPoll: " + questionpollFound.getLink());
-        System.out.println("[+] Found QuestionPoll: " + questionpollFound.getMetaInfDao().getQuestion());
+
         assertThat(questionpollFound.getLink()).isEqualTo(questionpollFound.getLink());
     }
     @SuppressWarnings("checkstyle:MagicNumber")
@@ -107,9 +103,6 @@ public class DatabaseQuestionPollIntegrityTest {
         questionPollJpaRepository.save(questionPollDao);
         final Set<QuestionPollEntryDao> questionPollEntryDaoSet = questionPollEntryJpaRepository
             .findByQuestionPoll(questionPollDao);
-        for (final QuestionPollEntryDao questionPollEntryDao : questionPollEntryDaoSet) {
-            System.out.println("[+] Found QuestionPollEntry: " + questionPollEntryDao.getId());
-        }
         assertThat(questionPollEntryDaoSet).hasSize(3);
     }
 
@@ -118,7 +111,6 @@ public class DatabaseQuestionPollIntegrityTest {
         final QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
         questionPollJpaRepository.save(questionPollDao);
         final QuestionPollEntryDao questionPollEntryDao = questionPollDao.getEntryDaos().iterator().next();
-        System.out.println("[+] QuestionPollEntryId: " + questionPollEntryDao.getId());
 
         assertThat(questionPollEntryDao.getUserVotesFor().size()).isEqualTo(0);
     }
