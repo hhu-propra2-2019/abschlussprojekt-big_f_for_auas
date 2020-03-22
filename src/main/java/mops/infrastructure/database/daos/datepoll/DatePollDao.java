@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
+import java.util.HashSet;
 import java.util.Set;
 
 // TODO: refactoring @data annotation -> entities shouldn't have @Data annotation only getters and setters
@@ -37,10 +38,10 @@ public class DatePollDao {
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
-    private Set<DatePollEntryDao> entryDaos;
+    private Set<DatePollEntryDao> entryDaos = new HashSet<>();
     @ManyToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private Set<UserDao> userDaos;
+    private Set<UserDao> userDaos = new HashSet<>();
 }

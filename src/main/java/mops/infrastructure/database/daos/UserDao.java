@@ -13,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -24,15 +25,16 @@ public class UserDao {
     @Id
     private Long id;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDaos")
-    private Set<DatePollDao> datePollSet;
+    private Set<DatePollDao> datePollSet = new HashSet<>();
+    //CascadeType.MERGE
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userVotesFor")
-    private Set<DatePollEntryDao> datePollEntrySet;
+    private Set<DatePollEntryDao> datePollEntrySet = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDaos")
-    private Set<QuestionPollDao> questionPollSet;
+    private Set<QuestionPollDao> questionPollSet = new HashSet<>();
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userVotesFor")
-    private Set<QuestionPollEntryDao> questionPollEntrySet;
+    private Set<QuestionPollEntryDao> questionPollEntrySet = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDaos")
-    private Set<GroupDao> groupSet;
+    private Set<GroupDao> groupSet = new HashSet<>();
 }

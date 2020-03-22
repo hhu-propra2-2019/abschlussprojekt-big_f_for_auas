@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
+import java.util.HashSet;
 import java.util.Set;
 @Getter
 @Setter
@@ -40,5 +41,5 @@ public class QuestionPollDao {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private Set<UserDao> userDaos;
+    private Set<UserDao> userDaos = new HashSet<>();
 }

@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -26,5 +27,5 @@ public class QuestionPollEntryDao {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private Set<UserDao> userVotesFor;
+    private Set<UserDao> userVotesFor = new HashSet<>();
 }

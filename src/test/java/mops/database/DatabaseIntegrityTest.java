@@ -111,4 +111,14 @@ public class DatabaseIntegrityTest {
         }
         assertThat(datePollEntryDaoSet).hasSize(3);
     }
+
+    @Test
+    public void testVotesForDatePollEntryAreZero() {
+        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
+        datePollJpaRepository.save(datePollDao);
+        DatePollEntryDao datePollEntry = datePollDao.getEntryDaos().iterator().next();
+        System.out.println("[+] DatePollEntryId: " + datePollEntry.getId());
+        Long numberVotes = userJpaRepository.countByDatePollEntrySetContaining(datePollEntry);
+        assertThat(numberVotes).isEqualTo(0);
+    }
 }

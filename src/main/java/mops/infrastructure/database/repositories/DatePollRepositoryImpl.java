@@ -26,6 +26,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @param link Eindeutig identifizierender link einer Terminfindung.
      * @return An Inputlink gekoppeltes DatePoll
      */
+    @Override
     public Optional<DatePoll> load(PollLink link) {
         //DatePollDao loaded = datePollJpaRepository.findDatePollDaoByLink(link.getDatePollIdentifier());
         //if (loaded != null) {

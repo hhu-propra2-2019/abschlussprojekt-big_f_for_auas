@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -30,7 +31,7 @@ public class DatePollEntryDao {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private DatePollDao datePoll;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<UserDao> userVotesFor;
+    private Set<UserDao> userVotesFor = new HashSet<>();
     @Embedded
     private TimespanDao timespanDao;
 }

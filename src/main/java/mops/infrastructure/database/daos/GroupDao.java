@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -19,5 +20,5 @@ class GroupDao {
     @GeneratedValue
     private Long id;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<UserDao> userDaos;
+    private Set<UserDao> userDaos = new HashSet<>();
 }
