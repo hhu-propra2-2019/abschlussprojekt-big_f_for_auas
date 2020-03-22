@@ -1,5 +1,6 @@
 package mops.infrastructure.database.daos.translator;
 
+import mops.domain.models.PollLink;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
@@ -37,7 +38,7 @@ public class DaoOfModel {
         PollRecordAndStatusDao pollRecordAndStatusDao =
                 DaoOfModel.pollRecordAndStatusDaoOf(poll.getRecordAndStatus());
 
-        String newLink = poll.getPollLink().getPollIdentifier();
+        String newLink = DaoOfModel.linkDaoOf(poll.getPollLink());
 
         UserDao creator = userDaoOf(poll.getCreator());
 
@@ -63,7 +64,7 @@ public class DaoOfModel {
         //PollRecordAndStatusDao pollRecordAndStatusDao =
         //        DaoOfModel.pollRecordAndStatusDaoOf(poll.getRecordAndStatus());
 
-        String newLink = poll.getPollLink().getPollIdentifier();
+        String newLink = DaoOfModel.linkDaoOf(poll.getPollLink());
 
         UserDao creator = userDaoOf(poll.getCreator());
 
@@ -167,5 +168,9 @@ public class DaoOfModel {
             userDaoSet.add(currentUser);
         }
         return userDaoSet;
+    }
+
+    public static String linkDaoOf(PollLink link) {
+        return link.getPollIdentifier();
     }
 }

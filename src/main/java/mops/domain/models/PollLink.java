@@ -20,6 +20,10 @@ public class PollLink implements ValidateAble {
         this.pollIdentifier = encodeUUIDtoBase64(uuid);
     }
 
+    public PollLink(UUID inputUuid) {
+        this.pollIdentifier = encodeUUIDtoBase64(inputUuid);
+    }
+
     /**
      * ...
      * @return ...
