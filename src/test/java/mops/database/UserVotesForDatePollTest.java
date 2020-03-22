@@ -13,10 +13,13 @@ import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
+import mops.infrastructure.database.daos.datepoll.PriorityChoiceDao;
+import mops.infrastructure.database.daos.datepoll.PriorityChoiceDaoKey;
+import mops.infrastructure.database.daos.datepoll.PriorityTypeEnum;
 import mops.infrastructure.database.daos.translator.DaoOfModel;
 import mops.infrastructure.database.repositories.DatePollEntryJpaRepository;
 import mops.infrastructure.database.repositories.DatePollJpaRepository;
-import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
+import mops.infrastructure.database.repositories.PriorityChoiceJpaRepository;
 import mops.infrastructure.database.repositories.UserJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,21 +28,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import static org.assertj.core.api.Assertions.assertThat;
-
 
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {MopsApplication.class, H2DatabaseConfigForTests.class})
 @Transactional
-public class DatabaseIntegrityTest {
+public class UserVotesForDatePollTest {
     @Autowired
-    private DatePollRepositoryImpl datePollRepository;
+    private PriorityChoiceJpaRepository priorityChoiceJpaRepository;
     @Autowired
     private DatePollJpaRepository datePollJpaRepository;
     @Autowired
@@ -76,49 +78,40 @@ public class DatabaseIntegrityTest {
                 .participants(participants)
                 .datePollLink(datePollLink)
                 .build();
-        System.out.println("[+] UserId: " + creator.getId());
-        System.out.println("[+] Created DatePoll: " + datePoll.getPollLink().getPollIdentifier());
-    }
-    @Test
-    public void saveOneDatePollDao() {
-        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
-        System.out.println("[+] UserId of DatePollDao: " + datePollDao.getCreatorUserDao().getId());
-        String link = datePollDao.getLink();
-        System.out.println("Output Link:" + datePollDao.getLink());
-        datePollJpaRepository.save(datePollDao);
-        DatePollDao datepollFound = datePollJpaRepository.findDatePollDaoByLink(link);
-        System.out.println("[+] Found DatePoll: " + datepollFound.getLink());
-        System.out.println("[+] Found DatePoll: " + datepollFound.getMetaInfDao().getLocation());
-        assertThat(datepollFound.getLink()).isEqualTo(datepollFound.getLink());
-    }
-    @SuppressWarnings("checkstyle:MagicNumber")
-    @Test
-    public void testUsersOfDatePollPresence() {
-        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
-        datePollJpaRepository.save(datePollDao);
-        Set<UserDao> userDaoSet = userJpaRepository.findByDatePollSetContains(datePollDao);
-        userDaoSet.forEach(userDao -> System.out.println("[+] Found User: " + userDao.getId()));
-        assertThat(userDaoSet).hasSize(3);
-    }
-    @SuppressWarnings("checkstyle:MagicNumber")
-    @Test
-    public void testDatePollEntryPresence() {
-        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
-        datePollJpaRepository.save(datePollDao);
-        Set<DatePollEntryDao> datePollEntryDaoSet = datePollEntryJpaRepository.findByDatePoll(datePollDao);
-        for (DatePollEntryDao datePollEntryDao : datePollEntryDaoSet) {
-            System.out.println("[+] Found DatePollEntry: " + datePollEntryDao.getId());
-        }
-        assertThat(datePollEntryDaoSet).hasSize(3);
+        datePollJpaRepository.save(DaoOfModel.pollDaoOf(datePoll));
     }
 
     @Test
-    public void testVotesForDatePollEntryAreZero() {
-        DatePollDao datePollDao = DaoOfModel.pollDaoOf(datePoll);
-        datePollJpaRepository.save(datePollDao);
-        DatePollEntryDao datePollEntry = datePollDao.getEntryDaos().iterator().next();
-        System.out.println("[+] DatePollEntryId: " + datePollEntry.getId());
-        Long numberVotes = userJpaRepository.countByDatePollEntrySetContaining(datePollEntry);
-        assertThat(numberVotes).isEqualTo(0);
+    public void testUserVotesForDatePollEntry() {
+        DatePollDao datePollDao = datePollJpaRepository.
+                findDatePollDaoByLink(datePoll.getPollLink().getPollIdentifier());
+        DatePollEntryDao datePollEntryDao = datePollDao.getEntryDaos().iterator().next();
+        UserDao userDao = datePollDao.getUserDaos().iterator().next();
+        datePollEntryDao.getUserVotesFor().add(userDao);
+        userDao.getDatePollEntrySet().add(datePollEntryDao);
+        datePollEntryJpaRepository.save(datePollEntryDao);
+        userJpaRepository.save(userDao);
+        Long number = userJpaRepository.countByDatePollEntrySetContaining(datePollEntryDao);
+        assertThat(datePollDao).isNotNull();
+        assertThat(number).isEqualTo(1);
+    }
+    @Test
+    public void testUserPriorityForDatePollEntryIsNotAppreciated() {
+        //Get DatePoll and datePollEntryDao
+        DatePollDao datePollDao = datePollJpaRepository.
+                findDatePollDaoByLink(datePoll.getPollLink().getPollIdentifier());
+        DatePollEntryDao datePollEntryDao = datePollDao.getEntryDaos().iterator().next();
+        UserDao userDao = datePollDao.getUserDaos().iterator().next();
+
+        PriorityChoiceDao priorityChoiceDao = new PriorityChoiceDao();
+        priorityChoiceDao.setDatePollEntry(datePollEntryDao);
+        priorityChoiceDao.setParticipant(userDao);
+        priorityChoiceDao.setDatePollPriority(PriorityTypeEnum.NOT_APPRECIATED);
+        PriorityChoiceDaoKey priorityChoiceDaoKey = new PriorityChoiceDaoKey();
+        priorityChoiceDao.setId(priorityChoiceDaoKey);
+        priorityChoiceJpaRepository.save(priorityChoiceDao);
+        priorityChoiceDao = priorityChoiceJpaRepository.getOne(priorityChoiceDaoKey);
+        assertThat(priorityChoiceDao.getDatePollPriority())
+                .isEqualByComparingTo(PriorityTypeEnum.NOT_APPRECIATED);
     }
 }
