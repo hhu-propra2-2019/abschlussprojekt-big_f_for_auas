@@ -50,12 +50,12 @@ public class ModelOfDao {
         Set<User> participants = extractUser(pollDao.getUserDaos());
         Set<UserId> participantIds = extractIds(participants);
 
-        //TODO: add
+        //TODO: add (same for Datepoll and Questionpoll ???)
         Set<DatePollBallot> ballots = null;
 
         PollLink newLink = ModelOfDao.linkOf(pollDao.getLink());
 
-        DatePoll datePoll = new DatePoll(
+        return new DatePoll(
                 (DatePollRecordAndStatus) pollRecordAndStatus,
                 metaInf,
                 creator.getId(),
@@ -65,8 +65,6 @@ public class ModelOfDao {
                 ballots,
                 newLink
         );
-
-        return datePoll;
     }
     public static QuestionPoll pollOf(QuestionPollDao pollDao) {
         PollRecordAndStatus pollRecordAndStatus =
@@ -88,11 +86,9 @@ public class ModelOfDao {
         //TODO: add (same for Datepoll and Questionpoll ???)
         Set<QuestionPollBallot> ballots = null;
 
-        //TODO: need method to set specific link
         PollLink newLink = ModelOfDao.linkOf(pollDao.getLink());
 
-        //TODO: add pollRecordAndStatus
-        QuestionPoll questionPoll = new QuestionPoll(
+        return new QuestionPoll(
                 pollRecordAndStatus,
                 metaInf,
                 creator.getId(),
@@ -102,8 +98,6 @@ public class ModelOfDao {
                 ballots,
                 newLink
         );
-
-        return questionPoll;
     }
 
     public static PollRecordAndStatus pollRecordAndStatusOf(PollRecordAndStatusDao dao) {
@@ -132,7 +126,6 @@ public class ModelOfDao {
         );
     }
 
-    //TODO: geht so nicht wegen Id !!!
     public static User userOf(UserDao dao) {
         UserId userId = new UserId(Long.toString(dao.getId()));
         return new User(userId);

@@ -87,7 +87,7 @@ public class DaoOfModel {
 
     private static QuestionPollEntryDao entryDaoOf(QuestionPollEntry questionPollEntry, QuestionPollDao questionPollDao) {
         QuestionPollEntryDao entry = new QuestionPollEntryDao();
-        //TODO: set questionPoll?
+        entry.setQuestionPoll(questionPollDao);
         entry.setEntryName(questionPollEntry.getTitle());
         return entry;
     }
