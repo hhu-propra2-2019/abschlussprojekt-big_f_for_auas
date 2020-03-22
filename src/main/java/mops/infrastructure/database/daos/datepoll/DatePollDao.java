@@ -1,6 +1,7 @@
 package mops.infrastructure.database.daos.datepoll;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.UserDao;
@@ -22,6 +23,7 @@ import java.util.Set;
 @Setter
 @Entity(name = "DatePoll")
 @Table(name = "datepoll")
+@NoArgsConstructor
 public class DatePollDao {
     @Id
     private String link;

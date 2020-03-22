@@ -5,8 +5,10 @@ import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.PollDescription;
 import mops.domain.models.datepoll.DatePollLocation;
 import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
+import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollConfigDao;
@@ -18,11 +20,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 
+@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:WhitespaceAfter"})
 public class TranslatorTests {
-    //TODO: add
     @Test
     public void recordAndStatusTest() {
-        return;
+        LocalDateTime lastModified = LocalDateTime.of(2020, 3, 20, 12, 30);
+        PollRecordAndStatusDao dao = new PollRecordAndStatusDao(lastModified);
+
+        PollRecordAndStatus pollRecordAndStatus = ModelOfDao.pollRecordAndStatusOf(dao);
+
+        assertThat(pollRecordAndStatus.getLastModified()).isEqualTo(lastModified);
     }
 
     @Test
@@ -30,8 +37,8 @@ public class TranslatorTests {
         String title = "TestDAO";
         String description = "TestMetaInfDao";
         String location = "TestLocation";
-        LocalDateTime startDate = LocalDateTime.of(2020,3,20,12, 30);
-        LocalDateTime endDate = LocalDateTime.of(2020,6,5,5, 20);
+        LocalDateTime startDate = LocalDateTime.of(2020, 3, 20, 12, 30);
+        LocalDateTime endDate = LocalDateTime.of(2020, 6, 5, 5, 20);
         TimespanDao testLifeCycleDao = new TimespanDao(startDate, endDate);
         DatePollMetaInfDao dao = new DatePollMetaInfDao(
                 title, description, location, testLifeCycleDao
@@ -46,7 +53,6 @@ public class TranslatorTests {
         assertThat(metaInf.getTimespan().getEndDate()).isEqualTo(endDate);
     }
 
-    //TODO: geht so nicht wegen Id !!!
     @Test
     public void userTest() {
         long userId = 1232454412L;
@@ -55,7 +61,7 @@ public class TranslatorTests {
 
         User user = ModelOfDao.userOf(dao);
 
-        assertThat(user.getId()).isEqualTo(new UserId(Long.toString(userId)));
+        assertThat(user.getId().getId()).isEqualTo(Long.toString(userId));
     }
 
     @Test
@@ -93,17 +99,18 @@ public class TranslatorTests {
     }
 
     @Test
-    public void linkTest() {
+    public void toDAOrecordAndStatusTest() {
+        LocalDateTime lastModified = LocalDateTime.of(2020, 3, 20, 12, 30);
+        PollRecordAndStatus pollRecordAndStatus = new PollRecordAndStatus();
+        pollRecordAndStatus.setLastModified(lastModified);
 
+        PollRecordAndStatusDao dao = DaoOfModel.pollRecordAndStatusDaoOf(pollRecordAndStatus);
+
+        assertThat(dao.getLastmodified()).isEqualTo(lastModified);
     }
 
     @Test
-    public void toDAO_recordAndStatusTest() {
-        return;
-    }
-
-    @Test
-    public void toDAO_metaInfTest() {
+    public void toDAOmetaInfTest() {
         String title = "Test";
         String description = "TestMetaInf";
         String location = "TestLocation";
@@ -126,14 +133,18 @@ public class TranslatorTests {
         assertThat(metaInfDao.getTimespan().getEndDate()).isEqualTo(endDate);
     }
 
-    //TODO: geht so nicht wegen Id !!!
     @Test
-    public void toDAO_userTest() {
-        return;
+    public void toDAOuserTest() {
+        long id = 1232454412L;
+        UserId userId = new UserId(Long.toString(id));
+
+        UserDao dao = DaoOfModel.userDaoOf(userId);
+
+        assertThat(dao.getId()).isEqualTo(id);
     }
 
     @Test
-    public void toDAO_configTest() {
+    public void toDAOconfigTest() {
         boolean voteIsEditable = true;
         boolean openForOwnEntries = false;
         boolean singleChoice = false;
@@ -155,12 +166,12 @@ public class TranslatorTests {
     }
 
     @Test
-    public void toDAO_entryTest() {
+    public void toDAOentryTest() {
         return;
     }
 
     @Test
-    public void toDAO_ballotTest() {
+    public void toDAOballotTest() {
         return;
     }
 }

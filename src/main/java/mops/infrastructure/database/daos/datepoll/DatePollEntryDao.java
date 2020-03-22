@@ -2,6 +2,7 @@ package mops.infrastructure.database.daos.datepoll;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
@@ -23,6 +24,7 @@ import java.util.Set;
 @Setter
 @Entity(name = "DatePollEntryDao")
 @Table(name = "datepollentry")
+@NoArgsConstructor
 public class DatePollEntryDao {
     //TODO: add yes/maybe/no votes ???
     @Id

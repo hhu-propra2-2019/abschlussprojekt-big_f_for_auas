@@ -3,11 +3,7 @@ package mops.domain.models.datepoll;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
-import mops.domain.models.PollFields;
-import mops.domain.models.PollLink;
-import mops.domain.models.Timespan;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
+import mops.domain.models.*;
 import mops.domain.models.user.UserId;
 
 import java.util.EnumSet;
@@ -184,7 +180,7 @@ public final class DatePollBuilder {
         return this;
     }
 
-    /*
+    /**
      * Baut das DatePoll Objekt, wenn alle Konstruktionssteps mind. 1 mal erfolgreich waren.
      *
      * @return Ein DatePoll Objekt in einem validen State.
@@ -193,11 +189,19 @@ public final class DatePollBuilder {
         if (validationState.hasNoErrors() && validatedFields.equals(VALID_SET)) {
             return new DatePoll(
                     new DatePollRecordAndStatus(),
-                    metaInfTarget, pollCreatorTarget, configTarget,
-                    pollEntryTargets, pollParticipantTargets,
-                    new HashSet<DatePollBallot>(), linkTarget
+                    metaInfTarget,
+                    pollCreatorTarget,
+                    configTarget,
+                    pollEntryTargets,
+                    pollParticipantTargets,
+                    new HashSet<DatePollBallot>(),
+                    linkTarget
             );
         } else {
+            EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
+            for (FieldErrorNames error : errorNames) {
+                System.out.println(error);
+            }
             throw new IllegalStateException(COULD_NOT_CREATE);
         }
     }

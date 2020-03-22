@@ -1,4 +1,5 @@
 package mops.infrastructure.database.daos.questionpoll;
+import lombok.NoArgsConstructor;
 import mops.infrastructure.database.daos.PollStatusEnum;
 import mops.infrastructure.database.daos.UserDao;
 
@@ -13,6 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "questionpollstatus")
+@NoArgsConstructor
 public class QuestionPollStatusDao {
     @EmbeddedId
     private QuestionPollStatusDaoKey id;
