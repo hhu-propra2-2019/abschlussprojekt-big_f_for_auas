@@ -13,7 +13,7 @@ import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.translator.DaoOfModel;
 import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
-import mops.infrastructure.database.repositories.DatePollJpaRepository;
+import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

@@ -4,12 +4,17 @@ import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
+import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
-import mops.infrastructure.database.daos.translator.DaoOfModel;
+import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
+import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
+import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.util.List;
+
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class DatePollRepositoryImpl implements DatePollRepository {
@@ -28,11 +33,9 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @Override
     public Optional<DatePoll> load(PollLink link) {
-        //DatePollDao loaded = datePollJpaRepository.findDatePollDaoByLink(link.getDatePollIdentifier());
-        //if (loaded != null) {
-        //    return DatePollDao.to(loaded);
-        //}
-        return Optional.empty();
+        DatePollDao loaded = datePollJpaRepository.findDatePollDaoByLink(link.getPollIdentifier());
+        DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
+        return Optional.of(targetDatePoll);
     }
 
     /**
@@ -41,7 +44,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @Override
     public void save(DatePoll datePoll) {
-        datePollJpaRepository.save(DaoOfModel.pollDaoOf(datePoll));
+        datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll));
     }
 
     /**
@@ -50,24 +53,12 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @return List<DatePoll>
      */
     @Override
-    public List<DatePoll> getDatePollsByUserId(UserId userId) {
-        throw new UnsupportedOperationException();
-    }
-    /**
-     * Dopplung mit load.
-     * @param datePollLink
-     * @return DatePollDao
-     */
-    public DatePollDao getDatePollDao(String datePollLink) {
-        return datePollJpaRepository.findDatePollDaoByLink(datePollLink);
-    }
-    /**
-     * Dopplung mit load.
-     * @param pollLink
-     * @return DatePoll
-     */
-    @Override
-    public DatePoll getDatePollByLink(PollLink pollLink) {
-        throw new UnsupportedOperationException();
+    public Set<DatePoll> getDatePollsByUserId(UserId userId) {
+        UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
+        Set<DatePollDao> datePollDaosFromUser = datePollJpaRepository.findDatePollDaoByUserDaosContaining(targetUser);
+        Set<DatePoll> targetDatePolls = new HashSet<>();
+        datePollDaosFromUser.forEach(
+                datePollDao -> targetDatePolls.add(ModelOfDaoUtil.pollOf(datePollDao)));
+        return targetDatePolls;
     }
 }

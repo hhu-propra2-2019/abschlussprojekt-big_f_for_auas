@@ -1,4 +1,4 @@
-package mops.infrastructure.database.repositories;
+package mops.infrastructure.database.repositories.interfaces;
 
 import mops.infrastructure.database.daos.datepoll.PriorityChoiceDao;
 import mops.infrastructure.database.daos.datepoll.PriorityChoiceDaoKey;

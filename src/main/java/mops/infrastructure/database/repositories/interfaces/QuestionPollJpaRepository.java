@@ -1,4 +1,4 @@
-package mops.infrastructure.database.repositories;
+package mops.infrastructure.database.repositories.interfaces;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
