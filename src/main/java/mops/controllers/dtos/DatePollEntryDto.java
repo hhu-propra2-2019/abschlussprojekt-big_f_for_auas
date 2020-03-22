@@ -18,8 +18,7 @@ public class DatePollEntryDto {
 
     private Timespan timespan ;
 
-    private boolean votedFor;
-    private String title;
+    private boolean votedFor = true;
 
 
     public DatePollEntryDto(LocalDateTime start, LocalDateTime end) {
@@ -29,7 +28,12 @@ public class DatePollEntryDto {
     }
 
     public DatePollEntryDto(Timespan timespan) {
+        this(timespan.getStartDate(), timespan.getEndDate());
         this.timespan = timespan;
+    }
+
+    public String plainString() {
+        return startDate.toString() + "@"+ endDate.toString();
     }
 
     public String formatString() {
@@ -37,8 +41,8 @@ public class DatePollEntryDto {
         String startDateTime = startDate.format(DateTimeFormatter.ofPattern("HH:mm"));
         String startDateDate = startDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
-        String endDateTime = startDate.format(DateTimeFormatter.ofPattern("HH:mm"));
-        String endDateDate = startDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        String endDateTime = endDate.format(DateTimeFormatter.ofPattern("HH:mm"));
+        String endDateDate = endDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
         return startDateDate + " " + startDateTime +" Uhr " +" bis " + endDateDate + " " + endDateTime +" Uhr ";
     }

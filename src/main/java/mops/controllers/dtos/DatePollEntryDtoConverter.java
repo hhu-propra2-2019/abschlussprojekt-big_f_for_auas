@@ -12,11 +12,22 @@ public class DatePollEntryDtoConverter implements Converter<String, DatePollEntr
 
     @Override
     public DatePollEntryDto convert(String id) {
-        //LocalDateTime times = LocalDateTime.parse(id);
-        DatePollEntryDto entryDto = new DatePollEntryDto();
-        System.out.println("DEBUG : " + id);
-        System.out.println("---------------------------");
-        //System.out.println(times);
-        return new DatePollEntryDto(new Timespan(LocalDateTime.now(), LocalDateTime.now()));
+        System.out.println(id);
+        String[] timeArr = id.split("@");
+
+        String strTime1 = timeArr[0];
+        String strTime2 = timeArr[1];
+
+        System.out.println(strTime1);
+        System.out.println(strTime2);
+
+        LocalDateTime time1 = LocalDateTime.parse(strTime1);
+        LocalDateTime time2 = LocalDateTime.parse(strTime2);
+
+
+        Timespan timespan = new Timespan(time1, time2);
+        System.out.println("-------------------DEBUG-------------");
+        return new DatePollEntryDto(timespan);
     }
+
 }

@@ -3,11 +3,8 @@ package mops.controllers;
 import mops.adapters.datepolladapter.DatePollEntryAdapter;
 import mops.controllers.dtos.DatePollBallotDto;
 import mops.controllers.dtos.DatePollEntryDto;
-import mops.controllers.dtos.FormattedDatePollEntryDto;
-import mops.domain.models.datepoll.DatePollEntry;
-import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.Timespan;
 import mops.domain.models.user.UserId;
-import org.apache.tomcat.jni.Local;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +15,6 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -53,33 +48,24 @@ public class DatePollVoteController {
 
         LocalDateTime time1 = LocalDateTime.of(2020, 03, 22, 16, 15, 27);
         LocalDateTime time2 = LocalDateTime.of(2021, 04, 29, 16, 15, 27);
+        Timespan timespan = new Timespan(time1, time2);
 
-        DatePollEntryDto entry1 = new DatePollEntryDto(time1, time2);
-        DatePollEntryDto entry2 = new DatePollEntryDto(LocalDateTime.now(), LocalDateTime.now());
-        DatePollEntryDto entry3 = new DatePollEntryDto(LocalDateTime.now(), LocalDateTime.now());
-        DatePollEntryDto entry4 = new DatePollEntryDto(LocalDateTime.now(), LocalDateTime.now());
-        DatePollEntryDto entry5 = new DatePollEntryDto(LocalDateTime.now(), LocalDateTime.now());
-        entry1.setTitle("ECHTER TITEL !!einself");
-        entry2.setTitle("WTF2");
-        entry3.setTitle("WTF3");
-        entry4.setTitle("WTF4");
-        entry5.setTitle("WTF5");
 
-        entries.add(entry1);
-        entries.add(entry2);
-        entries.add(entry3);
-        entries.add(entry4);
-        entries.add(entry5);
+        DatePollEntryDto entry1 = new DatePollEntryDto(timespan);
+        DatePollEntryDto entry2 = new DatePollEntryDto(time1.minusMonths(32).minusHours(6).plusWeeks(3), time2.plusMonths(29).minusWeeks(23).plusHours(3));
+        DatePollEntryDto entry3 = new DatePollEntryDto(time1.minusMonths(1).minusHours(12).plusWeeks(-3), time2.plusMonths(29).minusWeeks(23).plusHours(3));
+        DatePollEntryDto entry4 = new DatePollEntryDto(time1.minusMonths(9).minusHours(4).plusWeeks(15), time2.plusMonths(29).minusWeeks(23).plusHours(3));
+        DatePollEntryDto entry5 = new DatePollEntryDto(time1.minusMonths(5).minusHours(7).plusWeeks(13), time2.plusMonths(29).minusWeeks(23).plusHours(3));
+
 
         DatePollBallotDto balllot = new DatePollBallotDto(createUserIdFromPrincipal(token));
-//        balllot.addEntries(entry1);
-//        balllot.addEntries(entry2);
-//        balllot.addEntries(entry3);
-//        balllot.addEntries(entry4);
-//        balllot.addEntries(entry5);
+        balllot.addEntries(entry1);
+        balllot.addEntries(entry2);
+        balllot.addEntries(entry3);
+        balllot.addEntries(entry4);
+        balllot.addEntries(entry5);
 
         System.out.println();
-        model.addAttribute("entries", entries);
         model.addAttribute("ballot", balllot);
         return "mobilePollVote";
     }
@@ -94,10 +80,15 @@ public class DatePollVoteController {
 
     @PostMapping("/vote/{link}")
     public String votePoll(@ModelAttribute("ballot") DatePollBallotDto ballot, Model model, @PathVariable String link,  KeycloakAuthenticationToken token) {
-       // System.out.println(ballot.getSelectedEntriesYes().size());
+        System.out.println(ballot.getEntries().size());
         ballot.setUser(createUserIdFromPrincipal(token));
-        System.out.println(ballot);
-        System.out.println(ballot.getSelectedEntriesYes());
+
+        System.out.println("User " + ballot.getUser() + " stimmt ja ab für : ");
+        for(DatePollEntryDto entry : ballot.getEntries()) {
+            System.out.println(entry.formatString());
+            System.out.println(entry.isVotedFor());
+        }
+//        System.out.println(ballot.getEntries().iterator().next());
         return "redirect:/";
     }
 }
