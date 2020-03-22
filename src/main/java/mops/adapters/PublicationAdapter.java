@@ -51,8 +51,17 @@ public class PublicationAdapter {
         return true;
     }
 
-    @SuppressWarnings("PMD.LawOfDemeter")
+    @SuppressWarnings("PMD.LawOfDemeter")//NOPMD
     private boolean validateGroupsAndUsers(PublicationDto publicationDto, MessageContext context) {
+        if (publicationDto.getPeople().isBlank() && publicationDto.getGroups().isBlank()) {
+            context.addMessage(new MessageBuilder()
+                    .error()
+                    .code("PUBLICATION_PRIVATE_NO_PARTICIPANTS")
+                    .source("ispublic")
+                    .build());
+            publicationDto.setIspublic(true);
+            return false;
+        }
         final Set<UserId> invalidUsers = invalidUsers(publicationDto);
         final Set<GroupId> invalidGroups = invalidGroups(publicationDto);
         if (!invalidUsers.isEmpty() || !invalidGroups.isEmpty()) {
@@ -78,6 +87,7 @@ public class PublicationAdapter {
         return groups.map(GroupId::new).dropWhile(groupService::groupExists).collect(Collectors.toSet());
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private void mapUserErrors(Set<UserId> invalidUsers, MessageContext context) {
         if (invalidUsers.isEmpty()) {
             return;
@@ -86,10 +96,11 @@ public class PublicationAdapter {
                 .error()
                 .code("PUBLICATION_USERS_NOT_FOUND")
                 .source("people")
-                .resolvableArg(invalidUsers)
+                .resolvableArg(invalidUsers.stream().map(UserId::toString).collect(Collectors.joining(", ")))
                 .build());
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private void mapGroupErrors(Set<GroupId> invalidGroups, MessageContext context) {
         if (invalidGroups.isEmpty()) {
             return;
@@ -98,7 +109,7 @@ public class PublicationAdapter {
                 .error()
                 .code("PUBLICATION_GROUPS_NOT_FOUND")
                 .source("groups")
-                .resolvableArg(invalidGroups)
+                .resolvableArg(invalidGroups.stream().map(GroupId::toString).collect(Collectors.joining(", ")))
                 .build());
     }
 }

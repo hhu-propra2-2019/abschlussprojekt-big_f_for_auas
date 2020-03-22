@@ -10,32 +10,42 @@
 <body>
     <form method="post" th:fragment="form"
           th:object="${publicationDto}" th:action="${flowExecutionUrl}">
+
+        <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
+
+        <div class="alert alert-warning" th:errors="*{ispublic}" th:text="${err}"></div>
+
         <div class="form-group">
             <label for="publication-link">Dein Link</label>
             <input type="text" class="form-control" id="publication-link" th:value="*{link}" readonly>
         </div>
+
         <div class="form-group">
             <label>Berechtigungen</label>
             <div class="form-check">
-                <input class="form-check-input" id="publication-accessibility" type="checkbox">
+                <input class="form-check-input" id="publication-accessibility" th:field="*{ispublic}" type="checkbox">
                 <label for="publication-accessibility">Öffentliche Umfrage</label>
             </div>
         </div>
+
         <div class="form-group">
             <label for="publication-person">Person hinzufügen</label>
             <input class="form-control tagsinput" id="publication-person" th:field="*{people}" placeholder="Username"
                    th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('people'), #fields.hasAnyErrors())}">
             <div class="invalid-feedback" th:errors="*{people}"></div>
         </div>
+
         <div class="form-group">
             <label for="publication-gruppe">Gruppe hinzufügen</label>
             <input class="form-control tagsinput" id="publication-gruppe" th:field="*{groups}" placeholder="Gruppenname"
                    th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('groups'), #fields.hasAnyErrors())}">
             <div class="invalid-feedback" th:errors="*{groups}"></div>
         </div>
+
         <button type="submit" name="_eventId_confirmation"  class="btn btn-primary float-right mt-5">Weiter</button>
         <button type="submit" name="_eventId_entries"  class="btn btn-primary float-left mt-5">Zurück</button>
-    <script type="text/javascript">$('.tagsinput').tagsInput();</script>
+
+        <script type="text/javascript">$('.tagsinput').tagsInput();</script>
     </form>
 </body>
 </html>

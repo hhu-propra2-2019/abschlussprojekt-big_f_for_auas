@@ -1,14 +1,14 @@
-package mops.adapters.datepolladapter.dtos;
+package mops.adapters.dtos;
 
 import lombok.Getter;
 
 // Um die nicht gemappten Fehlermeldungen einfacher anzeigen zu können, muss jedes Dto hiervon erben.
 // Der Wert von defaulterrors ist unwichtig, das Feld muss nur vorhanden sein.
 @Getter
-class GeneralDto {
+public class GeneralDto {
     private final boolean defaulterrors;
 
-    /* default */ GeneralDto() {
+    public GeneralDto() {
         defaulterrors = false;
     }
 }

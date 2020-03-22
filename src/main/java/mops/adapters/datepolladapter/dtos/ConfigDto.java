@@ -2,6 +2,7 @@ package mops.adapters.datepolladapter.dtos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import mops.adapters.dtos.GeneralDto;
 
 import java.io.Serializable;
 
