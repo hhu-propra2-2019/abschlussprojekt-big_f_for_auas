@@ -34,7 +34,7 @@ public class PublicationAdapter {
     }
 
     /**
-     * Hier sollte der Link aus dem PublicationService geholt werden.
+     * TODO: Hier sollte der Link aus dem PublicationService geholt werden.
      *
      * @return ...
      */

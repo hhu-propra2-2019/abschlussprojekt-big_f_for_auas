@@ -6,12 +6,12 @@
 
   <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
 
-  <view-state id="mobilePollNameSettings" view="/flows/definitions/poll/poll/mobilePollNameSettings">
+  <view-state id="mobilePollNameSettings" view="/flows/poll/mobilePollNameSettings">
     <transition on="home" to="home"/>
     <transition on="access" to="mobilePollAccessSettings"/>
   </view-state>
 
-  <view-state id="mobilePollAccessSettings" view="/flows/definitions/poll/poll/mobilePollAccessSettings">
+  <view-state id="mobilePollAccessSettings" view="/flows/poll/mobilePollAccessSettings">
     <transition on="name" to="mobilePollNameSettings"/>
     <transition on="choicesettings" to="mobilePollChoiceSettings"/>
   </view-state>
