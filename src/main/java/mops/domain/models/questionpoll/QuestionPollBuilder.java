@@ -26,7 +26,7 @@ public class QuestionPollBuilder {
     private transient QuestionPollConfig configTarget;
     private transient QuestionPollMetaInf metaInfTarget;
     private final transient Set<QuestionPollEntry> entriesTarget = new HashSet<>();
-    private final transient Set<UserId> participants = new HashSet<>();
+    private final transient Set<UserId> participantsTarget = new HashSet<>();
 
     @Getter
     private static final EnumSet<PollFields> VALIDSET = EnumSet.of(
@@ -57,7 +57,7 @@ public class QuestionPollBuilder {
         return newValidation.hasNoErrors() ? Optional.of(validateAble) : Optional.empty();
     }
 
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis", "PMD.UnusedPrivateMethod"})
     private <T extends ValidateAble> void validationProcessAndValidationHandling(
         T validateAble, Consumer<T> applyToValidated, PollFields addToFieldsAfterSuccessfulValidation) {
         validationProcess(validateAble, addToFieldsAfterSuccessfulValidation).ifPresent(validated -> {
@@ -136,8 +136,8 @@ public class QuestionPollBuilder {
      * @return Referenz auf diesen QuestionPollBuilder.
      */
     public QuestionPollBuilder participants(Set<UserId> participants) {
-        this.participants.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPANTS));
-        if (!this.participants.isEmpty()) {
+        this.participantsTarget.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPANTS));
+        if (!this.participantsTarget.isEmpty()) {
             validatedFields.add(PollFields.PARTICIPANTS);
         }
         return this;
@@ -170,7 +170,7 @@ public class QuestionPollBuilder {
                     creatorTarget,
                     configTarget,
                     entriesTarget,
-                    participants,
+                    participantsTarget,
                     new HashSet<QuestionPollBallot>(),
                     linkTarget
             );
