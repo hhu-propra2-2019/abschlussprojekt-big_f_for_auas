@@ -10,7 +10,7 @@
 <body>
 
 
-<form th:action method="post" th:fragment="voteform" th:object="${ballot}">
+<form th:action method="post" th:fragment="voteform" th:object="${overview}">
     <div class="row">
         <div class="col-md-4">
             <div class="card">
@@ -20,11 +20,11 @@
                     <p class="mb-0">Abstimmungsbeschreibung</p>
                 </div>
                 <hr>
-                <div th:each="entry : *{entries}" class="ml-4">
+                <div th:each="entry : *{allEntries}" class="ml-4">
                     <div class="form-check mb-4">
                         <!--<input type="checkbox" th:field="*{entries}" th:value="${entry.getId()}" />-->
-                        <input type="checkbox" th:field="*{entries}" th:value="${entry.getId('ja')}" onchange="toggleGroup(this)"/>
-                        <input class="ml-2" type="checkbox" th:field="*{entries}" th:value="${entry.getId('vielleicht')}" onchange="toggleGroup(this)"/>
+                        <input type="checkbox" th:field="*{votedYes}" th:value="${entry.getId()}" onchange="toggleGroup(this)"/>
+                        <input class="ml-2" type="checkbox" th:field="*{votedMaybe}" th:value="${entry.getId()}" onchange="toggleGroup(this)"/>
 
                         <label class="form-check-label ml-4 align-middle">
                             <b><span th:text="${entry.formatStringDate()}"></span><br/></b>

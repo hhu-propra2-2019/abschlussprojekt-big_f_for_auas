@@ -3,9 +3,7 @@ package mops.controllers.dtos;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mops.domain.models.Timespan;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,9 +13,6 @@ public class DatePollEntryDto {
 
     private Timespan timespan;
 
-    private String votedFor;
-
-
     public DatePollEntryDto(LocalDateTime start, LocalDateTime end) {
         timespan = new Timespan(start, end);
     }
@@ -25,6 +20,7 @@ public class DatePollEntryDto {
     public DatePollEntryDto(Timespan timespan) {
         this.timespan = timespan;
     }
+
 
     public String getId() {
         return timespan.getStartDate().toString() + "@" + timespan.getEndDate().toString();

@@ -1,9 +1,8 @@
 package mops.controllers;
 
-import mops.adapters.datepolladapter.DatePollEntryAdapter;
-import mops.controllers.dtos.DatePollBallotDto;
 import mops.controllers.dtos.DatePollEntryDto;
-import mops.domain.models.Timespan;
+import mops.adapters.datepolladapter.FakeDatePollEntryAdapter;
+import mops.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.user.UserId;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
@@ -13,17 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-
 @Controller
 @SessionScope
 public class DatePollVoteController {
 
-    private final transient DatePollEntryAdapter entryAdapter;
+
+    private final transient FakeDatePollEntryAdapter entryAdapter;
+
     @Autowired
-    public DatePollVoteController(DatePollEntryAdapter adapter) {
+    public DatePollVoteController(FakeDatePollEntryAdapter adapter) {
         this.entryAdapter = adapter;
     }
 
@@ -43,30 +40,11 @@ public class DatePollVoteController {
      */
     @GetMapping("/vote/{link}")
     public String showPoll(Model model, @PathVariable String link, KeycloakAuthenticationToken token) {
- //       final Set<FormattedDatePollEntryDto> formattedEntries = entryAdapter.getAllEntriesFormatted(link);
-        final Set<DatePollEntryDto> entries = new HashSet<>();
 
-        LocalDateTime time1 = LocalDateTime.of(2020, 03, 22, 16, 15, 27);
-        LocalDateTime time2 = LocalDateTime.of(2021, 04, 29, 16, 15, 27);
-        Timespan timespan = new Timespan(time1, time2);
-
-
-        DatePollEntryDto entry1 = new DatePollEntryDto(timespan);
-        DatePollEntryDto entry2 = new DatePollEntryDto(time1.minusMonths(32).minusHours(6).plusWeeks(3), time2.plusMonths(29).minusWeeks(23).plusHours(3));
-        DatePollEntryDto entry3 = new DatePollEntryDto(time1.minusMonths(1).minusHours(12).plusWeeks(-3), time2.plusMonths(29).minusWeeks(23).plusHours(3));
-        DatePollEntryDto entry4 = new DatePollEntryDto(time1.minusMonths(9).minusHours(4).plusWeeks(15), time2.plusMonths(29).minusWeeks(23).plusHours(3));
-        DatePollEntryDto entry5 = new DatePollEntryDto(time1.minusMonths(5).minusHours(7).plusWeeks(13), time2.plusMonths(29).minusWeeks(23).plusHours(3));
-
-
-        DatePollBallotDto balllot = new DatePollBallotDto(createUserIdFromPrincipal(token));
-        balllot.addEntries(entry1);
-        balllot.addEntries(entry2);
-        balllot.addEntries(entry3);
-        balllot.addEntries(entry4);
-        balllot.addEntries(entry5);
-
-        System.out.println();
-        model.addAttribute("ballot", balllot);
+        final UserId user = createUserIdFromPrincipal(token);
+        final DatePollUserEntryOverview overview = entryAdapter.showUserEntryOverview(link, user);
+        model.addAttribute("overview", overview);
+        System.out.println("--------GET--------");
         return "mobilePollVote";
     }
 
@@ -79,16 +57,16 @@ public class DatePollVoteController {
      */
 
     @PostMapping("/vote/{link}")
-    public String votePoll(@ModelAttribute("ballot") DatePollBallotDto ballot, Model model, @PathVariable String link,  KeycloakAuthenticationToken token) {
-        System.out.println(ballot.getEntries().size());
-        ballot.setUser(createUserIdFromPrincipal(token));
 
-        System.out.println("User " + ballot.getUser() + " stimmt ab für : ");
-        for(DatePollEntryDto entry : ballot.getEntries()) {
-            System.out.println(entry.formatString());
-            System.out.println(entry.getVotedFor());
-        }
-//        System.out.println(ballot.getEntries().iterator().next());
+    public String votePoll(@ModelAttribute("overview") DatePollUserEntryOverview overview, Model model, @PathVariable String link,  KeycloakAuthenticationToken token) {
+
+        UserId user = createUserIdFromPrincipal(token);
+        System.out.println("User " + user + " hat für folgende Entries mit >>JA<< abgestimmt :");
+        for(DatePollEntryDto entry : overview.getVotedYes())
+            System.out.println(entry);
+        System.out.println(" und für folgende Entries mit >>Vielleicht<< : ");
+        for(DatePollEntryDto entry : overview.getVotedMaybe())
+            System.out.println(entry);
         return "redirect:/";
     }
 }

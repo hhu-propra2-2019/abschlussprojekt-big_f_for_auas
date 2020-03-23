@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Component
 @NoArgsConstructor
-public class DatePollEntryDtoConverter implements Converter<String, DatePollEntryDto> {
+public class DatePollEntryConverter implements Converter<String, DatePollEntryDto> {
 
 
     @Override
@@ -18,15 +18,15 @@ public class DatePollEntryDtoConverter implements Converter<String, DatePollEntr
 
         final String strTime1 = timeArr[0];
         final String strTime2 = timeArr[1];
-        final String value = timeArr[2];
 
         final LocalDateTime time1 = LocalDateTime.parse(strTime1);
         final LocalDateTime time2 = LocalDateTime.parse(strTime2);
 
         final Timespan timespan = new Timespan(time1, time2);
-        final DatePollEntryDto entryDto = new DatePollEntryDto(timespan);
-        entryDto.setVotedFor(value);
-        return entryDto;
+
+        final DatePollEntryDto entry = new DatePollEntryDto(timespan);
+
+        return entry;
     }
 
 }
