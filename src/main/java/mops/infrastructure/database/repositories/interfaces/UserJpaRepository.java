@@ -7,6 +7,7 @@ import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollEntryDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface UserJpaRepository extends JpaRepository<UserDao, Long> {
@@ -15,4 +16,5 @@ public interface UserJpaRepository extends JpaRepository<UserDao, Long> {
     //Anzahl aller user die fuer die datepolloption gestimmt haben
     Long countByDatePollEntrySetContaining(DatePollEntryDao datePollEntryDao);
     Long countByQuestionPollEntrySetContaining(QuestionPollEntryDao questionPollEntryDao);
+    Optional<UserDao> findById(Long id);
 }

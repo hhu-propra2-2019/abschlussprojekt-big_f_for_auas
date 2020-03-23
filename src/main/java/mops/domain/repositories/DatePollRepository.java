@@ -25,4 +25,6 @@ public interface DatePollRepository {
     void save(DatePoll datePoll);
 
     Set<DatePoll> getDatePollsByUserId(UserId userId);
+
+    Optional<DatePoll> getDatePollByCreator(UserId userId);
 }
