@@ -130,7 +130,7 @@ public final class DatePollBuilder {
     public DatePollBuilder datePollOptions(Set<DatePollEntryDto> datePollEntryDtoSet) {
         this.pollOptionTargets.addAll(validateAllAndGetCorrect(
                 datePollEntryDtoSet.stream()
-                        .map(dto -> new DatePollEntry(new Timespan(dto.getStartDate(), dto.getEndDate())))
+                        .map(dto -> new DatePollEntry(dto.getTimespan()))
                         .collect(Collectors.toSet()),
                 PollFields.DATE_POLL_OPTIONS
         ));

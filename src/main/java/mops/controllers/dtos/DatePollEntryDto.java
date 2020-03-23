@@ -3,7 +3,9 @@ package mops.controllers.dtos;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mops.domain.models.Timespan;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -11,32 +13,38 @@ import java.time.format.DateTimeFormatter;
 @NoArgsConstructor
 public class DatePollEntryDto {
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private Timespan timespan;
 
-    private Timespan timespan ;
-
-    private boolean votedFor ;
+    private String votedFor;
 
 
     public DatePollEntryDto(LocalDateTime start, LocalDateTime end) {
-        this.startDate = start;
-        this.endDate = end;
-        timespan = new Timespan(startDate, endDate);
+        timespan = new Timespan(start, end);
     }
 
     public DatePollEntryDto(Timespan timespan) {
-        this(timespan.getStartDate(), timespan.getEndDate());
         this.timespan = timespan;
     }
 
     public String getId() {
-        return startDate.toString() + "@"+ endDate.toString();
+        return timespan.getStartDate().toString() + "@" + timespan.getEndDate().toString();
+    }
+
+    public String getId(String value) {
+        return timespan.getStartDate().toString() + "@" + timespan.getEndDate().toString() + "@" + value;
     }
 
     public String formatString() {
-        String start = startDate.format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm")) + " Uhr";
-        String end = endDate.format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm")) + " Uhr";
+        String start = timespan.getStartDate().format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm")) + " Uhr";
+        String end = timespan.getEndDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr";
         return start + " bis " + end;
+    }
+
+    public String formatStringDate() {
+        return timespan.getStartDate().format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy"));
+    }
+
+    public String formatStringTime(LocalDateTime time) {
+        return time.format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 }
