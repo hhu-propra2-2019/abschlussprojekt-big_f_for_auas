@@ -1,9 +1,9 @@
-package mops.adapters.questionpolladapter;
+package mops.infrastructure.adapters.webflow.questionpolladapter;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import mops.adapters.questionpolladapter.dtos.ConfigDto;
-import mops.adapters.questionpolladapter.dtos.HeaderDto;
-import mops.adapters.questionpolladapter.dtos.TimespanDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.ConfigDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.TimespanDto;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.Timespan;
 import mops.domain.models.Validation;
@@ -23,7 +23,7 @@ import java.time.format.DateTimeParseException;
 import java.util.EnumSet;
 
 @Service
-@PropertySource(value = "classpath:errormappings/datepollmappings.properties", encoding = "UTF-8")
+@PropertySource(value = "classpath:flows/errormappings/questionpollmappings.properties", encoding = "UTF-8")
 public final class QuestionPollAdapter {
 
     private final transient ConversionService conversionService;

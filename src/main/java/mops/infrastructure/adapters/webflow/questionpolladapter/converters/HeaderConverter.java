@@ -1,7 +1,7 @@
-package mops.adapters.questionpolladapter.converters;
+package mops.infrastructure.adapters.webflow.questionpolladapter.converters;
 
 import lombok.NoArgsConstructor;
-import mops.adapters.questionpolladapter.dtos.HeaderDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto;
 import mops.domain.models.questionpoll.QuestionPollHeader;
 import org.springframework.core.convert.converter.Converter;
 

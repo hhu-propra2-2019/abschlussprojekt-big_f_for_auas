@@ -9,9 +9,9 @@
     <input name="userId" type="mops.domain.models.user.UserId" required="true" />
 
     <on-start>
-        <evaluate expression="new mops.adapters.questionpolladapter.dtos.HeaderDto()" result="flowScope.headerDto"/>
-        <evaluate expression="new mops.adapters.questionpolladapter.dtos.TimespanDto()" result="flowScope.timespanDto"/>
-        <evaluate expression="new mops.adapters.questionpolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
+        <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto()" result="flowScope.headerDto"/>
+        <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.TimespanDto()" result="flowScope.timespanDto"/>
+        <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
     </on-start>
 
     <view-state id="mobilePollNameSettings" view="/flows/poll/mobilePollNameSettings" model="headerDto">

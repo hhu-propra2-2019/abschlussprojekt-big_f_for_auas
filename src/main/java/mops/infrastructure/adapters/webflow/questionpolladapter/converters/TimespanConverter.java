@@ -1,7 +1,7 @@
-package mops.adapters.questionpolladapter.converters;
+package mops.infrastructure.adapters.webflow.questionpolladapter.converters;
 
 import lombok.NoArgsConstructor;
-import mops.adapters.questionpolladapter.dtos.TimespanDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.TimespanDto;
 import mops.domain.models.Timespan;
 import org.springframework.core.convert.converter.Converter;
 
