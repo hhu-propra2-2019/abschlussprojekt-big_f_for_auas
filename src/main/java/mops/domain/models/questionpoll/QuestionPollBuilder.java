@@ -14,7 +14,7 @@ import mops.domain.models.PollFields;
 import mops.domain.models.PollLink;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
-import mops.domain.models.FieldErrorNames;
+//import mops.domain.models.FieldErrorNames;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.UserId;
 
@@ -175,7 +175,7 @@ public class QuestionPollBuilder {
                     linkTarget
             );
         } else {
-            final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
+            //final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
             //for (final FieldErrorNames error : errorNames) {
             //    LOGGER.log(Level.SEVERE, error.toString());
             //}

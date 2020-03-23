@@ -5,7 +5,7 @@ import java.util.Set;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
 import lombok.Getter;
-import mops.domain.models.FieldErrorNames;
+//import mops.domain.models.FieldErrorNames;
 import mops.domain.models.PollFields;
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
@@ -207,7 +207,7 @@ public final class DatePollBuilder {
                     linkTarget
             );
         } else {
-            final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
+            //final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
             //for (final FieldErrorNames error : errorNames) {
             //    LOGGER.log(Level.SEVERE, error.toString());
             //}
