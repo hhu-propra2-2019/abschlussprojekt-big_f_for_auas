@@ -18,7 +18,7 @@ import mops.domain.models.FieldErrorNames;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.UserId;
 
-@SuppressWarnings({"PMD.TooManyMethods"})
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.DataflowAnomalyAnalysis"})
 public class QuestionPollBuilder {
 
     private transient UserId creatorTarget;
