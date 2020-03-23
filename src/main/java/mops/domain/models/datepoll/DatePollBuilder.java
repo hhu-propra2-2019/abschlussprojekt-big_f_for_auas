@@ -2,8 +2,8 @@ package mops.domain.models.datepoll;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 import lombok.Getter;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.PollFields;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public final class DatePollBuilder {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
-    private static final Logger LOGGER = Logger.getLogger(DatePollBuilder.class.getName());
+    //private static final Logger LOGGER = Logger.getLogger(DatePollBuilder.class.getName());
     //muss nicht 1-1 im ByteCode bekannt sein.
     private transient DatePollMetaInf metaInfTarget;
     private transient UserId pollCreatorTarget;
@@ -208,9 +208,9 @@ public final class DatePollBuilder {
             );
         } else {
             final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
-            for (final FieldErrorNames error : errorNames) {
-                LOGGER.log(Level.SEVERE, error.toString());
-            }
+            //for (final FieldErrorNames error : errorNames) {
+            //    LOGGER.log(Level.SEVERE, error.toString());
+            //}
             throw new IllegalStateException(COULD_NOT_CREATE);
         }
     }
