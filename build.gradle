@@ -72,6 +72,7 @@ dependencies {
 	testImplementation 'org.assertj:assertj-core:3.15.0'
 	testImplementation 'org.mockito:mockito-inline:2.13.0'
 	testCompile 'com.tngtech.archunit:archunit-junit5:0.13.0'
+	testCompileOnly('com.github.spotbugs:spotbugs-annotations:4.0.0-RC1')
 	compileOnly 'com.github.spotbugs:spotbugs-annotations:4.0.0-RC1'
 	implementation 'junit:junit:4.12'
 }
