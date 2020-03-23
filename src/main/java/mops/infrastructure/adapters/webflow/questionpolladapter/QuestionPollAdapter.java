@@ -8,7 +8,7 @@ import mops.domain.models.FieldErrorNames;
 import mops.domain.models.Timespan;
 import mops.domain.models.Validation;
 import mops.domain.models.questionpoll.QuestionPollConfig;
-import mops.domain.models.questionpoll.QuestionPollHeader;
+import mops.domain.models.questionpoll.QuestionPollMetaInf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
@@ -41,7 +41,7 @@ public final class QuestionPollAdapter {
                     + "auch wenn das Interface es erlaubt")
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public boolean validateHeader(HeaderDto headerDto, MessageContext messageContext) {
-        final QuestionPollHeader header = conversionService.convert(headerDto, QuestionPollHeader.class);
+        final QuestionPollMetaInf header = conversionService.convert(headerDto, QuestionPollMetaInf.class);
         final Validation validation = header.validate();
         mapErrors(validation.getErrorMessages(), messageContext);
         return validation.hasNoErrors();

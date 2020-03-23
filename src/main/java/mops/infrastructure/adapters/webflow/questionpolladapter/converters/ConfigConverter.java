@@ -17,7 +17,8 @@ public class ConfigConverter implements Converter<ConfigDto, QuestionPollConfig>
     public QuestionPollConfig convert(ConfigDto configDto) {
         return new QuestionPollConfig(
                 configDto.isSingleChoice(),
-                configDto.isAnonymous()
+                configDto.isAnonymous(),
+                configDto.isOpen()
         );
     }
 }

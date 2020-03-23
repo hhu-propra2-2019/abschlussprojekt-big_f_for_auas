@@ -17,10 +17,12 @@ public class QuestionPollConfig implements ValidateAble {
 
     private boolean singleChoice;
     private boolean anonymous;
+    private boolean open;
 
     public QuestionPollConfig() {
-        this.singleChoice = false;
         this.anonymous = false;
+        this.singleChoice = false;
+        this.open = true;
     }
 
     /**

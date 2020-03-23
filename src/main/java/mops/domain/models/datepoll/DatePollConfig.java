@@ -1,12 +1,14 @@
 package mops.domain.models.datepoll;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.Value;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
 @Value
+@Getter
 @AllArgsConstructor
 public final class DatePollConfig implements ValidateAble {
 
@@ -46,11 +48,11 @@ public final class DatePollConfig implements ValidateAble {
      */
     public DatePollConfig() {
         this.voteIsEditable = true;
-        this.priorityChoice = false;
         this.anonymous = false;
         this.openForOwnEntries = false;
         this.open = false;
         this.singleChoice = false;
+        this.priorityChoice = false;
     }
 
     @Override
