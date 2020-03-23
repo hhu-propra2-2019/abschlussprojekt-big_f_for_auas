@@ -9,7 +9,8 @@ import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
-public class DatePollEntryDto implements Comparable<DatePollEntryDto>{
+@SuppressWarnings({"PMD.LawOfDemeter"})
+public class DatePollEntryDto implements Comparable<DatePollEntryDto> {
 
     private Timespan timespan;
 
@@ -26,15 +27,23 @@ public class DatePollEntryDto implements Comparable<DatePollEntryDto>{
         return timespan.getStartDate().toString() + "@" + timespan.getEndDate().toString();
     }
 
+    /**
+     * @return formatierte String Repräsentation des Timespan Objektes.
+     */
     public String formatString() {
-        String start = timespan.getStartDate().format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm")) + " Uhr";
-        String end = timespan.getEndDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr";
+        final String start = timespan.getStartDate().format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm")) + " Uhr";
+        final String end = timespan.getEndDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr";
         return start + " bis " + end;
     }
 
+    /**
+     *
+     * @return formatierte String Repräsentation des Timespan anfang Objektes (= Anfangs LocalDateTime).
+     */
     public String formatStringDate() {
         return timespan.getStartDate().format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy"));
     }
+
 
     public String formatStringTime(LocalDateTime time) {
         return time.format(DateTimeFormatter.ofPattern("HH:mm"));

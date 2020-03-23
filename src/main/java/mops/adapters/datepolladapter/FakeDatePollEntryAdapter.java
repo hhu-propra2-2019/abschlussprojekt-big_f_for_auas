@@ -4,7 +4,6 @@ import mops.application.services.FakeDatePollInfoService;
 import mops.application.services.FakeDatePollVoteService;
 import mops.controllers.dtos.DatePollEntryDto;
 import mops.controllers.dtos.DatePollUserEntryOverview;
-import mops.controllers.dtos.FormattedDatePollEntryDto;
 import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.user.UserId;
@@ -15,6 +14,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+@SuppressWarnings({"PMD.LawOfDemeter"})
 @Service
 public class FakeDatePollEntryAdapter{
 
@@ -51,7 +51,7 @@ public class FakeDatePollEntryAdapter{
                 .map(this::toDTO)
                 .collect(Collectors.toSet()));
 
-        Set<DatePollEntryDto> entries = infoService.getEntries(link).stream().map(this::toDTO).collect(Collectors.toSet());
+        final Set<DatePollEntryDto> entries = infoService.getEntries(link).stream().map(this::toDTO).collect(Collectors.toSet());
         final TreeSet<DatePollEntryDto> treeEntries = new TreeSet<>();
         for (final DatePollEntryDto entry: entries) {
             treeEntries.add(entry);
@@ -66,11 +66,6 @@ public class FakeDatePollEntryAdapter{
                 entry.getSuggestedPeriod().getStartDate(),
                 entry.getSuggestedPeriod().getEndDate()
         );
-    }
-
-    private FormattedDatePollEntryDto toFormattedDTO(DatePollEntry entry) {
-        final String formatted = entry.getSuggestedPeriod().toString();
-        return new FormattedDatePollEntryDto(formatted);
     }
 
 }

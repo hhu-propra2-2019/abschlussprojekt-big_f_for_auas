@@ -1,6 +1,5 @@
 package mops.controllers;
 
-import mops.controllers.dtos.DatePollEntryDto;
 import mops.adapters.datepolladapter.FakeDatePollEntryAdapter;
 import mops.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.user.UserId;
@@ -44,7 +43,6 @@ public class DatePollVoteController {
         final UserId user = createUserIdFromPrincipal(token);
         final DatePollUserEntryOverview overview = entryAdapter.showUserEntryOverview(link, user);
         model.addAttribute("overview", overview);
-        System.out.println("--------GET--------");
         return "mobilePollVote";
     }
 
@@ -60,13 +58,6 @@ public class DatePollVoteController {
 
     public String votePoll(@ModelAttribute("overview") DatePollUserEntryOverview overview, Model model, @PathVariable String link,  KeycloakAuthenticationToken token) {
 
-        UserId user = createUserIdFromPrincipal(token);
-        System.out.println("User " + user + " hat für folgende Entries mit >>JA<< abgestimmt :");
-        for(DatePollEntryDto entry : overview.getVotedYes())
-            System.out.println(entry);
-        System.out.println(" und für folgende Entries mit >>Vielleicht<< : ");
-        for(DatePollEntryDto entry : overview.getVotedMaybe())
-            System.out.println(entry);
         return "redirect:/";
     }
 }
