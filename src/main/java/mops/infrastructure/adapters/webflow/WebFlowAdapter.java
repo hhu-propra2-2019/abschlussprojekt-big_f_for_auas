@@ -4,13 +4,13 @@ import org.springframework.binding.message.MessageContext;
 
 import javax.validation.constraints.NotNull;
 
-public interface WebFlowAdapter<DTO, OBJECT> {
+public interface WebFlowAdapter<D, O> {
 
     @NotNull
-    DTO initializeDto();
+    D initializeDto();
 
-    boolean validateDto(DTO dto, MessageContext context);
+    boolean validateDto(D dto, MessageContext context);
 
     @NotNull
-    OBJECT build(DTO dto);
+    O build(D dto);
 }

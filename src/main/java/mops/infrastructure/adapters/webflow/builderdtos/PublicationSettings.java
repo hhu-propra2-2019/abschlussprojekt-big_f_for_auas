@@ -2,10 +2,9 @@ package mops.infrastructure.adapters.webflow.builderdtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -13,6 +12,6 @@ import java.util.Set;
 public class PublicationSettings {
 
     private boolean ispublic;
-    private DatePollLink link;
+    private PollLink link;
     private Set<GroupId> groups;
 }

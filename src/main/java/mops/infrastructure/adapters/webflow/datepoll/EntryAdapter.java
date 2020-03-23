@@ -27,7 +27,7 @@ public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntr
         this.errorEnvironment = errorEnvironment;
     }
 
-    @SuppressWarnings("checkstyle:MagicNumber")
+    @SuppressWarnings({"checkstyle:MagicNumber", "PMD.LawOfDemeter"})
     @Override
     public EntryDto initializeDto() {
         return new EntryDto(LocalDate.now().toString(),
@@ -54,6 +54,7 @@ public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntr
     }
 
     @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
     public DatePollEntry build(EntryDto entryDto) {
         return new DatePollEntry(
                 new Timespan(

@@ -1,12 +1,12 @@
 package mops.infrastructure.adapters.webflow;
 
-import mops.domain.models.datepoll.DatePollLink;
-import mops.infrastructure.adapters.webflow.builderdtos.PublicationSettings;
-import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import mops.application.services.GroupService;
 import mops.application.services.UserService;
+import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
+import mops.infrastructure.adapters.webflow.builderdtos.PublicationSettings;
+import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -53,10 +53,11 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
     }
 
     @Override
+    @SuppressWarnings("PMD.LawOfDemeter") //NOPMD
     public PublicationSettings build(PublicationDto publicationDto) {
         return new PublicationSettings(
                 publicationDto.isIspublic(),
-                new DatePollLink(publicationDto.getLink()),
+                new PollLink(publicationDto.getLink()),
                 parseGroups(publicationDto.getGroups()).collect(Collectors.toSet()));
     }
 
@@ -108,6 +109,7 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
         return parseGroups(publicationDto.getGroups()).dropWhile(groupService::groupExists).collect(Collectors.toSet());
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private Stream<GroupId> parseGroups(String groups) {
         return Arrays.stream(groups.trim().split("\\s*,\\s*")).dropWhile(String::isBlank).map(GroupId::new);
     }

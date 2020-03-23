@@ -24,8 +24,9 @@ public class PollLink implements ValidateAble {
         this.pollIdentifier = encodeUUIDtoBase64(inputUuid);
     }
 
-    public DatePollLink(String link) {
-        this.datePollIdentifier = link;
+    // TODO: Stattdessen Formatter schreiben und registrieren
+    public PollLink(String pollIdentifier) {
+        this.pollIdentifier = pollIdentifier;
     }
 
     /**

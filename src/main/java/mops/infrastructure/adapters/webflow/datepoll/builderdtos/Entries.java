@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
+@SuppressWarnings("PMD.AvoidFieldNameMatchingTypeName")
 public class Entries {
 
     private Set<DatePollEntry> entries = new HashSet<>();

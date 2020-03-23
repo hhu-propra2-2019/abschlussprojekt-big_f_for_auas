@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+@SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.TooManyMethods"})
 public final class DatePollBuilder {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
@@ -41,6 +41,7 @@ public final class DatePollBuilder {
             PollFields.DATE_POLL_CONFIG,
             PollFields.DATE_POLL_ENTRIES,
             PollFields.CREATOR,
+            // TODO: mit Gruppen implementieren und dann wieder validieren
             PollFields.PARTICIPANTS
     );
 
@@ -129,24 +130,8 @@ public final class DatePollBuilder {
         return this;
     }
 
-    /*
-     * streams stellen keine LawOfDemeter violation dar
-     */
-    @SuppressWarnings({"PMD.LawOfDemeter"})
-    /*
-    public DatePollBuilder datePollOptions(Set<DatePollEntryDto> datePollEntryDtoSet) {
-        this.pollOptionTargets.addAll(validateAllAndGetCorrect(
-                datePollEntryDtoSet.stream()
-                        .map(dto -> new DatePollEntry(new Timespan(dto.getStartDate(), dto.getEndDate())))
-                        .collect(Collectors.toSet()),
-                PollFields.DATE_POLL_OPTIONS
-        ));
-        if (!pollOptionTargets.isEmpty()) {
-            validatedFields.add(PollFields.DATE_POLL_OPTIONS);
-        }
-        return this;
-    }
-    */
+    // TODO: Law of Demeter reviewen und Methode ggfs anpassen. Warum werden die Abstimmungsdaten doppelt gespeichert?!
+    @SuppressWarnings("PMD.LawOfDemeter")
     public DatePollBuilder datePollEntries(Set<DatePollEntry> datePollEntrySet) {
         this.pollEntryTargets.addAll(validateAllAndGetCorrect(
                 datePollEntrySet.stream()
@@ -163,19 +148,19 @@ public final class DatePollBuilder {
 
 
 
-    /**
+    /*/**
      * Fügt alle validierte User der Teilnehmerliste hinzu.
      *
      * @param participants Teilnehmer die zu dieser Terminfindung hinzugefügt werden sollen.
      * @return Referenz auf diesen DatePollBuilder.
      */
-    public DatePollBuilder participants(Set<UserId> participants) {
+    /*public DatePollBuilder participants(Set<UserId> participants) {
         this.pollParticipantTargets.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPANTS));
         if (!this.pollParticipantTargets.isEmpty()) {
             validatedFields.add(PollFields.PARTICIPANTS);
         }
         return this;
-    }
+    }*/
 
     /**
      * TODO: Implementieren!

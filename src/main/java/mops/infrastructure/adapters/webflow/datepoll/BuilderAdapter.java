@@ -1,15 +1,14 @@
 package mops.infrastructure.adapters.webflow.datepoll;
 
 import mops.application.services.PublicationService;
-import mops.domain.models.Validation;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.adapters.webflow.ErrorMessageHelper;
 import mops.infrastructure.adapters.webflow.PublicationAdapter;
-import mops.infrastructure.adapters.webflow.datepoll.builderdtos.Entries;
 import mops.infrastructure.adapters.webflow.builderdtos.PublicationSettings;
+import mops.infrastructure.adapters.webflow.datepoll.builderdtos.Entries;
 import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.ConfigDto;
 import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.ConfirmationDto;
 import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.EntriesDto;
@@ -58,15 +57,16 @@ public final class BuilderAdapter {
     // Zu diesem Zeitpunkt muss jedes Objekt gültig sein, da es nach jedem Schritt in Web Flow validiert wurde.
     // Wenn DatePoll trotzdem nicht gebaut wird, kann das nur an einem Fehler in der Validierung oder Programmlogik
     // liegen. Hier muss von uns nichts mehr überprüft werden. Der Builder überprüft natürlich vor dem Bauen das Objekt.
+    @SuppressWarnings("PMD.LawOfDemeter")
     public boolean publishDatePoll(ConfirmationDto confirmationDto, MessageContext context) {
-        DatePollMetaInf metaInf = metaInfAdapter.build(confirmationDto.getMetaInfDto());
-        Entries entries = entriesAdapter.build(confirmationDto.getEntriesDto());
-        PublicationSettings publicationSettings = publicationAdapter.build(confirmationDto.getPublicationDto());
+        final DatePollMetaInf metaInf = metaInfAdapter.build(confirmationDto.getMetaInfDto());
+        final Entries entries = entriesAdapter.build(confirmationDto.getEntriesDto());
+        final PublicationSettings publicationSettings = publicationAdapter.build(confirmationDto.getPublicationDto());
         // Joar, Law of Demeter. Ist nur ein DTO und darf nicht null sein, also naja.
         confirmationDto.getConfigDto().setOpen(publicationSettings.isIspublic());
-        DatePollConfig config = configAdapter.build(confirmationDto.getConfigDto());
+        final DatePollConfig config = configAdapter.build(confirmationDto.getConfigDto());
 
-        DatePollBuilder builder = new DatePollBuilder();
+        final DatePollBuilder builder = new DatePollBuilder();
 
         builder.creator(new UserId(confirmationDto.getUserId()))
                 .datePollMetaInf(metaInf)
@@ -83,7 +83,7 @@ public final class BuilderAdapter {
             ErrorMessageHelper.mapErrors(builder.getValidationState().getErrorMessages(), context, errorEnvironment);
             return false;
         }
-        final boolean hasBeenSaved = publicationService.publishDatePoll(builder.build());
+        final boolean hasBeenSaved = publicationService.saveAndPublish(builder.build());
         if (hasBeenSaved) {
             return true;
         }

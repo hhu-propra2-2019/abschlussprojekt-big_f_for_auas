@@ -64,6 +64,7 @@ public final class EntriesAdapter implements WebFlowAdapter<EntriesDto, Entries>
     }
 
     @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
     public Entries build(EntriesDto entriesDto) {
         return new Entries(
                 entriesDto.getOptions().stream().map(entryAdapter::build).collect(Collectors.toSet())
