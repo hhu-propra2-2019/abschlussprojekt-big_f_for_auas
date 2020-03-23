@@ -1,6 +1,5 @@
 package mops.domain.models.datepoll;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.PollLink;
@@ -13,9 +12,6 @@ import java.util.Set;
 
 @Getter
 @AllArgsConstructor
-@SuppressFBWarnings(
-        value = "URF_UNREAD_FIELD",
-        justification = "Implementierung folgt")
 public final class DatePoll {
 
     private DatePollRecordAndStatus recordAndStatus;

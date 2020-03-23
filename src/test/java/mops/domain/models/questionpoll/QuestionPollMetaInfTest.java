@@ -18,8 +18,6 @@ public class QuestionPollMetaInfTest { //NOPMD
     private static final String SHORT_QUESTION = "sh";
     private static final String LONG_QUESTION = "This Question is longer than 40 characters.";
     private static final String VALID_DESCRIPTION = "Description";
-    private static final String LONG_DESCRIPTION =
-            "This Description is longer than 80 Characters. This Description is longer than 80 Characters.";
 
     /**
      * Erstellt leeren validator der in jedem Test angepasst wird.
@@ -112,16 +110,6 @@ public class QuestionPollMetaInfTest { //NOPMD
 
     @Test
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    public void longDescription() {
-        final QuestionPollMetaInf header = new QuestionPollMetaInf(VALID_TITLE, VALID_QUESTION, LONG_DESCRIPTION);
-        this.testValidator = this.testValidator.appendValidation(
-                new Validation(FieldErrorNames.QUESTION_POLL_DESCRIPTION_IS_TOO_LONG));
-        final Validation validator = header.validate();
-        assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
-    }
-
-    @Test
-    @SuppressWarnings({"PMD.LawOfDemeter"})
     public void completeHeader() {
         final QuestionPollMetaInf header = new QuestionPollMetaInf(VALID_TITLE, VALID_QUESTION, VALID_DESCRIPTION);
         final Validation validator = header.validate();
@@ -139,4 +127,5 @@ public class QuestionPollMetaInfTest { //NOPMD
         final Validation validator = header.validate();
         assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
     }
+    //TODO mock tests für PollDescription und Timespan.
 }
