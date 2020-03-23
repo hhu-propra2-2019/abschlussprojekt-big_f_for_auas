@@ -4,7 +4,6 @@ import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

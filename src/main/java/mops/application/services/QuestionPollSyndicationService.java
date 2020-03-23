@@ -19,13 +19,13 @@ public class QuestionPollSyndicationService {
         this.questionPollRepo = questionPollRepo;
     }
 
-    /**
-     * Schließt den Builder Prozess ab und speichert den generierte QuestionPolll ab.
-     * Gibt generierte Url zurück
-     *
-     * @param builder
-     * @return QuestionPollLink
-     */
+//    /**
+//     * Schließt den Builder Prozess ab und speichert den generierte QuestionPolll ab.
+//     * Gibt generierte Url zurück
+//     *
+//     * @param builder
+//     * @return QuestionPollLink
+//     */
     /*
     public PollLink publishQuestionPoll(final QuestionPollBuilder builder) {
         return questionPollRepo.save(builder.build());

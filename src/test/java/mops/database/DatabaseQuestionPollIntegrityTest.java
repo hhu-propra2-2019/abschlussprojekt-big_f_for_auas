@@ -57,10 +57,10 @@ public class DatabaseQuestionPollIntegrityTest {
         final PollLink questionPollLink = new PollLink();
 
         final Set<UserId> participants = new HashSet<>();
-        IntStream.range(0,3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
 
         final Set<QuestionPollEntry> pollEntries = new HashSet<>();
-        IntStream.range(0,3).forEach(i -> pollEntries.add(new QuestionPollEntry("title" + i)));
+        IntStream.range(0, 3).forEach(i -> pollEntries.add(new QuestionPollEntry("title" + i)));
 
         questionPoll = new QuestionPollBuilder()
                 .questionPollMetaInf(questionPollMetaInf)

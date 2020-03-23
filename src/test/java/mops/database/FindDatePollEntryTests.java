@@ -51,10 +51,10 @@ public class FindDatePollEntryTests {
         final PollLink datePollLink = new PollLink();
 
         final Set<UserId> participants = new HashSet<>();
-        IntStream.range(0,3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
 
         final Set<DatePollEntry> pollEntries = new HashSet<>();
-        IntStream.range(0,3).forEach(i -> pollEntries.add(new DatePollEntry(
+        IntStream.range(0, 3).forEach(i -> pollEntries.add(new DatePollEntry(
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
 

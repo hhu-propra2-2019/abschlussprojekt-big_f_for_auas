@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Repository interface für questionPolls
+ * Repository interface für questionPolls.
  */
 public interface QuestionPollRepository {
     /**
