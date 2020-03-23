@@ -1,5 +1,6 @@
 package mops.database;
 
+import java.util.stream.IntStream;
 import mops.MopsApplication;
 import mops.config.H2DatabaseConfigForTests;
 import mops.domain.models.PollLink;
@@ -16,7 +17,6 @@ import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.repositories.interfaces.DatePollEntryJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
-import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,16 +37,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {MopsApplication.class, H2DatabaseConfigForTests.class})
 @Transactional
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor", "PMD.ExcessiveImports"})
 public class DatabaseDatePollIntegrityTest {
+    private transient DatePoll datePoll;
+
     @Autowired
-    private DatePollRepositoryImpl datePollRepository;
+    private transient DatePollJpaRepository datePollJpaRepository;
     @Autowired
-    private DatePollJpaRepository datePollJpaRepository;
+    private transient UserJpaRepository userJpaRepository;
     @Autowired
-    private UserJpaRepository userJpaRepository;
-    @Autowired
-    private DatePollEntryJpaRepository datePollEntryJpaRepository;
-    private DatePoll datePoll;
+    private transient DatePollEntryJpaRepository datePollEntryJpaRepository;
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
     public void setupDatePollRepoTest() {
@@ -54,19 +54,15 @@ public class DatabaseDatePollIntegrityTest {
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
         final UserId creator = new UserId("1234");
         final DatePollConfig datePollConfig = new DatePollConfig();
-        final Set<UserId> participants = new HashSet<>();
-        for (int i = 0; i < 3; i++) {
-            final UserId newUser = new UserId(Integer.toString(i));
-            participants.add(newUser);
-        }
         final PollLink datePollLink = new PollLink();
+
+        final Set<UserId> participants = new HashSet<>();
+        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+
         final Set<DatePollEntry> pollEntries = new HashSet<>();
-        for (int i = 0; i < 3; i++) {
-            final DatePollEntry entry = new DatePollEntry(
-                    new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
-            );
-            pollEntries.add(entry);
-        }
+        IntStream.range(0, 3).forEach(i -> pollEntries.add(new DatePollEntry(
+            new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
+        )));
 
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)

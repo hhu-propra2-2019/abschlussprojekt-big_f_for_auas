@@ -20,7 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
 
-@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:WhitespaceAfter", "PMD.LawOfDemeter", "PMD.AtLeastOneConstructor","PMD.TooManyMethods"})
+@SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:WhitespaceAfter",
+    "PMD.LawOfDemeter", "PMD.AtLeastOneConstructor","PMD.TooManyMethods"})
 // zu tooManyMethods: lieber tests für die einzelnen translation der jeweiligen daos schreiben
 public class TranslatorTests {
     @Test
@@ -34,7 +35,8 @@ public class TranslatorTests {
     }
 
     @Test
-    @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts") // da die Strings innerhalb der metainf noch gekapselt sind ist hier das testen etwas umständlicher
+    @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
+    //da die Strings innerhalb der metainf noch gekapselt sind ist hier das testen etwas umständlicher
     public void metaInfTest() {
         final String title = "TestDAO";
         final String description = "TestMetaInfDao";
@@ -85,7 +87,8 @@ public class TranslatorTests {
 
     //TODO: add
     @Test
-    @SuppressWarnings({"PMD.JUnitTestsShouldIncludeAssert", "PMD.AvoidDuplicateLiterals"}) // not yet implemented, duplicate Literal is PMD Suppression
+    @SuppressWarnings({"PMD.JUnitTestsShouldIncludeAssert", "PMD.AvoidDuplicateLiterals"})
+    // not yet implemented, duplicate Literal is PMD Suppression
     public void entryTest() {
         //
     }

@@ -1,5 +1,6 @@
 package mops.database;
 
+import java.util.stream.IntStream;
 import mops.MopsApplication;
 import mops.config.H2DatabaseConfigForTests;
 import mops.domain.models.PollLink;
@@ -17,7 +18,6 @@ import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.repositories.interfaces.QuestionPollEntryJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.QuestionPollJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
-import mops.infrastructure.database.repositories.QuestionPollRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -36,16 +36,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {MopsApplication.class, H2DatabaseConfigForTests.class})
 @Transactional
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor", "PMD.ExcessiveImports"})
 public class DatabaseQuestionPollIntegrityTest {
+    private transient QuestionPoll questionPoll;
+
     @Autowired
-    private QuestionPollRepositoryImpl questionPollRepository;
+    private transient QuestionPollJpaRepository questionPollJpaRepository;
     @Autowired
-    private QuestionPollJpaRepository questionPollJpaRepository;
+    private transient UserJpaRepository userJpaRepository;
     @Autowired
-    private UserJpaRepository userJpaRepository;
-    @Autowired
-    private QuestionPollEntryJpaRepository questionPollEntryJpaRepository;
-    private QuestionPoll questionPoll;
+    private transient QuestionPollEntryJpaRepository questionPollEntryJpaRepository;
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
     public void setupQuestionPollRepoTest() {
@@ -54,19 +54,13 @@ public class DatabaseQuestionPollIntegrityTest {
             "Testing is useful?", "Testdescription", timespan);
         final UserId creator = new UserId("1234");
         final QuestionPollConfig questionPollConfig = new QuestionPollConfig();
-        final Set<UserId> participants = new HashSet<>();
-        for (int i = 0; i < 3; i++) {
-            final UserId newUser = new UserId(Integer.toString(i));
-            participants.add(newUser);
-        }
         final PollLink questionPollLink = new PollLink();
+
+        final Set<UserId> participants = new HashSet<>();
+        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+
         final Set<QuestionPollEntry> pollEntries = new HashSet<>();
-        for (int i = 0; i < 3; i++) {
-            final QuestionPollEntry entry = new QuestionPollEntry(
-                   "title" + i
-            );
-            pollEntries.add(entry);
-        }
+        IntStream.range(0, 3).forEach(i -> pollEntries.add(new QuestionPollEntry("title" + i)));
 
         questionPoll = new QuestionPollBuilder()
                 .questionPollMetaInf(questionPollMetaInf)
@@ -92,8 +86,8 @@ public class DatabaseQuestionPollIntegrityTest {
     public void testUsersOfQuestionPollPresence() {
         final QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll);
         questionPollJpaRepository.save(questionPollDao);
-        final Set<UserDao> userDaoSet = userJpaRepository.findByQuestionPollSetContains(questionPollDao);
-        userDaoSet.forEach(userDao -> System.out.println("[+] Found User: " + userDao.getId()));
+        final Set<UserDao> userDaoSet = userJpaRepository
+            .findByQuestionPollSetContains(questionPollDao);
         assertThat(userDaoSet).hasSize(3);
     }
     @SuppressWarnings("checkstyle:MagicNumber")

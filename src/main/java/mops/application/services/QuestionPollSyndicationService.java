@@ -12,6 +12,8 @@ import java.util.Set;
 @Service
 public class QuestionPollSyndicationService {
 
+    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+    // will be used in the future (hopefully)
     private final transient QuestionPollRepository questionPollRepo;
 
     @Autowired
@@ -19,13 +21,13 @@ public class QuestionPollSyndicationService {
         this.questionPollRepo = questionPollRepo;
     }
 
-    /**
-     * Schließt den Builder Prozess ab und speichert den generierte QuestionPolll ab.
-     * Gibt generierte Url zurück
-     *
-     * @param builder
-     * @return QuestionPollLink
-     */
+//    /**
+//     * Schließt den Builder Prozess ab und speichert den generierte QuestionPolll ab.
+//     * Gibt generierte Url zurück
+//     *
+//     * @param builder
+//     * @return QuestionPollLink
+//     */
     /*
     public PollLink publishQuestionPoll(final QuestionPollBuilder builder) {
         return questionPollRepo.save(builder.build());

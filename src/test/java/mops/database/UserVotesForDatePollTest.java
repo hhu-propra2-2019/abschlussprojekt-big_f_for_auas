@@ -1,5 +1,6 @@
 package mops.database;
 
+import java.util.stream.IntStream;
 import mops.MopsApplication;
 import mops.config.H2DatabaseConfigForTests;
 import mops.domain.models.PollLink;
@@ -39,16 +40,18 @@ import java.util.Set;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {MopsApplication.class, H2DatabaseConfigForTests.class})
 @Transactional
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor", "PMD.ExcessiveImports"})
 public class UserVotesForDatePollTest {
+    private transient DatePoll datePoll;
+
     @Autowired
-    private PriorityChoiceJpaRepository priorityChoiceJpaRepository;
+    private transient PriorityChoiceJpaRepository priorityChoiceJpaRepository;
     @Autowired
-    private DatePollJpaRepository datePollJpaRepository;
+    private transient DatePollJpaRepository datePollJpaRepository;
     @Autowired
-    private UserJpaRepository userJpaRepository;
+    private transient UserJpaRepository userJpaRepository;
     @Autowired
-    private DatePollEntryJpaRepository datePollEntryJpaRepository;
-    private DatePoll datePoll;
+    private transient DatePollEntryJpaRepository datePollEntryJpaRepository;
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
     public void setupDatePollRepoTest() {
@@ -56,19 +59,15 @@ public class UserVotesForDatePollTest {
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
         final UserId creator = new UserId("1234");
         final DatePollConfig datePollConfig = new DatePollConfig();
-        final Set<UserId> participants = new HashSet<>();
-        for (int i = 0; i < 3; i++) {
-            final UserId newUser = new UserId(Integer.toString(i));
-            participants.add(newUser);
-        }
         final PollLink datePollLink = new PollLink();
+
+        final Set<UserId> participants = new HashSet<>();
+        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+
         final Set<DatePollEntry> pollEntries = new HashSet<>();
-        for (int i = 0; i < 3; i++) {
-            final DatePollEntry entry = new DatePollEntry(
-                    new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
-            );
-            pollEntries.add(entry);
-        }
+        IntStream.range(0, 3).forEach(i -> pollEntries.add(new DatePollEntry(
+            new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
+        )));
 
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
@@ -82,6 +81,7 @@ public class UserVotesForDatePollTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
     public void testUserVotesForDatePollEntry() {
         final DatePollDao datePollDao = datePollJpaRepository.
                 findDatePollDaoByLink(datePoll.getPollLink().getPollIdentifier());
@@ -92,9 +92,11 @@ public class UserVotesForDatePollTest {
         datePollEntryJpaRepository.save(datePollEntryDao);
         userJpaRepository.save(userDao);
         final Long number = userJpaRepository.countByDatePollEntrySetContaining(datePollEntryDao);
+
         assertThat(datePollDao).isNotNull();
         assertThat(number).isEqualTo(1);
     }
+
     @Test
     public void testUserPriorityForDatePollEntryIsNotAppreciated() {
         //Get DatePoll and datePollEntryDao
