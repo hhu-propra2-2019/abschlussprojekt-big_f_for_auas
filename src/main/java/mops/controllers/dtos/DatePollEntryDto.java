@@ -38,12 +38,8 @@ public class DatePollEntryDto {
 
     public String formatString() {
 
-        String startDateTime = startDate.format(DateTimeFormatter.ofPattern("HH:mm"));
-        String startDateDate = startDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-
-        String endDateTime = endDate.format(DateTimeFormatter.ofPattern("HH:mm"));
-        String endDateDate = endDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-
-        return startDateDate + " " + startDateTime +" Uhr " +" bis " + endDateDate + " " + endDateTime +" Uhr ";
+        String start = startDate.format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm")) + " Uhr";
+        String end = endDate.format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm")) + " Uhr";
+        return start + " bis " + end;
     }
 }
