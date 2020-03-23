@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
-public class DatePollEntryDto {
+public class DatePollEntryDto implements Comparable<DatePollEntryDto>{
 
     private Timespan timespan;
 
@@ -26,10 +26,6 @@ public class DatePollEntryDto {
         return timespan.getStartDate().toString() + "@" + timespan.getEndDate().toString();
     }
 
-    public String getId(String value) {
-        return timespan.getStartDate().toString() + "@" + timespan.getEndDate().toString() + "@" + value;
-    }
-
     public String formatString() {
         String start = timespan.getStartDate().format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm")) + " Uhr";
         String end = timespan.getEndDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr";
@@ -42,5 +38,10 @@ public class DatePollEntryDto {
 
     public String formatStringTime(LocalDateTime time) {
         return time.format(DateTimeFormatter.ofPattern("HH:mm"));
+    }
+
+    @Override
+    public int compareTo(DatePollEntryDto other) {
+        return timespan.getStartDate().compareTo(other.timespan.getStartDate());
     }
 }

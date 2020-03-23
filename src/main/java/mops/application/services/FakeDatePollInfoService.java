@@ -1,6 +1,7 @@
 package mops.application.services;
 
 import mops.controllers.dtos.DashboardItemDto;
+import mops.controllers.dtos.DatePollEntryDto;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.*;
 import mops.domain.models.user.UserId;
@@ -18,6 +19,9 @@ public class FakeDatePollInfoService {
     private Set<DatePoll>  testDatePollObjects = new HashSet<>();
 
 
+    public String getTitle(UserId user, String link) {
+        return "TEST :D";
+    }
 
     public Set<DatePollEntry> getEntries(String link) {
 

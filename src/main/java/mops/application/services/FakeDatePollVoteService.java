@@ -10,6 +10,11 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/** Faked die Funktionsweise vom richtigen DatetPollVoteService, also :
+ *  - Gibt mit userid und link das zugehörige ballot zurück.
+ *
+ */
 @Service
 public class FakeDatePollVoteService {
 

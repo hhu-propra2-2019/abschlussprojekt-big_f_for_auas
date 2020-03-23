@@ -11,6 +11,8 @@ import mops.domain.models.user.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,6 +50,14 @@ public class FakeDatePollEntryAdapter{
                 .stream()
                 .map(this::toDTO)
                 .collect(Collectors.toSet()));
+
+        Set<DatePollEntryDto> entries = infoService.getEntries(link).stream().map(this::toDTO).collect(Collectors.toSet());
+        final TreeSet<DatePollEntryDto> treeEntries = new TreeSet<>();
+        for (final DatePollEntryDto entry: entries) {
+            treeEntries.add(entry);
+        }
+        result.setAllEntries(treeEntries);
+
         return result;
     }
 
