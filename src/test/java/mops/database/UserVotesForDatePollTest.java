@@ -74,7 +74,7 @@ public class UserVotesForDatePollTest {
                 .creator(creator)
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
-                .participants(participants)
+                //.participants(participants)
                 .datePollLink(datePollLink)
                 .build();
         datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll));

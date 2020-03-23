@@ -69,7 +69,7 @@ public class DatabaseDatePollIntegrityTest {
                 .creator(creator)
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
-                .participants(participants)
+                //.participants(participants)
                 .datePollLink(datePollLink)
                 .build();
     }

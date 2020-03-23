@@ -40,9 +40,9 @@ public final class DatePollBuilder {
             PollFields.POLL_LINK,
             PollFields.DATE_POLL_CONFIG,
             PollFields.DATE_POLL_ENTRIES,
-            PollFields.CREATOR,
+            PollFields.CREATOR
             // TODO: mit Gruppen implementieren und dann wieder validieren
-            PollFields.PARTICIPANTS
+            //PollFields.PARTICIPANTS
     );
 
     public DatePollBuilder() {
