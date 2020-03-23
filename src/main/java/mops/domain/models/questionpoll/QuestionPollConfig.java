@@ -15,12 +15,12 @@ import mops.domain.models.Validation;
 @AllArgsConstructor
 public class QuestionPollConfig implements ValidateAble {
 
-    private boolean usingAlias;
-    private boolean usingMultiChoice;
+    private boolean singleChoice;
+    private boolean anonymous;
 
     public QuestionPollConfig() {
-        this.usingAlias = false;
-        this.usingMultiChoice = false;
+        this.singleChoice = false;
+        this.anonymous = false;
     }
 
     /**
