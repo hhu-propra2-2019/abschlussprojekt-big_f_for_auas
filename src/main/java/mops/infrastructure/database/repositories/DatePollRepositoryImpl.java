@@ -18,7 +18,7 @@ import java.util.Set;
 @Repository
 public class DatePollRepositoryImpl implements DatePollRepository {
 
-    private DatePollJpaRepository datePollJpaRepository;
+    private final transient DatePollJpaRepository datePollJpaRepository;
 
     @Autowired
     public DatePollRepositoryImpl(DatePollJpaRepository datePollJpaRepository) {
@@ -32,8 +32,8 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @Override
     public Optional<DatePoll> load(PollLink link) {
-        DatePollDao loaded = datePollJpaRepository.findDatePollDaoByLink(link.getPollIdentifier());
-        DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
+        final DatePollDao loaded = datePollJpaRepository.findDatePollDaoByLink(link.getPollIdentifier());
+        final DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
         return Optional.of(targetDatePoll);
     }
 
@@ -51,11 +51,12 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @param userId
      * @return List<DatePoll>
      */
+    @SuppressWarnings("PMD.LawOfDemeter") //stream
     @Override
     public Set<DatePoll> getDatePollsByUserId(UserId userId) {
-        UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
-        Set<DatePollDao> datePollDaosFromUser = datePollJpaRepository.findDatePollDaoByUserDaosContaining(targetUser);
-        Set<DatePoll> targetDatePolls = new HashSet<>();
+        final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
+        final Set<DatePollDao> datePollDaosFromUser = datePollJpaRepository.findDatePollDaoByUserDaosContaining(targetUser);
+        final Set<DatePoll> targetDatePolls = new HashSet<>();
         datePollDaosFromUser.forEach(
                 datePollDao -> targetDatePolls.add(ModelOfDaoUtil.pollOf(datePollDao)));
         return targetDatePolls;

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PriorityChoiceDaoKey implements Serializable {
+    public static final long serialVersionUID = 6142932L;
     @Column(name = "user_id")
     private Long userId;
     @Column(name = "datepollentry_id")

@@ -12,6 +12,8 @@ import java.util.Set;
 @Service
 public class QuestionPollSyndicationService {
 
+    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+    // will be used in the future (hopefully)
     private final transient QuestionPollRepository questionPollRepo;
 
     @Autowired

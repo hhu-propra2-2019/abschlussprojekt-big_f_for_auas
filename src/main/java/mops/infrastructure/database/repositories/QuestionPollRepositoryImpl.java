@@ -49,6 +49,7 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
      * @param userId
      * @return List<QuestionPoll>
      */
+    @Override
     public List<QuestionPoll> getQuestionPollsByUserId(UserId userId) {
         throw new UnsupportedOperationException();
     }
@@ -65,6 +66,7 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
      * @param pollLink
      * @return QuestionPoll
      */
+    @Override
     public QuestionPoll getQuestionPollByLink(PollLink pollLink) {
         throw new UnsupportedOperationException();
     }
