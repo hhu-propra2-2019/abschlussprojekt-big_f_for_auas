@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data
-public class DashboardItemDto implements Comparable<DashboardItemDto>{
+public class DashboardItemDto implements Comparable<DashboardItemDto> {
 
     //Identifier ohne Kontextpfad (also z.B. „j5kl43lk5“)
     private String datePollIdentifier;
@@ -31,6 +31,11 @@ public class DashboardItemDto implements Comparable<DashboardItemDto>{
         lastModified = datePoll.getDatePollRecordAndStatus().getLastModified();
     }
 
+    /** vergleicht 2 DashboardItemDtos mit lastModified.
+     *
+     * @param other
+     * @return
+     */
     @Override
     public int compareTo(DashboardItemDto other) {
         return lastModified.compareTo(other.getLastModified());

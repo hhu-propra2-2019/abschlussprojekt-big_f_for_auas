@@ -14,9 +14,10 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
+//CHECKSTYLE:OFF
 @SuppressWarnings({"PMD.LawOfDemeter"})
 @Service
-public class FakeDatePollEntryAdapter{
+public class FakeDatePollEntryAdapter {
 
 
 
@@ -29,7 +30,12 @@ public class FakeDatePollEntryAdapter{
         this.infoService = infoService;
     }
 
-
+    /**
+     * befüllt eine Overview von den abgegebenen Stimmen eines Users zu einem DatePoll
+     * @param link
+     * @param user
+     * @return
+     */
     public DatePollUserEntryOverview showUserEntryOverview(String link, UserId user) {
         final DatePollUserEntryOverview result = new DatePollUserEntryOverview();
 
@@ -51,7 +57,11 @@ public class FakeDatePollEntryAdapter{
                 .map(this::toDTO)
                 .collect(Collectors.toSet()));
 
-        final Set<DatePollEntryDto> entries = infoService.getEntries(link).stream().map(this::toDTO).collect(Collectors.toSet());
+        final Set<DatePollEntryDto> entries = infoService
+                .getEntries(link)
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toSet());
         final TreeSet<DatePollEntryDto> treeEntries = new TreeSet<>();
         for (final DatePollEntryDto entry: entries) {
             treeEntries.add(entry);

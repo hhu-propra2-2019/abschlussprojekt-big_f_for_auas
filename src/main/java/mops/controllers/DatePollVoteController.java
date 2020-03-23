@@ -6,9 +6,13 @@ import mops.domain.models.user.UserId;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.annotation.SessionScope;
 
 @Controller
@@ -32,10 +36,10 @@ public class DatePollVoteController {
 
 
     /**
-     * getmapping.
+     * GET Mapping.
      * @param model
      * @param link
-     * @return string
+     * @return mobilePollVote
      */
     @GetMapping("/vote/{link}")
     public String showPoll(Model model, @PathVariable String link, KeycloakAuthenticationToken token) {
@@ -46,17 +50,18 @@ public class DatePollVoteController {
         return "mobilePollVote";
     }
 
+
     /**
-     * postmapping.
+     * POST Mapping
+     * @param overview
      * @param model
      * @param link
-     * @param dtos
-     * @return string
+     * @param token
+     * @return redirecte auf /
      */
-
     @PostMapping("/vote/{link}")
-
-    public String votePoll(@ModelAttribute("overview") DatePollUserEntryOverview overview, Model model, @PathVariable String link,  KeycloakAuthenticationToken token) {
+    public String votePoll(@ModelAttribute("overview") DatePollUserEntryOverview overview,
+                           Model model, @PathVariable String link, KeycloakAuthenticationToken token) {
 
         return "redirect:/";
     }

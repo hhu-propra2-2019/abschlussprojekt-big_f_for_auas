@@ -12,6 +12,12 @@ import java.time.LocalDateTime;
 public class DatePollEntryConverter implements Converter<String, DatePollEntryDto> {
 
 
+    /** Convertiert eine String id des Timespan Objektes der Form "<LocalDateTime.toString>@<LocalDateTime.toString>"
+     * zu einem EntryDto, indem es den String splittet (@ als regex) und dann einzeln parsed mit LocalDateTime.parse().
+     *
+     * @param id
+     * @return
+     */
     @Override
     public DatePollEntryDto convert(String id) {
         final String[] timeArr = id.split("@");

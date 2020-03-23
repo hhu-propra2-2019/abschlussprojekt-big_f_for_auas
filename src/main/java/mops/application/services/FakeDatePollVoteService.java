@@ -16,6 +16,7 @@ import java.util.Set;
  *  - Gibt mit userid und link das zugehörige ballot zurück.
  *
  */
+//CHECKSTYLE:OFF
 @Service
 @NoArgsConstructor
 public class FakeDatePollVoteService {
@@ -33,10 +34,14 @@ public class FakeDatePollVoteService {
 
 
         final DatePollEntry entry1 = new DatePollEntry(timespan);
-        final DatePollEntry entry2 = new DatePollEntry(new Timespan(time1.minusMonths(32).minusHours(6).plusWeeks(3), time2.plusMonths(29).minusWeeks(23).plusHours(3)));
-        final DatePollEntry entry3 = new DatePollEntry(new Timespan(time1.minusMonths(1).minusHours(12).plusWeeks(-3), time2.plusMonths(29).minusWeeks(23).plusHours(3)));
-        final DatePollEntry entry4 = new DatePollEntry(new Timespan(time1.minusMonths(9).minusHours(4).plusWeeks(15), time2.plusMonths(29).minusWeeks(23).plusHours(3)));
-        final DatePollEntry entry5 = new DatePollEntry(new Timespan(time1.minusMonths(5).minusHours(7).plusWeeks(13), time2.plusMonths(29).minusWeeks(23).plusHours(3)));
+        final DatePollEntry entry2 = new DatePollEntry(new Timespan(time1.minusMonths(32)
+                .minusHours(6).plusWeeks(3), time2.plusMonths(29).minusWeeks(23).plusHours(3)));
+        final DatePollEntry entry3 = new DatePollEntry(new Timespan(time1.minusMonths(1)
+                .minusHours(12).plusWeeks(-3), time2.plusMonths(29).minusWeeks(23).plusHours(3)));
+        final DatePollEntry entry4 = new DatePollEntry(new Timespan(time1.minusMonths(9)
+                .minusHours(4).plusWeeks(15), time2.plusMonths(29).minusWeeks(23).plusHours(3)));
+        final DatePollEntry entry5 = new DatePollEntry(new Timespan(time1.minusMonths(5)
+                .minusHours(7).plusWeeks(13), time2.plusMonths(29).minusWeeks(23).plusHours(3)));
         entriesYes.add(entry1);
         entriesYes.add(entry2);
         entriesYes.add(entry3);

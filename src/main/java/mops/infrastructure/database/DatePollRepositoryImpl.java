@@ -7,7 +7,6 @@ import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
