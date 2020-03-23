@@ -16,6 +16,6 @@ public class DummyPublicationService implements PublicationService {
      */
     @Override
     public boolean publishDatePoll(DatePoll datePoll) {
-        return true;
+        return false;
     }
 }

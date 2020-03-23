@@ -1,4 +1,4 @@
-package mops.infrastructure.adapters.webflow.datepoll.dtos;
+package mops.infrastructure.adapters.webflow.datepoll.webflowdtos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

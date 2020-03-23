@@ -8,6 +8,7 @@ import mops.domain.models.PollFields;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
+import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
 
 import java.util.EnumSet;
@@ -127,13 +128,8 @@ public final class DatePollBuilder {
      * streams stellen keine LawOfDemeter violation dar
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    public DatePollBuilder datePollOptions(Set<DatePollEntryDto> datePollEntryDtoSet) {
-        this.pollOptionTargets.addAll(validateAllAndGetCorrect(
-                datePollEntryDtoSet.stream()
-                        .map(dto -> new DatePollEntry(new Timespan(dto.getStartDate(), dto.getEndDate())))
-                        .collect(Collectors.toSet()),
-                PollFields.DATE_POLL_OPTIONS
-        ));
+    public DatePollBuilder datePollEntries(Set<DatePollEntry> entries) {
+        this.pollOptionTargets.addAll(validateAllAndGetCorrect(entries, PollFields.DATE_POLL_OPTIONS));
         if (!pollOptionTargets.isEmpty()) {
             validatedFields.add(PollFields.DATE_POLL_OPTIONS);
         }
@@ -152,6 +148,16 @@ public final class DatePollBuilder {
         if (!this.pollParticipantTargets.isEmpty()) {
             validatedFields.add(PollFields.PARTICIPANTS);
         }
+        return this;
+    }
+
+    /**
+     * TODO: Implementieren!
+     * Fügt alle validierten Gruppen der Gruppenliste hinzu.
+     * @param groups Alle Gruppen, deren Teilnehmer*innen zum Abstimmen berechtigt sein sollen.
+     * @return Referenz auf diesen DatePollBuilder;
+     */
+    public DatePollBuilder groups(Set<GroupId> groups) {
         return this;
     }
 

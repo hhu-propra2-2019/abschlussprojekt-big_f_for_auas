@@ -1,4 +1,4 @@
-package mops.infrastructure.adapters.webflow.datepoll.dtos;
+package mops.infrastructure.adapters.webflow.datepoll.webflowdtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,4 +19,5 @@ public class ConfirmationDto extends GeneralDto implements Serializable {
     private ConfigDto configDto;
     private EntriesDto entriesDto;
     private PublicationDto publicationDto;
+    private String userId;
 }

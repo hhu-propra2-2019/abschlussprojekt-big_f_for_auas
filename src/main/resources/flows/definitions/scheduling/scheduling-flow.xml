@@ -9,11 +9,11 @@
     <input name="account" type="mops.controllers.dtos.Account" required="true" />
 
     <on-start>
-        <evaluate expression="datePollWebFlowValidationAdapter.initializeMetaInfDto()" result="flowScope.metaInfDto"/>
-        <evaluate expression="datePollWebFlowValidationAdapter.initializeConfigDto()" result="flowScope.configDto"/>
-        <evaluate expression="datePollWebFlowValidationAdapter.initializeEntriesDto()" result="flowScope.entriesDto"/>
+        <evaluate expression="metaInfAdapter.initializeDto()" result="flowScope.metaInfDto"/>
+        <evaluate expression="configAdapter.initializeDto()" result="flowScope.configDto"/>
+        <evaluate expression="entriesAdapter.initializeDto()" result="flowScope.entriesDto"/>
         <evaluate expression="publicationAdapter.initializeDto()" result="flowScope.publicationDto"/>
-        <evaluate expression="datePollWebFlowPublicationAdapter.buildConfirmationDto(metaInfDto, configDto, entriesDto, publicationDto)" result="flowScope.confirmationDto"/>
+        <evaluate expression="builderAdapter.buildConfirmationDto(metaInfDto, configDto, entriesDto, publicationDto)" result="flowScope.confirmationDto"/>
     </on-start>
 
 
@@ -27,7 +27,7 @@
 
         <transition on="home" to="home"/>
         <transition on="metaInfStep2" to="metaInfStep2">
-            <evaluate expression="datePollWebFlowValidationAdapter.validateFirstStep(metaInfDto, messageContext)"/>
+            <evaluate expression="metaInfAdapter.validateFirstStep(metaInfDto, messageContext)"/>
         </transition>
     </view-state>
 
@@ -43,7 +43,7 @@
 
         <transition on="metaInfStep1" to="metaInfStep1"/>
         <transition on="settings" to="settings">
-            <evaluate expression="datePollWebFlowValidationAdapter.validateSecondStep(metaInfDto, messageContext)"/>
+            <evaluate expression="metaInfAdapter.validateDto(metaInfDto, messageContext)"/>
         </transition>
     </view-state>
 
@@ -61,7 +61,7 @@
 
         <transition on="metaInfStep2" to="metaInfStep2"/>
         <transition on="entries" to="entries">
-            <evaluate expression="datePollWebFlowValidationAdapter.validate(configDto, messageContext)"/>
+            <evaluate expression="configAdapter.validateDto(configDto, messageContext)"/>
         </transition>
     </view-state>
 
@@ -73,21 +73,21 @@
         </binder>
 
         <transition on="addoption" to="entries">
-            <evaluate expression="datePollWebFlowValidationAdapter.addOption(entriesDto, requestParameters.addDate,
+            <evaluate expression="entriesAdapter.addOption(entriesDto, requestParameters.addDate,
                                                                            requestParameters.addStartTime,
                                                                            requestParameters.addEndTime,
                                                                            messageContext)"/>
         </transition>
 
         <transition on="deleteoption" to="entries">
-            <evaluate expression="datePollWebFlowValidationAdapter.deleteOption(entriesDto, requestParameters.deleteDate,
+            <evaluate expression="entriesAdapter.deleteOption(entriesDto, requestParameters.deleteDate,
                                                                            requestParameters.deleteStartTime,
                                                                            requestParameters.deleteEndTime)"/>
         </transition>
 
         <transition on="settings" to="settings"/>
         <transition on="publication" to="publication">
-            <evaluate expression="datePollWebFlowValidationAdapter.validate(entriesDto, messageContext)"/>
+            <evaluate expression="entriesAdapter.validateDto(entriesDto, messageContext)"/>
         </transition>
     </view-state>
 
@@ -117,13 +117,13 @@
             <binding property="publicationDto"/>
         </binder>
 
-<!--        <on-entry>
-            <set name="confirmationDto" value="datePollWebFlowPublicationAdapter.buildConfirmationDto(metaInfDto, configDto, entriesDto, publicationDto)"/>
-        </on-entry>-->
+        <on-entry>
+            <set name="confirmationDto.userId" value="account.name"/>
+        </on-entry>
 
         <transition on="publication" to="publication"/>
         <transition on="submit" to="home">
-            <evaluate expression="datePollWebFlowPublicationAdapter.publishDatePoll(confirmationDto)"/>
+            <evaluate expression="builderAdapter.publishDatePoll(confirmationDto, messageContext)"/>
         </transition>
     </view-state>
 

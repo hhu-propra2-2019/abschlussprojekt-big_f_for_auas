@@ -1,5 +1,7 @@
 package mops.infrastructure.adapters.webflow;
 
+import mops.domain.models.datepoll.DatePollLink;
+import mops.infrastructure.adapters.webflow.builderdtos.PublicationSettings;
 import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import mops.application.services.GroupService;
 import mops.application.services.UserService;
@@ -20,7 +22,7 @@ import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage
 
 @Service
 @PropertySource(value = "classpath:flows/errormappings/publicationmappings.properties", encoding = "UTF-8")
-public class PublicationAdapter {
+public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, PublicationSettings> {
 
     private final transient GroupService groupService;
     private final transient UserService userService;
@@ -38,10 +40,24 @@ public class PublicationAdapter {
      *
      * @return ...
      */
+    @Override
     public PublicationDto initializeDto() {
         final PublicationDto publicationDto = new PublicationDto();
         publicationDto.setLink("dummylink");
         return publicationDto;
+    }
+
+    @Override
+    public boolean validateDto(PublicationDto publicationDto, MessageContext context) {
+        return validate(publicationDto, context);
+    }
+
+    @Override
+    public PublicationSettings build(PublicationDto publicationDto) {
+        return new PublicationSettings(
+                publicationDto.isIspublic(),
+                new DatePollLink(publicationDto.getLink()),
+                parseGroups(publicationDto.getGroups()).collect(Collectors.toSet()));
     }
 
     /**
@@ -89,9 +105,11 @@ public class PublicationAdapter {
 
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CloseResource"})
     private Set<GroupId> invalidGroups(PublicationDto publicationDto) {
-        final Stream<String> groups =
-                Arrays.stream(publicationDto.getGroups().trim().split("\\s*,\\s*")).dropWhile(String::isBlank);
-        return groups.map(GroupId::new).dropWhile(groupService::groupExists).collect(Collectors.toSet());
+        return parseGroups(publicationDto.getGroups()).dropWhile(groupService::groupExists).collect(Collectors.toSet());
+    }
+
+    private Stream<GroupId> parseGroups(String groups) {
+        return Arrays.stream(groups.trim().split("\\s*,\\s*")).dropWhile(String::isBlank).map(GroupId::new);
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")

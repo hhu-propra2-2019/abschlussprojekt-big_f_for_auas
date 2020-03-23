@@ -11,6 +11,9 @@
 <body>
 <form method="post" th:fragment="confirmation"
       th:object="${confirmationDto}" th:action="${flowExecutionUrl}">
+
+    <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
+
     <div class="card-deck">
         <div class="card order-3 order-lg-1">
             <div class="card-body">

@@ -23,6 +23,10 @@ public class DatePollLink implements ValidateAble {
         this.datePollIdentifier = encodeUUIDtoBase64(uuid);
     }
 
+    public DatePollLink(String link) {
+        this.datePollIdentifier = link;
+    }
+
     /**
      * ...
      * @return ...
