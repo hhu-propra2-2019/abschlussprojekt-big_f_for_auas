@@ -12,6 +12,7 @@
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto()" result="flowScope.headerDto"/>
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.TimespanDto()" result="flowScope.timespanDto"/>
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
+        <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.EntriesDto()" result="flowScope.entriesDto"/>
     </on-start>
 
     <view-state id="nameSettings" view="poll/nameSettings" model="headerDto">
@@ -51,18 +52,33 @@
         </binder>
 
         <transition on="access" to="accessSettings"/>
-        <transition on="choiceoptions" to="mobilePollChoiceOptions">
+        <transition on="choiceoptions" to="questionPollEntries">
             <evaluate expression="questionPollAdapter.validateConfig(configDto, messageContext)"/>
         </transition>
     </view-state>
 
-    <view-state id="mobilePollChoiceOptions" view="poll/mobilePollChoiceOptions">
+    <view-state id="questionPollEntries" view="poll/questionPollEntries" model="entriesDto">
+
+        <binder>
+            <binding property="entries"/>
+        </binder>
+
+        <transition on="addEntry" to="questionPollEntries">
+            <evaluate expression="questionPollAdapter.addEntry(entriesDto, requestParameters.addEntry, messageContext)"/>
+        </transition>
+
+        <transition on="deleteEntry" to="questionPollEntries">
+            <evaluate expression="questionPollAdapter.deleteEntry(entriesDto, requestParameters.deleteEntry)"/>
+        </transition>
+
         <transition on="entry" to="entrySettings"/>
-        <transition on="publication" to="mobilePollPublicationSettings"/>
+        <transition on="publication" to="mobilePollPublicationSettings">
+            <evaluate expression="questionPollAdapter.validateEntries(entriesDto, messageContext)"/>
+        </transition>
     </view-state>
 
     <view-state id="mobilePollPublicationSettings" view="poll/mobilePollPublicationSettings">
-        <transition on="choiceoptions" to="mobilePollChoiceOptions"/>
+        <transition on="choiceoptions" to="questionPollEntries"/>
         <transition on="confirmation" to="mobilePollConfirmation"/>
     </view-state>
 

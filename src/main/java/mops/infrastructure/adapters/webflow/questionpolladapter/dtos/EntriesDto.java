@@ -5,15 +5,15 @@ import lombok.EqualsAndHashCode;
 import mops.infrastructure.adapters.webflow.dtos.GeneralDto;
 
 import java.io.Serializable;
+import java.util.Set;
+import java.util.TreeSet;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class TimespanDto extends GeneralDto implements Serializable {
+public class EntriesDto extends GeneralDto implements Serializable {
 
     public static final long serialVersionUID = 1L;
 
-    private String startDate;
-    private String startTime;
-    private String endDate;
-    private String endTime;
+    //private String question;
+    private Set<EntryDto> entries = new TreeSet<>();
 }
