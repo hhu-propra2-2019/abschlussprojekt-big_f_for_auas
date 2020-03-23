@@ -32,7 +32,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessiveImports", "PMD.LawOfDemeter"})
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.ExcessiveImports", "PMD.LawOfDemeter",
+    "PMD.DataflowAnomalyAnalysisRule"})
 public final class ModelOfDaoUtil {
     public static DatePoll pollOf(DatePollDao pollDao) {
         final PollRecordAndStatus pollRecordAndStatus =

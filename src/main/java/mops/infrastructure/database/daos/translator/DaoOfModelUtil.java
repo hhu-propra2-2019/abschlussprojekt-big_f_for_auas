@@ -26,7 +26,7 @@ import mops.infrastructure.database.daos.questionpoll.QuestionPollMetaInfDao;
 import java.util.HashSet;
 import java.util.Set;
 
-@SuppressWarnings({"PMD.TooManyMethods", "PMD.LawOfDemeter"})
+@SuppressWarnings({"PMD.TooManyMethods", "PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysisRule"})
 public final class DaoOfModelUtil {
     @SuppressWarnings("checkstyle:RegexpSingleline")
     public static DatePollDao pollDaoOf(DatePoll poll) {
