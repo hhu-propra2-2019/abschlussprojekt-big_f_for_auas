@@ -26,14 +26,12 @@ public class PublicationServiceImpl implements PublicationService {
      */
     @Override
     public boolean saveAndPublish(DatePoll datePoll) {
-        boolean saveSuccessful;
         try {
             datePollRepository.save(datePoll);
-            saveSuccessful = true;
+            return true;
         } catch (IllegalArgumentException e) {
-            saveSuccessful = false;
+            return false;
         }
-        return  saveSuccessful;
     }
 
     /**
@@ -43,13 +41,11 @@ public class PublicationServiceImpl implements PublicationService {
      */
     @Override
     public boolean saveAndPublish(QuestionPoll questionPoll) {
-        boolean saveSuccessful;
         try {
             questionPollRepository.save(questionPoll);
-            saveSuccessful = true;
+            return true;
         } catch (IllegalArgumentException e) {
-            saveSuccessful = false;
+            return false;
         }
-        return  saveSuccessful;
     }
 }
