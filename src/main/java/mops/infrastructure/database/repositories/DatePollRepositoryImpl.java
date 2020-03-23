@@ -55,7 +55,8 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     @Override
     public Set<DatePoll> getDatePollsByUserId(UserId userId) {
         final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
-        final Set<DatePollDao> datePollDaosFromUser = datePollJpaRepository.findDatePollDaoByUserDaosContaining(targetUser);
+        final Set<DatePollDao> datePollDaosFromUser = datePollJpaRepository
+            .findDatePollDaoByUserDaosContaining(targetUser);
         final Set<DatePoll> targetDatePolls = new HashSet<>();
         datePollDaosFromUser.forEach(
                 datePollDao -> targetDatePolls.add(ModelOfDaoUtil.pollOf(datePollDao)));
