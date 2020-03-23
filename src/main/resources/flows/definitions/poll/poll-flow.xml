@@ -14,7 +14,7 @@
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
     </on-start>
 
-    <view-state id="mobilePollNameSettings" view="/flows/poll/mobilePollNameSettings" model="headerDto">
+    <view-state id="mobilePollNameSettings" view="poll/mobilePollNameSettings" model="headerDto">
 
         <binder>
             <binding property="title"/>
@@ -28,7 +28,7 @@
         </transition>
     </view-state>
 
-    <view-state id="mobilePollAccessSettings" view="/flows/poll/mobilePollAccessSettings" model="timespanDto">
+    <view-state id="mobilePollAccessSettings" view="poll/mobilePollAccessSettings" model="timespanDto">
 
         <binder>
             <binding property="startDate"/>
@@ -43,7 +43,7 @@
         </transition>
     </view-state>
 
-    <view-state id="mobilePollChoiceSettings" view="flows/poll/mobilePollChoiceSettings" model="configDto">
+    <view-state id="mobilePollChoiceSettings" view="poll/mobilePollChoiceSettings" model="configDto">
 
         <binder>
             <binding property="singleChoice"/>
@@ -56,17 +56,17 @@
         </transition>
     </view-state>
 
-    <view-state id="mobilePollChoiceOptions" view="flows/poll/mobilePollChoiceOptions">
+    <view-state id="mobilePollChoiceOptions" view="poll/mobilePollChoiceOptions">
         <transition on="choicesettings" to="mobilePollChoiceSettings"/>
         <transition on="publication" to="mobilePollPublicationSettings"/>
     </view-state>
 
-    <view-state id="mobilePollPublicationSettings" view="flows/poll/mobilePollPublicationSettings">
+    <view-state id="mobilePollPublicationSettings" view="poll/mobilePollPublicationSettings">
         <transition on="choiceoptions" to="mobilePollChoiceOptions"/>
         <transition on="confirmation" to="mobilePollConfirmation"/>
     </view-state>
 
-    <view-state id="mobilePollConfirmation" view="flows/poll/mobilePollConfirmation">
+    <view-state id="mobilePollConfirmation" view="poll/mobilePollConfirmation">
         <transition on="publication" to="mobilePollPublicationSettings"/>
         <transition on="submit" to="home"/>
     </view-state>
