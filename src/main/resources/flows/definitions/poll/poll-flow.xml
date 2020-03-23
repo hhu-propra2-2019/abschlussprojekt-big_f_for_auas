@@ -14,7 +14,7 @@
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
     </on-start>
 
-    <view-state id="mobilePollNameSettings" view="poll/mobilePollNameSettings" model="headerDto">
+    <view-state id="nameSettings" view="poll/nameSettings" model="headerDto">
 
         <binder>
             <binding property="title"/>
@@ -23,12 +23,12 @@
         </binder>
 
         <transition on="home" to="home"/>
-        <transition on="access" to="mobilePollAccessSettings">
+        <transition on="access" to="accessSettings">
             <evaluate expression="questionPollAdapter.validateHeader(headerDto, messageContext)"/>
         </transition>
     </view-state>
 
-    <view-state id="mobilePollAccessSettings" view="poll/mobilePollAccessSettings" model="timespanDto">
+    <view-state id="accessSettings" view="poll/accessSettings" model="timespanDto">
 
         <binder>
             <binding property="startDate"/>
@@ -37,27 +37,27 @@
             <binding property="endTime"/>
         </binder>
 
-        <transition on="name" to="mobilePollNameSettings"/>
-        <transition on="choicesettings" to="mobilePollChoiceSettings">
+        <transition on="name" to="nameSettings"/>
+        <transition on="entry" to="entrySettings">
             <evaluate expression="questionPollAdapter.validateTimespan(timespanDto, messageContext)"/>
         </transition>
     </view-state>
 
-    <view-state id="mobilePollChoiceSettings" view="poll/mobilePollChoiceSettings" model="configDto">
+    <view-state id="entrySettings" view="poll/entrySettings" model="configDto">
 
         <binder>
             <binding property="singleChoice"/>
             <binding property="anonymous"/>
         </binder>
 
-        <transition on="access" to="mobilePollAccessSettings"/>
+        <transition on="access" to="accessSettings"/>
         <transition on="choiceoptions" to="mobilePollChoiceOptions">
             <evaluate expression="questionPollAdapter.validateConfig(configDto, messageContext)"/>
         </transition>
     </view-state>
 
     <view-state id="mobilePollChoiceOptions" view="poll/mobilePollChoiceOptions">
-        <transition on="choicesettings" to="mobilePollChoiceSettings"/>
+        <transition on="entry" to="entrySettings"/>
         <transition on="publication" to="mobilePollPublicationSettings"/>
     </view-state>
 
