@@ -2,7 +2,7 @@ package mops.controllers;
 
 import mops.adapters.datepolladapter.DatePollEntryAdapter;
 import mops.controllers.dtos.FormattedDatePollEntryDto;
-import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
@@ -41,7 +41,7 @@ public class DatePollVoteController {
      * @return string
      */
     @GetMapping("/vote/{link}")
-    public String showPoll(Model model, @PathVariable DatePollLink link) {
+    public String showPoll(Model model, @PathVariable PollLink link) {
         final Set<FormattedDatePollEntryDto> formattedEntries = entryAdapter.getAllEntriesFormatted(link);
         model.addAttribute("entries", formattedEntries);
         return "pollVote";
@@ -55,7 +55,7 @@ public class DatePollVoteController {
      * @return string
      */
     @PostMapping("/vote/{link}")
-    public String votePoll(Model model, @PathVariable DatePollLink link, Set<FormattedDatePollEntryDto>  dtos) {
+    public String votePoll(Model model, @PathVariable PollLink link, Set<FormattedDatePollEntryDto>  dtos) {
 
         return "redirect:/vote/";
     }

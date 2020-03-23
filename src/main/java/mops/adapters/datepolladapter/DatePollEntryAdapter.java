@@ -7,7 +7,7 @@ import mops.controllers.dtos.DatePollUserEntryOverview;
 import mops.controllers.dtos.FormattedDatePollEntryDto;
 import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
-import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class DatePollEntryAdapter {
     }
 
 
-    public DatePollUserEntryOverview showUserEntryOverview(DatePollLink link, UserId user) {
+    public DatePollUserEntryOverview showUserEntryOverview(PollLink link, UserId user) {
         final DatePollUserEntryOverview result = new DatePollUserEntryOverview();
         final DatePollBallot ballot = voteService.showUserVotes(user, link);
         result.setYes(
@@ -48,14 +48,14 @@ public class DatePollEntryAdapter {
         return result;
     }
 
-    public Set<DatePollEntryDto> showAllEntries(DatePollLink link) {
+    public Set<DatePollEntryDto> showAllEntries(PollLink link) {
         final Set<DatePollEntry> entries = infoService.getEntries(link);
         return entries.stream()
                 .map(this::toDTO)
                 .collect(Collectors.toSet());
     }
 
-    public Set<FormattedDatePollEntryDto> getAllEntriesFormatted(DatePollLink link) {
+    public Set<FormattedDatePollEntryDto> getAllEntriesFormatted(PollLink link) {
         final Set<DatePollEntry> entries = infoService.getEntries(link);
         return entries.stream()
                 .map(this::toFormattedDTO)

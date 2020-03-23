@@ -7,8 +7,11 @@ import lombok.RequiredArgsConstructor;
  * aus PollRecordAndStatus geerbt.
  */
 @RequiredArgsConstructor
-class DatePollRecordAndStatus extends mops.domain.models.pollstatus.PollRecordAndStatus {
+public class DatePollRecordAndStatus extends mops.domain.models.pollstatus.PollRecordAndStatus {
 
+    /**
+     * Beendet den Datepoll.
+     */
     void terminate() { //NOPMD
         super.terminatePoll();
     }
