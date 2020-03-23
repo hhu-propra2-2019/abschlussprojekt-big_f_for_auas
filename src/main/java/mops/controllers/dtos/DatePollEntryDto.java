@@ -3,8 +3,6 @@ package mops.controllers.dtos;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mops.domain.models.Timespan;
-import org.bouncycastle.util.Times;
-
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +16,7 @@ public class DatePollEntryDto {
 
     private Timespan timespan ;
 
-    private boolean votedFor = true;
+    private boolean votedFor ;
 
 
     public DatePollEntryDto(LocalDateTime start, LocalDateTime end) {
@@ -32,12 +30,11 @@ public class DatePollEntryDto {
         this.timespan = timespan;
     }
 
-    public String plainString() {
+    public String getId() {
         return startDate.toString() + "@"+ endDate.toString();
     }
 
     public String formatString() {
-
         String start = startDate.format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm")) + " Uhr";
         String end = endDate.format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm")) + " Uhr";
         return start + " bis " + end;

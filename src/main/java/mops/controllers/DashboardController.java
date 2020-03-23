@@ -7,7 +7,6 @@ import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.context.annotation.SessionScope;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -16,7 +15,6 @@ import javax.annotation.security.RolesAllowed;
  */
 
 @Controller
-@SessionScope
 @SuppressWarnings({"PMD.AtLeastOneConstructor", "checkstyle:DesignForExtension"})
 public class DashboardController {
 
@@ -33,7 +31,7 @@ public class DashboardController {
     @RolesAllowed({"ROLE_orga", "ROLE_studentin"})
     @GetMapping("/")
     public String returnDashboard(KeycloakAuthenticationToken token, Model model) {
-        UserId user = createUserIdFromPrincipal(token);
+        final UserId user = createUserIdFromPrincipal(token);
         model.addAttribute("userId", user);
         model.addAttribute("vonMir", pollInfoService.getAllListItemDtos(user));
         model.addAttribute("vonAnderen", pollInfoService.getAllListItemDtos(user));

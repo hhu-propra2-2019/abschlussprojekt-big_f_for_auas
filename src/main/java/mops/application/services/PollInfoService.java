@@ -59,5 +59,4 @@ public class PollInfoService {
         return datePollRepository.load(datePollLink).orElseThrow();
     }
 
-
 }

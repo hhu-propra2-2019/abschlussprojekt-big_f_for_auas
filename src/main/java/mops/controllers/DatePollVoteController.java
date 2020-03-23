@@ -86,7 +86,6 @@ public class DatePollVoteController {
         System.out.println("User " + ballot.getUser() + " stimmt ja ab für : ");
         for(DatePollEntryDto entry : ballot.getEntries()) {
             System.out.println(entry.formatString());
-            System.out.println(entry.isVotedFor());
         }
 //        System.out.println(ballot.getEntries().iterator().next());
         return "redirect:/";

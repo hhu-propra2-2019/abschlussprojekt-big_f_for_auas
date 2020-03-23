@@ -23,10 +23,8 @@
                 <div th:each="entry : *{entries}" class="ml-4">
                     <div class="form-check mb-4">
 
-                        <label th:text="${entry.formatString()}"></label>
-                        <input type="checkbox" th:field="*{entries}" th:value="${entry.plainString()}" />
-
-                        <label class="form-check-label ml-2"></label>
+                        <label th:text="${entry.formatString()}" class="form-check-label ml-2 "></label>
+                        <input type="checkbox" th:field="*{entries}" th:value="${entry.getId()}" />
 
                     </div>
                 </div>

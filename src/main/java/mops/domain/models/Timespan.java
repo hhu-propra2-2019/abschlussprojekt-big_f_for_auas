@@ -48,17 +48,17 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
      * Formatiert die Timespan als String.
      * @return formattierten String.
      */
-//    @Override
-//    @SuppressWarnings("PMD.LawOfDemeter")
-//    public String toString() {
-//        final String startDateString = startDate.toLocalDate().toString();
-//        final String startTimeString = startDate.toLocalTime().toString();
-//        final String endDateString = endDate.toLocalDate().toString();
-//        final String endTimeString = endDate.toLocalTime().toString();
-//
-//        return startDateString + ", " + startTimeString + " Uhr " + " - "
-//                + endDateString + ", " + endTimeString + " Uhr";
-//    }
+    @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
+    public String toString() {
+        final String startDateString = startDate.toLocalDate().toString();
+        final String startTimeString = startDate.toLocalTime().toString();
+        final String endDateString = endDate.toLocalDate().toString();
+        final String endTimeString = endDate.toLocalTime().toString();
+
+        return startDateString + ", " + startTimeString + " Uhr " + " - "
+                + endDateString + ", " + endTimeString + " Uhr";
+    }
 
     @Override
     public int compareTo(Timespan timespan) {
