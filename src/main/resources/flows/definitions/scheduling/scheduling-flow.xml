@@ -13,6 +13,7 @@
         <evaluate expression="datePollWebFlowValidationAdapter.initializeConfigDto()" result="flowScope.configDto"/>
         <evaluate expression="datePollWebFlowValidationAdapter.initializeEntriesDto()" result="flowScope.entriesDto"/>
         <evaluate expression="publicationAdapter.initializeDto()" result="flowScope.publicationDto"/>
+        <evaluate expression="datePollWebFlowPublicationAdapter.buildConfirmationDto(metaInfDto, configDto, entriesDto, publicationDto)" result="flowScope.confirmationDto"/>
     </on-start>
 
 
@@ -109,11 +110,16 @@
 
     <view-state id="confirmation" view="scheduling/confirmation" model="confirmationDto">
 
-        <var name="confirmationDto" class="mops.infrastructure.adapters.webflow.datepoll.dtos.ConfirmationDto"/>
+        <binder>
+            <binding property="metaInfDto"/>
+            <binding property="configDto"/>
+            <binding property="entriesDto"/>
+            <binding property="publicationDto"/>
+        </binder>
 
-        <on-entry>
+<!--        <on-entry>
             <set name="confirmationDto" value="datePollWebFlowPublicationAdapter.buildConfirmationDto(metaInfDto, configDto, entriesDto, publicationDto)"/>
-        </on-entry>
+        </on-entry>-->
 
         <transition on="publication" to="publication"/>
         <transition on="submit" to="home">
