@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow.xsd">
+
+    <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
+
+    <input name="account" type="mops.controllers.dtos.Account" required="true" />
+
+    <on-start>
+        <evaluate expression="datePollWebFlowValidationAdapter.initializeMetaInfDto()" result="flowScope.metaInfDto"/>
+        <evaluate expression="datePollWebFlowValidationAdapter.initializeConfigDto()" result="flowScope.configDto"/>
+        <evaluate expression="datePollWebFlowValidationAdapter.initializeEntriesDto()" result="flowScope.entriesDto"/>
+        <evaluate expression="publicationAdapter.initializeDto()" result="flowScope.publicationDto"/>
+    </on-start>
+
+
+    <view-state id="metaInfStep1" view="scheduling/metaInfStep1" model="metaInfDto">
+
+        <binder>
+            <binding property="title"/>
+            <binding property="description"/>
+            <binding property="location"/>
+        </binder>
+
+        <transition on="home" to="home"/>
+        <transition on="metaInfStep2" to="metaInfStep2">
+            <evaluate expression="datePollWebFlowValidationAdapter.validateFirstStep(metaInfDto, messageContext)"/>
+        </transition>
+    </view-state>
+
+
+    <view-state id="metaInfStep2" view="scheduling/metaInfStep2" model="metaInfDto">
+
+        <binder>
+            <binding property="startDate"/>
+            <binding property="startTime"/>
+            <binding property="endDate"/>
+            <binding property="endTime"/>
+        </binder>
+
+        <transition on="metaInfStep1" to="metaInfStep1"/>
+        <transition on="settings" to="settings">
+            <evaluate expression="datePollWebFlowValidationAdapter.validateSecondStep(metaInfDto, messageContext)"/>
+        </transition>
+    </view-state>
+
+
+    <view-state id="settings" view="scheduling/settings" model="configDto">
+
+        <binder>
+            <binding property="voteIsEditable"/>
+            <binding property="priorityChoice"/>
+            <binding property="anonymous"/>
+            <binding property="openForOwnEntries"/>
+            <binding property="open"/>
+            <binding property="singleChoice"/>
+        </binder>
+
+        <transition on="metaInfStep2" to="metaInfStep2"/>
+        <transition on="entries" to="entries">
+            <evaluate expression="datePollWebFlowValidationAdapter.validate(configDto, messageContext)"/>
+        </transition>
+    </view-state>
+
+
+    <view-state id="entries" view="scheduling/entries" model="entriesDto">
+
+        <binder>
+            <binding property="options"/>
+        </binder>
+
+        <transition on="addoption" to="entries">
+            <evaluate expression="datePollWebFlowValidationAdapter.addOption(entriesDto, requestParameters.addDate,
+                                                                           requestParameters.addStartTime,
+                                                                           requestParameters.addEndTime,
+                                                                           messageContext)"/>
+        </transition>
+
+        <transition on="deleteoption" to="entries">
+            <evaluate expression="datePollWebFlowValidationAdapter.deleteOption(entriesDto, requestParameters.deleteDate,
+                                                                           requestParameters.deleteStartTime,
+                                                                           requestParameters.deleteEndTime)"/>
+        </transition>
+
+        <transition on="settings" to="settings"/>
+        <transition on="publication" to="publication">
+            <evaluate expression="datePollWebFlowValidationAdapter.validate(entriesDto, messageContext)"/>
+        </transition>
+    </view-state>
+
+
+    <view-state id="publication" view="scheduling/publication" model="publicationDto">
+
+        <binder>
+            <binding property="ispublic"/>
+            <binding property="link"/>
+            <binding property="people"/>
+            <binding property="groups"/>
+        </binder>
+
+        <transition on="entries" to="entries"/>
+        <transition on="confirmation" to="confirmation">
+            <evaluate expression="publicationAdapter.validate(publicationDto, messageContext)"/>
+        </transition>
+    </view-state>
+
+
+    <view-state id="confirmation" view="scheduling/confirmation" model="confirmationDto">
+
+        <var name="confirmationDto" class="mops.infrastructure.adapters.webflow.datepoll.dtos.ConfirmationDto"/>
+
+        <on-entry>
+            <set name="confirmationDto" value="datePollWebFlowPublicationAdapter.buildConfirmationDto(metaInfDto, configDto, entriesDto, publicationDto)"/>
+        </on-entry>
+
+        <transition on="publication" to="publication"/>
+        <transition on="submit" to="home">
+            <evaluate expression="datePollWebFlowPublicationAdapter.publishDatePoll(confirmationDto)"/>
+        </transition>
+    </view-state>
+
+    <end-state id="home" view="externalRedirect:/"/>
+
+</flow>
