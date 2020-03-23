@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
@@ -14,7 +14,7 @@ import mops.domain.models.PollFields;
 import mops.domain.models.PollLink;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
-//import mops.domain.models.FieldErrorNames;
+import mops.domain.models.FieldErrorNames;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.UserId;
 
@@ -37,7 +37,7 @@ public class QuestionPollBuilder {
             PollFields.CREATOR,
             PollFields.PARTICIPANTS
     );
-    // private static final Logger LOGGER = Logger.getLogger(QuestionPollBuilder.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(QuestionPollBuilder.class.getName());
     private static final int MIN_ENTRIES = 2;
 
     @Getter
@@ -175,10 +175,10 @@ public class QuestionPollBuilder {
                     linkTarget
             );
         } else {
-            //final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
-            //for (final FieldErrorNames error : errorNames) {
-            //    LOGGER.log(Level.SEVERE, error.toString());
-            //}
+            final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
+            for (final FieldErrorNames error : errorNames) {
+                LOGGER.log(Level.SEVERE, error.toString());
+            }
             throw new IllegalStateException(INVALID_BUILDER_STATE);
         }
     }
