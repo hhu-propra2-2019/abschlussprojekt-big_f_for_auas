@@ -4,6 +4,7 @@ import lombok.Getter;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
+import mops.utils.DomainObjectCreationUtils;
 
 
 /**
@@ -19,7 +20,7 @@ public class QuestionPollEntry implements ValidateAble {
     private static final int MIN_LENGTH_TITLE = 3;
 
     public QuestionPollEntry(final String title) {
-        this.title = title == null ? "" : title.trim();
+        this.title = DomainObjectCreationUtils.convertNullToEmptyAndTrim(title);
     }
 
     /** Validate the title ( possibles Answer from Question) if it empty or only whitespaces etc.
