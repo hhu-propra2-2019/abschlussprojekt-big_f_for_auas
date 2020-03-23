@@ -31,4 +31,13 @@ public class GroupRepositoryImpl implements GroupRepository {
     public Set<UserId> getUsersFromGroupByGroupId(GroupId groupId) {
         throw new UnsupportedOperationException();
     }
+
+    /**
+     * Gibt zurück, ob eine Gruppe existiert.
+     * @param groupId Id der Gruppe, die angefragt wird.
+     * @return boolean, der angibt, ob die Gruppe existiert.
+     */
+    public boolean existsById(GroupId groupId) {
+        throw new UnsupportedOperationException();
+    }
 }

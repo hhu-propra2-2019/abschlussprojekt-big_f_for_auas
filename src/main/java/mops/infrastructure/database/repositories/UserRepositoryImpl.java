@@ -24,4 +24,7 @@ public class UserRepositoryImpl implements UserRepository {
         final UserDao targetUserDao = userJpaRepository.getOne(Long.parseLong(userId.getId()));
         return Optional.of(ModelOfDaoUtil.userOf(targetUserDao));
     }
+    public boolean existsById(UserId userId) {
+        return userJpaRepository.existsById(Long.parseLong(userId.getId()));
+    }
 }
