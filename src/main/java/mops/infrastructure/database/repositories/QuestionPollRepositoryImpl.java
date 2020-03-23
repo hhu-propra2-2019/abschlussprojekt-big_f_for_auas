@@ -53,6 +53,7 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
      * @return Set<QuestionPoll> Die entsprechenden QuestionPolls.
      */
     @SuppressWarnings("PMD.LawOfDemeter")
+    @Override
     public Set<QuestionPoll> getQuestionPollsByUserId(UserId userId) {
         final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
         final Set<QuestionPollDao> questionPollDaosFromUser = questionPollJpaRepository.

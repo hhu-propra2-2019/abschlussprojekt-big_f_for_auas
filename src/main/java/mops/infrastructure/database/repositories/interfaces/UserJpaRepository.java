@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.Set;
 
+@SuppressWarnings("PMD.MissingOverride")
 public interface UserJpaRepository extends JpaRepository<UserDao, Long> {
     Set<UserDao> findByDatePollSetContains(DatePollDao datePollDao);
     Set<UserDao> findByQuestionPollSetContains(QuestionPollDao questionPollDao);
