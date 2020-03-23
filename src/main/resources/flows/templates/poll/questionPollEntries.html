@@ -6,6 +6,7 @@
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
         <script type="text/javascript" th:src="@{validation.js}"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
     </th:block>
 </head>
 <header>
@@ -67,7 +68,7 @@
 
             <form method="post" id="questionPollEntries" novalidate th:action="${flowExecutionUrl}">
                 <button type="submit" name="_eventId_publication"  class="btn btn-primary float-right mt-5">Weiter</button>
-                <button type="submit" name="_eventId_settings"  class="btn btn-primary float-left mt-5">Zurück</button>
+                <button type="submit" name="_eventId_entry"  class="btn btn-primary float-left mt-5">Zurück</button>
             </form>
         </div>
     </div>

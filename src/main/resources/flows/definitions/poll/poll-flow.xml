@@ -52,7 +52,7 @@
         </binder>
 
         <transition on="access" to="accessSettings"/>
-        <transition on="choiceoptions" to="questionPollEntries">
+        <transition on="entries" to="questionPollEntries">
             <evaluate expression="questionPollAdapter.validateConfig(configDto, messageContext)"/>
         </transition>
     </view-state>
@@ -78,7 +78,7 @@
     </view-state>
 
     <view-state id="mobilePollPublicationSettings" view="poll/mobilePollPublicationSettings">
-        <transition on="choiceoptions" to="questionPollEntries"/>
+        <transition on="entries" to="questionPollEntries"/>
         <transition on="confirmation" to="mobilePollConfirmation"/>
     </view-state>
 
