@@ -2,11 +2,9 @@ package mops.controllers;
 
 
 import mops.adapters.datepolladapter.DatePollEntryAdapterInterface;
-import mops.controllers.dtos.Account;
 import mops.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
-import org.apache.tomcat.jni.Poll;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
