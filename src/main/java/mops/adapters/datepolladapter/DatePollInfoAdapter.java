@@ -5,7 +5,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import mops.application.services.PollInfoService;
-import mops.controllers.dtos.DatePollDto;
+import mops.controllers.dtos.DatePollMetaInfDto;
 import mops.controllers.dtos.DatePollResultDto;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.PollLink;
@@ -24,9 +24,9 @@ public class DatePollInfoAdapter {
         this.infoService = infoService;
     }
 
-    public DatePollDto showMetaInformations(PollLink link, UserId userId) {
+    public DatePollMetaInfDto showMetaInformation(PollLink link, UserId userId) {
         final DatePoll poll = infoService.datePollViewService(link);
-        final DatePollDto dto = new DatePollDto();
+        final DatePollMetaInfDto dto = new DatePollMetaInfDto();
         dto.setTitle(poll.getMetaInf().getTitle());
         dto.setDescription(poll.getMetaInf().getDescription().getDescriptionText());
         dto.setLocation(poll.getMetaInf().getLocation().getLocation());

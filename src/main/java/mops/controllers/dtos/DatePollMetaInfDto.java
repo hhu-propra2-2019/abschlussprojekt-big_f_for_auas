@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class DatePollDto {
+public class DatePollMetaInfDto {
 
     private String title;
     private String description;
