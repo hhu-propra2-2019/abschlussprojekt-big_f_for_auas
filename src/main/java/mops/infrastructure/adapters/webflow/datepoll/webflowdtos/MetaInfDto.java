@@ -1,5 +1,6 @@
 package mops.infrastructure.adapters.webflow.datepoll.webflowdtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import mops.infrastructure.adapters.webflow.dtos.GeneralDto;
@@ -8,6 +9,7 @@ import java.io.Serializable;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor
 public class MetaInfDto extends GeneralDto implements Serializable {
 
     public static final long serialVersionUID = 452345657L;
