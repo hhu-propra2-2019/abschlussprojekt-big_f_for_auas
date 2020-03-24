@@ -1,6 +1,7 @@
 package mops.domain.models.datepoll;
 
 import mops.domain.models.FieldErrorNames;
+import mops.domain.models.PollDescription;
 import mops.domain.models.Timespan;
 import mops.domain.models.Validation;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -35,13 +36,13 @@ class DatePollMetaInfTest {
             LocalDateTime.now().plus(DAYS_TO_ADD_FROM_NOW_ON, ChronoUnit.DAYS));
     private DatePollMetaInf validMetaInf;
     private DatePollLocation locationMock;
-    private DatePollDescription descriptionMock;
+    private PollDescription descriptionMock;
     private Timespan timespanMock;
 
     @BeforeEach
     void setUp() {
         locationMock = mock(DatePollLocation.class);
-        descriptionMock = mock(DatePollDescription.class);
+        descriptionMock = mock(PollDescription.class);
         timespanMock = mock(Timespan.class);
         when(locationMock.validate()).thenReturn(Validation.noErrors());
         when(descriptionMock.validate()).thenReturn(Validation.noErrors());

@@ -14,4 +14,5 @@ public class ConfigDto extends GeneralDto implements Serializable {
 
     private boolean singleChoice;
     private boolean anonymous;
+    private boolean open;
 }

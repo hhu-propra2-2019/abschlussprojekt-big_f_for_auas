@@ -1,6 +1,9 @@
 package mops.infrastructure.adapters.webflow.questionpolladapter;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.ConfigDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.TimespanDto;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.Timespan;
 import mops.domain.models.Validation;
@@ -12,6 +15,7 @@ import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.EntriesDto;
 import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.EntryDto;
 import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto;
 import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.TimespanDto;
+import mops.domain.models.questionpoll.QuestionPollMetaInf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
@@ -44,7 +48,7 @@ public final class QuestionPollAdapter {
                     + "auch wenn das Interface es erlaubt") //NOPMD
     @SuppressWarnings({"PMD.LawOfDemeter"}) //NOPMD
     public boolean validateHeader(HeaderDto headerDto, MessageContext messageContext) {
-        final QuestionPollHeader header = conversionService.convert(headerDto, QuestionPollHeader.class);
+        final QuestionPollMetaInf header = conversionService.convert(headerDto, QuestionPollMetaInf.class);
         final Validation validation = header.validate();
         mapErrors(validation.getErrorMessages(), messageContext);
         return validation.hasNoErrors();

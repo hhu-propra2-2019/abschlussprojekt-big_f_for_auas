@@ -1,26 +1,27 @@
-package mops.domain.models.datepoll;
+package mops.domain.models;
 
 import java.nio.ByteBuffer;
 import lombok.Value;
-import mops.domain.models.FieldErrorNames;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
 
 import java.util.UUID;
 import java.util.Base64;
 import java.util.Base64.Encoder;
 
 @Value
-public class DatePollLink implements ValidateAble {
+public class PollLink implements ValidateAble {
 
     private static final int IDENTIFIER_LENGTH = 22;
     private static Encoder encoder = Base64.getUrlEncoder();
 
-    private String datePollIdentifier;
+    private String pollIdentifier;
 
-    public DatePollLink() {
+    public PollLink() {
         final UUID uuid = UUID.randomUUID();
-        this.datePollIdentifier = encodeUUIDtoBase64(uuid);
+        this.pollIdentifier = encodeUUIDtoBase64(uuid);
+    }
+
+    public PollLink(UUID inputUuid) {
+        this.pollIdentifier = encodeUUIDtoBase64(inputUuid);
     }
 
     /**
@@ -31,7 +32,7 @@ public class DatePollLink implements ValidateAble {
     @Override
     public Validation validate() {
         Validation validation = Validation.noErrors();
-        if ("".equals(datePollIdentifier)) {
+        if ("".equals(pollIdentifier)) {
             validation = new Validation(FieldErrorNames.DATE_POLL_IDENTIFIER_EMPTY);
         }
         return validation;
