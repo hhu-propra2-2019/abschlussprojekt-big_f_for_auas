@@ -7,11 +7,7 @@ import mops.domain.models.Validation;
 import mops.domain.models.questionpoll.QuestionPollConfig;
 import mops.domain.models.questionpoll.QuestionPollEntry;
 import mops.domain.models.questionpoll.QuestionPollMetaInf;
-import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.ConfigDto;
-import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.EntriesDto;
-import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.EntryDto;
-import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto;
-import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.TimespanDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
@@ -22,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.EnumSet;
 
@@ -31,6 +28,7 @@ public final class QuestionPollAdapter {
 
     private final transient ConversionService conversionService;
     private final transient Environment errorEnvironment;
+    private final transient DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @Autowired
     public QuestionPollAdapter(ConversionService conversionService, Environment env) {
@@ -63,6 +61,13 @@ public final class QuestionPollAdapter {
         final Validation validation = timespan.validate();
         mapErrors(validation.getErrorMessages(), messageContext);
         return validation.hasNoErrors();
+    }
+
+    public TimespanDto initializeTimespanDto() {
+        return new TimespanDto(LocalDate.now().toString(),
+                LocalTime.now().format(formatter),
+                LocalDate.now().plusMonths(1).toString(),
+                LocalTime.now().format(formatter));
     }
 
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
