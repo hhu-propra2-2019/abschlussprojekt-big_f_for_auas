@@ -30,9 +30,7 @@ public class DatePollEntryConverter implements Converter<String, DatePollEntryDt
 
         final Timespan timespan = new Timespan(time1, time2);
 
-        final DatePollEntryDto entry = new DatePollEntryDto(timespan);
-
-        return entry;
+        return new DatePollEntryDto(timespan);
     }
 
 }

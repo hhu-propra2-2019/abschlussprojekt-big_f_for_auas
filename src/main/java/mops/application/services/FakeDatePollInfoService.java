@@ -1,4 +1,5 @@
 package mops.application.services;
+
 import lombok.NoArgsConstructor;
 import mops.controllers.dtos.DashboardItemDto;
 import mops.domain.models.PollLink;
@@ -12,12 +13,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidInstantiatingObjectsInLoops"}) //NOPMD
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidInstantiatingObjectsInLoops", "checkstyle:MagicNumber"}) //NOPMD
 @Service
 @NoArgsConstructor
 public class FakeDatePollInfoService {
     private Set<DatePoll>  testDatePollObjects = new HashSet<>();
 
+    @SuppressWarnings("checkstyle:MagicNumber")
     public Set<DatePollEntry> getEntries(String link) {
 
         final Set<DatePollEntry> entries = new HashSet<>();

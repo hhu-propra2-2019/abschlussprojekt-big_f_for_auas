@@ -18,7 +18,7 @@ import javax.annotation.security.RolesAllowed;
 @SuppressWarnings({"PMD.AtLeastOneConstructor", "checkstyle:DesignForExtension"})
 public class DashboardController {
 
-   private final FakeDatePollInfoService pollInfoService = new FakeDatePollInfoService();
+   private final transient FakeDatePollInfoService pollInfoService = new FakeDatePollInfoService();
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
     /* Verletzung in externer API*/
