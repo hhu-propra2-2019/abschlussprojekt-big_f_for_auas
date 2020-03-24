@@ -130,9 +130,7 @@
         </on-entry>
 
         <transition on="upload" to="confirmation">
-            <evaluate expression="uploadAdapter.processPollFile(uploadDto.pollFile,
-                                                                messageContext,
-                                                                datePollDto)"/>
+            <evaluate expression="uploadAdapter.processPollFile(uploadDto.pollFile, messageContext, datePollDto)"/>
         </transition>
         <transition on="cancel" to="metaInfStep1" bind="false"/>
     </view-state>

@@ -21,7 +21,7 @@ benötigt werden. Im Folgenden sind alle Attribute aufgeführt, die angegeben we
 | singleChoice  | nein      | true/false, default: false            | true: Nur eine Termin darf ausgewählt werden
 | priorityChoice| nein      | true/false, default: false            | true: Es gibt eine zusätzliche Vielleicht-Option
 | anonymous     | nein      | true/false, default: false            | true: Die Namen der Teilnehmer*innen werden nicht angezeigt
-| public        | nein      | true/false, default: true             | true: Alle angemeldeten Nutzer*innen dürfen an der Umfrage teilnehmen
+| ispublic        | nein      | true/false, default: true             | true: Alle angemeldeten Nutzer*innen dürfen an der Umfrage teilnehmen
 | groups        | wenn public=true| List mit IDs der Gruppen        | Legt Gruppen fest, die abstimmen dürfen.
 | entries       | ja        | Mindestens ein Eintrag                | Die Terminoptionen, über die abgestimmt wird.
 | entries.date  | ja        | Format: "YYYY-MM-DD"                  | Datum eines Termins

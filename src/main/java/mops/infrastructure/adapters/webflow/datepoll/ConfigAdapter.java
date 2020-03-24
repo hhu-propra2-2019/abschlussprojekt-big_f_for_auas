@@ -27,7 +27,14 @@ public final class ConfigAdapter implements WebFlowAdapter<ConfigDto, DatePollCo
 
     @Override
     public ConfigDto initializeDto() {
-        return new ConfigDto();
+        final ConfigDto configDto = new ConfigDto();
+        configDto.setVoteIsEditable(true);
+        configDto.setOpenForOwnEntries(false);
+        configDto.setSingleChoice(false);
+        configDto.setPriorityChoice(false);
+        configDto.setAnonymous(false);
+        configDto.setOpen(true);
+        return configDto;
     }
 
     @SuppressFBWarnings(

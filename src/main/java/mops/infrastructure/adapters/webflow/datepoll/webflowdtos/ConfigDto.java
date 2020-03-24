@@ -17,5 +17,8 @@ public class ConfigDto extends GeneralDto implements Serializable {
     private boolean singleChoice;
     private boolean priorityChoice;
     private boolean anonymous;
+
+    // Nur für das Erzeugen des DatePollMetaInf, wird nicht gemappt. Der relevante Wert ist in PublicationDto
+    // TODO: Bessere Lösung überlegen
     private boolean open;
 }

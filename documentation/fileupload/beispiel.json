@@ -11,7 +11,7 @@
   "singleChoice": false,
   "priorityChoice": true,
   "anonymous": false,
-  "open": false,
+  "ispublic": false,
   "groups": ["termine1", "big_f_for_auas", "gruppe-xyz"],
   "entries": [
     {

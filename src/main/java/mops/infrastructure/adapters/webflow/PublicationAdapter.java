@@ -44,6 +44,8 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
     public PublicationDto initializeDto() {
         final PublicationDto publicationDto = new PublicationDto();
         publicationDto.setLink("dummylink");
+        publicationDto.setIspublic(true);
+        publicationDto.setGroups("");
         return publicationDto;
     }
 

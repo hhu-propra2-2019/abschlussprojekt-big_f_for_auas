@@ -11,7 +11,9 @@
 <form method="post" novalidate th:fragment="form" enctype="multipart/form-data"
       th:object="${uploadDto}" th:action="${flowExecutionUrl}" >
 
-    <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
+    <div class="general-error-banner" th:fragment="defaultErrorAlerts">
+        <div class="alert alert-danger" th:errors="*" th:text="${err}"></div>
+    </div>
 
 <!--    <input type="file" th:field="*{pollFile}"/>-->
     <div class="custom-file" id="file-input">

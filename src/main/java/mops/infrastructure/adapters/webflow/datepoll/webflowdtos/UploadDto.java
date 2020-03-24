@@ -11,5 +11,7 @@ import java.io.Serializable;
 @Data
 public class UploadDto extends GeneralDto implements Serializable {
 
+    public static final long serialVersionUID = 9832573348L;
+
     private transient MultipartFile pollFile;
 }
