@@ -5,7 +5,7 @@ import mops.application.services.UserService;
 import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
-import mops.infrastructure.adapters.webflow.builderdtos.PublicationSettings;
+import mops.infrastructure.adapters.webflow.builderdtos.PublicationInformation;
 import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
@@ -22,7 +22,7 @@ import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage
 
 @Service
 @PropertySource(value = "classpath:flows/errormappings/publicationmappings.properties", encoding = "UTF-8")
-public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, PublicationSettings> {
+public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, PublicationInformation> {
 
     private final transient GroupService groupService;
     private final transient UserService userService;
@@ -54,8 +54,8 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
 
     @Override
     @SuppressWarnings("PMD.LawOfDemeter") //NOPMD
-    public PublicationSettings build(PublicationDto publicationDto) {
-        return new PublicationSettings(
+    public PublicationInformation build(PublicationDto publicationDto) {
+        return new PublicationInformation(
                 publicationDto.isIspublic(),
                 new PollLink(publicationDto.getLink()),
                 parseGroups(publicationDto.getGroups()).collect(Collectors.toSet()));

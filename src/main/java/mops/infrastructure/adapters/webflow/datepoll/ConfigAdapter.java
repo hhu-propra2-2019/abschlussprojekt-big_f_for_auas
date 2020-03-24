@@ -32,7 +32,7 @@ public final class ConfigAdapter implements WebFlowAdapter<ConfigDto, DatePollCo
 
     @SuppressFBWarnings(
             value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
-            justification = "Der eingesetzte Converter kann niemals eine null refrence zurückgeben, "
+            justification = "Der eingesetzte Converter kann niemals eine null-Referenz zurückgeben, "
                     + "auch wenn das Interface es erlaubt")
     @SuppressWarnings({"PMD.LawOfDemeter"})
     @Override

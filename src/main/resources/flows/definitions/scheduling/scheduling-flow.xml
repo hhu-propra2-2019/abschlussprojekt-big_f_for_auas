@@ -69,18 +69,18 @@
     <view-state id="entries" view="scheduling/entries" model="entriesDto">
 
         <binder>
-            <binding property="options"/>
+            <binding property="entries"/>
         </binder>
 
         <transition on="addoption" to="entries">
-            <evaluate expression="entriesAdapter.addOption(entriesDto, requestParameters.addDate,
+            <evaluate expression="entriesAdapter.addEntry(entriesDto, requestParameters.addDate,
                                                                            requestParameters.addStartTime,
                                                                            requestParameters.addEndTime,
                                                                            messageContext)"/>
         </transition>
 
         <transition on="deleteoption" to="entries">
-            <evaluate expression="entriesAdapter.deleteOption(entriesDto, requestParameters.deleteDate,
+            <evaluate expression="entriesAdapter.deleteEntry(entriesDto, requestParameters.deleteDate,
                                                                            requestParameters.deleteStartTime,
                                                                            requestParameters.deleteEndTime)"/>
         </transition>

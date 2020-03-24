@@ -25,24 +25,24 @@ public final class EntriesAdapter implements WebFlowAdapter<EntriesDto, Entries>
         this.entryAdapter = entryAdapter;
     }
 
-    public boolean addOption(EntriesDto entriesDto,
-                             String addDate,
-                             String addStartTime,
-                             String addEndTime,
-                             MessageContext context) {
+    public boolean addEntry(EntriesDto entriesDto,
+                            String addDate,
+                            String addStartTime,
+                            String addEndTime,
+                            MessageContext context) {
         final boolean isvalid = entryAdapter.validateDto(new EntryDto(addDate, addStartTime, addEndTime), context);
         if (!isvalid) {
             return false;
         }
-        entriesDto.getOptions().add(new EntryDto(addDate, addStartTime, addEndTime));
+        entriesDto.getEntries().add(new EntryDto(addDate, addStartTime, addEndTime));
         return true;
     }
 
-    public boolean deleteOption(EntriesDto entriesDto,
-                                String deleteDate,
-                                String deleteStartTime,
-                                String deleteEndTime) {
-        entriesDto.getOptions().remove(new EntryDto(deleteDate, deleteStartTime, deleteEndTime));
+    public boolean deleteEntry(EntriesDto entriesDto,
+                               String deleteDate,
+                               String deleteStartTime,
+                               String deleteEndTime) {
+        entriesDto.getEntries().remove(new EntryDto(deleteDate, deleteStartTime, deleteEndTime));
         return true;
     }
 
@@ -56,7 +56,7 @@ public final class EntriesAdapter implements WebFlowAdapter<EntriesDto, Entries>
     public boolean validateDto(EntriesDto entriesDto, MessageContext context) {
         // Die Optionen werden in addOption() validiert. Hier wird nur validiert,
         // dass minedestens ein Termin zur Auswahl steht
-        if (entriesDto.getOptions().isEmpty()) {
+        if (entriesDto.getEntries().isEmpty()) {
             addMessage("DATE_POLL_NO_ENTRIES", context, errorEnvironment);
             return false;
         }
@@ -67,7 +67,7 @@ public final class EntriesAdapter implements WebFlowAdapter<EntriesDto, Entries>
     @SuppressWarnings("PMD.LawOfDemeter")
     public Entries build(EntriesDto entriesDto) {
         return new Entries(
-                entriesDto.getOptions().stream().map(entryAdapter::build).collect(Collectors.toSet())
+                entriesDto.getEntries().stream().map(entryAdapter::build).collect(Collectors.toSet())
         );
     }
 }

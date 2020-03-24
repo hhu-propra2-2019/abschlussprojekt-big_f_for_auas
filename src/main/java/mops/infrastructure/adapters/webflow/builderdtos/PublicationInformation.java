@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Data
 @AllArgsConstructor
-public class PublicationSettings {
+public class PublicationInformation {
 
     private boolean ispublic;
     private PollLink link;

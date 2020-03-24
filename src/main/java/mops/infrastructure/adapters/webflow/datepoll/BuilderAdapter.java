@@ -7,7 +7,7 @@ import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.adapters.webflow.ErrorMessageHelper;
 import mops.infrastructure.adapters.webflow.PublicationAdapter;
-import mops.infrastructure.adapters.webflow.builderdtos.PublicationSettings;
+import mops.infrastructure.adapters.webflow.builderdtos.PublicationInformation;
 import mops.infrastructure.adapters.webflow.datepoll.builderdtos.Entries;
 import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.ConfigDto;
 import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.ConfirmationDto;
@@ -61,9 +61,9 @@ public final class BuilderAdapter {
     public boolean publishDatePoll(ConfirmationDto confirmationDto, MessageContext context) {
         final DatePollMetaInf metaInf = metaInfAdapter.build(confirmationDto.getMetaInfDto());
         final Entries entries = entriesAdapter.build(confirmationDto.getEntriesDto());
-        final PublicationSettings publicationSettings = publicationAdapter.build(confirmationDto.getPublicationDto());
+        final PublicationInformation publicationInformation = publicationAdapter.build(confirmationDto.getPublicationDto());
         // Joar, Law of Demeter. Ist nur ein DTO und darf nicht null sein, also naja.
-        confirmationDto.getConfigDto().setOpen(publicationSettings.isIspublic());
+        confirmationDto.getConfigDto().setOpen(publicationInformation.isIspublic());
         final DatePollConfig config = configAdapter.build(confirmationDto.getConfigDto());
 
         final DatePollBuilder builder = new DatePollBuilder();
@@ -72,9 +72,9 @@ public final class BuilderAdapter {
                 .datePollMetaInf(metaInf)
                 .datePollConfig(config)
                 .datePollEntries(entries.getEntries())
-                .datePollLink(publicationSettings.getLink());
-        if (publicationSettings.isIspublic()) {
-            builder.groups(publicationSettings.getGroups());
+                .datePollLink(publicationInformation.getLink());
+        if (publicationInformation.isIspublic()) {
+            builder.groups(publicationInformation.getGroups());
         }
 
         final boolean isValid = builder.getValidationState().hasNoErrors();
@@ -87,7 +87,7 @@ public final class BuilderAdapter {
         if (hasBeenSaved) {
             return true;
         }
-        ErrorMessageHelper.addMessage("YOU_MOST_DEFINITELY_FUCKED_UP", context, errorEnvironment);
+        ErrorMessageHelper.addMessage("UNKNOWN_DB_ERROR", context, errorEnvironment);
         return false;
     }
 }
