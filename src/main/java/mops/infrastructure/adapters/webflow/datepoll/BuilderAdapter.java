@@ -14,11 +14,14 @@ import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.ConfirmationDto
 import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.EntriesDto;
 import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.MetaInfDto;
 import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
+import mops.infrastructure.interceptors.AccountFromTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 // Alle Fehler sollen bei defaulterrors angezeigt werden, weswegen wir uns eine leere Properties-Datei injecten lassen
@@ -47,18 +50,15 @@ public final class BuilderAdapter {
         this.errorEnvironment = errorEnvironment;
     }
 
-    public ConfirmationDto buildConfirmationDto(MetaInfDto metaInfDto,
-                                                ConfigDto configDto,
-                                                EntriesDto entriesDto,
-                                                PublicationDto publicationDto) {
-        return new ConfirmationDto(metaInfDto, configDto, entriesDto, publicationDto, "");
+    public ConfirmationDto buildConfirmationDto() {
+        return new ConfirmationDto(metaInfAdapter.initializeDto(),configAdapter.initializeDto(),entriesAdapter.initializeDto(),publicationAdapter.initializeDto(),"");
     }
 
     // Zu diesem Zeitpunkt muss jedes Objekt gültig sein, da es nach jedem Schritt in Web Flow validiert wurde.
     // Wenn DatePoll trotzdem nicht gebaut wird, kann das nur an einem Fehler in der Validierung oder Programmlogik
     // liegen. Hier muss von uns nichts mehr überprüft werden. Der Builder überprüft natürlich vor dem Bauen das Objekt.
     @SuppressWarnings("PMD.LawOfDemeter")
-    public boolean publishDatePoll(ConfirmationDto confirmationDto, MessageContext context) {
+    public boolean publishDatePoll(ConfirmationDto confirmationDto, MessageContext context, HttpServletRequest request) {
         final DatePollMetaInf metaInf = metaInfAdapter.build(confirmationDto.getMetaInfDto());
         final Entries entries = entriesAdapter.build(confirmationDto.getEntriesDto());
         final PublicationInformation publicationInformation =
@@ -69,7 +69,7 @@ public final class BuilderAdapter {
 
         final DatePollBuilder builder = new DatePollBuilder();
 
-        builder.creator(new UserId(confirmationDto.getUserId()))
+        builder.creator()
                 .datePollMetaInf(metaInf)
                 .datePollConfig(config)
                 .datePollEntries(entries.getEntries())

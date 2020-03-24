@@ -9,12 +9,12 @@
     <input name="account" type="mops.controllers.dtos.Account" required="true" />
 
     <on-start>
-        <evaluate expression="metaInfAdapter.initializeDto()" result="flowScope.metaInfDto"/>
+<!--        <evaluate expression="metaInfAdapter.initializeDto()" result="flowScope.metaInfDto"/>
         <evaluate expression="configAdapter.initializeDto()" result="flowScope.configDto"/>
         <evaluate expression="entriesAdapter.initializeDto()" result="flowScope.entriesDto"/>
-        <evaluate expression="publicationAdapter.initializeDto()" result="flowScope.publicationDto"/>
-        <evaluate expression="builderAdapter.buildConfirmationDto(metaInfDto, configDto, entriesDto, publicationDto)" result="flowScope.confirmationDto"/>
-        <evaluate expression="uploadAdapter.initializeDto()" result="flowScope.uploadDto"/>
+        <evaluate expression="publicationAdapter.initializeDto()" result="flowScope.publicationDto"/>-->
+        <evaluate expression="builderAdapter.buildConfirmationDto()" result="flowScope.confirmationDto"/>
+<!--        <evaluate expression="uploadAdapter.initializeDto()" result="flowScope.uploadDto"/>-->
     </on-start>
 
 
@@ -110,6 +110,21 @@
     </view-state>
 
 
+    <view-state id="fileUpload" view="scheduling/fileUpload" model="uploadDto">
+
+        <binder>
+            <binding property="pollFile"/>
+        </binder>
+
+        <transition on="upload" to="confirmation">
+            <evaluate expression="uploadAdapter.processPollFile(uploadDto.pollFile,
+                                                                messageContext,
+                                                                confirmationDto)"/>
+        </transition>
+        <transition on="cancel" to="metaInfStep1" bind="false"/>
+    </view-state>
+
+
     <view-state id="confirmation" view="scheduling/confirmation" model="confirmationDto">
 
         <binder>
@@ -128,20 +143,6 @@
             <evaluate expression="builderAdapter.publishDatePoll(confirmationDto, messageContext)"/>
         </transition>
     </view-state>
-
-
-    <view-state id="fileUpload" view="scheduling/fileUpload" model="uploadDto">
-
-        <binder>
-            <binding property="pollFile"/>
-        </binder>
-
-        <transition on="upload" to="confirmation">
-            <evaluate expression="uploadAdapter.processPollFile(uploadDto.pollFile, messageContext)"/>
-        </transition>
-        <transition on="cancel" to="metaInfStep1" bind="false"/>
-    </view-state>
-
 
     <end-state id="home" view="externalRedirect:/"/>
 
