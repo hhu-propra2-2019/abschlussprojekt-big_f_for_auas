@@ -5,6 +5,7 @@ import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.PollLink;
+import mops.domain.models.group.GroupId;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.UserId;
 
@@ -19,6 +20,7 @@ public class QuestionPoll {
     private final Set<QuestionPollEntry> entries;
 
     private final Set<UserId> participants;
+    private final Set<GroupId> groups;
 
     private final Set<QuestionPollBallot> ballots;
     private final PollLink pollLink;

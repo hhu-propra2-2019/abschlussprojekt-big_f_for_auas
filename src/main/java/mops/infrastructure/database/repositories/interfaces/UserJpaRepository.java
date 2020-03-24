@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @SuppressWarnings("PMD.MissingOverride")
-public interface UserJpaRepository extends JpaRepository<UserDao, Long> {
+public interface UserJpaRepository extends JpaRepository<UserDao, String> {
     Set<UserDao> findByDatePollSetContains(DatePollDao datePollDao);
     Set<UserDao> findByQuestionPollSetContains(QuestionPollDao questionPollDao);
     //Anzahl aller user die fuer die datepolloption gestimmt haben

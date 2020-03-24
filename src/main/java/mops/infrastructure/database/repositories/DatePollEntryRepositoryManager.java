@@ -58,7 +58,7 @@ public class DatePollEntryRepositoryManager {
      */
     public void userVotesForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
         final DatePollEntryDao targetDatePollEntryDao = findDatePollEntryDao(pollLink, datePollEntry);
-        final UserDao currentUserDao = userJpaRepository.getOne(Long.parseLong(userId.getId()));
+        final UserDao currentUserDao = userJpaRepository.getOne(userId.getId());
         targetDatePollEntryDao.getUserVotesFor().add(currentUserDao);
         currentUserDao.getDatePollEntrySet().add(targetDatePollEntryDao);
         userJpaRepository.save(currentUserDao);

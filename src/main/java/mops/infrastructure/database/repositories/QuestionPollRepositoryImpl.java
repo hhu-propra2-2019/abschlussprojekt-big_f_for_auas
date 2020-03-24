@@ -1,13 +1,16 @@
 package mops.infrastructure.database.repositories;
 
 import mops.domain.models.PollLink;
+import mops.domain.models.group.GroupId;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.QuestionPollRepository;
+import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
+import mops.infrastructure.database.repositories.interfaces.GroupJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.QuestionPollJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,15 +18,19 @@ import org.springframework.stereotype.Repository;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
 public class QuestionPollRepositoryImpl implements QuestionPollRepository {
 
     private final transient QuestionPollJpaRepository questionPollJpaRepository;
+    private final transient GroupJpaRepository groupJpaRepository;
 
     @Autowired
-    public QuestionPollRepositoryImpl(QuestionPollJpaRepository questionPollJpaRepository) {
+    public QuestionPollRepositoryImpl(QuestionPollJpaRepository questionPollJpaRepository,
+                                      GroupJpaRepository groupJpaRepository) {
         this.questionPollJpaRepository = questionPollJpaRepository;
+        this.groupJpaRepository = groupJpaRepository;
     }
 
     /**
@@ -43,8 +50,14 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
      * @param questionPoll Zu speicherndes QuestionPoll
      */
     @Override
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     public void save(QuestionPoll questionPoll) {
-        questionPollJpaRepository.save(DaoOfModelUtil.pollDaoOf(questionPoll));
+        final Set<GroupDao> groupDaos = questionPoll.getGroups().stream()
+                .map(GroupId::getId)
+                .map(groupJpaRepository::findById)
+                .map(Optional::orElseThrow)
+                .collect(Collectors.toSet());
+        questionPollJpaRepository.save(DaoOfModelUtil.pollDaoOf(questionPoll, groupDaos));
     }
 
     /**

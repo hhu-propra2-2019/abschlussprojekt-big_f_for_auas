@@ -1,16 +1,14 @@
 package mops.database;
 
-import java.util.stream.IntStream;
 import mops.MopsApplication;
 import mops.config.H2DatabaseConfigForTests;
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
-import mops.domain.models.datepoll.DatePoll;
-import mops.domain.models.datepoll.DatePollBuilder;
-import mops.domain.models.datepoll.DatePollConfig;
-import mops.domain.models.datepoll.DatePollEntry;
-import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.datepoll.*;
+import mops.domain.models.group.Group;
+import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
+import mops.domain.repositories.DomainGroupRepository;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
@@ -30,6 +28,8 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -47,6 +47,11 @@ public class DatabaseDatePollIntegrityTest {
     private transient UserJpaRepository userJpaRepository;
     @Autowired
     private transient DatePollEntryJpaRepository datePollEntryJpaRepository;
+
+    @Autowired
+    private transient DomainGroupRepository domainGroupRepository;
+
+
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
     public void setupDatePollRepoTest() {
@@ -59,9 +64,13 @@ public class DatabaseDatePollIntegrityTest {
         final Set<UserId> participants = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
 
+        final Group group = new Group(new GroupId("1"), participants);
+
+        domainGroupRepository.save(group);
+
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> pollEntries.add(new DatePollEntry(
-            new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
+                new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
 
         datePoll = new DatePollBuilder()
@@ -69,14 +78,14 @@ public class DatabaseDatePollIntegrityTest {
                 .creator(creator)
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
-                .participants(participants)
+                .participatingGroups(Set.of(group.getId()))
                 .datePollLink(datePollLink)
                 .build();
     }
 
     @Test
     public void saveOneDatePollDao() {
-        final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll);
+        final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll, new GroupId("1"));
         final String link = datePollDao.getLink();
         datePollJpaRepository.save(datePollDao);
         final DatePollDao datepollFound = datePollJpaRepository.findDatePollDaoByLink(link);
@@ -93,6 +102,7 @@ public class DatabaseDatePollIntegrityTest {
 
         assertThat(userDaoSet).hasSize(3);
     }
+
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testDatePollEntryPresence() {

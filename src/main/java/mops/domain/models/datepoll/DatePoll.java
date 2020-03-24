@@ -3,6 +3,7 @@ package mops.domain.models.datepoll;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.PollLink;
+import mops.domain.models.group.GroupId;
 import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.UserId;
 
@@ -20,6 +21,7 @@ public final class DatePoll {
     private DatePollConfig config;
     private Set<DatePollEntry> entries;
     private Set<UserId> participants;
+    private Set<GroupId> groups;
     private Set<DatePollBallot> ballots;
     private PollLink pollLink;
 

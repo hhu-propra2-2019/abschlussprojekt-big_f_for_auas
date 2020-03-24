@@ -3,18 +3,19 @@ package mops.infrastructure.database.daos.datepoll;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.UserDao;
 
-import javax.persistence.Id;
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.OneToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
-import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,6 +42,12 @@ public class DatePollDao {
             fetch = FetchType.LAZY
     )
     private Set<DatePollEntryDao> entryDaos = new HashSet<>();
+
+    @ManyToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private Set<GroupDao> groupDaos = new HashSet<>();
     @ManyToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY

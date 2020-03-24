@@ -3,6 +3,7 @@ package mops.infrastructure.database.daos.questionpoll;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.UserDao;
 
@@ -39,6 +40,11 @@ public class QuestionPollDao {
             orphanRemoval = true
     )
     private Set<QuestionPollEntryDao> entryDaos;
+    @ManyToMany(
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private Set<GroupDao> groupDaos = new HashSet<>();
     @ManyToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
