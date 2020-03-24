@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 public class DatePollRecordAndStatus extends mops.domain.models.pollstatus.PollRecordAndStatus {
 
     /**
-     * terminiert den Poll
+     * Beendet den Datepoll.
      */
     void terminate() { //NOPMD
         super.terminatePoll();

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+        <script type="text/javascript" th:src="@{tagsinput/jquery.tagsinput-revisited.js}"></script>
+        <link rel="stylesheet" th:href="@{tagsinput/jquery.tagsinput-revisited.css}"/>
+    </th:block>
+</head>
+<body>
+<header>
+    <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
+        <ul th:replace="fragments/general.html :: navigationList(newTerminActive=true)"></ul>
+    </nav>
+</header>
+<main th:fragment="bodycontent">
+    <div class="container">
+        <div th:replace="fragments/general.html :: pageHeading(process='Neue Terminfindung', page='Teilnehmer')"></div>
+        <form th:replace="fragments/publication.html :: form"></form>
+    </div>
+</main>
+</body>
+</html>

@@ -20,15 +20,15 @@ public class DashboardItemDto implements Comparable<DashboardItemDto> {
     private LocalDateTime lastModified;
 
     public DashboardItemDto(DatePoll datePoll, UserId userId) {
-        datePollIdentifier = datePoll.getDatePollLink().getDatePollIdentifier();
-        title = datePoll.getDatePollMetaInf().getTitle();
-        endDate = datePoll.getDatePollMetaInf().getDatePollLifeCycle().getEndDate();
+        datePollIdentifier = datePoll.getPollLink().getPollIdentifier();
+        title = datePoll.getMetaInf().getTitle();
+        endDate = datePoll.getMetaInf().getTimespan().getEndDate();
         status = datePoll.getUserStatus(userId).getIconName();
-        date = datePoll.getDatePollMetaInf().getDatePollLifeCycle().getEndDate()
+        date = datePoll.getMetaInf().getTimespan().getEndDate()
                 .format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        time = datePoll.getDatePollMetaInf().getDatePollLifeCycle().getEndDate()
+        time = datePoll.getMetaInf().getTimespan().getEndDate()
                 .format(DateTimeFormatter.ofPattern("HH:mm"));
-        lastModified = datePoll.getDatePollRecordAndStatus().getLastModified();
+        lastModified = datePoll.getRecordAndStatus().getLastModified();
     }
 
     /** vergleicht 2 DashboardItemDtos mit lastModified.

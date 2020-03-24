@@ -1,12 +1,12 @@
 package mops.controllers;
 
+
 import mops.adapters.datepolladapter.FakeDatePollEntryAdapter;
 import mops.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.user.UserId;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

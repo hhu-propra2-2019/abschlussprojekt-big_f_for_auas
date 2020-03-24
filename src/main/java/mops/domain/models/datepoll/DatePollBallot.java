@@ -27,7 +27,7 @@ public class DatePollBallot implements ValidateAble {
         this.selectedEntriesMaybe = selectedEntriesMaybe;
     }
 
-    /** Konstruktor wo man ja und vielleicht abstimmen kann.
+    /** Konstruktor wo man nur ja abstimmen kann.
      *
      * @param qpUserId
      * @param selectedEntriesYes

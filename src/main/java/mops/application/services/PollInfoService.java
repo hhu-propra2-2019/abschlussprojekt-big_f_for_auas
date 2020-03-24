@@ -2,7 +2,7 @@ package mops.application.services;
 
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
-import mops.domain.models.datepoll.DatePollLink;
+import mops.domain.models.PollLink;
 import mops.domain.repositories.DatePollRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +20,9 @@ public class PollInfoService {
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
-    public Set<DatePollEntry> getEntries(DatePollLink link) {
+    public Set<DatePollEntry> getEntries(PollLink link) {
         final DatePoll datePoll = datePollRepository.load(link).orElseThrow();
-        return datePoll.getDatePollEntries();
+        return datePoll.getEntries();
     }
 
     /*
@@ -55,7 +55,7 @@ public class PollInfoService {
      * @return ...
      */
     @SuppressWarnings("PMD.LawOfDemeter") // stream
-    public DatePoll datePollViewService(DatePollLink datePollLink) {
+    public DatePoll datePollViewService(PollLink datePollLink) {
         return datePollRepository.load(datePollLink).orElseThrow();
     }
 
