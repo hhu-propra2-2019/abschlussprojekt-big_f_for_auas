@@ -50,6 +50,11 @@ public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntr
             addMessage("DATE_POLL_TIME_NOT_PARSEABLE", context, errorEnvironment);
             return false;
         }
+        // etwas sperrige Bedingung, damit auch endTime == startTime abgefangen wird
+        if (!LocalTime.parse(entryDto.getEndTime()).isAfter(LocalTime.parse(entryDto.getStartTime()))) {
+            addMessage("DATE_POLL_ENTRY_TIME_SWAPPED", context, errorEnvironment);
+            return false;
+        }
         return true;
     }
 
