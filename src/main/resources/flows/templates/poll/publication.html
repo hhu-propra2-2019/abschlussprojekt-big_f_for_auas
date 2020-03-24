@@ -9,6 +9,8 @@
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+        <script type="text/javascript" th:src="@{tagsinput/jquery.tagsinput-revisited.js}"></script>
+        <link rel="stylesheet" th:href="@{tagsinput/jquery.tagsinput-revisited.css}"/>
     </th:block>
 </head>
 <body>
@@ -20,7 +22,7 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Teilnehmer')"></div>
-        <form th:replace="fragments/publicationSettings.html :: form"></form>
+        <form th:replace="fragments/publication.html :: form"></form>
     </div>
 </main>
 </body>
