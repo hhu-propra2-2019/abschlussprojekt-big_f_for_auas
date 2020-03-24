@@ -2,8 +2,11 @@ package mops.adapters.datepolladapter;
 
 import mops.application.services.FakeDatePollInfoService;
 import mops.application.services.FakeDatePollVoteService;
+import mops.controllers.dtos.DashboardItemDto;
 import mops.controllers.dtos.DatePollEntryDto;
 import mops.controllers.dtos.DatePollUserEntryOverview;
+import mops.controllers.dtos.FormattedDatePollEntryDto;
+import mops.domain.models.PollLink;
 import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.user.UserId;
@@ -16,7 +19,7 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
 @Service
-public class FakeDatePollEntryAdapter {
+public class FakeDatePollEntryAdapter implements DatePollEntryAdapterInterface {
 
 
 
@@ -35,7 +38,8 @@ public class FakeDatePollEntryAdapter {
      * @param user
      * @return Overview
      */
-    public DatePollUserEntryOverview showUserEntryOverview(String link, UserId user) {
+    @Override
+    public DatePollUserEntryOverview showUserEntryOverview(PollLink link, UserId user) {
         final DatePollUserEntryOverview result = new DatePollUserEntryOverview();
 
         final DatePollBallot ballot = voteService.showUserVotes(user, link);
@@ -56,11 +60,8 @@ public class FakeDatePollEntryAdapter {
                 .map(this::toDTO)
                 .collect(Collectors.toSet()));
 
-        final Set<DatePollEntryDto> entries = infoService
-                .getEntries(link)
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toSet());
+        final Set<DatePollEntryDto> entries = showAllEntries(link);
+
         final TreeSet<DatePollEntryDto> treeEntries = new TreeSet<>();
         for (final DatePollEntryDto entry: entries) {
             treeEntries.add(entry);
@@ -70,6 +71,22 @@ public class FakeDatePollEntryAdapter {
         return result;
     }
 
+
+    /**
+     *  gibt alle Entries raus von einem Poll.
+     * @param link
+     * @return Set<DatePollEntryDto>
+     */
+    @Override
+    public Set<DatePollEntryDto> showAllEntries(PollLink link) {
+        return infoService.getEntries(link).stream().map(this::toDTO).collect(Collectors.toSet());
+    }
+
+    /**
+     * konvertiert entry zu entryDto.
+     * @param entry
+     * @return DatePollEntryDto
+     */
     private DatePollEntryDto toDTO(DatePollEntry entry) {
         return new DatePollEntryDto(
                 entry.getSuggestedPeriod().getStartDate(),
@@ -77,4 +94,23 @@ public class FakeDatePollEntryAdapter {
         );
     }
 
+    /** ruft die getAllListItemDtos methode vom infoservice auf.
+     *
+     * @param userId
+     * @return Set<DashboardItemDto>
+     */
+    @Override
+    public Set<DashboardItemDto> getAllListItemDtos(UserId userId) {
+        return infoService.getAllListItemDtos(userId);
+    }
+
+    /** noch ungenutzt.
+     *
+     * @param link
+     * @return Set<FormattedDatePollEntryDto>
+     */
+    @Override
+    public Set<FormattedDatePollEntryDto> getAllEntriesFormatted(PollLink link) {
+        return null;
+    }
 }

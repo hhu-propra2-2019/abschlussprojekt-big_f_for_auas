@@ -2,6 +2,7 @@ package mops.adapters.datepolladapter;
 
 import mops.application.services.DatePollVoteService;
 import mops.application.services.PollInfoService;
+import mops.controllers.dtos.DashboardItemDto;
 import mops.controllers.dtos.DatePollEntryDto;
 import mops.controllers.dtos.DatePollUserEntryOverview;
 import mops.controllers.dtos.FormattedDatePollEntryDto;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:DesignForExtension"})
 /* keine Zeit sich um bessere Kapslung zu kümmern */
 @Service
-public class DatePollEntryAdapter {
+public class DatePollEntryAdapter  {
 
     private final transient DatePollVoteService voteService;
     private final transient PollInfoService infoService;
@@ -72,5 +73,10 @@ public class DatePollEntryAdapter {
     private FormattedDatePollEntryDto toFormattedDTO(DatePollEntry entry) {
         final String formatted = entry.getSuggestedPeriod().toString();
         return new FormattedDatePollEntryDto(formatted);
+    }
+
+
+    public Set<DashboardItemDto> getAllListItemDtos(UserId userId) {
+        return null;
     }
 }

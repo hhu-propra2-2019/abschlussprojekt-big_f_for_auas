@@ -1,9 +1,10 @@
 package mops.controllers;
 
-import mops.application.services.FakeDatePollInfoService;
+import mops.adapters.datepolladapter.DatePollEntryAdapterInterface;
 import mops.domain.models.user.UserId;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,12 @@ import javax.annotation.security.RolesAllowed;
 @SuppressWarnings({"PMD.AtLeastOneConstructor", "checkstyle:DesignForExtension"})
 public class DashboardController {
 
-   private final transient FakeDatePollInfoService pollInfoService = new FakeDatePollInfoService();
+    private final transient DatePollEntryAdapterInterface entryAdapter;
+
+   @Autowired
+   public DashboardController(DatePollEntryAdapterInterface entryAdapter) {
+        this.entryAdapter = entryAdapter;
+   }
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
     /* Verletzung in externer API*/
@@ -33,8 +39,8 @@ public class DashboardController {
     public String returnDashboard(KeycloakAuthenticationToken token, Model model) {
         final UserId user = createUserIdFromPrincipal(token);
         model.addAttribute("userId", user);
-        model.addAttribute("vonMir", pollInfoService.getAllListItemDtos(user));
-        model.addAttribute("vonAnderen", pollInfoService.getAllListItemDtos(user));
+        model.addAttribute("vonMir", entryAdapter.getAllListItemDtos(user));
+        model.addAttribute("vonAnderen", entryAdapter.getAllListItemDtos(user));
         return "mobile-dashboard";
     }
 }

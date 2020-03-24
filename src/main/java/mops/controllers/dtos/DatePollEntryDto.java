@@ -1,14 +1,12 @@
 package mops.controllers.dtos;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import mops.domain.models.Timespan;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data
-@NoArgsConstructor
 @SuppressWarnings({"PMD.LawOfDemeter"})
 public class DatePollEntryDto implements Comparable<DatePollEntryDto> {
 

@@ -96,7 +96,7 @@ public final class DaoOfModelUtil {
 
     public static UserDao userDaoOf(UserId userId) {
         final UserDao user = new UserDao();
-        user.setId(Long.parseLong(userId.getId()));
+        user.setId(userId.getId());
         return user;
     }
 

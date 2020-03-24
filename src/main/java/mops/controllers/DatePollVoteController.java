@@ -1,8 +1,9 @@
 package mops.controllers;
 
 
-import mops.adapters.datepolladapter.FakeDatePollEntryAdapter;
+import mops.adapters.datepolladapter.DatePollEntryAdapterInterface;
 import mops.controllers.dtos.DatePollUserEntryOverview;
+import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
@@ -20,11 +21,12 @@ import org.springframework.web.context.annotation.SessionScope;
 public class DatePollVoteController {
 
 
-    private final transient FakeDatePollEntryAdapter entryAdapter;
+    private final transient DatePollEntryAdapterInterface entryAdapter;
+
 
     @Autowired
-    public DatePollVoteController(FakeDatePollEntryAdapter adapter) {
-        this.entryAdapter = adapter;
+    public DatePollVoteController(DatePollEntryAdapterInterface entryAdapter) {
+        this.entryAdapter = entryAdapter;
     }
 
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.UnusedPrivateMethod"})
@@ -44,9 +46,8 @@ public class DatePollVoteController {
      */
     @GetMapping("/vote/{link}")
     public String showPoll(Model model, @PathVariable String link, KeycloakAuthenticationToken token) {
-
         final UserId user = createUserIdFromPrincipal(token);
-        final DatePollUserEntryOverview overview = entryAdapter.showUserEntryOverview(link, user);
+        final DatePollUserEntryOverview overview = entryAdapter.showUserEntryOverview(new PollLink(link), user);
         model.addAttribute("overview", overview);
         return "mobilePollVote";
     }
@@ -63,7 +64,6 @@ public class DatePollVoteController {
     @PostMapping("/vote/{link}")
     public String votePoll(@ModelAttribute("overview") DatePollUserEntryOverview overview,
                            Model model, @PathVariable String link, KeycloakAuthenticationToken token) {
-
         return "mobilePollResults";
     }
 }

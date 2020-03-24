@@ -23,15 +23,13 @@ import java.util.TreeSet;
 @Service
 @NoArgsConstructor
 public class FakeDatePollInfoService {
-    private Set<DatePoll>  testDatePollObjects = new HashSet<>();
-
     /** get All Entries of one Poll.
      *
      * @param link
      * @return Set<DatePollEntry>
      */
     @SuppressWarnings("checkstyle:MagicNumber")
-    public Set<DatePollEntry> getEntries(String link) {
+    public Set<DatePollEntry> getEntries(PollLink link) {
 
         final Set<DatePollEntry> entries = new HashSet<>();
 
@@ -62,7 +60,7 @@ public class FakeDatePollInfoService {
     }
 
     /** generate deterministic 10 DatePolls.
-     *
+     *definieren und dann das als ein dummy service implementieren
      * @param userid
      * @return Set<DatePoll>
      */
@@ -101,7 +99,6 @@ public class FakeDatePollInfoService {
     public Set<DashboardItemDto> getAllListItemDtos(UserId userId) {
         final TreeSet<DashboardItemDto> dashboardItemDtos = new TreeSet<>();
         final Set<DatePoll> datePolls = generateDatePolls(userId);
-        this.testDatePollObjects = datePolls;
         for (final DatePoll datePoll: datePolls) {
             dashboardItemDtos.add(new DashboardItemDto(datePoll, userId));
         }
