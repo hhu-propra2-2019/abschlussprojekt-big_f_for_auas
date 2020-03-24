@@ -13,6 +13,10 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.mapErrors;
 
 @Service
@@ -21,6 +25,8 @@ public final class MetaInfAdapter implements WebFlowAdapter<MetaInfDto, DatePoll
 
     private final transient Environment errorEnvironment;
     private final transient ConversionService conversionService;
+
+    private final transient DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @Autowired
     public MetaInfAdapter(Environment errorEnvironment, ConversionService conversionService) {
@@ -57,8 +63,13 @@ public final class MetaInfAdapter implements WebFlowAdapter<MetaInfDto, DatePoll
     }
 
     @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
     public MetaInfDto initializeDto() {
-        return new MetaInfDto();
+        return new MetaInfDto("", "", "",
+                LocalDate.now().toString(),
+                LocalTime.now().format(formatter),
+                LocalDate.now().plusMonths(1).toString(),
+                LocalTime.now().format(formatter));
     }
 
     @Override
