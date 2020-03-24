@@ -9,14 +9,14 @@
     <input name="account" type="mops.controllers.dtos.Account" required="true" />
 
     <on-start>
-        <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto()" result="flowScope.headerDto"/>
+        <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto()" result="flowScope.metaInfDto"/>
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.TimespanDto()" result="flowScope.timespanDto"/>
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.EntriesDto()" result="flowScope.entriesDto"/>
         <evaluate expression="new mops.infrastructure.adapters.webflow.dtos.PublicationDto()" result="flowScope.publicationDto"/>
     </on-start>
 
-    <view-state id="nameSettings" view="poll/nameSettings" model="headerDto">
+    <view-state id="nameSettings" view="poll/nameSettings" model="metaInfDto">
 
         <binder>
             <binding property="title"/>
@@ -25,8 +25,8 @@
         </binder>
 
         <transition on="home" to="home"/>
-        <transition on="access" to="accessSettings">
-            <evaluate expression="questionPollAdapter.validateHeader(headerDto, messageContext)"/>
+        <transition on="metaInfStep2" to="accessSettings">
+            <evaluate expression="questionPollAdapter.validateHeader(metaInfDto, messageContext)"/>
         </transition>
     </view-state>
 
