@@ -10,7 +10,7 @@
 
     <on-start>
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto()" result="flowScope.metaInfDto"/>
-        <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.TimespanDto()" result="flowScope.timespanDto"/>
+        <evaluate expression="questionPollAdapter.initializeTimespanDto()" result="flowScope.timespanDto"/>
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.EntriesDto()" result="flowScope.entriesDto"/>
         <evaluate expression="new mops.infrastructure.adapters.webflow.dtos.PublicationDto()" result="flowScope.publicationDto"/>

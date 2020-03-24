@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.EnumSet;
 
@@ -31,6 +32,7 @@ public final class QuestionPollAdapter {
 
     private final transient ConversionService conversionService;
     private final transient Environment errorEnvironment;
+    private final transient DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @Autowired
     public QuestionPollAdapter(ConversionService conversionService, Environment env) {
@@ -63,6 +65,14 @@ public final class QuestionPollAdapter {
         final Validation validation = timespan.validate();
         mapErrors(validation.getErrorMessages(), messageContext);
         return validation.hasNoErrors();
+    }
+
+    @SuppressWarnings({"PMD.LawOfDemeter"})
+    public TimespanDto initializeTimespanDto() {
+        return new TimespanDto(LocalDate.now().toString(),
+                LocalTime.now().format(formatter),
+                LocalDate.now().plusMonths(1).toString(),
+                LocalTime.now().format(formatter));
     }
 
     @SuppressWarnings({"PMD.DataflowAnomalyAnalysis"})
