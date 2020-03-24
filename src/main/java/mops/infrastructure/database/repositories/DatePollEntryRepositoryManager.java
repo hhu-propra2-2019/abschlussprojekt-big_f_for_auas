@@ -30,6 +30,12 @@ public class DatePollEntryRepositoryManager {
         this.userJpaRepository = userJpaRepository;
     }
     /**
+     * @param datePollEntryDao ...
+     */
+    public void save(DatePollEntryDao datePollEntryDao) {
+        datePollEntryJpaRepository.save(datePollEntryDao);
+    }
+    /**
      * Die Methode soll ein DatePollEntryDao Objekt anhand des pollLinks und des Terminvorschlags
      * heraussuchen. Als Key wird zuerst der pollLink benutzt, um alle zugehoerigen DatePollEntryDaos
      * zu generieren, danach wird anhand des TimespanObjektes nach dem zugehoerigen Terminvorschlag gesucht.

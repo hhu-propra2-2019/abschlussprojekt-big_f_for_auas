@@ -19,6 +19,7 @@ import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollEntryDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
+import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
 import mops.infrastructure.database.repositories.interfaces.QuestionPollEntryJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.QuestionPollJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
@@ -43,7 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor", "PMD.ExcessiveImports"})
 public class DatabaseQuestionPollIntegrityTest {
     private transient QuestionPoll questionPoll;
-
+    private transient Group group;
     @Autowired
     private transient QuestionPollJpaRepository questionPollJpaRepository;
     @Autowired
@@ -51,7 +52,7 @@ public class DatabaseQuestionPollIntegrityTest {
     @Autowired
     private transient QuestionPollEntryJpaRepository questionPollEntryJpaRepository;
     @Autowired
-    private transient DomainGroupRepository domainGroupRepository;
+    private transient DomainGroupRepositoryImpl domainGroupRepository;
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
     public void setupQuestionPollRepoTest() {
@@ -66,7 +67,6 @@ public class DatabaseQuestionPollIntegrityTest {
         final Set<QuestionPollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> pollEntries.add(new QuestionPollEntry("title" + i)));
         final Group group = new Group(new GroupId("1"), participants);
-        domainGroupRepository.save(group);
         questionPoll = new QuestionPollBuilder()
                 .questionPollMetaInf(questionPollMetaInf)
                 .creator(creator)
@@ -75,6 +75,7 @@ public class DatabaseQuestionPollIntegrityTest {
                 .participatingGroups(Set.of(group.getId()))
                 .pollLink(questionPollLink)
                 .build();
+        domainGroupRepository.save(group);
     }
 
     @Test
@@ -90,8 +91,7 @@ public class DatabaseQuestionPollIntegrityTest {
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testUsersOfQuestionPollPresence() {
-        final GroupDao exampleGroup = new GroupDao();
-        exampleGroup.setId("1");
+        final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
         final QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll, Set.of(exampleGroup));
         questionPollJpaRepository.save(questionPollDao);
         final Set<UserDao> userDaoSet = userJpaRepository.findAllByGroupSetContaining(exampleGroup);
@@ -100,8 +100,7 @@ public class DatabaseQuestionPollIntegrityTest {
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void testQuestionPollEntryPresence() {
-        final GroupDao exampleGroup = new GroupDao();
-        exampleGroup.setId("1");
+        final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
         final QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll, Set.of(exampleGroup));
         questionPollJpaRepository.save(questionPollDao);
         final Set<QuestionPollEntryDao> questionPollEntryDaoSet = questionPollEntryJpaRepository
@@ -111,12 +110,10 @@ public class DatabaseQuestionPollIntegrityTest {
 
     @Test
     public void testVotesForQuestionPollEntryAreZero() {
-        final GroupDao exampleGroup = new GroupDao();
-        exampleGroup.setId("1");
+        final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
         final QuestionPollDao questionPollDao = DaoOfModelUtil.pollDaoOf(questionPoll, Set.of(exampleGroup));
         questionPollJpaRepository.save(questionPollDao);
         final QuestionPollEntryDao questionPollEntryDao = questionPollDao.getEntryDaos().iterator().next();
-
         assertThat(questionPollEntryDao.getUserVotesFor().size()).isEqualTo(0);
     }
 }
