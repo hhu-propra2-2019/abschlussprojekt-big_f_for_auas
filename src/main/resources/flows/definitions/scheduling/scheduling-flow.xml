@@ -14,6 +14,7 @@
         <evaluate expression="entriesAdapter.initializeDto()" result="flowScope.entriesDto"/>
         <evaluate expression="publicationAdapter.initializeDto()" result="flowScope.publicationDto"/>
         <evaluate expression="builderAdapter.buildConfirmationDto(metaInfDto, configDto, entriesDto, publicationDto)" result="flowScope.confirmationDto"/>
+        <evaluate expression="uploadAdapter.initializeDto()" result="flowScope.uploadDto"/>
     </on-start>
 
 
@@ -26,6 +27,7 @@
         </binder>
 
         <transition on="home" to="home"/>
+        <transition on="fileUpload" to="fileUpload"/>
         <transition on="metaInfStep2" to="metaInfStep2">
             <evaluate expression="metaInfAdapter.validateFirstStep(metaInfDto, messageContext)"/>
         </transition>
@@ -126,6 +128,20 @@
             <evaluate expression="builderAdapter.publishDatePoll(confirmationDto, messageContext)"/>
         </transition>
     </view-state>
+
+
+    <view-state id="fileUpload" view="scheduling/fileUpload" model="uploadDto">
+
+        <binder>
+            <binding property="pollFile"/>
+        </binder>
+
+        <transition on="upload" to="confirmation">
+            <evaluate expression="uploadAdapter.processPollFile(uploadDto.pollFile, messageContext)"/>
+        </transition>
+        <transition on="cancel" to="metaInfStep1" bind="false"/>
+    </view-state>
+
 
     <end-state id="home" view="externalRedirect:/"/>
 

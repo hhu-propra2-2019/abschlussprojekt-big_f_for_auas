@@ -1,0 +1,33 @@
+{
+  "title": "Kuchenessen mit Paul",
+  "description": "So sollte eine Datei aussehen, die automatisch eingelesen wird.",
+  "location": "überall und immer",
+  "startDate": "2020-03-25",
+  "startTime": "12:00",
+  "endDate": "2020-04-25",
+  "endTime": "18:00",
+  "voteIsEditable": true,
+  "openForOwnEntries": false,
+  "singleChoice": false,
+  "priorityChoice": true,
+  "anonymous": false,
+  "open": false,
+  "groups": ["termine1", "big_f_for_auas", "gruppe-xyz"],
+  "entries": [
+    {
+      "date": "2020-05-20",
+      "startTime": "16:00",
+      "endTime": "17:00"
+    },
+    {
+      "date": "2020-05-21",
+      "startTime": "16:00",
+      "endTime": "17:00"
+    },
+    {
+      "date": "2020-05-22",
+      "startTime": "16:00",
+      "endTime": "17:00"
+    }
+  ]
+}
