@@ -5,8 +5,6 @@ import mops.adapters.datepolladapter.DatePollEntryAdapterInterface;
 import mops.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.context.annotation.SessionScope;
 
 @Controller
@@ -29,24 +28,15 @@ public class DatePollVoteController {
         this.entryAdapter = entryAdapter;
     }
 
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.UnusedPrivateMethod"})
-    /* Verletzung in externer API*/
-    private UserId createUserIdFromPrincipal(KeycloakAuthenticationToken token) {
-        final KeycloakPrincipal principal = (KeycloakPrincipal) token.getPrincipal();
-        return new UserId(principal.getKeycloakSecurityContext().getIdToken().getEmail());
-    }
-
-
     /**
      * GET Mapping.
      * @param model
      * @param link
-     * @param token
+     * @param user UserId wird vom Interceptor gesetzt
      * @return mobilePollVote
      */
     @GetMapping("/vote/{link}")
-    public String showPoll(Model model, @PathVariable String link, KeycloakAuthenticationToken token) {
-        final UserId user = createUserIdFromPrincipal(token);
+    public String showPoll(Model model, @RequestAttribute(name = "userId") UserId user, @PathVariable String link) {
         final DatePollUserEntryOverview overview = entryAdapter.showUserEntryOverview(new PollLink(link), user);
         model.addAttribute("overview", overview);
         return "mobilePollVote";
@@ -58,12 +48,11 @@ public class DatePollVoteController {
      * @param overview
      * @param model
      * @param link
-     * @param token
      * @return redirecte auf /
      */
     @PostMapping("/vote/{link}")
     public String votePoll(@ModelAttribute("overview") DatePollUserEntryOverview overview,
-                           Model model, @PathVariable String link, KeycloakAuthenticationToken token) {
+                           Model model, @PathVariable String link) {
         return "mobilePollResults";
     }
 }
