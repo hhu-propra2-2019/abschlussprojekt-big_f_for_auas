@@ -27,6 +27,7 @@ public interface WebFlowAdapter<D, O> {
      * Diese Methode wird unter anderem bei einem Übergang („transition“) von einer zur anderen Web-Flow-View
      * aufgerufen. Wenn diese Methode true zurückgibt, MUSS beim Aufruf von build() mit demselben Objekt
      * ein gültiges und validiertes Objekt aus der Domain zurückgegeben werden.
+     * ACHTUNG: Die Methode darf das DTO verändern! Passiert z.B. in PublicationAdapter in validateGroups
      * @param dto Das zu validierende DTO
      * @param context Im MessageContext können Fehlermeldungen angelegt werden. Siehe ErrorMessageHelper
      * @return Der Return-Wert gibt an, ob in die nächste View gewechselt werden soll oder nicht.

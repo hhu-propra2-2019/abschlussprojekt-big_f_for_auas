@@ -6,7 +6,6 @@ import mops.infrastructure.adapters.webflow.WebFlowAdapter;
 import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.ConfigDto;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ public final class ConfigAdapter implements WebFlowAdapter<ConfigDto, DatePollCo
 
     private final transient Environment errorEnvironment;
 
-    public ConfigAdapter(ConversionService conversionService, Environment errorEnvironment) {
+    public ConfigAdapter(Environment errorEnvironment) {
         this.errorEnvironment = errorEnvironment;
     }
 

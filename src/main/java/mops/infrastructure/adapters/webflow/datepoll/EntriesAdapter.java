@@ -56,7 +56,7 @@ public final class EntriesAdapter implements WebFlowAdapter<EntriesDto, Entries>
     }
 
     @Override
-    @SuppressWarnings("PMD.LawOfDemeter")
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     public boolean validateDto(EntriesDto entriesDto, MessageContext context) {
         // proposedEntry wird nicht abgefragt, weil es nicht im Entries-Objekt landet
         if (entriesDto.getEntries() == null || entriesDto.getEntries().isEmpty()) {

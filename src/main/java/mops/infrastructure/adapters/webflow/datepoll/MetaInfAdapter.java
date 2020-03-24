@@ -32,6 +32,7 @@ public final class MetaInfAdapter implements WebFlowAdapter<MetaInfDto, DatePoll
         this.errorEnvironment = errorEnvironment;
     }
 
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis", "PMD.EmptyCatchBlock"}) // NOPMD
     public DatePollMetaInf convert(MetaInfDto dto) {
         if (dto.getTitle() == null) {
             dto.setTitle("");

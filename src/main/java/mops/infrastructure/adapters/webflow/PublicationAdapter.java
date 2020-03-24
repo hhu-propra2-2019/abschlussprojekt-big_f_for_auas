@@ -31,15 +31,14 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
         this.errorEnvironment = env;
     }
 
-    /**
-     * TODO: Hier sollte der Link aus dem PublicationService geholt werden.
-     *
-     * @return ...
-     */
+    /*
+     * Link ist eine UUID und wird zufällig erzeugt. Falls der Link keine UUID mehr sein sollte,
+     * müsste man überlegen, wie auf Kollision geprüft wird oder ob der Link aus einem Service geholt wird.
+    */
     @Override
     public PublicationDto initializeDto() {
         final PublicationDto publicationDto = new PublicationDto();
-        publicationDto.setLink("dummylink");
+        publicationDto.setLink(new PollLink().getPollIdentifier());
         publicationDto.setIspublic(true);
         publicationDto.setGroups("");
         return publicationDto;
@@ -47,11 +46,14 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
 
     @Override
     public boolean validateDto(PublicationDto publicationDto, MessageContext context) {
-        return validate(publicationDto, context);
+        if (!publicationDto.isIspublic()) {
+            return validateGroups(publicationDto, context);
+        }
+        return true;
     }
 
     @Override
-    @SuppressWarnings("PMD.LawOfDemeter") //NOPMD
+    @SuppressWarnings("PMD.LawOfDemeter") // NOPMD
     public PublicationInformation build(PublicationDto publicationDto) {
         return new PublicationInformation(
                 publicationDto.isIspublic(),
@@ -59,23 +61,17 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
                 parseGroups(publicationDto.getGroups()).collect(Collectors.toSet()));
     }
 
-    /**
-     * Validiert, dass die eingegebenen User und Gruppen existieren und gibt andernfalls passende Fehlermeldungen aus.
-     *
-     * @param publicationDto ...
-     * @param context        Hier werden die Errornachrichten abgelegt
-     * @return Gibt zurück, ob in die nächste View gesprungen werden soll oder nicht
-     */
     public boolean validate(PublicationDto publicationDto, MessageContext context) {
-        if (!publicationDto.isIspublic()) {
-            return validateGroupsAndUsers(publicationDto, context);
-        }
-        return true;
+        return validateDto(publicationDto, context);
     }
 
-    @SuppressWarnings("PMD.LawOfDemeter")//NOPMD
-    private boolean validateGroupsAndUsers(PublicationDto publicationDto, MessageContext context) {
-        if (publicationDto.getGroups().isBlank()) {
+    @SuppressWarnings("PMD.LawOfDemeter")
+    private boolean validateGroups(PublicationDto publicationDto, MessageContext context) {
+        if (publicationDto.getLink() == null || publicationDto.getLink().isBlank()) {
+            addMessage("PUBLICATION_LINK_BLANK", context, errorEnvironment);
+            return false;
+        }
+        if (publicationDto.getGroups() == null || publicationDto.getGroups().isBlank()) {
             addMessage("PUBLICATION_PRIVATE_NO_PARTICIPANTS", context, errorEnvironment);
             publicationDto.setIspublic(true);
             return false;
@@ -88,12 +84,7 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
         return true;
     }
 
-    // https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html
-    // https://stackoverflow.com/questions/38698182/close-java-8-stream
-    // "Generally, only streams whose source is an IO channel will require closing. Most streams are backed
-    // by collections, arrays, or generating functions, which require no special resource management."
-
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CloseResource"})
+    @SuppressWarnings("PMD.LawOfDemeter")
     private Set<GroupId> invalidGroups(PublicationDto publicationDto) {
         return parseGroups(publicationDto.getGroups()).dropWhile(groupService::groupExists).collect(Collectors.toSet());
     }
