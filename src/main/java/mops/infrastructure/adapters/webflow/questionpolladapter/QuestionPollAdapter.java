@@ -7,7 +7,11 @@ import mops.domain.models.Validation;
 import mops.domain.models.questionpoll.QuestionPollConfig;
 import mops.domain.models.questionpoll.QuestionPollEntry;
 import mops.domain.models.questionpoll.QuestionPollMetaInf;
-import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.*;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.ConfigDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.EntriesDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.EntryDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto;
+import mops.infrastructure.adapters.webflow.questionpolladapter.dtos.TimespanDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
@@ -63,6 +67,7 @@ public final class QuestionPollAdapter {
         return validation.hasNoErrors();
     }
 
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     public TimespanDto initializeTimespanDto() {
         return new TimespanDto(LocalDate.now().toString(),
                 LocalTime.now().format(formatter),
