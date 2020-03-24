@@ -63,6 +63,7 @@ public final class MetaInfAdapter implements WebFlowAdapter<MetaInfDto, DatePoll
     }
 
     @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
     public MetaInfDto initializeDto() {
         return new MetaInfDto("", "", "",
                 LocalDate.now().toString(),
