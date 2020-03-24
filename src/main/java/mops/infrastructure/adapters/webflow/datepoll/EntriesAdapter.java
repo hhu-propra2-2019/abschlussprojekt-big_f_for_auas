@@ -9,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage;
@@ -35,6 +36,8 @@ public final class EntriesAdapter implements WebFlowAdapter<EntriesDto, Entries>
             return false;
         }
         entriesDto.getEntries().add(new EntryDto(addDate, addStartTime, addEndTime));
+        // Neues vorgeschlagenes Datum auf den letzten hinzugefügten Eintrag setzen
+        entriesDto.setProposedEntry(new EntryDto(addDate, addStartTime, addEndTime));
         return true;
     }
 
@@ -48,7 +51,7 @@ public final class EntriesAdapter implements WebFlowAdapter<EntriesDto, Entries>
 
     @Override
     public EntriesDto initializeDto() {
-        return new EntriesDto();
+        return new EntriesDto(entryAdapter.initializeDto(), new TreeSet<>());
     }
 
     @Override
