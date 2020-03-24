@@ -10,7 +10,10 @@ import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.group.Group;
+import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
+import mops.domain.repositories.DomainGroupRepository;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
@@ -36,7 +39,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor"})
 public class FindDatePollEntryTests {
     private transient DatePoll datePoll;
-
+    @Autowired
+    private transient DomainGroupRepository domainGroupRepository;
     @Autowired
     private transient DatePollJpaRepository datePollJpaRepository;
     @Autowired
@@ -49,24 +53,22 @@ public class FindDatePollEntryTests {
         final UserId creator = new UserId("1234");
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
-
-        final Set<UserId> participants = new HashSet<>();
-        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
-
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> pollEntries.add(new DatePollEntry(
-            new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
+                new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-
+        final Set<UserId> participants = new HashSet<>();
+        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        final Group group = new Group(new GroupId("1"), participants);
+        domainGroupRepository.save(group);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
-                .participants(participants)
+                .participatingGroups(Set.of(group.getId()))
                 .datePollLink(datePollLink)
                 .build();
-        datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll));
     }
     @Test
     public void findDatePollEntry() {

@@ -2,11 +2,20 @@ package mops.infrastructure.database.daos.translator;
 
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
-import mops.domain.models.datepoll.*;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollBallot;
+import mops.domain.models.datepoll.DatePollConfig;
+import mops.domain.models.datepoll.DatePollEntry;
+import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.datepoll.DatePollRecordAndStatus;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
-import mops.domain.models.questionpoll.*;
+import mops.domain.models.questionpoll.QuestionPoll;
+import mops.domain.models.questionpoll.QuestionPollBallot;
+import mops.domain.models.questionpoll.QuestionPollConfig;
+import mops.domain.models.questionpoll.QuestionPollEntry;
+import mops.domain.models.questionpoll.QuestionPollMetaInf;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.GroupDao;
@@ -44,9 +53,9 @@ public final class ModelOfDaoUtil {
 
         final Set<DatePollEntry> entries = extractDatePollEntries(pollDao.getEntryDaos());
 
-        final Set<User> participants = extractUser(pollDao.getUserDaos());
         final Set<GroupId> groupIds = extractGroupIds(pollDao.getGroupDaos());
-        final Set<UserId> participantIds = extractIds(participants);
+        //final Set<User> participants = extractUser(pollDao.getUserDaos());
+        //final Set<UserId> participantIds = extractIds(participants);
 
         final Set<DatePollBallot> ballots = new HashSet<>();
 
@@ -58,7 +67,6 @@ public final class ModelOfDaoUtil {
                 creator.getId(),
                 config,
                 entries,
-                participantIds,
                 groupIds,
                 ballots,
                 newLink
@@ -95,8 +103,8 @@ public final class ModelOfDaoUtil {
 
         final Set<QuestionPollEntry> entries = extractQuestionPollEntries(pollDao.getEntryDaos());
 
-        final Set<User> participants = extractUser(pollDao.getUserDaos());
-        final Set<UserId> participantIds = extractIds(participants);
+        //final Set<User> participants = extractUser(pollDao.getUserDaos());
+        //final Set<UserId> participantIds = extractIds(participants);
         final Set<GroupId> groupIds = extractGroupIds(pollDao.getGroupDaos());
 
         final Set<QuestionPollBallot> ballots = new HashSet<>();
@@ -109,7 +117,6 @@ public final class ModelOfDaoUtil {
                 creator.getId(),
                 config,
                 entries,
-                participantIds,
                 groupIds,
                 ballots,
                 newLink
@@ -214,6 +221,7 @@ public final class ModelOfDaoUtil {
         return user;
     }
 
+    //TODO: kann eventuell weggelassen werden...
     private static Set<UserId> extractIds(Set<User> user) {
         final Set<UserId> userIds = new HashSet<>();
         for (final User u : user) {

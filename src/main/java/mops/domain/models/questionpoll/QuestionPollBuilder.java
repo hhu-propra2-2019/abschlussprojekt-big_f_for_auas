@@ -172,8 +172,7 @@ public class QuestionPollBuilder {
                     metaInfTarget,
                     creatorTarget,
                     configTarget,
-                    entriesTarget,
-                    new HashSet<>(),
+                    entriesTarget, //new HashSet<>(), war gedacht fuer die userIds
                     participatingGroupsTarget,
                     new HashSet<QuestionPollBallot>(),
                     linkTarget

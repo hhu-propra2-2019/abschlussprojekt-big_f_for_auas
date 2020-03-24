@@ -174,7 +174,6 @@ public final class DatePollBuilder {
         );
         return this;
     }
-
     /**
      * Baut das DatePoll Objekt, wenn alle Konstruktionssteps mind. 1 mal erfolgreich waren.
      *
@@ -187,8 +186,7 @@ public final class DatePollBuilder {
                     metaInfTarget,
                     pollCreatorTarget,
                     configTarget,
-                    pollEntryTargets,
-                    new HashSet<>(),
+                    pollEntryTargets, //new HashSet<>(), war fuer die UserIds gedacht
                     participatingGroupsTargets,
                     new HashSet<>(),
                     linkTarget

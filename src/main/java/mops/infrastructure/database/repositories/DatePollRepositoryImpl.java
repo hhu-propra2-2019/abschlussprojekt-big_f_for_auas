@@ -12,6 +12,7 @@ import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.GroupJpaRepository;
+import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,11 +26,15 @@ public class DatePollRepositoryImpl implements DatePollRepository {
 
     private final transient DatePollJpaRepository datePollJpaRepository;
     private final transient GroupJpaRepository groupJpaRepository;
+    private final transient UserJpaRepository userJpaRepository;
 
     @Autowired
-    public DatePollRepositoryImpl(DatePollJpaRepository datePollJpaRepository, GroupJpaRepository groupJpaRepository) {
+    public DatePollRepositoryImpl(DatePollJpaRepository datePollJpaRepository,
+                                  GroupJpaRepository groupJpaRepository,
+                                  UserJpaRepository userJpaRepository) {
         this.datePollJpaRepository = datePollJpaRepository;
         this.groupJpaRepository = groupJpaRepository;
+        this.userJpaRepository = userJpaRepository;
     }
 
     /**
@@ -40,7 +45,8 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @Override
     public Optional<DatePoll> load(PollLink link) {
-        final DatePollDao loaded = datePollJpaRepository.findDatePollDaoByLink(link.getPollIdentifier());
+        final DatePollDao loaded = datePollJpaRepository
+                .findDatePollDaoByLink(link.getPollIdentifier());
         final DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
         return Optional.of(targetDatePoll);
     }
@@ -71,8 +77,11 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     @Override
     public Set<DatePoll> getDatePollsByUserId(UserId userId) {
         final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
-        final Set<DatePollDao> datePollDaosFromUser = datePollJpaRepository.
-                findDatePollDaoByUserDaosContaining(targetUser);
+        Set<GroupDao> groupDaos = groupJpaRepository.findAllByUserDaosContaining(targetUser);
+        final Set<DatePollDao> datePollDaosFromUser = new HashSet<>();
+        groupDaos.stream()
+                .map(datePollJpaRepository::findByGroupDaosContaining)
+                .map(datePollDaosFromUser::addAll);
         final Set<DatePoll> targetDatePolls = new HashSet<>();
         datePollDaosFromUser.forEach(
                 datePollDao -> targetDatePolls.add(ModelOfDaoUtil.pollOf(datePollDao)));

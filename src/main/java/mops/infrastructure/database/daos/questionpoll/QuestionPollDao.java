@@ -45,9 +45,9 @@ public class QuestionPollDao {
             fetch = FetchType.LAZY
     )
     private Set<GroupDao> groupDaos = new HashSet<>();
-    @ManyToMany(
+    /*@ManyToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private Set<UserDao> userDaos = new HashSet<>();
+    private Set<UserDao> userDaos = new HashSet<>();*/
 }

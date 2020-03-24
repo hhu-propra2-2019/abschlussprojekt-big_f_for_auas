@@ -19,7 +19,6 @@ import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
-// TODO: refactoring @data annotation -> entities shouldn't have @Data annotation only getters and setters
 @Getter
 @Setter
 @Entity(name = "DatePoll")
@@ -48,9 +47,9 @@ public class DatePollDao {
             fetch = FetchType.LAZY
     )
     private Set<GroupDao> groupDaos = new HashSet<>();
-    @ManyToMany(
+    /*@ManyToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private Set<UserDao> userDaos = new HashSet<>();
+    private Set<UserDao> userDaos = new HashSet<>();*/
 }

@@ -53,7 +53,7 @@ public final class DaoOfModelUtil {
         datePollDao.setPollRecordAndStatusDao(pollRecordAndStatusDao);
         datePollDao.setCreatorUserDao(creator);
         datePollDao.setEntryDaos(extractDatePollEntryDaos(poll.getEntries(), datePollDao));
-        datePollDao.setUserDaos(extractUser(poll.getParticipants()));
+        //datePollDao.setUserDaos(extractUser(poll.getParticipants()));
         datePollDao.setGroupDaos(groups);
         return datePollDao;
     }
@@ -79,7 +79,7 @@ public final class DaoOfModelUtil {
         questionPollDao.setPollRecordAndStatusDao(pollRecordAndStatusDao);
         questionPollDao.setCreatorUserDao(creator);
         questionPollDao.setEntryDaos(extractQuestionPollEntryDaos(poll.getEntries(), questionPollDao));
-        questionPollDao.setUserDaos(extractUser(poll.getParticipants()));
+        //questionPollDao.setUserDaos(extractUser(poll.getParticipants()));
         questionPollDao.setGroupDaos(groupDaos);
         return questionPollDao;
     }

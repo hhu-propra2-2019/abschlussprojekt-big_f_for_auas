@@ -61,7 +61,7 @@ public class TranslatorTests {
     public void userTest() {
         final long userId = 1L;
         final UserDao dao = new UserDao();
-        dao.setId(userId);
+        dao.setId(Long.toString(userId));
 
         final User user = ModelOfDaoUtil.userOf(dao);
 

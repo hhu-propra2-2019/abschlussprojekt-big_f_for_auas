@@ -19,14 +19,13 @@ import java.util.Set;
 @Table(name = "usergroup")
 public class GroupDao {
     @Id
-    @GeneratedValue
     private String id;
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserDao> userDaos = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "groupDaos")
     private Set<DatePollDao> datePollDaos = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "groupDaos")
     private Set<QuestionPollDao> questionPollDaos = new HashSet<>();
 }

@@ -69,8 +69,11 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
     @Override
     public Set<QuestionPoll> getQuestionPollsByUserId(UserId userId) {
         final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
-        final Set<QuestionPollDao> questionPollDaosFromUser = questionPollJpaRepository.
-                findQuestionPollDaoByUserDaosContaining(targetUser);
+        final Set<GroupDao> groupDaos = groupJpaRepository.findAllByUserDaosContaining(targetUser);
+        final Set<QuestionPollDao> questionPollDaosFromUser = new HashSet<>();
+        groupDaos.stream()
+                .map(questionPollJpaRepository::findByGroupDaosContaining)
+                .map(questionPollDaosFromUser::addAll);
         final Set<QuestionPoll> targetQuestionPolls = new HashSet<>();
         questionPollDaosFromUser.forEach(
                 datePollDao -> targetQuestionPolls.add(ModelOfDaoUtil.pollOf(datePollDao)));

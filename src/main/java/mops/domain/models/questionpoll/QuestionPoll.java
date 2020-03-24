@@ -19,7 +19,7 @@ public class QuestionPoll {
     private final QuestionPollConfig config;
     private final Set<QuestionPollEntry> entries;
 
-    private final Set<UserId> participants;
+    //private final Set<UserId> participants;
     private final Set<GroupId> groups;
 
     private final Set<QuestionPollBallot> ballots;
