@@ -1,6 +1,5 @@
 package mops.infrastructure.adapters.webflow.datepoll;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import mops.domain.models.Validation;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.infrastructure.adapters.webflow.WebFlowAdapter;
@@ -17,11 +16,9 @@ import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.mapErrors;
 @PropertySource(value = "classpath:flows/errormappings/datepollmappings.properties", encoding = "UTF-8")
 public final class ConfigAdapter implements WebFlowAdapter<ConfigDto, DatePollConfig> {
 
-    private final transient ConversionService conversionService;
     private final transient Environment errorEnvironment;
 
     public ConfigAdapter(ConversionService conversionService, Environment errorEnvironment) {
-        this.conversionService = conversionService;
         this.errorEnvironment = errorEnvironment;
     }
 
@@ -37,21 +34,26 @@ public final class ConfigAdapter implements WebFlowAdapter<ConfigDto, DatePollCo
         return configDto;
     }
 
-    @SuppressFBWarnings(
-            value = "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE",
-            justification = "Der eingesetzte Converter kann niemals eine null-Referenz zurückgeben, "
-                    + "auch wenn das Interface es erlaubt")
+    public DatePollConfig convert(ConfigDto configDto) {
+        return new DatePollConfig(
+                configDto.isVoteIsEditable(),
+                configDto.isOpenForOwnEntries(),
+                configDto.isSingleChoice(),
+                configDto.isPriorityChoice(),
+                configDto.isAnonymous(),
+                configDto.isOpen());
+    }
+
     @SuppressWarnings({"PMD.LawOfDemeter"})
     @Override
     public boolean validateDto(ConfigDto configDto, MessageContext context) {
-        final DatePollConfig config = conversionService.convert(configDto, DatePollConfig.class);
-        final Validation validation = config.validate();
+        final Validation validation = convert(configDto).validate();
         mapErrors(validation.getErrorMessages(), context, errorEnvironment);
         return validation.hasNoErrors();
     }
 
     @Override
     public DatePollConfig build(ConfigDto configDto) {
-        return conversionService.convert(configDto, DatePollConfig.class);
+        return convert(configDto);
     }
 }

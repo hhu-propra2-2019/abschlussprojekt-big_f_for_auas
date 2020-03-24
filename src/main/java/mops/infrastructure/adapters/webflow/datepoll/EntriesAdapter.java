@@ -4,6 +4,7 @@ import mops.infrastructure.adapters.webflow.WebFlowAdapter;
 import mops.infrastructure.adapters.webflow.datepoll.builderdtos.Entries;
 import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.EntriesDto;
 import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.EntryDto;
+import org.springframework.binding.message.DefaultMessageContext;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -57,10 +58,17 @@ public final class EntriesAdapter implements WebFlowAdapter<EntriesDto, Entries>
     @Override
     @SuppressWarnings("PMD.LawOfDemeter")
     public boolean validateDto(EntriesDto entriesDto, MessageContext context) {
-        // Die Optionen werden in addOption() validiert. Hier wird nur validiert,
-        // dass minedestens ein Termin zur Auswahl steht
-        if (entriesDto.getEntries().isEmpty()) {
+        // proposedEntry wird nicht abgefragt, weil es nicht im Entries-Objekt landet
+        if (entriesDto.getEntries() == null || entriesDto.getEntries().isEmpty()) {
             addMessage("DATE_POLL_NO_ENTRIES", context, errorEnvironment);
+            return false;
+        }
+        // DefaultMessageContext, weil wir nicht alle Fehler der Einträge im Kontext haben wollen
+        final MessageContext emptyMessageContext = new DefaultMessageContext();
+        if (entriesDto.getEntries().stream()
+                .dropWhile(entry -> entryAdapter.validateDto(entry, emptyMessageContext))
+                .findAny().isPresent()) {
+            addMessage("DATE_POLL_INVALID_ENTRIES", context, errorEnvironment);
             return false;
         }
         return true;

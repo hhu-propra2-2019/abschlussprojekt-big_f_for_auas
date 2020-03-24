@@ -13,7 +13,7 @@
         <evaluate expression="configAdapter.initializeDto()" result="flowScope.configDto"/>
         <evaluate expression="entriesAdapter.initializeDto()" result="flowScope.entriesDto"/>
         <evaluate expression="publicationAdapter.initializeDto()" result="flowScope.publicationDto"/>-->
-        <evaluate expression="builderAdapter.buildConfirmationDto()" result="flowScope.datePollDto"/>
+        <evaluate expression="builderService.buildConfirmationDto()" result="flowScope.datePollDto"/>
 <!--        <evaluate expression="uploadAdapter.initializeDto()" result="flowScope.uploadDto"/>-->
     </on-start>
 
@@ -126,11 +126,11 @@
             <binding property="pollFile"/>
         </binder>
         <on-entry>
-            <set name="uploadDto" value="uploadAdapter.initializeDto()"/>
+            <set name="uploadDto" value="uploadService.initializeDto()"/>
         </on-entry>
 
         <transition on="upload" to="confirmation">
-            <evaluate expression="uploadAdapter.processPollFile(uploadDto.pollFile, messageContext, datePollDto)"/>
+            <evaluate expression="uploadService.processPollFile(uploadDto.pollFile, messageContext, datePollDto)"/>
         </transition>
         <transition on="cancel" to="metaInfStep1" bind="false"/>
     </view-state>
@@ -147,7 +147,7 @@
 
         <transition on="publication" to="publication"/>
         <transition on="submit" to="home">
-            <evaluate expression="builderAdapter.publishDatePoll(datePollDto, messageContext, flowRequestContext)"/>
+            <evaluate expression="builderService.publishDatePoll(datePollDto, messageContext, flowRequestContext)"/>
         </transition>
     </view-state>
 

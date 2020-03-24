@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @PropertySource(value = "classpath:flows/errormappings/emptymapping.properties", encoding = "UTF-8")
-public final class UploadAdapter {
+public final class UploadService {
 
     private final transient ObjectMapper mapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -40,7 +40,7 @@ public final class UploadAdapter {
     private final transient Environment errorEnvironment;
 
     @Autowired
-    public UploadAdapter(MetaInfAdapter metaInfAdapter,
+    public UploadService(MetaInfAdapter metaInfAdapter,
                          ConfigAdapter configAdapter,
                          EntriesAdapter entriesAdapter,
                          PublicationAdapter publicationAdapter,

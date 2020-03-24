@@ -20,7 +20,7 @@ import org.springframework.webflow.execution.RequestContext;
 @Service
 // Alle Fehler sollen bei defaulterrors angezeigt werden, weswegen wir uns eine leere Properties-Datei injecten lassen
 @PropertySource(value = "classpath:flows/errormappings/emptymapping.properties", encoding = "UTF-8")
-public final class BuilderAdapter {
+public final class BuilderService {
 
     private final transient PublicationService publicationService;
     private final transient MetaInfAdapter metaInfAdapter;
@@ -30,7 +30,7 @@ public final class BuilderAdapter {
     private final transient Environment errorEnvironment;
 
     @Autowired
-    public BuilderAdapter(PublicationService publicationService,
+    public BuilderService(PublicationService publicationService,
                           MetaInfAdapter metaInfAdapter,
                           ConfigAdapter configAdapter,
                           EntriesAdapter entriesAdapter,

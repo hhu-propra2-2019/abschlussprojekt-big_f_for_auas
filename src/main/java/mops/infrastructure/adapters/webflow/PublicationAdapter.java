@@ -25,13 +25,11 @@ import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage
 public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, PublicationInformation> {
 
     private final transient GroupService groupService;
-    private final transient UserService userService;
     private final transient Environment errorEnvironment;
 
     //@Autowired
-    public PublicationAdapter(GroupService groupService, UserService userService, Environment env) {
+    public PublicationAdapter(GroupService groupService, Environment env) {
         this.groupService = groupService;
-        this.userService = userService;
         this.errorEnvironment = env;
     }
 
@@ -92,18 +90,6 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
             return false;
         }
         return true;
-    }
-
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CloseResource"})
-    // https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html
-    // https://stackoverflow.com/questions/38698182/close-java-8-stream
-    // "Generally, only streams whose source is an IO channel will require closing. Most streams are backed
-    // by collections, arrays, or generating functions, which require no special resource management."
-    private Set<UserId> invalidUsers(PublicationDto publicationDto) {
-        // https://stackoverflow.com/questions/41953388/java-split-and-trim-in-one-shot
-        final Stream<String> people =
-                Arrays.stream(publicationDto.getPeople().trim().split("\\s*,\\s*")).dropWhile(String::isBlank);
-        return people.map(UserId::new).dropWhile(userService::userExists).collect(Collectors.toSet());
     }
 
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CloseResource"})
