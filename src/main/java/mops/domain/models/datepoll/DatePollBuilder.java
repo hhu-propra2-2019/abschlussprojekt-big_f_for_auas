@@ -130,6 +130,7 @@ public final class DatePollBuilder {
         return this;
     }
 
+
     // TODO: Law of Demeter reviewen und Methode ggfs anpassen. Warum werden die Abstimmungsdaten doppelt gespeichert?!
     @SuppressWarnings("PMD.LawOfDemeter")
     public DatePollBuilder datePollEntries(Set<DatePollEntry> datePollEntrySet) {

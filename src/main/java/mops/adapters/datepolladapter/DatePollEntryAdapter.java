@@ -2,6 +2,7 @@ package mops.adapters.datepolladapter;
 
 import mops.application.services.DatePollVoteService;
 import mops.application.services.PollInfoService;
+import mops.controllers.dtos.DashboardItemDto;
 import mops.controllers.dtos.DatePollEntryDto;
 import mops.controllers.dtos.DatePollUserEntryOverview;
 import mops.controllers.dtos.FormattedDatePollEntryDto;
@@ -33,13 +34,13 @@ public class DatePollEntryAdapter {
     public DatePollUserEntryOverview showUserEntryOverview(PollLink link, UserId user) {
         final DatePollUserEntryOverview result = new DatePollUserEntryOverview();
         final DatePollBallot ballot = voteService.showUserVotes(user, link);
-        result.setYes(
+        result.setVotedYes(
                 ballot.getSelectedEntriesYes()
                         .stream()
                         .map(this::toDTO)
                         .collect(Collectors.toSet())
         );
-        result.setNo(
+        result.setVotedMaybe(
                 ballot.getSelectedEntriesMaybe()
                         .stream()
                         .map(this::toDTO)
@@ -72,5 +73,10 @@ public class DatePollEntryAdapter {
     private FormattedDatePollEntryDto toFormattedDTO(DatePollEntry entry) {
         final String formatted = entry.getSuggestedPeriod().toString();
         return new FormattedDatePollEntryDto(formatted);
+    }
+
+
+    public Set<DashboardItemDto> getAllListItemDtos(UserId userId) {
+        return null;
     }
 }
