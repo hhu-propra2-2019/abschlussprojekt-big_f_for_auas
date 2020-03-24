@@ -6,9 +6,9 @@ import mops.domain.models.datepoll.DatePollEntry;
 
 @Data
 public class DatePollResultDto implements Comparable<DatePollResultDto> {
-    private final Timespan suggestedPeriod;
-    private final int yesVotes;
-    private final int maybeVotes;
+    private Timespan suggestedPeriod;
+    private int yesVotes;
+    private int maybeVotes;
 
     public DatePollResultDto(DatePollEntry entry) {
         suggestedPeriod = entry.getSuggestedPeriod();
