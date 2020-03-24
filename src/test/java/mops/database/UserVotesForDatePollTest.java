@@ -61,8 +61,8 @@ public class UserVotesForDatePollTest {
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
 
-        final Set<UserId> participants = new HashSet<>();
-        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        //final Set<UserId> participants = new HashSet<>();
+        //IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
 
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> pollEntries.add(new DatePollEntry(
@@ -74,7 +74,7 @@ public class UserVotesForDatePollTest {
                 .creator(creator)
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
-                .participants(participants)
+                //.participants(participants)
                 .datePollLink(datePollLink)
                 .build();
         datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll));
