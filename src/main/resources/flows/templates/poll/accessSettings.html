@@ -26,9 +26,9 @@
             <div class="form-group">
                 <label>Start</label>
                 <div class="input-group">
-                    <input class="form-control" type="date" id="poll-startDate" th:field="*{{startDate}}" required
+                    <input class="form-control" type="date" id="termin-startDate" th:field="*{{startDate}}" required
                            th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('startDate'), #fields.hasAnyErrors())}">
-                    <input class="form-control" type="time" id="poll-startTime" th:field="*{startTime}" required
+                    <input class="form-control" type="time" id="termin-startTime" th:field="*{startTime}" required
                            th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('startDate'), #fields.hasAnyErrors())}">
                     <div class="input-group-append">
                         <span class="input-group-text">Uhr</span>
@@ -39,9 +39,9 @@
             <div class="form-group">
                 <label>Ende</label>
                 <div class="input-group">
-                    <input class="form-control" type="date" id="poll-endDate" th:field="*{endDate}" required
+                    <input class="form-control" type="date" id="termin-endDate" th:field="*{endDate}" required
                            th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('endDate'), #fields.hasAnyErrors())}">
-                    <input class="form-control" type="time" id="poll-endTime" th:field="*{endTime}" required
+                    <input class="form-control" type="time" id="termin-endTime" th:field="*{endTime}" required
                            th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('endDate'), #fields.hasAnyErrors())}">
                     <div class="input-group-append">
                         <span class="input-group-text">Uhr</span>
