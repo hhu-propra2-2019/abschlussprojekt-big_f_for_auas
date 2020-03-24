@@ -106,7 +106,6 @@
         <binder>
             <binding property="ispublic"/>
             <binding property="link"/>
-            <binding property="people"/>
             <binding property="groups"/>
         </binder>
         <on-entry>

@@ -1,10 +1,8 @@
 package mops.infrastructure.adapters.webflow;
 
 import mops.application.services.GroupService;
-import mops.application.services.UserService;
 import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
-import mops.domain.models.user.UserId;
 import mops.infrastructure.adapters.webflow.builderdtos.PublicationInformation;
 import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import org.springframework.binding.message.MessageContext;
@@ -77,20 +75,23 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
 
     @SuppressWarnings("PMD.LawOfDemeter")//NOPMD
     private boolean validateGroupsAndUsers(PublicationDto publicationDto, MessageContext context) {
-        if (publicationDto.getPeople().isBlank() && publicationDto.getGroups().isBlank()) {
+        if (publicationDto.getGroups().isBlank()) {
             addMessage("PUBLICATION_PRIVATE_NO_PARTICIPANTS", context, errorEnvironment);
             publicationDto.setIspublic(true);
             return false;
         }
-        final Set<UserId> invalidUsers = invalidUsers(publicationDto);
         final Set<GroupId> invalidGroups = invalidGroups(publicationDto);
-        if (!invalidUsers.isEmpty() || !invalidGroups.isEmpty()) {
-            mapUserErrors(invalidUsers, context);
+        if (!invalidGroups.isEmpty()) {
             mapGroupErrors(invalidGroups, context);
             return false;
         }
         return true;
     }
+
+    // https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html
+    // https://stackoverflow.com/questions/38698182/close-java-8-stream
+    // "Generally, only streams whose source is an IO channel will require closing. Most streams are backed
+    // by collections, arrays, or generating functions, which require no special resource management."
 
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CloseResource"})
     private Set<GroupId> invalidGroups(PublicationDto publicationDto) {
@@ -100,16 +101,6 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
     @SuppressWarnings("PMD.LawOfDemeter")
     private Stream<GroupId> parseGroups(String groups) {
         return Arrays.stream(groups.trim().split("\\s*,\\s*")).dropWhile(String::isBlank).map(GroupId::new);
-    }
-
-    @SuppressWarnings("PMD.LawOfDemeter")
-    private void mapUserErrors(Set<UserId> invalidUsers, MessageContext context) {
-        if (invalidUsers.isEmpty()) {
-            return;
-        }
-        addMessageWithArguments(
-                "PUBLICATION_USERS_NOT_FOUND", context, errorEnvironment,
-                invalidUsers.stream().map(UserId::toString).collect(Collectors.joining(", ")));
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
