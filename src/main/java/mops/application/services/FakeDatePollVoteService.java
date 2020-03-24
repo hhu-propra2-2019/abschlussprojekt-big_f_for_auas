@@ -1,6 +1,7 @@
 package mops.application.services;
 
 import lombok.NoArgsConstructor;
+import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
@@ -28,7 +29,7 @@ public class FakeDatePollVoteService {
      * @param link
      * @return DatePollBallot
      */
-    public DatePollBallot showUserVotes(UserId id, String link) {
+    public DatePollBallot showUserVotes(UserId id, PollLink link) {
 
         final Set<DatePollEntry> entriesYes = new HashSet<>();
         final Set<DatePollEntry> entriesNo = new HashSet<>();

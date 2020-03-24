@@ -29,7 +29,7 @@ public class FakeDatePollInfoService {
      * @return Set<DatePollEntry>
      */
     @SuppressWarnings("checkstyle:MagicNumber")
-    public Set<DatePollEntry> getEntries(String link) {
+    public Set<DatePollEntry> getEntries(PollLink link) {
 
         final Set<DatePollEntry> entries = new HashSet<>();
 

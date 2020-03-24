@@ -1,12 +1,15 @@
 package mops.application.services;
 
+import mops.controllers.dtos.DashboardItemDto;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.PollLink;
+import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 @SuppressWarnings("checkstyle:DesignForExtension")
 @Service
@@ -25,26 +28,14 @@ public class PollInfoService {
         return datePoll.getEntries();
     }
 
-    /*
-     * Gibt die Dtos für jeweils einen Eintrag im Dashboard zurück.
-     * @param userId für diesen User
-     * @return ...
-     */
-    /*@SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
-    public List<DashboardListItemDto> dashboardService(UserId userId) {
-        final List<DashboardListItemDto> dashboardListItemDtos = new LinkedList<>();
-        final List<DatePoll> datePolls = datePollRepository.getDatePollsByUserId(userId);
-        for (final DatePoll datePoll: datePolls
-             ) {
-            final DashboardListItemDto dashboardListItemDto = new DashboardListItemDto();
-            dashboardListItemDto.setTitle(datePoll.getDatePollMetaInf().getTitle());
-            dashboardListItemDto.setEndDate(datePoll.getDatePollMetaInf().getDatePollLifeCycle().getEndDate());
-            dashboardListItemDto.setStatus(datePoll.getUserStatus(userRepository.getUserById(userId)).getIconName());
-            dashboardListItemDto.setDatePollIdentifier(datePoll.getDatePollLink().getDatePollIdentifier());
-            dashboardListItemDtos.add(dashboardListItemDto);
+    public Set<DashboardItemDto> getAllListItemDtos(UserId userId) {
+        final TreeSet<DashboardItemDto> dashboardItemDtos = new TreeSet<>();
+        final Set<DatePoll> datePolls = datePollRepository.getDatePollsByUserId(userId);
+        for (final DatePoll datePoll: datePolls) {
+            dashboardItemDtos.add(new DashboardItemDto(datePoll, userId));
         }
-        return dashboardListItemDtos;
-    }*/
+        return dashboardItemDtos;
+    }
 
     // TODO: Hier evtl. noch check einfügen, ob User berechtigt ist, diese Abstimmung zu sehen?
     // oder woanders? noch wird es jedenfalls ->nicht<- geprüft!!
