@@ -61,7 +61,8 @@ public final class BuilderAdapter {
     public boolean publishDatePoll(ConfirmationDto confirmationDto, MessageContext context) {
         final DatePollMetaInf metaInf = metaInfAdapter.build(confirmationDto.getMetaInfDto());
         final Entries entries = entriesAdapter.build(confirmationDto.getEntriesDto());
-        final PublicationInformation publicationInformation = publicationAdapter.build(confirmationDto.getPublicationDto());
+        final PublicationInformation publicationInformation =
+                publicationAdapter.build(confirmationDto.getPublicationDto());
         // Joar, Law of Demeter. Ist nur ein DTO und darf nicht null sein, also naja.
         confirmationDto.getConfigDto().setOpen(publicationInformation.isIspublic());
         final DatePollConfig config = configAdapter.build(confirmationDto.getConfigDto());
