@@ -124,7 +124,7 @@ public final class ModelOfDaoUtil {
     }
 
     private static Set<GroupId> extractGroupIds(Set<GroupDao> groupDaos) {
-        Set<Group> groups = extractGroup(groupDaos);
+        final Set<Group> groups = extractGroup(groupDaos);
         return groups.stream()
                 .map(Group::getId)
                 .collect(Collectors.toSet());
@@ -239,7 +239,5 @@ public final class ModelOfDaoUtil {
      * Wird nie instanziiert da utility Klasse.
      */
     private ModelOfDaoUtil() {
-        return;
     }
-
 }

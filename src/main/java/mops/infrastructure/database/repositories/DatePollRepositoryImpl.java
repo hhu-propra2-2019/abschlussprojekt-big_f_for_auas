@@ -12,7 +12,6 @@ import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.GroupJpaRepository;
-import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,17 +25,22 @@ public class DatePollRepositoryImpl implements DatePollRepository {
 
     private final transient DatePollJpaRepository datePollJpaRepository;
     private final transient GroupJpaRepository groupJpaRepository;
-    private final transient UserJpaRepository userJpaRepository;
 
     @Autowired
     public DatePollRepositoryImpl(DatePollJpaRepository datePollJpaRepository,
-                                  GroupJpaRepository groupJpaRepository,
-                                  UserJpaRepository userJpaRepository) {
+                                  GroupJpaRepository groupJpaRepository) {
         this.datePollJpaRepository = datePollJpaRepository;
         this.groupJpaRepository = groupJpaRepository;
-        this.userJpaRepository = userJpaRepository;
     }
 
+    /**
+     * Gibt das zugehoerige DatePollDao Objekt in der Datenbank zurueck.
+     * @param link DatePoll Identifier.
+     * @return DatePollDao
+     */
+    public DatePollDao findDatePollDaoByLink(String link) {
+        return datePollJpaRepository.findDatePollDaoByLink(link);
+    }
     /**
      * Lädt das DatePoll Aggregat anhand seines links.
      *
@@ -77,11 +81,14 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     @Override
     public Set<DatePoll> getDatePollsByUserId(UserId userId) {
         final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
-        Set<GroupDao> groupDaos = groupJpaRepository.findAllByUserDaosContaining(targetUser);
+        final Set<GroupDao> groupDaos = groupJpaRepository.findAllByUserDaosContaining(targetUser);
         final Set<DatePollDao> datePollDaosFromUser = new HashSet<>();
         groupDaos.stream()
                 .map(datePollJpaRepository::findByGroupDaosContaining)
                 .map(datePollDaosFromUser::addAll);
+
+        //TODO: Refactoring dieser Methode!
+
         final Set<DatePoll> targetDatePolls = new HashSet<>();
         datePollDaosFromUser.forEach(
                 datePollDao -> targetDatePolls.add(ModelOfDaoUtil.pollOf(datePollDao)));

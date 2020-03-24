@@ -1,6 +1,5 @@
 package mops.infrastructure.database.repositories;
 
-import lombok.NoArgsConstructor;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.repositories.DomainGroupRepository;
@@ -25,12 +24,12 @@ public class DomainGroupRepositoryImpl implements DomainGroupRepository {
 
     /**
      * ...
-     * @param groupId
-     * @return
+     * @param groupId ...
+     * @return ...
      */
     @Override
     public Optional<Group> load(GroupId groupId) {
-        Optional<GroupDao> dao = groupJpaRepository.findById(groupId.getId());
+        final Optional<GroupDao> dao = groupJpaRepository.findById(groupId.getId());
         final Optional<Group> result;
         if (dao.isPresent()) {
             GroupDao present = dao.get();
@@ -43,11 +42,11 @@ public class DomainGroupRepositoryImpl implements DomainGroupRepository {
 
     /**
      * ...
-     * @param group
+     * @param group ...
      */
     @Override
     public void save(Group group) {
-        GroupDao dao = DaoOfModelUtil.groupDaoOf(group);
+        final GroupDao dao = DaoOfModelUtil.groupDaoOf(group);
         groupJpaRepository.save(dao);
     }
 }

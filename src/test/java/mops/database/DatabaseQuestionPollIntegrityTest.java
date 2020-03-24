@@ -13,7 +13,6 @@ import mops.domain.models.questionpoll.QuestionPollConfig;
 import mops.domain.models.questionpoll.QuestionPollEntry;
 import mops.domain.models.questionpoll.QuestionPollMetaInf;
 import mops.domain.models.user.UserId;
-import mops.domain.repositories.DomainGroupRepository;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
@@ -66,7 +65,7 @@ public class DatabaseQuestionPollIntegrityTest {
         IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
         final Set<QuestionPollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> pollEntries.add(new QuestionPollEntry("title" + i)));
-        final Group group = new Group(new GroupId("1"), participants);
+        group = new Group(new GroupId("1"), participants);
         questionPoll = new QuestionPollBuilder()
                 .questionPollMetaInf(questionPollMetaInf)
                 .creator(creator)

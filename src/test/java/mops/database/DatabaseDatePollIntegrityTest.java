@@ -12,12 +12,12 @@ import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
-import mops.domain.repositories.DomainGroupRepository;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
+import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
 import mops.infrastructure.database.repositories.interfaces.DatePollEntryJpaRepository;
@@ -106,6 +106,16 @@ public class DatabaseDatePollIntegrityTest {
         datePollRepository.save(datePoll);
         final Set<UserDao> userDaoSet = userJpaRepository.findAllByGroupSetContaining(exampleGroup);
         assertThat(userDaoSet).hasSize(3);
+    }
+    @Test
+    public void datePollDaoFromUserIsPresent() {
+        final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
+        datePollRepository.save(datePoll);
+        final Set<UserDao> userDaoSet = userJpaRepository.findAllByGroupSetContaining(exampleGroup);
+        final Set<DatePoll> datePollsByUserId = datePollRepository.getDatePollsByUserId(
+                ModelOfDaoUtil.userOf(
+                        userDaoSet.iterator().next()).getId());
+        assertThat(datePollsByUserId.size()).isEqualTo(1);
     }
 
     @SuppressWarnings("checkstyle:MagicNumber")
