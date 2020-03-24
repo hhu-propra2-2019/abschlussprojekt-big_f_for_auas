@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:DesignForExtension"})
 /* keine Zeit sich um bessere Kapslung zu kümmern */
 @Service
-public class DatePollEntryAdapter  {
+public class DatePollEntryAdapter {
 
     private final transient DatePollVoteService voteService;
     private final transient PollInfoService infoService;
