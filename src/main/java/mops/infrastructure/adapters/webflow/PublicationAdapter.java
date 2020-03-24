@@ -1,10 +1,12 @@
 package mops.infrastructure.adapters.webflow;
 
-import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import mops.application.services.GroupService;
 import mops.application.services.UserService;
+import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
+import mops.infrastructure.adapters.webflow.builderdtos.PublicationInformation;
+import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -20,7 +22,7 @@ import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage
 
 @Service
 @PropertySource(value = "classpath:flows/errormappings/publicationmappings.properties", encoding = "UTF-8")
-public class PublicationAdapter {
+public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, PublicationInformation> {
 
     private final transient GroupService groupService;
     private final transient UserService userService;
@@ -38,10 +40,25 @@ public class PublicationAdapter {
      *
      * @return ...
      */
+    @Override
     public PublicationDto initializeDto() {
         final PublicationDto publicationDto = new PublicationDto();
         publicationDto.setLink("dummylink");
         return publicationDto;
+    }
+
+    @Override
+    public boolean validateDto(PublicationDto publicationDto, MessageContext context) {
+        return validate(publicationDto, context);
+    }
+
+    @Override
+    @SuppressWarnings("PMD.LawOfDemeter") //NOPMD
+    public PublicationInformation build(PublicationDto publicationDto) {
+        return new PublicationInformation(
+                publicationDto.isIspublic(),
+                new PollLink(publicationDto.getLink()),
+                parseGroups(publicationDto.getGroups()).collect(Collectors.toSet()));
     }
 
     /**
@@ -89,9 +106,12 @@ public class PublicationAdapter {
 
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CloseResource"})
     private Set<GroupId> invalidGroups(PublicationDto publicationDto) {
-        final Stream<String> groups =
-                Arrays.stream(publicationDto.getGroups().trim().split("\\s*,\\s*")).dropWhile(String::isBlank);
-        return groups.map(GroupId::new).dropWhile(groupService::groupExists).collect(Collectors.toSet());
+        return parseGroups(publicationDto.getGroups()).dropWhile(groupService::groupExists).collect(Collectors.toSet());
+    }
+
+    @SuppressWarnings("PMD.LawOfDemeter")
+    private Stream<GroupId> parseGroups(String groups) {
+        return Arrays.stream(groups.trim().split("\\s*,\\s*")).dropWhile(String::isBlank).map(GroupId::new);
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
