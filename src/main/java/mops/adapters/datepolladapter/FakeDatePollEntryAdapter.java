@@ -31,10 +31,10 @@ public class FakeDatePollEntryAdapter {
     }
 
     /**
-     * befüllt eine Overview von den abgegebenen Stimmen eines Users zu einem DatePoll
+     * befüllt eine Overview von den abgegebenen Stimmen eines Users zu einem DatePoll.
      * @param link
      * @param user
-     * @return
+     * @return Overview
      */
     public DatePollUserEntryOverview showUserEntryOverview(String link, UserId user) {
         final DatePollUserEntryOverview result = new DatePollUserEntryOverview();

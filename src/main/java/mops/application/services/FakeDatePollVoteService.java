@@ -16,13 +16,18 @@ import java.util.Set;
  *  - Gibt mit userid und link das zugehörige ballot zurück.
  *
  */
-//CHECKSTYLE:OFF
+@SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:MagicNumber"}) //NOPMD
 @Service
 @NoArgsConstructor
 public class FakeDatePollVoteService {
 
 
-    @SuppressWarnings({"PMD.LawOfDemeter"})// Nullcheck
+    /**
+     *  get Ballot from one user and one Poll (with link).
+     * @param id
+     * @param link
+     * @return DatePollBallot
+     */
     public DatePollBallot showUserVotes(UserId id, String link) {
 
         final Set<DatePollEntry> entriesYes = new HashSet<>();

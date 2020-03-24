@@ -4,7 +4,12 @@ import lombok.NoArgsConstructor;
 import mops.controllers.dtos.DashboardItemDto;
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
-import mops.domain.models.datepoll.*;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollEntry;
+import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.datepoll.DatePollRecordAndStatus;
+import mops.domain.models.datepoll.DatePollBallot;
+import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.user.UserId;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +24,18 @@ import java.util.TreeSet;
 public class FakeDatePollInfoService {
     private Set<DatePoll>  testDatePollObjects = new HashSet<>();
 
+    /** get All Entries of one Poll.
+     *
+     * @param link
+     * @return Set<DatePollEntry>
+     */
     @SuppressWarnings("checkstyle:MagicNumber")
     public Set<DatePollEntry> getEntries(String link) {
 
         final Set<DatePollEntry> entries = new HashSet<>();
 
-        final LocalDateTime time1 = LocalDateTime.of(2020, 03
-                , 22, 16, 15, 27);
-        final LocalDateTime time2 = LocalDateTime.of(2021, 04
-                , 29, 16, 15, 27);
+        final LocalDateTime time1 = LocalDateTime.of(2020, 03, 22, 16, 15, 27);
+        final LocalDateTime time2 = LocalDateTime.of(2021, 04, 29, 16, 15, 27);
         final Timespan timespan = new Timespan(time1, time2);
 
 
@@ -52,15 +60,20 @@ public class FakeDatePollInfoService {
         return entries;
     }
 
-    public Set<DatePoll> genRandomDatePolls(UserId userid) {
+    /** generate deterministic 10 DatePolls.
+     *
+     * @param userid
+     * @return Set<DatePoll>
+     */
+    public Set<DatePoll> generateDatePolls(UserId userid) {
 
         final Set<DatePoll> datePolls = new HashSet<>();
 
         for (int i = 0; i < 10; i++) {
             final DatePollRecordAndStatus datePollRecordAndStatus = new DatePollRecordAndStatus();
 
-            final Timespan timespan = new Timespan(LocalDateTime.now()
-                    , LocalDateTime.of(2020 + i, 3, 20, 19, 50, 56));
+            final Timespan timespan = new Timespan(LocalDateTime.now(),
+                    LocalDateTime.of(2020 + i, 3, 20, 19, 50, 56));
             final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("Abstimmung : " + i,
                     "Beschreibung :" + i, "Bei Nathan", timespan);
             final DatePollConfig datePollConfig = new DatePollConfig();
@@ -84,15 +97,13 @@ public class FakeDatePollInfoService {
      * @param userId für diesen User
      * @return dashboardItemDtos
      */
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     public Set<DashboardItemDto> getAllListItemDtos(UserId userId) {
         final TreeSet<DashboardItemDto> dashboardItemDtos = new TreeSet<>();
-        final Set<DatePoll> datePolls = genRandomDatePolls(userId);
+        final Set<DatePoll> datePolls = generateDatePolls(userId);
         this.testDatePollObjects = datePolls;
         for (final DatePoll datePoll: datePolls) {
             dashboardItemDtos.add(new DashboardItemDto(datePoll, userId));
         }
         return dashboardItemDtos;
     }
-
 }

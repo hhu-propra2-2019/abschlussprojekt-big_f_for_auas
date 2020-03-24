@@ -39,6 +39,7 @@ public class DatePollVoteController {
      * GET Mapping.
      * @param model
      * @param link
+     * @param token
      * @return mobilePollVote
      */
     @GetMapping("/vote/{link}")
@@ -52,7 +53,7 @@ public class DatePollVoteController {
 
 
     /**
-     * POST Mapping
+     * POST Mapping.
      * @param overview
      * @param model
      * @param link
