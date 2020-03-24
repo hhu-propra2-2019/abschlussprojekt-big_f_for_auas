@@ -18,7 +18,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidInstantiatingObjectsInLoops", "checkstyle:MagicNumber"}) //NOPMD
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidInstantiatingObjectsInLoops",
+        "checkstyle:MagicNumber", "PMD.DataflowAnomalyAnalysis"}) //NOPMD
 @Service
 @NoArgsConstructor
 public class FakeDatePollInfoService {
