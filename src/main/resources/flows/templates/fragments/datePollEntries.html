@@ -26,16 +26,16 @@
 
                     <div class="wrap-input-date order-1 d-flex align-items-center pl-2">
                         <i class="fa fa-check-square-o fa-2x"></i>
-                        <input class="form-control ml-3 mr-3" type="date" name="addDate" value="2020-05-20"
+                        <input class="form-control ml-3 mr-3" type="date" name="addDate" th:value="*{proposedEntry.date}"
                                th:classappend="${#fields.hasErrors('entries') ? ' is-invalid' : ''}">
                     </div>
 
                     <div class="wrap-input-von-bis order-2 d-flex align-items-center ml-2 my-2 my-md-0">
                         <i class="fa fa-clock-o fa-2x"></i>
-                        <input class="form-control ml-3" type="time" name="addStartTime" value="15:00"
+                        <input class="form-control ml-3" type="time" name="addStartTime" th:value="*{proposedEntry.startTime}"
                                th:classappend="${#fields.hasErrors('entries') ? ' is-invalid' : ''}">
                         <h4 class="mb-0 ml-2">bis</h4>
-                        <input class="form-control ml-2" type="time" name="addEndTime" value="17:00"
+                        <input class="form-control ml-2" type="time" name="addEndTime" th:value="*{proposedEntry.endTime}"
                                th:classappend="${#fields.hasErrors('entries') ? ' is-invalid' : ''}">
                     </div>
 

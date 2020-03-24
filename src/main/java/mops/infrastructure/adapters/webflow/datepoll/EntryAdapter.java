@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage;
@@ -21,6 +22,7 @@ import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage
 public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntry> {
 
     private final transient Environment errorEnvironment;
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @Autowired
     public EntryAdapter(Environment errorEnvironment) {
@@ -31,8 +33,8 @@ public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntr
     @Override
     public EntryDto initializeDto() {
         return new EntryDto(LocalDate.now().toString(),
-                LocalTime.now().toString(),
-                LocalTime.now().plusHours(3).toString());
+                LocalTime.now().format(formatter),
+                LocalTime.now().plusHours(3).format(formatter));
     }
 
     @Override
