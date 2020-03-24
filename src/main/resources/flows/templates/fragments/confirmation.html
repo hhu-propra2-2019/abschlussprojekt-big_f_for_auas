@@ -10,7 +10,7 @@
 </head>
 <body>
 <form method="post" th:fragment="confirmation"
-      th:object="${confirmationDto}" th:action="${flowExecutionUrl}">
+      th:object="${datePollDto}" th:action="${flowExecutionUrl}">
 
     <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
 

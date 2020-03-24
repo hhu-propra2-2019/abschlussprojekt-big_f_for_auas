@@ -13,9 +13,9 @@ benötigt werden. Im Folgenden sind alle Attribute aufgeführt, die angegeben we
 | description   | nein      | maximal 600 Zeichen                   | Beschreibung der Umfrage, kann etwas länger sein.
 | location      | nein      | maximal 100 Zeichen                   | Ortsangabe als String
 | startDate     | ja        | Format: "YYYY-MM-DD"                  | Ab diesem Datum darf abgestimmt werden.
-| startTime     | ja        | Format: "HH-MM"                       | Am Startdatum darf ab dieser Zeit abgestimmt werden.
+| startTime     | ja        | Format: "HH:MM"                       | Am Startdatum darf ab dieser Zeit abgestimmt werden.
 | endDate       | ja        | Format: "YYYY-MM-DD"                  | Bis zu diesem Datum darf abgestimmt werden.
-| endTime       | ja        | Format: "HH-MM"                       | Am Enddatum darf bis zu dieser Zeit abgestimmt werden.
+| endTime       | ja        | Format: "HH:MM"                       | Am Enddatum darf bis zu dieser Zeit abgestimmt werden.
 | voteIsEditable| nein      | true/false, default: true             | Legt fest, ob die eigenen Stimmen nachträglich geändert werden dürfen.
 | openForOwnEntries| nein   | true/false                            | **nicht implementiert** Dürfen die Nutzer*innen eigene Einträge hinzufügen?
 | singleChoice  | nein      | true/false, default: false            | true: Nur eine Termin darf ausgewählt werden
@@ -25,8 +25,8 @@ benötigt werden. Im Folgenden sind alle Attribute aufgeführt, die angegeben we
 | groups        | wenn public=true| List mit IDs der Gruppen        | Legt Gruppen fest, die abstimmen dürfen.
 | entries       | ja        | Mindestens ein Eintrag                | Die Terminoptionen, über die abgestimmt wird.
 | entries.date  | ja        | Format: "YYYY-MM-DD"                  | Datum eines Termins
-| entries.startTime| ja     | Format: "HH-MM"                       | Startzeit eines Termins
-| entries.endTime| ja       | Format: "HH-MM"                       | Endzeit eines Termins
+| entries.startTime| ja     | Format: "HH:MM"                       | Startzeit eines Termins
+| entries.endTime| ja       | Format: "HH:MM"                       | Endzeit eines Termins
 
 Eine Beispieldatei:
 
