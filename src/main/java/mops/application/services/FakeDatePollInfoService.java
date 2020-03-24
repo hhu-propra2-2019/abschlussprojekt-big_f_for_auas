@@ -23,8 +23,6 @@ import java.util.TreeSet;
 @Service
 @NoArgsConstructor
 public class FakeDatePollInfoService {
-    private Set<DatePoll>  testDatePollObjects = new HashSet<>();
-
     /** get All Entries of one Poll.
      *
      * @param link
@@ -101,7 +99,6 @@ public class FakeDatePollInfoService {
     public Set<DashboardItemDto> getAllListItemDtos(UserId userId) {
         final TreeSet<DashboardItemDto> dashboardItemDtos = new TreeSet<>();
         final Set<DatePoll> datePolls = generateDatePolls(userId);
-        this.testDatePollObjects = datePolls;
         for (final DatePoll datePoll: datePolls) {
             dashboardItemDtos.add(new DashboardItemDto(datePoll, userId));
         }
