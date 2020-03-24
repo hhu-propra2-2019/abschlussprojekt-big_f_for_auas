@@ -1,4 +1,5 @@
-let ctx = document.getElementById("resultChart").getContext('2d');
+/*
+let ctx = document.getElementById("#resultChart").getContext('2d');
 let resultChart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -29,6 +30,12 @@ let resultChart = new Chart(ctx, {
         }
     }
 });
+*/
+
+
+
+
+/* CHART */
 
 function addData(chart, label, data) {
     chart.data.labels.push(label);
