@@ -16,8 +16,13 @@ Einführung und Ziele {#section-introduction-and-goals}
 
 Aufgabenstellung {#_aufgabenstellung}
 ----------------
+###Was beinhaltet das Projekt Terminfindung
 
-Qualitätsziele {#_qualit_tsziele}
+- Das Projekt stellt einen Web-Service bereit, mit dem man Umfragen erstellen kann
+- An erstellten Umfragen kann man teilnehmen
+- Ergebnisse von fertig geführten Umfragen werden präsentiert
+
+Qualitätsziele {#_qualitätsziele}
 --------------
 **Wartbarkeit:**
 
@@ -85,19 +90,14 @@ Kontextabgrenzung {#section-system-scope-and-context}
 
 Fachlicher Kontext {#_fachlicher_kontext}
 ------------------
-
-**\<Diagramm und/oder Tabelle\>**
-
-**\<optional: Erläuterung der externen fachlichen Schnittstellen\>**
+Das System, das wir bereitstellen, ist ein Subsystem eines Web-Services der HHU, der den Angehörigen der Universität
+als Online-Organisations-Service dient.
 
 Technischer Kontext {#_technischer_kontext}
 -------------------
-
-**\<Diagramm oder Tabelle\>**
-
-**\<optional: Erläuterung der externen technischen Schnittstellen\>**
-
-**\<Mapping fachliche auf technische Schnittstellen\>**
+Unsere Aufgabe ist es, unseren Service für die User bereitzustellen und sicherzustellen, dass nur berechtigte User
+auf die entsprechenden Umfragen zugreifen können. Die Authentifizierung der User erfolgt extern. Die Anbindung an
+andere Subsysteme erfolgt nur über Links.
 
 Lösungsstrategie {#section-solution-strategy}
 ================
