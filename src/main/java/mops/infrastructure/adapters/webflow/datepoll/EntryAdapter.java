@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage;
@@ -21,6 +22,7 @@ import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage
 public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntry> {
 
     private final transient Environment errorEnvironment;
+    private final transient DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @Autowired
     public EntryAdapter(Environment errorEnvironment) {
@@ -31,11 +33,12 @@ public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntr
     @Override
     public EntryDto initializeDto() {
         return new EntryDto(LocalDate.now().toString(),
-                LocalTime.now().toString(),
-                LocalTime.now().plusHours(3).toString());
+                LocalTime.now().format(formatter),
+                LocalTime.now().plusHours(3).format(formatter));
     }
 
     @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
     public boolean validateDto(EntryDto entryDto, MessageContext context) {
         try {
             LocalDate.parse(entryDto.getDate());
@@ -48,6 +51,11 @@ public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntr
             LocalTime.parse(entryDto.getEndTime());
         } catch (DateTimeParseException e) {
             addMessage("DATE_POLL_TIME_NOT_PARSEABLE", context, errorEnvironment);
+            return false;
+        }
+        // etwas sperrige Bedingung, damit auch endTime == startTime abgefangen wird
+        if (!LocalTime.parse(entryDto.getEndTime()).isAfter(LocalTime.parse(entryDto.getStartTime()))) {
+            addMessage("DATE_POLL_ENTRY_TIME_SWAPPED", context, errorEnvironment);
             return false;
         }
         return true;
