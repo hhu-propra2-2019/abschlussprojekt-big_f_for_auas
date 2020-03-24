@@ -2,6 +2,7 @@ package mops.infrastructure.adapters.webflow.questionpolladapter.dtos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import mops.infrastructure.adapters.webflow.dtos.GeneralDto;
 
 import java.io.Serializable;
 

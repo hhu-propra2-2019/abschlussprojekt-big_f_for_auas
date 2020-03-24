@@ -6,15 +6,17 @@
 
     <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
 
-    <input name="userId" type="mops.domain.models.user.UserId" required="true" />
+    <input name="account" type="mops.controllers.dtos.Account" required="true" />
 
     <on-start>
-        <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto()" result="flowScope.headerDto"/>
+        <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.HeaderDto()" result="flowScope.metaInfDto"/>
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.TimespanDto()" result="flowScope.timespanDto"/>
         <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.ConfigDto()" result="flowScope.configDto"/>
+        <evaluate expression="new mops.infrastructure.adapters.webflow.questionpolladapter.dtos.EntriesDto()" result="flowScope.entriesDto"/>
+        <evaluate expression="new mops.infrastructure.adapters.webflow.dtos.PublicationDto()" result="flowScope.publicationDto"/>
     </on-start>
 
-    <view-state id="mobilePollNameSettings" view="poll/mobilePollNameSettings" model="headerDto">
+    <view-state id="nameSettings" view="poll/nameSettings" model="metaInfDto">
 
         <binder>
             <binding property="title"/>
@@ -23,12 +25,12 @@
         </binder>
 
         <transition on="home" to="home"/>
-        <transition on="access" to="mobilePollAccessSettings">
-            <evaluate expression="questionPollAdapter.validateHeader(headerDto, messageContext)"/>
+        <transition on="metaInfStep2" to="accessSettings">
+            <evaluate expression="questionPollAdapter.validateHeader(metaInfDto, messageContext)"/>
         </transition>
     </view-state>
 
-    <view-state id="mobilePollAccessSettings" view="poll/mobilePollAccessSettings" model="timespanDto">
+    <view-state id="accessSettings" view="poll/accessSettings" model="timespanDto">
 
         <binder>
             <binding property="startDate"/>
@@ -37,37 +39,62 @@
             <binding property="endTime"/>
         </binder>
 
-        <transition on="name" to="mobilePollNameSettings"/>
-        <transition on="choicesettings" to="mobilePollChoiceSettings">
+        <transition on="name" to="nameSettings"/>
+        <transition on="entry" to="entrySettings">
             <evaluate expression="questionPollAdapter.validateTimespan(timespanDto, messageContext)"/>
         </transition>
     </view-state>
 
-    <view-state id="mobilePollChoiceSettings" view="poll/mobilePollChoiceSettings" model="configDto">
+    <view-state id="entrySettings" view="poll/entrySettings" model="configDto">
 
         <binder>
             <binding property="singleChoice"/>
             <binding property="anonymous"/>
         </binder>
 
-        <transition on="access" to="mobilePollAccessSettings"/>
-        <transition on="choiceoptions" to="mobilePollChoiceOptions">
+        <transition on="access" to="accessSettings"/>
+        <transition on="entries" to="questionPollEntries">
             <evaluate expression="questionPollAdapter.validateConfig(configDto, messageContext)"/>
         </transition>
     </view-state>
 
-    <view-state id="mobilePollChoiceOptions" view="poll/mobilePollChoiceOptions">
-        <transition on="choicesettings" to="mobilePollChoiceSettings"/>
-        <transition on="publication" to="mobilePollPublicationSettings"/>
+    <view-state id="questionPollEntries" view="poll/questionPollEntries" model="entriesDto">
+
+        <binder>
+            <binding property="entries"/>
+        </binder>
+
+        <transition on="addEntry" to="questionPollEntries">
+            <evaluate expression="questionPollAdapter.addEntry(entriesDto, requestParameters.addEntry, messageContext)"/>
+        </transition>
+
+        <transition on="deleteEntry" to="questionPollEntries">
+            <evaluate expression="questionPollAdapter.deleteEntry(entriesDto, requestParameters.deleteEntry)"/>
+        </transition>
+
+        <transition on="entry" to="entrySettings"/>
+        <transition on="publication" to="publication">
+            <evaluate expression="questionPollAdapter.validateEntries(entriesDto, messageContext)"/>
+        </transition>
     </view-state>
 
-    <view-state id="mobilePollPublicationSettings" view="poll/mobilePollPublicationSettings">
-        <transition on="choiceoptions" to="mobilePollChoiceOptions"/>
-        <transition on="confirmation" to="mobilePollConfirmation"/>
+    <view-state id="publication" view="poll/publication" model="publicationDto">
+
+        <binder>
+            <binding property="ispublic"/>
+            <binding property="link"/>
+            <binding property="people"/>
+            <binding property="groups"/>
+        </binder>
+
+        <transition on="entries" to="questionPollEntries"/>
+        <transition on="confirmation" to="confirmation">
+            <evaluate expression="publicationAdapter.validate(publicationDto, messageContext)"/>
+        </transition>
     </view-state>
 
-    <view-state id="mobilePollConfirmation" view="poll/mobilePollConfirmation">
-        <transition on="publication" to="mobilePollPublicationSettings"/>
+    <view-state id="confirmation" view="poll/confirmation">
+        <transition on="publication" to="publication"/>
         <transition on="submit" to="home"/>
     </view-state>
 
