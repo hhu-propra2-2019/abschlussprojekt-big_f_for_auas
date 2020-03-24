@@ -22,7 +22,7 @@ import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage
 public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntry> {
 
     private final transient Environment errorEnvironment;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+    private final transient DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @Autowired
     public EntryAdapter(Environment errorEnvironment) {
@@ -38,6 +38,7 @@ public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntr
     }
 
     @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
     public boolean validateDto(EntryDto entryDto, MessageContext context) {
         try {
             LocalDate.parse(entryDto.getDate());
