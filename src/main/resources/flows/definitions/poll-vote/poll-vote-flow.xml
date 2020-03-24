@@ -6,12 +6,12 @@
 
   <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
 
-  <view-state id="mobilePollVote" view="flows/poll-vote/mobilePollVote">
+  <view-state id="mobilePollVote" view="/templates/mobilePollVote.html">
     <transition on="home" to="home"/>
     <transition on="results" to="mobilePollResults"/>
   </view-state>
 
-  <view-state id="mobilePollResults" view="flows/poll-vote/mobilePollResults">
+  <view-state id="mobilePollResults" view="/templates/mobilePollResults.html">
     <transition on="vote" to="mobilePollVote"/>
     <transition on="home" to="home"/>
   </view-state>

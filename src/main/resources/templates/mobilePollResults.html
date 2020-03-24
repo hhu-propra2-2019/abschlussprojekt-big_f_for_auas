@@ -6,6 +6,8 @@
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script type="text/javascript" th:src="@{/results.js}"></script>
         <link rel="stylesheet" th:href="@{/termine1.css}">
     </th:block>
 </head>
@@ -21,20 +23,27 @@
 
         <div class="chart desktopResults"><canvas id="resultChart" width="400" height="400"></canvas></div>
 
-        <div class="mobileResults">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">M1 10 Stimmen (20%)</li>
-                <li class="list-group-item">M2 40 Stimmen (80%)</li>
-            </ul>
+        <!--
+        <div id="resultContainer" th:object="${overview}">
+            <div th:attr="data-pollTitle=${entry.printTitle()}"></div>
+            TODO: ifs in js
+            <div th:if="${entry.hasDescrition()}" th:attr="data-pollDescription=${entry.printDescription()}"></div>
+            <div th:if="${entry.hasLocation()}" th:attr="data-pollLocation=${entry.printLocation()}"></div>
+            <div th:if="${entry.hasQuestion()}" th:attr="data-pollQuestion=${entry.printQuestion()}"></div>
+            <div th:each="entry : *{allEntries}">
+                <div th:attr="data-entryName=${entry.printName()}"></div>
+                <div th:attr="data-entryVotesYes=${entry.countVotesYes()}"></div>
+                <div th:attr="data-entryVotesMaybe=${entry.countVotesMaybe()}"></div>
+            </div>
         </div>
-
-
+-->
         <form th:action method="post">
             <button type="submit" name="_eventId_home" class="btn btn-primary float-left mt-5">Fertig</button>
             <button type="submit" name="_eventId_vote" class="btn btn-primary float-left mt-5">Ändern</button>
         </form>
         <script>
-            let ctx = document.getElementById('resultChart').getContext('2d');
+            /*
+            let ctx = document.getElementById("resultChart").getContext('2d');
             let resultChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -65,6 +74,7 @@
                     }
                 }
             });
+            */
         </script>
     </div>
 </main>

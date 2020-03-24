@@ -64,6 +64,6 @@ public class DatePollVoteController {
     public String votePoll(@ModelAttribute("overview") DatePollUserEntryOverview overview,
                            Model model, @PathVariable String link, KeycloakAuthenticationToken token) {
 
-        return "redirect:/";
+        return "mobilePollResults";
     }
 }
