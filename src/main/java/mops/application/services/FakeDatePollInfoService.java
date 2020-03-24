@@ -60,7 +60,7 @@ public class FakeDatePollInfoService {
     }
 
     /** generate deterministic 10 DatePolls.
-     *
+     *definieren und dann das als ein dummy service implementieren
      * @param userid
      * @return Set<DatePoll>
      */
