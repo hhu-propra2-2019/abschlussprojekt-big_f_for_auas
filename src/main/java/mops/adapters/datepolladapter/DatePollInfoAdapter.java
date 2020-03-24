@@ -24,14 +24,10 @@ public class DatePollInfoAdapter {
         this.infoService = infoService;
     }
 
-    public DatePollMetaInfDto showMetaInformation(PollLink link, UserId userId) {
+    public DatePollMetaInfDto showDatePollMetaInformation(PollLink link, UserId userId) {
         final DatePoll poll = infoService.datePollViewService(link);
-        final DatePollMetaInfDto dto = new DatePollMetaInfDto();
-        dto.setTitle(poll.getMetaInf().getTitle());
-        dto.setDescription(poll.getMetaInf().getDescription().getDescriptionText());
-        dto.setLocation(poll.getMetaInf().getLocation().getLocation());
+        final DatePollMetaInfDto dto = new DatePollMetaInfDto(poll.getMetaInf());
         dto.setPollStatus(poll.getUserStatus(userId).getIconName());
-        dto.setEndDate(poll.getMetaInf().getTimespan().getEndDate());
         return dto;
     }
 
