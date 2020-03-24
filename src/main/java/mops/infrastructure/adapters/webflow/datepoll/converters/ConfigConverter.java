@@ -1,7 +1,7 @@
 package mops.infrastructure.adapters.webflow.datepoll.converters;
 
 import lombok.NoArgsConstructor;
-import mops.infrastructure.adapters.webflow.datepoll.dtos.ConfigDto;
+import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.ConfigDto;
 import mops.domain.models.datepoll.DatePollConfig;
 import org.springframework.core.convert.converter.Converter;
 
