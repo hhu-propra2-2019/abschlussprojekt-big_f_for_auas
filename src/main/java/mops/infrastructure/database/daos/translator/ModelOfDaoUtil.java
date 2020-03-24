@@ -129,7 +129,7 @@ public final class ModelOfDaoUtil {
     }
 
     public static User userOf(UserDao dao) {
-        final UserId userId = new UserId(Long.toString(dao.getId()));
+        final UserId userId = new UserId(dao.getId());
         return new User(userId);
     }
 
