@@ -6,7 +6,6 @@
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script type="text/javascript" th:src="@{/accessSettings.js}"></script>
         <link rel="stylesheet" th:href="@{/termine1.css}">
     </th:block>
 </head>
@@ -19,7 +18,7 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Zeitraum')"></div>
-        <form method="post" th:action="${flowExecutionUrl}" th:object="${timespanDto}">
+        <form method="post" th:action="${flowExecutionUrl}" novalidate th:object="${timespanDto}">
 
             <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
 
@@ -49,7 +48,7 @@
                     <div class="invalid-feedback" th:errors="*{endDate}"></div>
                 </div>
             </div>
-            <button type="submit" name="_eventId_choicesettings" class="btn btn-primary float-right mt-5">Weiter</button>
+            <button type="submit" name="_eventId_entry" class="btn btn-primary float-right mt-5">Weiter</button>
             <button type="submit" name="_eventId_name"  class="btn btn-primary float-left mt-5">Zurück</button>
         </form>
     </div>

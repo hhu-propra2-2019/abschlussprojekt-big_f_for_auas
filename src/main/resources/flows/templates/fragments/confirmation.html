@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}"
+      xmlns:min-width="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
@@ -8,81 +9,81 @@
     </th:block>
 </head>
 <body>
-    <form th:action method="post" th:fragment="confirmation">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <h4 class="card-title"><strong>Titel</strong></h4>
-                        <hr>
-                        <p class="mb-0">Beschreibung</p>
-                        <p class="mb-0">Ort</p>
-                    </div>
-                    <hr>
-                    <p class="text-center">Fragestellung</p>
-                    <div class="ml-4">
-                        <div class="mb-4">
-                            <div class="ml-2">Option 1</div>
-                            <div class="ml-2">Option 2</div>
-                            <div class="ml-2">Option 3</div>
-                            <div class="ml-2">Option 4</div>
-                        </div>
-                    </div>
-                    <hr class="desktopConfirmation">
-                    <div class="bg-primary text-white mobileConfirmation">
-                        <p class="text-center mt-4">Einstellungen</p>
-                        <div class="ml-4">
-                            <div class="mb-4">
-                                <div class="ml-2"><span>10.03.2020, 12:00 Uhr</span> -<br/> <span>13:03.2020, 20:00 Uhr</span></div>
-                                <hr class="mr-4">
-                                <div class="ml-2">single/multiple choice</div>
-                                <div class="ml-2">(ja/nein) / (ja/nein/vielleicht)</div>
-                                <hr class="mr-4">
-                                <div class="ml-2">Stimmen editierbar</div>
-                                <div class="ml-2">Möglichkeiten ergänzbar</div>
-                                <hr class="mr-4">
-                                <div class="ml-2">Anonym/Klartext</div>
-                                <hr class="mr-4">
-                                <div class="ml-2">mail@provider</div>
-                                <div class="ml-2">mail@provider</div>
-                                <div class="ml-2">mail@provider</div>
-                                <div class="ml-2">mail@provider</div>
-                            </div>
-                        </div>
-                    </div>
+<form method="post" th:fragment="confirmation"
+      th:object="${confirmationDto}" th:action="${flowExecutionUrl}">
 
-                    <div class="clearfix">
-                        <button type="submit" name="_eventId_submit" class="btn btn-primary float-right m-2">Erstellen</button>
-                        <button type="submit" name="_eventId_publication"  class="btn btn-secondary float-left m-2">Zurück</button>
+    <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
+
+    <div class="card-deck">
+        <div class="card order-3 order-lg-1">
+            <div class="card-body">
+                <div class="text-center">
+                    <h4 class="card-title"><strong th:text="*{metaInfDto.title}"></strong></h4>
+                    <hr>
+                    <p class="mb-0" th:text="*{metaInfDto.description}"></p>
+                    <p class="mt-2">
+                        <span class="text-muted">Ort:</span>
+                        <span class="mb-0" th:text="*{metaInfDto.location}"></span>
+                    </p>
+                </div>
+                <hr>
+                <div class="ml-4 mb-4 text-center">
+                    <p class="text-muted">Optionen: </p>
+                    <div class="ml-2 mt-2" th:each="entry : *{entriesDto.entries}">
+                        <span th:text="${entry.date}"></span>,
+                        <span th:text="${entry.startTime}"></span>
+                        <span> - </span>
+                        <span th:text="${entry.endTime}"></span>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 desktopConfirmation">
-                <div class="card border-primary">
-                    <div class="card-body bg-primary text-white text-center">
-                        <h4 class="card-title mb-0"><strong>Einstellungen</strong></h4>
-                    </div>
-                    <div class="ml-4 mt-4">
-                        <div class="mb-4">
-                            <div class="ml-2"><span>10.03.2020, 12:00 Uhr</span> -<br/> <span>13:03.2020, 20:00 Uhr</span></div>
-                            <hr class="mr-4">
-                            <div class="ml-2">single/multiple choice</div>
-                            <div class="ml-2">(ja/nein) / (ja/nein/vielleicht)</div>
-                            <hr class="mr-4">
-                            <div class="ml-2">Stimmen editierbar</div>
-                            <div class="ml-2">Möglichkeiten ergänzbar</div>
-                            <hr class="mr-4">
-                            <div class="ml-2">Anonym/Klartext</div>
-                            <hr class="mr-4">
-                            <div class="ml-2">mail@provider</div>
-                            <div class="ml-2">mail@provider</div>
-                            <div class="ml-2">mail@provider</div>
-                            <div class="ml-2">mail@provider</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="clearfix">
+                <button type="submit" name="_eventId_submit" class="btn btn-primary float-right m-2">Erstellen</button>
+                <button type="submit" name="_eventId_publication" class="btn btn-secondary float-left m-2">Zurück
+                </button>
             </div>
         </div>
-    </form>
+        <div class="w-100 d-lg-none mt-4 order-2"></div>
+
+        <div class="card order-1 order-lg-3 border-primary">
+            <div class="card-header text-center bg-primary text-white"><strong>Einstellungen</strong></div>
+            <div class="card-body">
+
+                <div class="container-fluid p-3">
+                    <p class="mb-2">Abstimmungszeitraum:</p>
+                    <span th:text="*{metaInfDto.startDate}"></span>, <span th:text="*{metaInfDto.startTime}"></span> Uhr -
+                    <span th:text="*{metaInfDto.endDate}"></span>, <span th:text="*{metaInfDto.endTime}"></span> Uhr
+
+                    <hr>
+                    <div th:if="*{configDto.singleChoice}">
+                        <div>Die Teilnehmenden dürfen nur eine Option wählen</div>
+                        <hr>
+                    </div>
+                    <div>
+                        <span>Auswahlmöglichkeiten: </span>
+                        <span th:if="*{configDto.priorityChoice}">ja/nein/vielleicht</span>
+                        <span th:unless="*{configDto.priorityChoice}">ja/nein</span>
+                    </div>
+                    <hr>
+                    <div>
+                        <span th:if="*{configDto.voteIsEditable}">Die eigenen Stimmen dürfen im Nachhinein verändert werden</span>
+                        <span th:unless="*{configDto.voteIsEditable}">Die eigenen Stimmen dürfen im Nachhinein nicht verändert werden</span>
+                    </div>
+                    <hr>
+                    <div>
+                        <span th:if="*{configDto.anonymous}">Die Abstimmung ist geheim und nur das Ergebnis wird angezeigt</span>
+                        <hr>
+                    </div>
+                    <div th:unless="*{publicationDto.ispublic}">
+                        <p>Zugelassene Gruppen:</p>
+                        <div class="ml-2 mt-2" th:text="*{publicationDto.groups}"></div>
+                    </div>
+                    <div th:if="*{publicationDto.ispublic}"> Alle angemeldeten Nutzer*innen von MOPS dürfen an der
+                        Abstimmung
+                        teilnehmen, wenn sie den Link kennen
+                    </div>
+                </div>
+            </div>
+</form>
 </body>
 </html>

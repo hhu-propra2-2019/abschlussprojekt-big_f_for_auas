@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script type="text/javascript" th:src="@{/results.js}"></script>
+
+        <link rel="stylesheet" th:href="@{/termine1.css}">
+
+    </th:block>
+</head>
+<body>
+<header>
+    <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
+        <ul th:replace="fragments/general.html :: navigationList"></ul>
+    </nav>
+</header>
+<main th:fragment="bodycontent">
+    <div class="container">
+        <form th:action method="post">
+            <table id="resultTable" class="table table-striped table-bordered table-sm" th:object="${overview}">
+                <thead>
+                <tr>
+                    <th class="th-sm">Möglichkeit</th>
+                    <th class="th-sm">ja</th>
+                    <th class="th-sm">vielleicht</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entry : *{allEntries}">
+                    <td th:text="${entry.printName()}">Name</td>
+                    <td th:text="${entry.countVotesYes()}">0</td>
+                    <td th:text="${entry.countVotesMaybe()}">0</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="chart desktopResults"><canvas id="resultChart" width="300" height="300"></canvas></div>
+
+            <!--
+            <div id="resultContainer" th:object="${overview}">
+                <div th:attr="data-pollTitle=${entry.printTitle()}"></div>
+                TODO: ifs in js
+                <div th:if="${entry.hasDescrition()}" th:attr="data-pollDescription=${entry.printDescription()}"></div>
+                <div th:if="${entry.hasLocation()}" th:attr="data-pollLocation=${entry.printLocation()}"></div>
+                <div th:if="${entry.hasQuestion()}" th:attr="data-pollQuestion=${entry.printQuestion()}"></div>
+                <div th:each="entry : *{allEntries}">
+                    <div th:attr="data-entryName=${entry.printName()}"></div>
+                    <div th:attr="data-entryVotesYes=${entry.countVotesYes()}"></div>
+                    <div th:attr="data-entryVotesMaybe=${entry.countVotesMaybe()}"></div>
+                </div>
+            </div>
+            -->
+
+            <button type="submit" name="_eventId_home" class="btn btn-primary float-right">Fertig</button>
+            <button type="submit" name="_eventId_vote" class="btn btn-primary float-left">Ändern</button>
+        </form>
+        <script>
+
+            let ctx = document.getElementById("resultChart").getContext('2d');
+            let resultChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['08.03.2020, 10:00 Uhr - 11:00 Uhr', '09.03.2020, 12:00 Uhr - 13:00 Uhr', '10.03.2020, 11:00 Uhr - 15:00 Uhr', "11.03.2020, 11:00 Uhr - 12:30 Uhr"],
+                    datasets: [{
+                        data: [12, 13, 14],
+                        label: 'Anzahl Stimmen ja',
+                        backgroundColor: [
+                            'rgba(40,167,69,0.2)',
+                            'rgba(40,167,69,0.2)',
+                            'rgba(40,167,69,0.2)',
+                            'rgba(40,167,69,0.2)'
+                        ],
+                        borderColor: [
+                            'rgb(40,167,69)',
+                            'rgb(40,167,69)',
+                            'rgb(40,167,69)',
+                            'rgb(40,167,69)'
+                        ],
+                        borderWidth: 1
+                    },
+                        {
+                            data: [10, 3, 8],
+                            label: 'Anzahl Stimmen vielleicht',
+                            backgroundColor: [
+                                'rgba(255,193,7,0.2)',
+                                'rgba(255,193,7,0.2)',
+                                'rgba(255,193,7,0.2)',
+                                'rgba(255,193,7,0.2)'
+                            ],
+                            borderColor: [
+                                'rgb(255,193,7)',
+                                'rgb(255,193,7)',
+                                'rgb(255,193,7)',
+                                'rgb(255,193,7)'
+                            ],
+                            borderWidth: 1
+                        }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    maintainAspectRation: false
+                }
+            });
+
+        </script>
+    </div>
+</main>
+</body>
+</html>
+

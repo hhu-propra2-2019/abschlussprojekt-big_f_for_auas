@@ -8,7 +8,9 @@
     </th:block>
 </head>
 <body>
-<form th:action method="post" th:fragment="voteform" th:object="${datePollEntries}">
+
+
+<form th:action method="post" th:fragment="voteform" th:object="${overview}">
     <div class="row">
         <div class="col-md-4">
             <div class="card">
@@ -18,30 +20,19 @@
                     <p class="mb-0">Abstimmungsbeschreibung</p>
                 </div>
                 <hr>
-                <div th:each="datePollEntry : ${datePollEntries}" class="ml-4">
+                <div th:each="entry : *{allEntries}" class="ml-4">
                     <div class="form-check mb-4">
-                        <input class="form-check-input" th:name="questionName" type="radio" >
-                        <label class="form-check-label ml-2">
-                            <span th:text="${datePollEntry.}"
+                        <!--<input type="checkbox" th:field="*{entries}" th:value="${entry.getId()}" />-->
+                        <input type="checkbox" th:field="*{votedYes}" th:value="${entry.getId()}" onchange="toggleGroup(this)"/>
+                        <input class="ml-2" type="checkbox" th:field="*{votedMaybe}" th:value="${entry.getId()}" onchange="toggleGroup(this)"/>
+
+                        <label class="form-check-label ml-4 align-middle">
+                            <b><span th:text="${entry.formatStringDate()}"></span><br/></b>
+                            <i class="fa fa-clock-o mr-2"></i><span th:text="${entry.formatStringTime(entry.getTimespan().getStartDate())}"></span> - <span th:text="${entry.formatStringTime(entry.getTimespan().getEndDate())}"></span>
                         </label>
-                    </div>
-
-                    <div class="form-check mb-4">
-                        <input class="form-check-input" th:name="questionName" type="radio" >
-                        <label class="form-check-label ml-2">Fanta</label>
-                    </div>
-
-                    <div class="form-check mb-4">
-                        <input class="form-check-input" th:name="questionName" type="radio" >
-                        <label class="form-check-label ml-2">Bier</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" th:name="questionName" type="radio" >
-                        <label class="form-check-label ml-2">Wasser</label>
                     </div>
                 </div>
                 <hr>
-
                 <div class="clearfix">
                     <button type="submit" name="_eventId_results" class="btn btn-primary float-right m-2">Abstimmen</button>
                     <button type="submit" name="_eventId_home"  class="btn btn-secondary float-left m-2">Zurück</button>
@@ -50,6 +41,9 @@
         </div>
     </div>
 </form>
+
+
+
 <div th:fragment="results">
     <form th:action method="post">
         <button type="submit" name="_eventId_home" class="btn btn-primary float-left mt-5">Fertig</button>

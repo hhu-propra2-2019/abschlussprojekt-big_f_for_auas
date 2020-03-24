@@ -5,23 +5,20 @@
     <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <link rel="stylesheet" th:href="@{/termine1.css}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script type="text/javascript" th:src="@{/choiceOptions.js}"></script>
-        <script type="text/javascript" th:src="@{/validation.js}"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script type="text/javascript" th:src="@{/pollVote.js}"></script>
     </th:block>
 </head>
 <body>
 <header>
     <nav class="navigation navigation-secondary" is="mops-navigation" th:fragment="navigation">
-        <ul th:replace="fragments/general.html :: navigationList(newAbstimmungActive=true)"></ul>
+        <ul th:replace="fragments/general.html :: navigationList"></ul>
     </nav>
 </header>
 <main th:fragment="bodycontent">
     <div class="container">
-        <div th:replace="fragments/general.html :: pageHeading(process='Neue Abstimmung', page='Auswahlmöglichkeiten')"></div>
-        <form th:replace="fragments/choiceOptions.html :: pollForm"></form>
+        <form th:replace="fragments/pollVote.html :: voteform"></form>
     </div>
 </main>
 </body>

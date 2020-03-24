@@ -1,4 +1,4 @@
-package mops.infrastructure.adapters.webflow.datepoll.dtos;
+package mops.infrastructure.adapters.webflow.questionpolladapter.dtos;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,9 +12,8 @@ import java.util.TreeSet;
 @Data
 public class EntriesDto extends GeneralDto implements Serializable {
 
-    public static final long serialVersionUID = 123423432424L;
+    public static final long serialVersionUID = 1L;
 
     //private String question;
-    private Set<EntryDto> options = new TreeSet<>();
-
+    private Set<EntryDto> entries = new TreeSet<>();
 }
