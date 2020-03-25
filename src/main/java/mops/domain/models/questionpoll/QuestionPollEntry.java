@@ -45,14 +45,25 @@ public class QuestionPollEntry implements ValidateAble {
         return validator;
     }
 
+    /**
+     * gibt zurück, ob der QuestionPollEntry die gleiche Antwort repräsentiert.
+     * @param other QuestionPollEntry zum Vergleichen
+     * @return Boolean, ob es der "gleiche" Entry ist.
+     */
     boolean representsSameAnswer(QuestionPollEntry other) { //NOPMD
         return title.equals(other.title);
     }
 
+    /**
+     * inkrementiert die Anzahl der YesVotes
+     */
     void incYesVote() { //NOPMD
         yesVotes++;
     }
 
+    /**
+     * dekrementiert die Anzahl der YesVotes
+     */
     void decYesVote() { //NOPMD
         yesVotes--;
     }
@@ -74,6 +85,10 @@ public class QuestionPollEntry implements ValidateAble {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * Macht aus einem QuestionPollEntry ein QuestionPollEntryDto
+     * @return das entsprechende Dto
+     */
     public QuestionPollEntryDto toDto() {
         return new QuestionPollEntryDto(this.title);
     }

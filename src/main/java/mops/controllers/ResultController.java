@@ -35,12 +35,14 @@ public class ResultController {
         fakeResultDto2.setMaybeVotes(number);
 
         final DatePollResultDto fakeResultDto3 = new DatePollResultDto();
-        fakeResultDto3.setTimespan(new Timespan(LocalDateTime.now().minusDays(number), LocalDateTime.now().minusDays(number).plusHours(number)));
+        fakeResultDto3.setTimespan(new Timespan(LocalDateTime.now().minusDays(number),
+                LocalDateTime.now().minusDays(number).plusHours(number)));
         fakeResultDto3.setYesVotes(number);
         fakeResultDto3.setMaybeVotes(number);
 
         final DatePollResultDto fakeResultDto4 = new DatePollResultDto();
-        fakeResultDto4.setTimespan(new Timespan(LocalDateTime.now().minusDays(1), LocalDateTime.now().minusDays(number).plusHours(number)));
+        fakeResultDto4.setTimespan(new Timespan(LocalDateTime.now().minusDays(1),
+                LocalDateTime.now().minusDays(number).plusHours(number)));
         fakeResultDto4.setYesVotes(number);
         fakeResultDto4.setMaybeVotes(number);
 

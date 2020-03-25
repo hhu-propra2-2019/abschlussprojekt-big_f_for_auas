@@ -42,6 +42,11 @@ public class QuestionPollBallot implements ValidateAble {
         return Validation.noErrors();
     }
 
+    /**
+     * belongs to?
+     * @param otherUser User um den es geht.
+     * @return boolean, ob er dazugehört oder nicht.
+     */
     boolean belongsTo(UserId otherUser) { //NOPMD
         return this.user.equals(otherUser);
     }
