@@ -18,7 +18,7 @@ benötigt werden. Im Folgenden sind alle Attribute aufgeführt, die angegeben we
 | endTime       | ja        | Format: "HH:MM"                       | Am Enddatum darf bis zu dieser Zeit abgestimmt werden.
 | voteIsEditable| nein      | true/false, default: true             | Legt fest, ob die eigenen Stimmen nachträglich geändert werden dürfen.
 | openForOwnEntries| nein   | true/false                            | **nicht implementiert** Dürfen die Nutzer*innen eigene Einträge hinzufügen?
-| singleChoice  | nein      | true/false, default: false            | true: Nur eine Termin darf ausgewählt werden
+| singleChoice  | nein      | true/false, default: false            | true: Nur ein Termin darf ausgewählt werden
 | priorityChoice| nein      | true/false, default: false            | true: Es gibt eine zusätzliche Vielleicht-Option
 | anonymous     | nein      | true/false, default: false            | true: Die Namen der Teilnehmer*innen werden nicht angezeigt
 | ispublic        | nein      | true/false, default: true             | true: Alle angemeldeten Nutzer*innen dürfen an der Umfrage teilnehmen
