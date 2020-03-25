@@ -94,12 +94,10 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         }
     }
     private void setVoteForTargetUserAndEntry(Set<DatePollEntry> datePollEntries, DatePoll datePoll, UserId user) {
-        datePollEntries.forEach(targetEntry -> {
-            datePollEntryRepositoryManager
-                    .userVotesForDatePollEntry(user,
-                            datePoll.getPollLink(),
-                            targetEntry);
-        });
+        datePollEntries.forEach(targetEntry -> datePollEntryRepositoryManager
+                .userVotesForDatePollEntry(user,
+                        datePoll.getPollLink(),
+                        targetEntry));
     }
     /**
      * Lädt alle DatePolls in denen ein Nutzer teilnimmt.
