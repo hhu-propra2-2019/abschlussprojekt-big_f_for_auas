@@ -11,12 +11,12 @@ import mops.domain.models.Validation;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @RequiredArgsConstructor
 @Getter
 public final class DatePollEntry implements ValidateAble {
 
-    private final Timespan suggestedPeriod;
+    @EqualsAndHashCode.Include private final Timespan suggestedPeriod;
     //Anzahl der Stimmen fuer diesen Termin.
     private int yesVotes;
     private int maybeVotes;
