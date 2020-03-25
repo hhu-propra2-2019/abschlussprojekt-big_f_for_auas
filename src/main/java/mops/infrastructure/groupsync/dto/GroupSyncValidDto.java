@@ -8,6 +8,7 @@ import java.util.Set;
 @Data
 public class GroupSyncValidDto {
 
+    private boolean errorsOccurred;
     private long status;
     private Set<Group> groups;
 }

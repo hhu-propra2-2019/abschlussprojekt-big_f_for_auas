@@ -22,6 +22,11 @@ public final class GroupSyncValidator {
                 .stream()
                 .flatMap(this::validateGroupDto)
                 .collect(Collectors.toSet()));
+        // Falls ein oder mehrere Gruppen nicht eingelesen werden konnten, Flag setzen
+        // Könnte man auch analog zu validateGroupDto lösen, ist so aber eindeutiger.
+        if (dto.getGroupList().size() != validDto.getGroups().size()) {
+            validDto.setErrorsOccurred(true);
+        }
         return validDto;
     }
 
@@ -35,7 +40,8 @@ public final class GroupSyncValidator {
                 new GroupId(dto.getId()),
                 dto.getTitle(),
                 dto.getMembers().stream().flatMap(this::validatePersonDto).collect(Collectors.toSet()));
-        if (group.getUser().isEmpty()) {
+        // Falls ein oder mehrere User nicht eingelesen werden konnten, Gruppe nicht erzeugen
+        if (group.getUser().isEmpty() || dto.getMembers().size() != group.getUser().size()) {
             return Stream.empty();
         }
         return Stream.of(group);
