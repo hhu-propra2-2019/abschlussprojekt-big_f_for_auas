@@ -1,5 +1,6 @@
 package mops.domain.models.questionpoll;
 
+import java.util.Optional;
 import java.util.Set;
 
 import lombok.AllArgsConstructor;
@@ -27,8 +28,55 @@ public class QuestionPoll {
     public static QuestionPollBuilder builder() {
         return new QuestionPollBuilder();
     }
+
+    /**
+     * gibt den Status des Users zurück.
+     * @param user User dessen Status zurückgegeben werden soll.
+     * @return Status des Users.
+     */
     public PollStatus getUserStatus(UserId user) {
         return recordAndStatus.getUserStatus(user);
+    }
+
+    /**
+     * Gibt den Ballot eines Users zurück, wenn der Ballot existiert.
+     * @param user User dessen Ballot (falls existent) zurückgegeben wird.
+     * @return Ballot des Users oder Null
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter"}) //stream
+    public Optional<QuestionPollBallot> getUserBallot(UserId user) {
+        return ballots.stream()
+                .filter(questionPollBallot -> questionPollBallot.belongsTo(user))
+                .findAny();
+    }
+
+    /**
+     * Fügt einen neuen Stimmzettel zu einer Abstimmung hinzu.
+     * @param user User, dessen Stimmzettel hinzugefügt wird.
+     * @param yes Set mit allen Entries, bei denen der User für Ja gestimmt hat
+     */
+    public void castBallot(UserId user, Set<QuestionPollEntry> yes) {
+        if (recordAndStatus.isTerminated()) {
+            return;
+        }
+        if (!config.isOpen() && !participants.contains(user)) {
+            return;
+        }
+        if (config.isSingleChoice() && yes.size() > 1) {
+            return;
+        }
+        final QuestionPollBallot ballot = getUserBallot(user)
+                .orElse(new QuestionPollBallot(user, yes));
+        ballots.add(ballot);
+    }
+
+    /**
+     * Gibt zurück, ob ein User Participant dieser QuestionPoll ist.
+     * @param user betreffender User
+     * @return Boolean, ob der User Participant ist oder nicht.
+     */
+    public boolean isUserParticipant(UserId user) {
+        return (config.isOpen() || participants.contains(user));
     }
 
 }

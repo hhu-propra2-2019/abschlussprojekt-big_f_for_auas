@@ -1,10 +1,14 @@
 package mops.domain.models.questionpoll;
 
 import lombok.Getter;
+import mops.controllers.dtos.QuestionPollEntryDto;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.utils.DomainObjectCreationUtils;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -14,6 +18,7 @@ import mops.utils.DomainObjectCreationUtils;
 public class QuestionPollEntry implements ValidateAble {
     @Getter
     private final String title;
+    private int yesVotes;
 
     //Vorläufige Werte
     private static final int MAX_LENGTH_TITLE = 40;
@@ -38,5 +43,38 @@ public class QuestionPollEntry implements ValidateAble {
                 new Validation(FieldErrorNames.QUESTION_POLL_ENTRY_TITLE_IS_TOO_LONG));
         }
         return validator;
+    }
+
+    boolean representsSameAnswer(QuestionPollEntry other) { //NOPMD
+        return title.equals(other.title);
+    }
+
+    void incYesVote() { //NOPMD
+        yesVotes++;
+    }
+
+    void decYesVote() { //NOPMD
+        yesVotes--;
+    }
+
+
+    /**
+     * Gibt SetA - SetB zurück.
+     * Bestimmt Gruppenzugehörigkeit nur an Hand der Timespan Objekten in DatePollEntry.
+     *
+     * @param setA
+     * @param setB
+     * @return SetA - SetB (alle Elemente aus A, welche nicht in B sind)
+     */
+    // lawOfDemeter liegt an der stream notation. gleicher code in loop form erzeugt kein warning.
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DefaultPackage"})
+    static Set<QuestionPollEntry> difference(Set<QuestionPollEntry> setA, Set<QuestionPollEntry> setB) { //NOPMD
+        return setA.stream().filter(entryFromSetA -> setB.stream()
+                .noneMatch(entryFromSetB -> entryFromSetB.representsSameAnswer(entryFromSetA)))
+                .collect(Collectors.toSet());
+    }
+
+    public QuestionPollEntryDto toDto() {
+        return new QuestionPollEntryDto(this.title);
     }
 }

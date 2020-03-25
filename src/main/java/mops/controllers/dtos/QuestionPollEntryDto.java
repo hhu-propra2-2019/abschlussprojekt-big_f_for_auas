@@ -8,6 +8,5 @@ import lombok.Data;
 public class QuestionPollEntryDto {
 
     private String title;
-    private long count;
 
 }
