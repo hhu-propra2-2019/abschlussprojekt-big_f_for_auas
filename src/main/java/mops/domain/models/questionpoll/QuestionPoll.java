@@ -76,7 +76,7 @@ public class QuestionPoll {
      * @return Boolean, ob der User Participant ist oder nicht.
      */
     public boolean isUserParticipant(UserId user) {
-        return (config.isOpen() || participants.contains(user));
+        return config.isOpen() || participants.contains(user);
     }
 
 }

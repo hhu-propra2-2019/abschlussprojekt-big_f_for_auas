@@ -86,6 +86,6 @@ public final class DatePoll {
     }
 
     public boolean isUserParticipant(UserId user) {
-        return (config.isOpen() || participants.contains(user));
+        return config.isOpen() || participants.contains(user);
     }
 }
