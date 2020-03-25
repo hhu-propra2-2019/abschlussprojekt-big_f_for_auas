@@ -32,11 +32,13 @@ public class DatePollVoteController {
      * GET Mapping.
      * @param model
      * @param link
+     * @param pollType
      * @param user UserId wird vom Interceptor gesetzt
      * @return mobilePollVote
      */
-    @GetMapping("/vote/{link}")
-    public String showPoll(Model model, @RequestAttribute(name = "userId") UserId user, @PathVariable String link) {
+    @GetMapping("/vote/{pollType}/{link}")
+    public String showPoll(Model model, @RequestAttribute(name = "userId") UserId user,
+                           @PathVariable String pollType, @PathVariable String link) {
         final DatePollUserEntryOverview overview = entryAdapter.showUserEntryOverview(new PollLink(link), user);
         model.addAttribute("overview", overview);
         return "mobilePollVote";
@@ -48,11 +50,12 @@ public class DatePollVoteController {
      * @param overview
      * @param model
      * @param link
+     * @param pollType
      * @return redirecte auf /
      */
-    @PostMapping("/vote/{link}")
+    @PostMapping("/vote/{pollType}/{link}")
     public String votePoll(@ModelAttribute("overview") DatePollUserEntryOverview overview,
-                           Model model, @PathVariable String link) {
-        return "mobilePollResults";
+                           Model model, @PathVariable String pollType, @PathVariable String link) {
+        return "redirect:/result/" + pollType + "/" + link;
     }
 }

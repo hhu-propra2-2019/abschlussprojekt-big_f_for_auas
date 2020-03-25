@@ -60,11 +60,12 @@ public class ResultController {
     /**
      * Getmapping.
      * @param model
+     * @param pollType
      * @param link
      * @return String.
      */
-    @GetMapping("/result/{link}")
-    public String mapResults(Model model, @PathVariable String link) {
+    @GetMapping("/result/{pollType}/{link}")
+    public String mapResults(Model model, @PathVariable String pollType, @PathVariable String link) {
         //final SortedSet<DatePollResultDto> results = datePollInfoAdapter.getAllDatePollResultDto(new PollLink(link));
         final SortedSet<DatePollResultDto> results = createFakeDatePollResultDtos();
         //final DatePollMetaInfDto metaInf = datePollInfoAdapter.showDatePollMetaInformation(new PollLink(link));
