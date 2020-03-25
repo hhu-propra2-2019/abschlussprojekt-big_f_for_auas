@@ -62,7 +62,7 @@ public class ResultController {
      * @param link
      * @return String.
      */
-    @GetMapping("/vote/{link}")
+    @GetMapping("/result/{link}")
     public String mapResults(Model model, @PathVariable String link) {
         final SortedSet<DatePollResultDto> results = datePollInfoAdapter.getAllDatePollResultDto(new PollLink(link));
         model.addAttribute("results", results);

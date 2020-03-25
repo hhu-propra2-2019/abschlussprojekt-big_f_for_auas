@@ -2,12 +2,11 @@ package mops.controllers;
 
 import mops.adapters.datepolladapter.DatePollEntryAdapterInterface;
 import mops.domain.models.user.UserId;
-import org.keycloak.KeycloakPrincipal;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 import javax.annotation.security.RolesAllowed;
 
@@ -26,21 +25,12 @@ public class DashboardController {
         this.entryAdapter = entryAdapter;
    }
 
-    @SuppressWarnings({"PMD.LawOfDemeter"})
-    /* Verletzung in externer API*/
-    private UserId createUserIdFromPrincipal(KeycloakAuthenticationToken token) {
-        final KeycloakPrincipal principal = (KeycloakPrincipal) token.getPrincipal();
-        return new UserId(principal.getKeycloakSecurityContext().getIdToken().getEmail());
-    }
-
-
     @RolesAllowed({"ROLE_orga", "ROLE_studentin"})
     @GetMapping("/")
-    public String returnDashboard(KeycloakAuthenticationToken token, Model model) {
-        final UserId user = createUserIdFromPrincipal(token);
-        model.addAttribute("userId", user);
-        model.addAttribute("vonMir", entryAdapter.getAllListItemDtos(user));
-        model.addAttribute("vonAnderen", entryAdapter.getAllListItemDtos(user));
+    public String returnDashboard(@RequestAttribute(name = "userId") UserId userId, Model model) {
+        model.addAttribute("userId", userId);
+        model.addAttribute("vonMir", entryAdapter.getAllListItemDtos(userId));
+        model.addAttribute("vonAnderen", entryAdapter.getAllListItemDtos(userId));
         return "mobile-dashboard";
     }
 }
