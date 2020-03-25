@@ -8,6 +8,7 @@ import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.datepoll.DatePollRecordAndStatus;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.User;
+import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
@@ -62,7 +63,7 @@ public class TranslatorTests {
     public void userTest() {
         final String userId = "orga";
         final UserDao dao = new UserDao();
-        dao.setId(Long.toString(userId));
+        dao.setId(userId);
 
         final User user = ModelOfDaoUtil.userOf(dao);
 
