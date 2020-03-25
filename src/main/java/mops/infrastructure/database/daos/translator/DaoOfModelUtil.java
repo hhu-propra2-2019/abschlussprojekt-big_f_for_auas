@@ -5,14 +5,16 @@ import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.group.Group;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.questionpoll.QuestionPollConfig;
 import mops.domain.models.questionpoll.QuestionPollEntry;
 import mops.domain.models.questionpoll.QuestionPollMetaInf;
 import mops.domain.models.user.UserId;
-import mops.infrastructure.database.daos.TimespanDao;
+import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
+import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollConfigDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
@@ -25,11 +27,12 @@ import mops.infrastructure.database.daos.questionpoll.QuestionPollMetaInfDao;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @SuppressWarnings({"PMD.TooManyMethods", "PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
 public final class DaoOfModelUtil {
     @SuppressWarnings("checkstyle:RegexpSingleline")
-    public static DatePollDao pollDaoOf(DatePoll poll) {
+    public static DatePollDao pollDaoOf(DatePoll poll, Set<GroupDao> groups) {
         final DatePollMetaInfDao metaInfDao =
                 DaoOfModelUtil.metaInfDaoOf(poll.getMetaInf());
 
@@ -50,11 +53,12 @@ public final class DaoOfModelUtil {
         datePollDao.setPollRecordAndStatusDao(pollRecordAndStatusDao);
         datePollDao.setCreatorUserDao(creator);
         datePollDao.setEntryDaos(extractDatePollEntryDaos(poll.getEntries(), datePollDao));
-        datePollDao.setUserDaos(extractUser(poll.getParticipants()));
+        //datePollDao.setUserDaos(extractUser(poll.getParticipants()));
+        datePollDao.setGroupDaos(groups);
         return datePollDao;
     }
 
-    public static QuestionPollDao pollDaoOf(QuestionPoll poll) {
+    public static QuestionPollDao pollDaoOf(QuestionPoll poll, Set<GroupDao> groupDaos) {
         final QuestionPollMetaInfDao metaInfDao =
                 DaoOfModelUtil.metaInfDaoOf(poll.getMetaInf());
 
@@ -75,8 +79,22 @@ public final class DaoOfModelUtil {
         questionPollDao.setPollRecordAndStatusDao(pollRecordAndStatusDao);
         questionPollDao.setCreatorUserDao(creator);
         questionPollDao.setEntryDaos(extractQuestionPollEntryDaos(poll.getEntries(), questionPollDao));
-        questionPollDao.setUserDaos(extractUser(poll.getParticipants()));
+        //questionPollDao.setUserDaos(extractUser(poll.getParticipants()));
+        questionPollDao.setGroupDaos(groupDaos);
         return questionPollDao;
+    }
+
+    public static GroupDao groupDaoOf(Group group) {
+        final GroupDao groupDao = new GroupDao();
+        groupDao.setId(group.getId().getId());
+        groupDao.setUserDaos(extractUser(group.getUser()));
+        return groupDao;
+    }
+
+    public static Set<GroupDao> extractGroups(Set<Group> groups) {
+        return groups.stream()
+                .map(DaoOfModelUtil::groupDaoOf)
+                .collect(Collectors.toSet());
     }
 
     private static DatePollEntryDao entryDaoOf(DatePollEntry datePollEntry, DatePollDao datePollDao) {
@@ -87,7 +105,7 @@ public final class DaoOfModelUtil {
     }
 
     private static QuestionPollEntryDao entryDaoOf(QuestionPollEntry questionPollEntry,
-        QuestionPollDao questionPollDao) {
+                                                   QuestionPollDao questionPollDao) {
         final QuestionPollEntryDao entry = new QuestionPollEntryDao();
         entry.setQuestionPoll(questionPollDao);
         entry.setEntryName(questionPollEntry.getTitle());
@@ -144,7 +162,7 @@ public final class DaoOfModelUtil {
     }
 
     private static Set<DatePollEntryDao> extractDatePollEntryDaos(Set<DatePollEntry> datePollEntries,
-        DatePollDao datePollDao) {
+                                                                  DatePollDao datePollDao) {
         final Set<DatePollEntryDao> datePollEntryDaos = new HashSet<>();
         for (final DatePollEntry datePollEntry : datePollEntries) {
             final DatePollEntryDao currentEntry = DaoOfModelUtil.entryDaoOf(datePollEntry, datePollDao);
@@ -154,11 +172,11 @@ public final class DaoOfModelUtil {
     }
 
     private static Set<QuestionPollEntryDao> extractQuestionPollEntryDaos(
-        Set<QuestionPollEntry> questionPollEntries, QuestionPollDao questionPollDao) {
+            Set<QuestionPollEntry> questionPollEntries, QuestionPollDao questionPollDao) {
         final Set<QuestionPollEntryDao> questionPollEntryDaos = new HashSet<>();
         for (final QuestionPollEntry questionPollEntry : questionPollEntries) {
             final QuestionPollEntryDao currentEntry = DaoOfModelUtil
-                .entryDaoOf(questionPollEntry, questionPollDao);
+                    .entryDaoOf(questionPollEntry, questionPollDao);
             questionPollEntryDaos.add(currentEntry);
         }
         return questionPollEntryDaos;
@@ -174,7 +192,7 @@ public final class DaoOfModelUtil {
     }
 
     public static String linkDaoOf(PollLink link) {
-        return link.getPollIdentifier();
+        return link.getLinkUUIDAsString();
     }
 
     /**

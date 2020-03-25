@@ -21,10 +21,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
     @Override
     public Optional<User> load(UserId userId) {
-        final UserDao targetUserDao = userJpaRepository.getOne(Long.parseLong(userId.getId()));
+        final UserDao targetUserDao = userJpaRepository.getOne(userId.getId());
         return Optional.of(ModelOfDaoUtil.userOf(targetUserDao));
     }
     public boolean existsById(UserId userId) {
-        return userJpaRepository.existsById(Long.parseLong(userId.getId()));
+        return userJpaRepository.existsById(userId.getId());
     }
 }

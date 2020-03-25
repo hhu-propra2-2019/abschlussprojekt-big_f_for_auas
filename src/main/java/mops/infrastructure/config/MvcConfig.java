@@ -1,8 +1,6 @@
 package mops.infrastructure.config;
 
 import lombok.NoArgsConstructor;
-import mops.infrastructure.adapters.webflow.datepoll.converters.ConfigConverter;
-import mops.infrastructure.adapters.webflow.datepoll.converters.MetaInfConverter;
 import mops.infrastructure.adapters.webflow.questionpolladapter.converters.EntryConverter;
 import mops.infrastructure.adapters.webflow.questionpolladapter.converters.HeaderConverter;
 import mops.infrastructure.adapters.webflow.questionpolladapter.converters.TimespanConverter;
@@ -26,8 +24,6 @@ public class MvcConfig implements WebMvcConfigurer {
      */
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new MetaInfConverter());
-        registry.addConverter(new ConfigConverter());
         registry.addConverter(new HeaderConverter());
         registry.addConverter(new TimespanConverter());
         registry.addConverter(new mops.infrastructure.adapters
