@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -85,12 +86,14 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
 
     @SuppressWarnings("PMD.LawOfDemeter")
     private Set<GroupId> invalidGroups(PublicationDto publicationDto) {
-        return parseGroups(publicationDto.getGroups()).dropWhile(groupService::groupExists).collect(Collectors.toSet());
+        return parseGroups(publicationDto.getGroups())
+                .filter(Predicate.not(groupService::groupExists)).collect(Collectors.toSet());
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
     private Stream<GroupId> parseGroups(String groups) {
-        return Arrays.stream(groups.trim().split("\\s*,\\s*")).dropWhile(String::isBlank).map(GroupId::new);
+        return Arrays.stream(groups.trim().split("\\s*,\\s*"))
+                .filter(Predicate.not(String::isBlank)).map(GroupId::new);
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")

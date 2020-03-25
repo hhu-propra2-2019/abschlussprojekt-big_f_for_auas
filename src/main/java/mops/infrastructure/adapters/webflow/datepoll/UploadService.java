@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -117,8 +118,7 @@ public final class UploadService {
             // Vorher auf ungültige Einträge prüfen, da sonst beim Hinzufügen ins Set in der
             // compareTo-Methode eine ParseException geworfen wird.
             if (Arrays.stream(entryDtos)
-                    .dropWhile(entry -> entryAdapter.validateDto(entry, emptyContext))
-                    .findAny().isPresent()) {
+                    .anyMatch(Predicate.not(entry -> entryAdapter.validateDto(entry, emptyContext)))) {
                 ErrorMessageHelper.addMessageWithSource(
                         "DATE_POLL_INVALID_ENTRIES", context, ErrorMessageHelper.DEFAULTERRORS);
                 return Optional.empty();

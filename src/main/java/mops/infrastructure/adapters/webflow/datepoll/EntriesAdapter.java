@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.TreeSet;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage;
@@ -66,8 +67,7 @@ public final class EntriesAdapter implements WebFlowAdapter<EntriesDto, Entries>
         // DefaultMessageContext, weil wir nicht alle Fehler der Einträge im Kontext haben wollen
         final MessageContext emptyMessageContext = new DefaultMessageContext();
         if (entriesDto.getEntries().stream()
-                .dropWhile(entry -> entryAdapter.validateDto(entry, emptyMessageContext))
-                .findAny().isPresent()) {
+                .anyMatch(Predicate.not(entry -> entryAdapter.validateDto(entry, emptyMessageContext)))) {
             addMessage("DATE_POLL_INVALID_ENTRIES", context, errorEnvironment);
             return false;
         }
