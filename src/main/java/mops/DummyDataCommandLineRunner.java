@@ -10,12 +10,14 @@ import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
+import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -31,17 +33,20 @@ import java.util.stream.IntStream;
  */
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:MagicNumber"})
 @Profile("production")
+@Transactional
 @Component
 public class DummyDataCommandLineRunner implements CommandLineRunner {
     private final transient DatePollRepositoryImpl datePollRepo;
     private final transient Random random = new Random();
     private final transient DomainGroupRepositoryImpl domainGroupRepository;
+    private final transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
     @Autowired
     public DummyDataCommandLineRunner(DatePollRepositoryImpl datePollRepository,
-                                      DomainGroupRepositoryImpl domainGroupRepository
-                                     ) {
+                                      DomainGroupRepositoryImpl domainGroupRepository,
+                                      DatePollEntryRepositoryManager datePollEntryRepositoryManager) {
         this.datePollRepo = datePollRepository;
         this.domainGroupRepository = domainGroupRepository;
+        this.datePollEntryRepositoryManager = datePollEntryRepositoryManager;
     }
 
     /**
@@ -57,6 +62,10 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
         datePollRepo.save(firstDatePoll);
         datePollRepo.save(secondDatePoll);
         datePollRepo.save(thirdDatePoll);
+        datePollEntryRepositoryManager
+                .userVotesForDatePollEntry(new UserId("1"),
+                        firstDatePoll.getPollLink(),
+                        firstDatePoll.getEntries().iterator().next());
     }
 
     /**
