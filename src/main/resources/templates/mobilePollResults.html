@@ -22,7 +22,12 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <form th:action method="post">
-            <table id="resultTable" class="table table-striped table-bordered table-sm" th:object="${overview}">
+            <!--<div th:object="${metaInf}">
+                <div th:text="metaInf.getTitle()"></div>
+                <div th:text="metaInf.getDescription()"></div>
+                <div th:text="metaInf.getLocation()"></div>
+            </div>-->
+            <table id="resultTable" class="table table-striped table-bordered table-sm">
                 <thead>
                 <tr>
                     <th class="th-sm">Möglichkeit</th>
@@ -31,11 +36,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="entry : *{allEntries}">
-                    <td th:text="${entry.printName()}">Name</td>
-                    <td th:text="${entry.countVotesYes()}">0</td>
-                    <td th:text="${entry.countVotesMaybe()}">0</td>
-                </tr>
+                <th:block>
+                    <tr th:each="entry : ${results}">
+                        <td th:text="${entry.printName()}">Name</td>
+                        <td th:text="${entry.getYesVotes()}">0</td>
+                        <td th:text="${entry.getMaybeVotes()}">0</td>
+                    </tr>
+                </th:block>
                 </tbody>
             </table>
 
