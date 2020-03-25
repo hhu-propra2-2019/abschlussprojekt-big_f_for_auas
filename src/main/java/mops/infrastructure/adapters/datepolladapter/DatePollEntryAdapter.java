@@ -1,4 +1,4 @@
-package mops.adapters.datepolladapter;
+package mops.infrastructure.adapters.datepolladapter;
 
 import mops.application.services.DatePollVoteService;
 import mops.application.services.PollInfoService;

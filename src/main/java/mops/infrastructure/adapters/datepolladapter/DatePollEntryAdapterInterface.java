@@ -1,4 +1,4 @@
-package mops.adapters.datepolladapter;
+package mops.infrastructure.adapters.datepolladapter;
 
 import mops.infrastructure.controllers.dtos.DashboardItemDto;
 import mops.infrastructure.controllers.dtos.DatePollEntryDto;

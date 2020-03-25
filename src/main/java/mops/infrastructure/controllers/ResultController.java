@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import mops.adapters.datepolladapter.DatePollInfoAdapter;
+import mops.infrastructure.adapters.datepolladapter.DatePollInfoAdapter;
 import mops.infrastructure.controllers.dtos.DatePollResultDto;
 import mops.domain.models.Timespan;
 import org.springframework.beans.factory.annotation.Autowired;

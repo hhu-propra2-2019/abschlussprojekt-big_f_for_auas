@@ -1,7 +1,7 @@
 package mops.infrastructure.controllers;
 
 
-import mops.adapters.datepolladapter.DatePollEntryAdapterInterface;
+import mops.infrastructure.adapters.datepolladapter.DatePollEntryAdapterInterface;
 import mops.infrastructure.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;

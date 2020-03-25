@@ -1,4 +1,4 @@
-package mops.adapters.datepolladapter;
+package mops.infrastructure.adapters.datepolladapter;
 
 import java.util.Set;
 import java.util.SortedSet;
