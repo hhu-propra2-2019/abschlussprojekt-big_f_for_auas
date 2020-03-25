@@ -13,7 +13,7 @@
 
         <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
 
-        <div th:if="${terminfindung}">
+        <div th:if="${terminfindung}" class="form-row py-3">
             <div th:replace="~{:: upload-button}"></div>
         </div>
 
@@ -46,8 +46,8 @@
         <button type="submit" name="_eventId_metaInfStep1"  class="btn btn-primary float-left mt-5">Zurück</button>
     </form>
 
-    <div class="form-group" th:fragment="upload-button">
-        <button type="submit" name="_eventId_fileUpload" class="btn btn-primary float-right my-5">Datei hochladen</button>
+    <div class="col d-flex flex-row-reverse" th:fragment="upload-button">
+        <button type="submit" name="_eventId_fileUpload" class="btn btn-primary">Datei hochladen</button>
 
     </div>
 

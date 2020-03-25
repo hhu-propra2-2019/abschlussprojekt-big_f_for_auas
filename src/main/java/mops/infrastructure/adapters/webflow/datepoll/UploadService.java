@@ -64,6 +64,9 @@ public final class UploadService {
                                    DatePollDto datePollDto) {
         try (InputStream pollFileInputStream = pollFile.getInputStream()) {
 
+            if (pollFile.isEmpty()) {
+                throw new IOException();
+            }
             final JsonNode jsonPoll = mapper.readTree(pollFileInputStream);
 
             parseMetaInf(jsonPoll, context).ifPresent(datePollDto::setMetaInfDto);
