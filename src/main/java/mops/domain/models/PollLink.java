@@ -45,9 +45,6 @@ public class PollLink implements ValidateAble {
 
     @SuppressWarnings("PMD.LawOfDemeter")
     private static String encodeUUIDtoBase64(final UUID uuid) {
-        final ByteBuffer buff = ByteBuffer.allocate(Long.BYTES * 2);
-        buff.putLong(uuid.getLeastSignificantBits());
-        buff.putLong(uuid.getMostSignificantBits());
-        return encoder.encodeToString(buff.array()).substring(0, IDENTIFIER_LENGTH); //removes trailing ==
+        return encoder.encodeToString(uuid.toString().getBytes());
     }
 }

@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import mops.adapters.datepolladapter.DatePollInfoAdapter;
 import mops.controllers.dtos.DatePollResultDto;
 import mops.domain.models.Timespan;
+import mops.domain.models.datepoll.DatePollMetaInf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,6 +50,16 @@ public class ResultController {
 
         return testData;
     }
+
+    private DatePollMetaInfDto createFakeDatePollMetaInfDto() {
+        DatePollMetaInf metaInf = new DatePollMetaInf(
+                "FakeTerminfindung",
+                "Nur zum Test",
+                "Zuhause",
+                new Timespan(LocalDateTime.now().minusDays(20), LocalDateTime.now().plusDays(2))
+        );
+        return new DatePollMetaInfDto(metaInf);
+    }
     @Autowired
     public ResultController(DatePollInfoAdapter datePollInfoAdapter) {
         this.datePollInfoAdapter = datePollInfoAdapter;
@@ -57,16 +68,22 @@ public class ResultController {
     /**
      * Getmapping.
      * @param model
+     * @param pollType
      * @param link
      * @return String.
      */
-    @GetMapping("/result/{link}")
-    public String mapResults(Model model, @PathVariable String link) {
+    @GetMapping("/result/{pollType}/{link}")
+    public String mapResults(Model model, @PathVariable String pollType, @PathVariable String link) {
         //final SortedSet<DatePollResultDto> results = datePollInfoAdapter.getAllDatePollResultDto(new PollLink(link));
-        final SortedSet<DatePollResultDto> results = createFakeDatePollResultDtos();
         //final DatePollMetaInfDto metaInf = datePollInfoAdapter.showDatePollMetaInformation(new PollLink(link));
+
+        //fakes
+        final SortedSet<DatePollResultDto> results = createFakeDatePollResultDtos();
+        final DatePollMetaInfDto metaInf = createFakeDatePollMetaInfDto();
+
+
         model.addAttribute("results", results);
-        //model.addAttribute("metaInf", metaInf);
+        model.addAttribute("metaInf", metaInf);
         return "mobilePollResults";
     }
 }

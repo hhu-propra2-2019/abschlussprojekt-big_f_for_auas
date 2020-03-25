@@ -22,11 +22,11 @@
 <main th:fragment="bodycontent">
     <div class="container">
         <form th:action method="post">
-            <!--<div th:object="${metaInf}">
-                <div th:text="metaInf.getTitle()"></div>
-                <div th:text="metaInf.getDescription()"></div>
-                <div th:text="metaInf.getLocation()"></div>
-            </div>-->
+            <div>
+                <h2 th:text="${metaInf.getTitle()}"></h2>
+                <h3 th:text="${metaInf.getDescription()}"></h3>
+                <h3 th:text="${metaInf.getLocation()}"></h3>
+            </div>
             <table id="resultTable" class="table table-striped table-bordered table-sm">
                 <thead>
                 <tr>
@@ -36,19 +36,30 @@
                 </tr>
                 </thead>
                 <tbody>
-                <th:block>
                     <tr th:each="entry : ${results}">
-                        <td th:text="${entry.printName()}">Name</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-1 desktopResultTableWeekday">
+                                    <span th:text="${entry.printDay()}"></span>
+                                </div>
+                                <div class="col-2 desktopResultTableDate">
+                                    <span th:text="${entry.printDate()}"></span>
+                                </div>
+                                <div class="col desktopResultTableTimespan">
+                                    <span th:text="${entry.printTimespan()}"></span>
+                                </div>
+                            </div>
+
+                        </td>
                         <td th:text="${entry.getYesVotes()}">0</td>
                         <td th:text="${entry.getMaybeVotes()}">0</td>
                     </tr>
-                </th:block>
                 </tbody>
             </table>
 
+            <!--
             <div class="chart desktopResults"><canvas id="resultChart" width="300" height="300"></canvas></div>
 
-            <!--
             <div id="resultContainer" th:object="${overview}">
                 <div th:attr="data-pollTitle=${entry.printTitle()}"></div>
                 TODO: ifs in js
