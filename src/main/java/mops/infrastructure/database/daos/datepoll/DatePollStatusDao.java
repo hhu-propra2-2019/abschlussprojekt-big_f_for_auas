@@ -1,5 +1,6 @@
 package mops.infrastructure.database.daos.datepoll;
 
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import mops.infrastructure.database.daos.PollStatusEnum;
 import mops.infrastructure.database.daos.UserDao;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "datepollstatus")
 @NoArgsConstructor
+@AllArgsConstructor
 public class DatePollStatusDao {
     @EmbeddedId
     private DatePollStatusDaoKey id;
