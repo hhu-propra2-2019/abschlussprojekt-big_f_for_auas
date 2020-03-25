@@ -250,20 +250,37 @@ Infrastruktur Ebene 2 {#_infrastruktur_ebene_2}
 
 *\<Diagramm + Erläuterungen\>*
 
-Querschnittliche Konzepte {#section-concepts}
+Konzepte {#section-concepts}
 =========================
 
-*\<Konzept 1\>* {#__emphasis_konzept_1_emphasis}
+*\<Abhängigkeiten\>* {#__emphasis_konzept_1_emphasis}
 ---------------
 
 *\<Erklärung\>*
 
-*\<Konzept 2\>* {#__emphasis_konzept_2_emphasis}
+*\Domänenmodell\>* {#__emphasis_konzept_2_emphasis}
 ---------------
 
-*\<Erklärung\>*
+Das Modell unserer Anwendung besteht aus zwei Hauptkomponenten und vielen Hilfs- und Nebenkomponenten. Die Hauptkomponenten sind **DatePoll** und **QuestionPoll**, nichts anderes als etwas sperrige Begriffe für Terminfindung und Abstimmung („Datumsumfrage“, „Frageumfrage“).
 
-...
+**DatePoll**
+Eine Terminfindung besteht aus Titel, Beschreibung, Ort, Optionen, Terminen, über die abgestimmt werden soll und, wenn gewünscht, Gruppen, die zur Abstimmung zugelassen sind.
+
+Optionen:
+ - Sind die eigenen Stimmen im Nachhinein bearbeitbar?
+ - Können die User eigene Vorschäge einfügen? (**nicht implementiert**)
+ - Darf nur ein Eintrag ausgewählt werden?
+ - Ist die Abstimmung anonym?
+ - Ist die Abstimmung öffentlich für alle Benutzer von MOPS, die den Link kennen?
+
+**QuestionPoll**
+Eine Abstimmung besteht aus Titel, Fragestellung, Optionen, Abstimmungsoptionen und, wenn gewünscht, Gruppen, die zur Abstimmung zugelassen sind.
+
+Optionen:
+ - Darf nur ein Eintrag ausgewählt werden?
+ - Ist die Abstimmung anonym?
+ - Ist die Abstimmung öffentlich für alle Benutzer von MOPS, die den Link kennen?
+ 
 
 *\<Konzept n\>* {#__emphasis_konzept_n_emphasis}
 ---------------
