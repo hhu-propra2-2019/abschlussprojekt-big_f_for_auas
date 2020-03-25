@@ -1,10 +1,16 @@
 package mops.controllers.dtos;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePollEntry;
 
 @Data
+
+//ZU TESTZWECKEN//
+@NoArgsConstructor
+//////////////////
+
 public class DatePollResultDto implements Comparable<DatePollResultDto> {
     private Timespan suggestedPeriod;
     private int yesVotes;
