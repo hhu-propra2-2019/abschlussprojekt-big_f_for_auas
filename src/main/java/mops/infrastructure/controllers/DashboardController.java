@@ -28,6 +28,8 @@ public class DashboardController {
     @RolesAllowed({"ROLE_orga", "ROLE_studentin"})
     @GetMapping("/")
     public String returnDashboard(@RequestAttribute(name = "userId") UserId userId, Model model) {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAA: userId ->" + userId.toString());
+        System.out.println(entryAdapter.getAllListItemDtos(userId));
         model.addAttribute("userId", userId);
         model.addAttribute("vonMir", entryAdapter.getAllListItemDtos(userId));
         model.addAttribute("vonAnderen", entryAdapter.getAllListItemDtos(userId));

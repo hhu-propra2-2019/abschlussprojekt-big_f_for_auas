@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:DesignForExtension"})
 /* keine Zeit sich um bessere Kapslung zu kümmern */
 @Service
-public class DatePollEntryAdapter {
+public class DatePollEntryAdapter implements DatePollEntryAdapterInterface {
 
     private final transient DatePollVoteService voteService;
     private final transient PollInfoService infoService;
@@ -30,7 +30,7 @@ public class DatePollEntryAdapter {
         this.infoService = infoService;
     }
 
-
+    @Override
     public DatePollUserEntryOverview showUserEntryOverview(PollLink link, UserId user) {
         final DatePollUserEntryOverview result = new DatePollUserEntryOverview();
         final DatePollBallot ballot = voteService.showUserVotes(user, link);
@@ -49,6 +49,7 @@ public class DatePollEntryAdapter {
         return result;
     }
 
+    @Override
     public Set<DatePollEntryDto> showAllEntries(PollLink link) {
         final Set<DatePollEntry> entries = infoService.getEntries(link);
         return entries.stream()
@@ -56,6 +57,7 @@ public class DatePollEntryAdapter {
                 .collect(Collectors.toSet());
     }
 
+    @Override
     public Set<FormattedDatePollEntryDto> getAllEntriesFormatted(PollLink link) {
         final Set<DatePollEntry> entries = infoService.getEntries(link);
         return entries.stream()
@@ -76,8 +78,9 @@ public class DatePollEntryAdapter {
     }
 
 
+    @Override
     public Set<DashboardItemDto> getAllListItemDtos(UserId userId) {
-        return null;
+        return infoService.getAllListItemDtos(userId);
     }
 
     private DatePollEntry toEntryDomain(DatePollEntryDto entryDto) {

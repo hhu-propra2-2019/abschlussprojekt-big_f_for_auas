@@ -19,9 +19,7 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
 @Service
-public class FakeDatePollEntryAdapter implements DatePollEntryAdapterInterface {
-
-
+public class FakeDatePollEntryAdapter {
 
     private final transient FakeDatePollVoteService voteService;
     private final transient FakeDatePollInfoService infoService;
@@ -38,7 +36,6 @@ public class FakeDatePollEntryAdapter implements DatePollEntryAdapterInterface {
      * @param user
      * @return Overview
      */
-    @Override
     public DatePollUserEntryOverview showUserEntryOverview(PollLink link, UserId user) {
         final DatePollUserEntryOverview result = new DatePollUserEntryOverview();
 
@@ -77,7 +74,6 @@ public class FakeDatePollEntryAdapter implements DatePollEntryAdapterInterface {
      * @param link
      * @return Set<DatePollEntryDto>
      */
-    @Override
     public Set<DatePollEntryDto> showAllEntries(PollLink link) {
         return infoService.getEntries(link).stream().map(this::toDTO).collect(Collectors.toSet());
     }
@@ -99,7 +95,6 @@ public class FakeDatePollEntryAdapter implements DatePollEntryAdapterInterface {
      * @param userId
      * @return Set<DashboardItemDto>
      */
-    @Override
     public Set<DashboardItemDto> getAllListItemDtos(UserId userId) {
         return infoService.getAllListItemDtos(userId);
     }
@@ -109,7 +104,6 @@ public class FakeDatePollEntryAdapter implements DatePollEntryAdapterInterface {
      * @param link
      * @return Set<FormattedDatePollEntryDto>
      */
-    @Override
     public Set<FormattedDatePollEntryDto> getAllEntriesFormatted(PollLink link) {
         return null;
     }
@@ -124,7 +118,6 @@ public class FakeDatePollEntryAdapter implements DatePollEntryAdapterInterface {
      * @param user
      * @param overview
      */
-    @Override
     public void vote(PollLink link, UserId user, DatePollUserEntryOverview overview) {
         voteService.vote(link, user,
                 overview.getVotedYes().stream()

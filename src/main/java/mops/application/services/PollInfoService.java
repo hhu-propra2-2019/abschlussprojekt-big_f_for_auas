@@ -1,11 +1,13 @@
 package mops.application.services;
 
+import mops.domain.repositories.UserRepository;
 import mops.infrastructure.controllers.dtos.DashboardItemDto;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -18,9 +20,13 @@ public class PollInfoService {
 
 
     private final transient DatePollRepository datePollRepository;
+    private final transient UserRepository userRepository;
 
-    public PollInfoService(DatePollRepository datePollRepository) {
+    @Autowired
+    public PollInfoService(DatePollRepository datePollRepository,
+        UserRepository userRepository) {
         this.datePollRepository = datePollRepository;
+        this.userRepository = userRepository;
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
@@ -30,6 +36,7 @@ public class PollInfoService {
     }
 
     public Set<DashboardItemDto> getAllListItemDtos(UserId userId) {
+        userRepository.saveUserIfNotPresent(userId);
         final TreeSet<DashboardItemDto> dashboardItemDtos = new TreeSet<>();
         final Set<DatePoll> datePolls = datePollRepository.getDatePollsByUserId(userId);
         for (final DatePoll datePoll: datePolls) {
