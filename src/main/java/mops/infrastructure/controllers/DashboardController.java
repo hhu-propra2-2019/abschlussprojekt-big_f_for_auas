@@ -1,4 +1,4 @@
-package mops.controllers;
+package mops.infrastructure.controllers;
 
 import mops.adapters.datepolladapter.DatePollEntryAdapterInterface;
 import mops.domain.models.user.UserId;

@@ -1,9 +1,9 @@
 package mops.adapters.datepolladapter;
 
-import mops.controllers.dtos.DashboardItemDto;
-import mops.controllers.dtos.DatePollEntryDto;
-import mops.controllers.dtos.DatePollUserEntryOverview;
-import mops.controllers.dtos.FormattedDatePollEntryDto;
+import mops.infrastructure.controllers.dtos.DashboardItemDto;
+import mops.infrastructure.controllers.dtos.DatePollEntryDto;
+import mops.infrastructure.controllers.dtos.DatePollUserEntryOverview;
+import mops.infrastructure.controllers.dtos.FormattedDatePollEntryDto;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 
