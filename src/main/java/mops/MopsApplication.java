@@ -7,7 +7,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SuppressWarnings("PMD")
 @SpringBootApplication
-@EnableScheduling
 @EnableJpaRepositories
 public class MopsApplication {
 

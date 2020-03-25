@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "mops.gruppen2.sync.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Gibt an, ob die Gruppendaten aus dem SCS „gruppen2“ regelmäßig übertragen werden sollen."
+    },
+    {
+      "name": "mops.gruppen2.api-root",
+      "type": "java.lang.String",
+      "description": "Beispiel: http://localhost:8080/gruppen2"
+    }
+  ] }

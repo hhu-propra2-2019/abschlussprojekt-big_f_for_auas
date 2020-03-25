@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
-import mops.infrastructure.groupsync.dto.GroupSyncDto;
+import mops.infrastructure.groupsync.dto.GroupSyncInputDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -33,20 +33,15 @@ public final class GroupSyncWebclient {
     private final String apiRoot;
     private final WebClient webClient;
 
-    // Der Status wird von der API zurückgegeben, um inkrementelle Updates zu ermöglichen
-    // Da er lokal gespeichert wird, wird bei jedem Neustart der Anwendung ein voller Resync getriggert,
-    // was auch sinnvoll erscheint, falls durch unvorhersehbare Fehler ein inkonsistenter Zustand entsteht
-    private long lastStatus = 0;
-
     @Autowired
     public GroupSyncWebclient(Environment environment) {
-        this.apiRoot = environment.getProperty("mops.gruppe2.api-root", "/");
+        this.apiRoot = environment.getProperty("mops.gruppen2.api-root", "/");
         this.webClient = WebClient.create(apiRoot);
     }
 
-    public Optional<GroupSyncDto> getGroupSyncDto() {
+    public Optional<GroupSyncInputDto> getGroupSyncDto(long lastStatus) {
         try {
-            String responseBody = queryApi();
+            String responseBody = queryApi(lastStatus);
             JsonNode node = mapper.readTree(responseBody);
             return parseGroupSyncDto(node);
         } catch (WebClientException e) {
@@ -59,21 +54,21 @@ public final class GroupSyncWebclient {
         return Optional.empty();
     }
 
-    private Optional<GroupSyncDto> parseGroupSyncDto(JsonNode node) throws JsonProcessingException {
+    private Optional<GroupSyncInputDto> parseGroupSyncDto(JsonNode node) throws JsonProcessingException {
         if (node == null || node.isEmpty()) {
             log.warn("Group Sync failed: no JSON content");
             return Optional.empty();
         }
-        Optional<GroupSyncDto> groupSyncDto =
-                Optional.ofNullable(mapper.readValue(node.toString(), GroupSyncDto.class));
+        Optional<GroupSyncInputDto> groupSyncDto =
+                Optional.ofNullable(mapper.readValue(node.toString(), GroupSyncInputDto.class));
 
         groupSyncDto.ifPresentOrElse(
                 g -> log.debug("Group Sync: ".concat(g.getGroupList().toString())),
-                () -> log.debug("Group Sync: Object mapping failed for JSON:\n".concat(node.toPrettyString())));
+                () -> log.warn("Group Sync failed: Object mapping failed for JSON:\n".concat(node.toPrettyString())));
         return groupSyncDto;
     }
 
-    private String queryApi() {
+    private String queryApi(long lastStatus) {
         WebClient.RequestHeadersSpec<?> request =
                 webClient.method(HttpMethod.GET)
                         .uri(apiRoot.concat(String.format("/api/updateGroups/%d", lastStatus)))

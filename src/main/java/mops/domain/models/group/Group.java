@@ -11,6 +11,7 @@ import java.util.Set;
 public class Group {
 
     private final GroupId id;
+    private final String title;
     private final Set<UserId> user;
 
 }

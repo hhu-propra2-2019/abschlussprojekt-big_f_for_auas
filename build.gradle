@@ -62,6 +62,8 @@ dependencies {
 	// Für die Gruppen-Synchronisation
 	compile 'org.springframework.boot:spring-boot-starter-webflux'
 	compile 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
+	// Für eigene Keys in der application.properties
+	annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
