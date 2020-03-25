@@ -73,7 +73,6 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
         }
         if (publicationDto.getGroups() == null || publicationDto.getGroups().isBlank()) {
             addMessage("PUBLICATION_PRIVATE_NO_PARTICIPANTS", context, errorEnvironment);
-            publicationDto.setIspublic(true);
             return false;
         }
         final Set<GroupId> invalidGroups = invalidGroups(publicationDto);

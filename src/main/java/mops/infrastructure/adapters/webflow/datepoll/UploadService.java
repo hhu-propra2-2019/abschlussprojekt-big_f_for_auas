@@ -5,17 +5,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import mops.infrastructure.adapters.webflow.ErrorMessageHelper;
 import mops.infrastructure.adapters.webflow.PublicationAdapter;
-import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.ConfigDto;
-import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.DatePollDto;
-import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.EntriesDto;
-import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.EntryDto;
-import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.MetaInfDto;
-import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.UploadDto;
+import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.*;
 import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.binding.message.DefaultMessageContext;
 import org.springframework.binding.message.MessageContext;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +21,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@PropertySource(value = "classpath:flows/errormappings/emptymapping.properties", encoding = "UTF-8")
 public final class UploadService {
 
     private final transient ObjectMapper mapper = new ObjectMapper()
@@ -36,20 +30,23 @@ public final class UploadService {
     private final transient MetaInfAdapter metaInfAdapter;
     private final transient ConfigAdapter configAdapter;
     private final transient EntriesAdapter entriesAdapter;
+    private final transient EntryAdapter entryAdapter;
     private final transient PublicationAdapter publicationAdapter;
-    private final transient Environment errorEnvironment;
+    private final transient MessageSource messageSource;
 
     @Autowired
     public UploadService(MetaInfAdapter metaInfAdapter,
                          ConfigAdapter configAdapter,
                          EntriesAdapter entriesAdapter,
+                         EntryAdapter entryAdapter,
                          PublicationAdapter publicationAdapter,
-                         Environment errorEnvironment) {
+                         MessageSource messageSource) {
         this.metaInfAdapter = metaInfAdapter;
         this.configAdapter = configAdapter;
         this.entriesAdapter = entriesAdapter;
+        this.entryAdapter = entryAdapter;
         this.publicationAdapter = publicationAdapter;
-        this.errorEnvironment = errorEnvironment;
+        this.messageSource = messageSource;
     }
 
     public UploadDto initializeDto() {
@@ -74,7 +71,7 @@ public final class UploadService {
             }
 
         } catch (IOException e) {
-            ErrorMessageHelper.addMessage("FILE_PARSE_ERROR", context, errorEnvironment);
+            ErrorMessageHelper.addMessageWithSource("FILE_PARSE_ERROR", context, ErrorMessageHelper.DEFAULTERRORS);
         }
         return false;
     }
@@ -108,6 +105,17 @@ public final class UploadService {
         try {
             final EntriesDto entriesDto = entriesAdapter.initializeDto();
             final EntryDto[] entryDtos =  mapper.readValue(node.get("entries").toString(), EntryDto[].class);
+            DefaultMessageContext emptyContext = new DefaultMessageContext();
+            emptyContext.setMessageSource(messageSource);
+            // Vorher auf ungültige Einträge prüfen, da sonst beim Hinzufügen ins Set in der
+            // compareTo-Methode eine ParseException geworfen wird.
+            if (Arrays.stream(entryDtos)
+                    .dropWhile(entry -> entryAdapter.validateDto(entry, emptyContext))
+                    .findAny().isPresent()) {
+                ErrorMessageHelper.addMessageWithSource(
+                        "DATE_POLL_INVALID_ENTRIES", context, ErrorMessageHelper.DEFAULTERRORS);
+                return Optional.empty();
+            }
             entriesDto.getEntries().addAll(Arrays.stream(entryDtos).collect(Collectors.toSet()));
             if (entryDtos.length > 0) {
                 entriesDto.setProposedEntry(entryDtos[0]);
@@ -124,8 +132,11 @@ public final class UploadService {
     private Optional<PublicationDto> parsePublicationInformation(JsonNode jsonPoll, MessageContext context) {
         try {
             final PublicationDto publicationDto = publicationAdapter.initializeDto();
-            final String[] groups = mapper.readValue(jsonPoll.get("groups").toString(), String[].class);
-            publicationDto.setGroups(String.join(",", groups));
+            if (jsonPoll.get("ispublic") != null
+                    && !jsonPoll.get("ispublic").asBoolean() && jsonPoll.get("groups") != null) {
+                final String[] groups = mapper.readValue(jsonPoll.get("groups").toString(), String[].class);
+                publicationDto.setGroups(String.join(",", groups));
+            }
             if (publicationAdapter.validateDto(publicationDto, context)) {
                 return Optional.of(publicationDto);
             }
