@@ -5,7 +5,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import mops.infrastructure.adapters.webflow.ErrorMessageHelper;
 import mops.infrastructure.adapters.webflow.PublicationAdapter;
-import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.*;
+import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.ConfigDto;
+import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.DatePollDto;
+import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.EntriesDto;
+import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.EntryDto;
+import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.MetaInfDto;
+import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.UploadDto;
 import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.DefaultMessageContext;
@@ -103,9 +108,8 @@ public final class UploadService {
     @SuppressWarnings({"PMD.EmptyCatchBlock", "PMD.LawOfDemeter"})
     private Optional<EntriesDto> parseEntries(JsonNode node, MessageContext context) {
         try {
-            final EntriesDto entriesDto = entriesAdapter.initializeDto();
             final EntryDto[] entryDtos =  mapper.readValue(node.get("entries").toString(), EntryDto[].class);
-            DefaultMessageContext emptyContext = new DefaultMessageContext();
+            final DefaultMessageContext emptyContext = new DefaultMessageContext();
             emptyContext.setMessageSource(messageSource);
             // Vorher auf ungültige Einträge prüfen, da sonst beim Hinzufügen ins Set in der
             // compareTo-Methode eine ParseException geworfen wird.
@@ -116,6 +120,7 @@ public final class UploadService {
                         "DATE_POLL_INVALID_ENTRIES", context, ErrorMessageHelper.DEFAULTERRORS);
                 return Optional.empty();
             }
+            final EntriesDto entriesDto = entriesAdapter.initializeDto();
             entriesDto.getEntries().addAll(Arrays.stream(entryDtos).collect(Collectors.toSet()));
             if (entryDtos.length > 0) {
                 entriesDto.setProposedEntry(entryDtos[0]);
