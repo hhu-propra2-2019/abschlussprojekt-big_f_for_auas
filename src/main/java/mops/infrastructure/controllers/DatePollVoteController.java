@@ -51,11 +51,14 @@ public class DatePollVoteController {
      * @param model
      * @param link
      * @param pollType
+     * @param user
      * @return redirecte auf /
      */
     @PostMapping("/vote/{pollType}/{link}")
     public String votePoll(@ModelAttribute("overview") DatePollUserEntryOverview overview,
-                           Model model, @PathVariable String pollType, @PathVariable String link) {
+                           Model model, @PathVariable String pollType, @PathVariable String link,
+                           @RequestAttribute(name = "userId") UserId user) {
+        entryAdapter.vote(new PollLink(link), user, overview);
         return "redirect:/result/" + pollType + "/" + link;
     }
 }

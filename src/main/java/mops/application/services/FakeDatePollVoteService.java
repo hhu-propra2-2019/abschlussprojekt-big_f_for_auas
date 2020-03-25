@@ -60,4 +60,15 @@ public class FakeDatePollVoteService {
         return new DatePollBallot(id, entriesYes, entriesNo);
     }
 
+    /**
+     *  nur methoden signatur.
+     * @param link
+     * @param user
+     * @param yes
+     * @param maybe
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter"})// Nullcheck
+    public void vote(PollLink link, UserId user, Set<DatePollEntry> yes, Set<DatePollEntry> maybe) { //NOPMD
+    }
+
 }

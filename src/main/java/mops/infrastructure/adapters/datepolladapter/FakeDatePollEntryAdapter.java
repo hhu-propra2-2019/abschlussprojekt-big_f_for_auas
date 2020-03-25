@@ -113,4 +113,26 @@ public class FakeDatePollEntryAdapter implements DatePollEntryAdapterInterface {
     public Set<FormattedDatePollEntryDto> getAllEntriesFormatted(PollLink link) {
         return null;
     }
+
+    private DatePollEntry toEntryDomain(DatePollEntryDto entryDto) {
+        return new DatePollEntry(entryDto.getTimespan());
+    }
+
+    /** parsed die Overview in domain models und ruft den service auf.
+     *
+     * @param link
+     * @param user
+     * @param overview
+     */
+    @Override
+    public void vote(PollLink link, UserId user, DatePollUserEntryOverview overview) {
+        voteService.vote(link, user,
+                overview.getVotedYes().stream()
+                        .map(this::toEntryDomain)
+                        .collect(Collectors.toSet()),
+                overview.getVotedMaybe().stream()
+                        .map(this::toEntryDomain)
+                        .collect(Collectors.toSet()));
+    }
+
 }

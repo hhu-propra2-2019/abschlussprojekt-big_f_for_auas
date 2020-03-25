@@ -15,4 +15,5 @@ public interface DatePollEntryAdapterInterface {
      Set<DatePollEntryDto> showAllEntries(PollLink link);
      Set<FormattedDatePollEntryDto> getAllEntriesFormatted(PollLink link);
      Set<DashboardItemDto> getAllListItemDtos(UserId userId);
+     void vote(PollLink link, UserId user, DatePollUserEntryOverview overview);
 }
