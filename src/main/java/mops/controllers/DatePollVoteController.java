@@ -56,6 +56,6 @@ public class DatePollVoteController {
     @PostMapping("/vote/{pollType}/{link}")
     public String votePoll(@ModelAttribute("overview") DatePollUserEntryOverview overview,
                            Model model, @PathVariable String pollType, @PathVariable String link) {
-        return "mobilePollResults";
+        return "redirect:/result/" + pollType + "/" + link;
     }
 }
