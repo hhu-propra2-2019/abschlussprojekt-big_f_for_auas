@@ -5,6 +5,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import mops.adapters.datepolladapter.DatePollInfoAdapter;
+import mops.controllers.dtos.DatePollMetaInfDto;
 import mops.controllers.dtos.DatePollResultDto;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePollMetaInf;
