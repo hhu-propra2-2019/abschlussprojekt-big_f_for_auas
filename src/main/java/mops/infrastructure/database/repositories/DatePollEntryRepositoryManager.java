@@ -2,6 +2,7 @@ package mops.infrastructure.database.repositories;
 
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
+import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.TimespanDao;
@@ -13,6 +14,8 @@ import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepositor
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.Set;
 
 @SuppressWarnings({"PMD.LawOfDemeter"})
 @Repository
@@ -79,5 +82,16 @@ public class DatePollEntryRepositoryManager {
     public Long getVotesForDatePollEntry(PollLink pollLink, DatePollEntry datePollEntry) {
         final DatePollEntryDao datePollEntryDao = findDatePollEntryDao(pollLink, datePollEntry);
         return userJpaRepository.countByDatePollEntrySetContaining(datePollEntryDao);
+    }
+
+    /**
+     * Die Methode gibt alle "Yes" Votes eines Users fuer einen DatePoll zurueck.
+     * @param userId zugehoeriger User.
+     * @param datePoll zugehoeriger DatePoll.
+     * @return Set<DatePollEntryDao> alle EntryDaos fuer die der Jeweilige User gestimmt hat.
+     */
+    public Set<DatePollEntryDao> findAllDatePollEntriesUserVotesFor(UserId userId, DatePoll datePoll) {
+        return datePollEntryJpaRepository.findAllDatePollEntriesUserVotesFor(
+                userId.getId(), datePoll.getPollLink().getLinkUUIDAsString());
     }
 }
