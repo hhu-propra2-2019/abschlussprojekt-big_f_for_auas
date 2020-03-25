@@ -27,7 +27,6 @@ public class DatePollInfoAdapter {
     public DatePollMetaInfDto showDatePollMetaInformation(PollLink link, UserId userId) {
         final DatePoll poll = infoService.datePollViewService(link);
         final DatePollMetaInfDto dto = new DatePollMetaInfDto(poll.getMetaInf());
-        dto.setPollStatus(poll.getUserStatus(userId).getIconName());
         return dto;
     }
 
