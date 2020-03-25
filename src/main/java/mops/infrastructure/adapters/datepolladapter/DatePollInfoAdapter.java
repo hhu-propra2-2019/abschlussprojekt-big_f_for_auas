@@ -33,7 +33,13 @@ public class DatePollInfoAdapter {
     public SortedSet<DatePollResultDto> getAllDatePollResultDto(PollLink link) {
         final Set<DatePollEntry> entries = infoService.getEntries(link);
         return entries.stream()
-            .map(DatePollResultDto::new)
+            .map(DatePollInfoAdapter::datePollEntryToResultDto)
             .collect(Collectors.toCollection(TreeSet::new));
+    }
+
+    private static DatePollResultDto datePollEntryToResultDto(DatePollEntry entry) {
+        return new DatePollResultDto(entry.getSuggestedPeriod(),
+            entry.getYesVotes(),
+            entry.getMaybeVotes());
     }
 }
