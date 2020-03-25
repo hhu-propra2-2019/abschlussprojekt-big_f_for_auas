@@ -14,10 +14,11 @@ public class DatePollMetaInfDto {
     private String location;
     private LocalDateTime endDate;
 
-    public DatePollMetaInfDto(DatePollMetaInf datePollMetaInf) {
-        title = datePollMetaInf.getTitle();
-        description = datePollMetaInf.getDescription().getDescriptionText();
-        location = datePollMetaInf.getLocation().getLocation();
-        endDate = datePollMetaInf.getTimespan().getEndDate();
+    public DatePollMetaInfDto(String title, String description, String location,
+        LocalDateTime endDate) {
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.endDate = endDate;
     }
 }

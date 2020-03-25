@@ -1,5 +1,6 @@
 package mops.infrastructure.controllers.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.questionpoll.QuestionPoll;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data
+@AllArgsConstructor
 public class DashboardItemDto implements Comparable<DashboardItemDto> {
 
     //Identifier ohne Kontextpfad (also z.B. „j5kl43lk5“)
@@ -21,21 +23,8 @@ public class DashboardItemDto implements Comparable<DashboardItemDto> {
     private LocalDateTime lastModified;
     private String pollType;
 
-    private static final String QUESTIONPOLL_TYPE = "qp";
-    private static final String DATEPOLL_TYPE = "dp";
-
-    public DashboardItemDto(DatePoll datePoll, UserId userId) {
-        datePollIdentifier = datePoll.getPollLink().getPollIdentifier();
-        title = datePoll.getMetaInf().getTitle();
-        endDate = datePoll.getMetaInf().getTimespan().getEndDate();
-        status = datePoll.getUserStatus(userId).getIconName();
-        date = datePoll.getMetaInf().getTimespan().getEndDate()
-                .format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        time = datePoll.getMetaInf().getTimespan().getEndDate()
-                .format(DateTimeFormatter.ofPattern("HH:mm"));
-        lastModified = datePoll.getRecordAndStatus().getLastModified();
-        pollType = DATEPOLL_TYPE;
-    }
+    public static final String QUESTIONPOLL_TYPE = "qp";
+    public static final String DATEPOLL_TYPE = "dp";
 
     public DashboardItemDto(QuestionPoll questionPoll, UserId userId) {
         datePollIdentifier = questionPoll.getPollLink().getPollIdentifier();

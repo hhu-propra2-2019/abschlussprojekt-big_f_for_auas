@@ -84,7 +84,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @SuppressWarnings("PMD.LawOfDemeter")
     @Override
-    public Set<DatePoll> getDatePollsByUserId(UserId userId) {
+    public Set<DatePoll> getDatePollsByGroupMembership(UserId userId) {
         final Optional<UserDao> targetUser = userJpaRepository.findById(userId.toString());
         final UserDao targetUserDao = targetUser.orElseThrow(
                 () -> new IllegalArgumentException(USER_IS_NOT_IN_THE_DATABASE));
@@ -106,9 +106,14 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @return Optional<DatePoll> Das DatePoll Objekt, welches vom User mit userId erstellt wurde.
      */
     @Override
-    public Optional<DatePoll> getDatePollByCreator(UserId userId) {
+    public Set<DatePoll> getDatePollByCreator(UserId userId) {
         final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
-        final DatePollDao byCreatorUserDao = datePollJpaRepository.findByCreatorUserDao(targetUser);
-        return Optional.of(ModelOfDaoUtil.pollOf(byCreatorUserDao));
+        Set<DatePollDao> datePollDaosByCreator = datePollJpaRepository
+            .findByCreatorUserDao(targetUser);
+        final Set<DatePoll> targetDatePolls = new HashSet<>();
+        datePollDaosByCreator.forEach(
+            datePollDao -> targetDatePolls.add(ModelOfDaoUtil.pollOf(datePollDao))
+        );
+        return targetDatePolls;
     }
 }

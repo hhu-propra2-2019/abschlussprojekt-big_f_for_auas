@@ -1,10 +1,13 @@
 package mops.infrastructure.adapters.datepolladapter;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import mops.application.services.PollInfoService;
+import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.infrastructure.controllers.dtos.DashboardItemDto;
 import mops.infrastructure.controllers.dtos.DatePollMetaInfDto;
 import mops.infrastructure.controllers.dtos.DatePollResultDto;
 import mops.domain.models.datepoll.DatePoll;
@@ -24,9 +27,9 @@ public class DatePollInfoAdapter {
         this.infoService = infoService;
     }
 
-    public DatePollMetaInfDto showDatePollMetaInformation(PollLink link, UserId userId) {
-        final DatePoll poll = infoService.datePollViewService(link);
-        return new DatePollMetaInfDto(poll.getMetaInf());
+    public DatePollMetaInfDto getDatePollMetaInformation(PollLink link, UserId userId) {
+        final DatePoll poll = infoService.getDatePollByLink(link);
+        return DatePollInfoAdapter.datePollMetaInfToDto(poll.getMetaInf());
     }
 
     @SuppressWarnings("PMD.LawOfDemeter") // stream
@@ -37,9 +40,39 @@ public class DatePollInfoAdapter {
             .collect(Collectors.toCollection(TreeSet::new));
     }
 
+    public SortedSet<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
+        Set<DatePoll> datePolls = infoService.getDatePollByCreator(userId);
+        return datePolls.stream()
+            .map((DatePoll datePoll) -> datePollToDasboardDto(datePoll, userId))
+            .collect(Collectors.toCollection(TreeSet::new));
+    }
+
+    public SortedSet<DashboardItemDto> getPollsByOthersForDashboard(UserId userId) {
+        Set<DatePoll> datePolls = infoService.getDatePollByStatusFromUser(userId);
+        throw new UnsupportedOperationException("yolo");
+    }
+
     private static DatePollResultDto datePollEntryToResultDto(DatePollEntry entry) {
         return new DatePollResultDto(entry.getSuggestedPeriod(),
             entry.getYesVotes(),
             entry.getMaybeVotes());
+    }
+
+    private static DatePollMetaInfDto datePollMetaInfToDto(DatePollMetaInf metaInf) {
+        return new DatePollMetaInfDto(metaInf.getTitle(), metaInf.getDescription().getDescriptionText(),
+            metaInf.getLocation().getLocation(), metaInf.getTimespan().getEndDate());
+    }
+
+    private static DashboardItemDto datePollToDasboardDto(DatePoll datePoll, UserId userId) {
+        return new DashboardItemDto(
+            datePoll.getPollLink().getPollIdentifier(),
+            datePoll.getMetaInf().getTitle(),
+            datePoll.getMetaInf().getTimespan().getEndDate(),
+            datePoll.getRecordAndStatus().getUserStatus(userId).getIconName(),
+            datePoll.getMetaInf().getTimespan().getEndDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")),
+            datePoll.getMetaInf().getTimespan().getEndDate().format(DateTimeFormatter.ofPattern("HH:mm")),
+            datePoll.getRecordAndStatus().getLastModified(),
+            DashboardItemDto.DATEPOLL_TYPE
+        );
     }
 }

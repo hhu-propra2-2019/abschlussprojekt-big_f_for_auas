@@ -8,6 +8,6 @@ import java.util.Set;
 
 public interface DatePollJpaRepository extends JpaRepository<DatePollDao, String> {
     DatePollDao findDatePollDaoByLink(String link);
-    DatePollDao findByCreatorUserDao(UserDao userDao);
+    Set<DatePollDao> findByCreatorUserDao(UserDao userDao);
     Set<DatePollDao> findByGroupDaosContaining(GroupDao targetGroup);
 }

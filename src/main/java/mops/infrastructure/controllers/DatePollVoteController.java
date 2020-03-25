@@ -19,9 +19,7 @@ import org.springframework.web.context.annotation.SessionScope;
 @SessionScope
 public class DatePollVoteController {
 
-
     private final transient DatePollEntriesAdapter entryAdapter;
-
 
     @Autowired
     public DatePollVoteController(DatePollEntriesAdapter entryAdapter) {
@@ -43,7 +41,6 @@ public class DatePollVoteController {
         model.addAttribute("overview", overview);
         return "mobilePollVote";
     }
-
 
     /**
      * POST Mapping.

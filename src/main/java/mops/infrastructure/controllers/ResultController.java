@@ -37,7 +37,7 @@ public class ResultController {
         final SortedSet<DatePollResultDto> results = datePollInfoAdapter
             .getAllDatePollResultDto(new PollLink(link));
         final DatePollMetaInfDto metaInf = datePollInfoAdapter
-            .showDatePollMetaInformation(new PollLink(link), userId);
+            .getDatePollMetaInformation(new PollLink(link), userId);
         model.addAttribute("results", results);
         model.addAttribute("metaInf", metaInf);
         return "mobilePollResults";

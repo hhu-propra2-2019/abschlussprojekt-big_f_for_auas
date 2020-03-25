@@ -2,7 +2,6 @@ package mops.infrastructure.adapters.datepolladapter;
 
 import mops.application.services.DatePollVoteService;
 import mops.application.services.PollInfoService;
-import mops.infrastructure.controllers.dtos.DashboardItemDto;
 import mops.infrastructure.controllers.dtos.DatePollEntryDto;
 import mops.infrastructure.controllers.dtos.DatePollUserEntryOverview;
 import mops.infrastructure.controllers.dtos.FormattedDatePollEntryDto;
@@ -75,15 +74,6 @@ public class DatePollEntriesAdapter {
     }
 
 
-    // TODO: dto mapping muss hier stattfinden
-    public Set<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
-        return infoService.getAllListItemDtos(userId);
-    }
-
-    private DatePollEntry toEntryDomain(DatePollEntryDto entryDto) {
-        return new DatePollEntry(entryDto.getTimespan());
-    }
-
     /** parsed die Overview in domain models und ruft den service auf.
      *
      * @param link
@@ -98,5 +88,9 @@ public class DatePollEntriesAdapter {
                 overview.getVotedMaybe().stream()
                         .map(this::toEntryDomain)
                         .collect(Collectors.toSet()));
+    }
+
+    private DatePollEntry toEntryDomain(DatePollEntryDto entryDto) {
+        return new DatePollEntry(entryDto.getTimespan());
     }
 }
