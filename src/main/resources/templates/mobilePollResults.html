@@ -38,7 +38,20 @@
                 <tbody>
                 <th:block>
                     <tr th:each="entry : ${results}">
-                        <td th:text="${entry.printName()}">Name</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-1 desktopResultTableWeekday">
+                                    <span th:text="${entry.printDay()}"></span>
+                                </div>
+                                <div class="col-2 desktopResultTableDate">
+                                    <span th:text="${entry.printDate()}"></span>
+                                </div>
+                                <div class="col desktopResultTableTimespan">
+                                    <span th:text="${entry.printTimespan()}"></span>
+                                </div>
+                            </div>
+
+                        </td>
                         <td th:text="${entry.getYesVotes()}">0</td>
                         <td th:text="${entry.getMaybeVotes()}">0</td>
                     </tr>
@@ -46,9 +59,9 @@
                 </tbody>
             </table>
 
+            <!--
             <div class="chart desktopResults"><canvas id="resultChart" width="300" height="300"></canvas></div>
 
-            <!--
             <div id="resultContainer" th:object="${overview}">
                 <div th:attr="data-pollTitle=${entry.printTitle()}"></div>
                 TODO: ifs in js
