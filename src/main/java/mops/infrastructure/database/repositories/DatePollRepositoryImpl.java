@@ -88,7 +88,6 @@ public class DatePollRepositoryImpl implements DatePollRepository {
 
     /**
      * Speichert ein DatePoll Aggregat.
-     *
      * @param datePoll Zu speichernde DatePoll
      */
     @Override
