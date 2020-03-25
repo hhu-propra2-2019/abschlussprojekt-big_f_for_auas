@@ -12,13 +12,11 @@ public class DatePollMetaInfDto {
     private String description;
     private String location;
     private LocalDateTime endDate;
-    private String pollStatus;
 
     public DatePollMetaInfDto(DatePollMetaInf datePollMetaInf) {
         title = datePollMetaInf.getTitle();
         description = datePollMetaInf.getDescription().getDescriptionText();
         location = datePollMetaInf.getLocation().getLocation();
         endDate = datePollMetaInf.getTimespan().getEndDate();
-        pollStatus = "";
     }
 }
