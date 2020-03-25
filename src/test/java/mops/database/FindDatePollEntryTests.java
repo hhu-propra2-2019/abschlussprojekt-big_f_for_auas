@@ -48,6 +48,7 @@ public class FindDatePollEntryTests {
         final UserId creator = new UserId("1234");
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
+
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, 1).forEach(i -> pollEntries.add(new DatePollEntry(
                 new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))

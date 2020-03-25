@@ -1,14 +1,13 @@
 package mops.domain.models.translator;
 
+import mops.domain.models.PollDescription;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePollConfig;
-import mops.domain.models.PollDescription;
 import mops.domain.models.datepoll.DatePollLocation;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.datepoll.DatePollRecordAndStatus;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.User;
-import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
@@ -17,9 +16,10 @@ import mops.infrastructure.database.daos.datepoll.DatePollMetaInfDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings({"checkstyle:MagicNumber", "checkstyle:WhitespaceAfter",
     "PMD.LawOfDemeter", "PMD.AtLeastOneConstructor","PMD.TooManyMethods"})
@@ -60,13 +60,13 @@ public class TranslatorTests {
 
     @Test
     public void userTest() {
-        final long userId = 1L;
+        final String userId = "orga";
         final UserDao dao = new UserDao();
         dao.setId(Long.toString(userId));
 
         final User user = ModelOfDaoUtil.userOf(dao);
 
-        assertThat(user.getId().getId()).isEqualTo(Long.toString(userId));
+        assertThat(user.getId().getId()).isEqualTo(userId);
     }
 
     @Test
