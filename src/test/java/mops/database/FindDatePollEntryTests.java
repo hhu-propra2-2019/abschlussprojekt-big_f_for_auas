@@ -36,7 +36,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor", "PMD.ExcessiveImports", "PMD.SingularFields"})
 public class FindDatePollEntryTests {
     private transient DatePoll datePoll;
-    private transient Group group;
     @Autowired
     private transient DomainGroupRepository domainGroupRepository;
     @Autowired
@@ -55,7 +54,7 @@ public class FindDatePollEntryTests {
         )));
         final Set<UserId> participants = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
-        group = new Group(new GroupId("1"), participants);
+        final Group group = new Group(new GroupId("1"), participants);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
@@ -72,7 +71,7 @@ public class FindDatePollEntryTests {
     public void findDatePollEntry() {
         final DatePollEntry datePollEntry = datePoll.getEntries().iterator().next();
         final Set<DatePollEntryDao> datePollEntryDaos = datePollRepository
-                .findDatePollDaoByLink(datePoll.getPollLink().getPollIdentifier())
+                .findDatePollDaoByLink(datePoll.getPollLink().getLinkUUIDAsString())
                 .getEntryDaos();
         //Funktioniert nur, da genau ein DatePollEntry im Set ist.
         final DatePollEntryDao targetDatePollEntryDao = datePollEntryDaos.iterator().next();

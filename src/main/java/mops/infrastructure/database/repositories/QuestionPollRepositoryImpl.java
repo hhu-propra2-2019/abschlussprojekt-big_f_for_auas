@@ -41,7 +41,7 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
     @Override
     public Optional<QuestionPoll> load(PollLink link) {
         final QuestionPollDao questionPollDao = questionPollJpaRepository.
-                findQuestionPollDaoByLink(link.getPollIdentifier());
+                findQuestionPollDaoByLink(link.getLinkUUIDAsString());
         return Optional.of(ModelOfDaoUtil.pollOf(questionPollDao));
     }
 

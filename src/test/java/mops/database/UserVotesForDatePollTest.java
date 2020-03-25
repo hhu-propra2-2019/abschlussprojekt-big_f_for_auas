@@ -94,7 +94,7 @@ public class UserVotesForDatePollTest {
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
     public void testUserVotesForDatePollEntry() {
         final DatePollDao datePollDao = datePollJpaRepository.
-                findDatePollDaoByLink(datePoll.getPollLink().getPollIdentifier());
+                findDatePollDaoByLink(datePoll.getPollLink().getLinkUUIDAsString());
         //Funktioniert nur, da genau ein DatePollEntry im Set ist, ansonsten koennen die Keys verschieden sein.
         final DatePollEntryDao targetDatePollEntryDao = datePollDao.getEntryDaos().iterator().next();
         final GroupDao targetGroup = datePollDao.getGroupDaos().iterator().next();
@@ -116,7 +116,7 @@ public class UserVotesForDatePollTest {
     @Test
     public void testUserPriorityForDatePollEntryIsNotAppreciated() {
         final DatePollDao datePollDao = datePollJpaRepository.
-                findDatePollDaoByLink(datePoll.getPollLink().getPollIdentifier());
+                findDatePollDaoByLink(datePoll.getPollLink().getLinkUUIDAsString());
         final DatePollEntryDao targetDatePollEntryDao = datePollDao.getEntryDaos().iterator().next();
         final GroupDao targetGroup = datePollDao.getGroupDaos().iterator().next();
         final UserDao targetUser = targetGroup.getUserDaos().iterator().next();

@@ -10,12 +10,12 @@ import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.datepoll.DatePollRecordAndStatus;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
-import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.questionpoll.QuestionPollBallot;
 import mops.domain.models.questionpoll.QuestionPollConfig;
 import mops.domain.models.questionpoll.QuestionPollEntry;
 import mops.domain.models.questionpoll.QuestionPollMetaInf;
+import mops.domain.models.questionpoll.QuestionPollRecordAndStatus;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.GroupDao;
@@ -40,8 +40,8 @@ import java.util.stream.Collectors;
         "PMD.DataflowAnomalyAnalysis"})
 public final class ModelOfDaoUtil {
     public static DatePoll pollOf(DatePollDao pollDao) {
-        final PollRecordAndStatus pollRecordAndStatus =
-                ModelOfDaoUtil.pollRecordAndStatusOf(pollDao.getPollRecordAndStatusDao());
+        final DatePollRecordAndStatus pollRecordAndStatus =
+                ModelOfDaoUtil.datePollRecordAndStatusOf(pollDao.getPollRecordAndStatusDao());
 
         final DatePollMetaInf metaInf =
                 ModelOfDaoUtil.metaInfOf(pollDao.getMetaInfDao());
@@ -62,7 +62,7 @@ public final class ModelOfDaoUtil {
         final PollLink newLink = ModelOfDaoUtil.linkOf(pollDao.getLink());
 
         return new DatePoll(
-                (DatePollRecordAndStatus) pollRecordAndStatus,
+                pollRecordAndStatus,
                 metaInf,
                 creator.getId(),
                 config,
@@ -90,8 +90,8 @@ public final class ModelOfDaoUtil {
     }
 
     public static QuestionPoll pollOf(QuestionPollDao pollDao) {
-        final PollRecordAndStatus pollRecordAndStatus =
-                ModelOfDaoUtil.pollRecordAndStatusOf(pollDao.getPollRecordAndStatusDao());
+        final QuestionPollRecordAndStatus pollRecordAndStatus =
+                ModelOfDaoUtil.questionPollRecordAndStatusOf(pollDao.getPollRecordAndStatusDao());
 
         final QuestionPollMetaInf metaInf =
                 ModelOfDaoUtil.metaInfOf(pollDao.getMetaInfDao());
@@ -130,8 +130,13 @@ public final class ModelOfDaoUtil {
                 .collect(Collectors.toSet());
     }
 
-    public static PollRecordAndStatus pollRecordAndStatusOf(PollRecordAndStatusDao dao) {
-        final PollRecordAndStatus pollRecordAndStatus = new PollRecordAndStatus();
+    public static DatePollRecordAndStatus datePollRecordAndStatusOf(PollRecordAndStatusDao dao) {
+        final DatePollRecordAndStatus pollRecordAndStatus = new DatePollRecordAndStatus();
+        pollRecordAndStatus.setLastModified(dao.getLastmodified());
+        return pollRecordAndStatus;
+    }
+    public static QuestionPollRecordAndStatus questionPollRecordAndStatusOf(PollRecordAndStatusDao dao) {
+        final QuestionPollRecordAndStatus pollRecordAndStatus = new QuestionPollRecordAndStatus();
         pollRecordAndStatus.setLastModified(dao.getLastmodified());
         return pollRecordAndStatus;
     }
@@ -219,16 +224,6 @@ public final class ModelOfDaoUtil {
             user.add(currentUser);
         }
         return user;
-    }
-
-    //TODO: kann eventuell weggelassen werden...
-    private static Set<UserId> extractIds(Set<User> user) {
-        final Set<UserId> userIds = new HashSet<>();
-        for (final User u : user) {
-            final UserId id = u.getId();
-            userIds.add(id);
-        }
-        return userIds;
     }
 
     public static PollLink linkOf(String link) {

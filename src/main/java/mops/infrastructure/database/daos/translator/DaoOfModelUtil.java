@@ -192,7 +192,7 @@ public final class DaoOfModelUtil {
     }
 
     public static String linkDaoOf(PollLink link) {
-        return link.getPollIdentifier();
+        return link.getLinkUUIDAsString();
     }
 
     /**

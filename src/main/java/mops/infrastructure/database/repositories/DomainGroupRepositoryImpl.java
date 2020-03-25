@@ -27,12 +27,13 @@ public class DomainGroupRepositoryImpl implements DomainGroupRepository {
      * @param groupId ...
      * @return ...
      */
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     @Override
     public Optional<Group> load(GroupId groupId) {
         final Optional<GroupDao> dao = groupJpaRepository.findById(groupId.getId());
         final Optional<Group> result;
         if (dao.isPresent()) {
-            GroupDao present = dao.get();
+            final GroupDao present = dao.get();
             result = Optional.of(ModelOfDaoUtil.groupOf(present));
         } else {
             result = Optional.empty();

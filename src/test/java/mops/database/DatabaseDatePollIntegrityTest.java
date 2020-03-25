@@ -17,7 +17,6 @@ import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
-import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
 import mops.infrastructure.database.repositories.interfaces.DatePollEntryJpaRepository;
@@ -35,6 +34,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,6 +48,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DatabaseDatePollIntegrityTest {
     private transient DatePoll datePoll;
     private transient Group group;
+    private transient Set<UserId> participants;
     @Autowired
     private transient DatePollRepositoryImpl datePollRepository;
     @Autowired
@@ -68,10 +69,11 @@ public class DatabaseDatePollIntegrityTest {
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
         final UserId creator = new UserId("1234");
         final DatePollConfig datePollConfig = new DatePollConfig();
-        final PollLink datePollLink = new PollLink();
 
-        final Set<UserId> participants = new HashSet<>();
-        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        final PollLink datePollLink = new PollLink(UUID.randomUUID());
+
+        participants = new HashSet<>();
+        IntStream.range(0, 1).forEach(i -> participants.add(new UserId(Integer.toString(i))));
 
         group = new Group(new GroupId("1"), participants);
 
@@ -95,8 +97,8 @@ public class DatabaseDatePollIntegrityTest {
     public void saveOneDatePollDao() {
         datePollRepository.save(datePoll);
         final DatePollDao datepollFound = datePollJpaRepository.findDatePollDaoByLink(
-                datePoll.getPollLink().getPollIdentifier());
-        assertThat(datePoll.getPollLink().getPollIdentifier()).isEqualTo(datepollFound.getLink());
+                datePoll.getPollLink().getLinkUUIDAsString());
+        assertThat(datePoll.getPollLink().getLinkUUIDAsString()).isEqualTo(datepollFound.getLink());
     }
 
     @SuppressWarnings("checkstyle:MagicNumber")
@@ -105,16 +107,15 @@ public class DatabaseDatePollIntegrityTest {
         final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
         datePollRepository.save(datePoll);
         final Set<UserDao> userDaoSet = userJpaRepository.findAllByGroupSetContaining(exampleGroup);
-        assertThat(userDaoSet).hasSize(3);
+        assertThat(userDaoSet).hasSize(1);
     }
     @Test
     public void datePollDaoFromUserIsPresent() {
-        final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
+        //final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
         datePollRepository.save(datePoll);
-        final Set<UserDao> userDaoSet = userJpaRepository.findAllByGroupSetContaining(exampleGroup);
+        //final Set<UserDao> userDaoSet = userJpaRepository.findAllByGroupSetContaining(exampleGroup);
         final Set<DatePoll> datePollsByUserId = datePollRepository.getDatePollsByUserId(
-                ModelOfDaoUtil.userOf(
-                        userDaoSet.iterator().next()).getId());
+                participants.iterator().next());
         assertThat(datePollsByUserId.size()).isEqualTo(1);
     }
 

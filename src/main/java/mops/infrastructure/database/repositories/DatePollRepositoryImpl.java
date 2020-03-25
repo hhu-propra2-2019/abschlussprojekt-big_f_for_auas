@@ -12,6 +12,7 @@ import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.GroupJpaRepository;
+import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,14 +24,18 @@ import java.util.stream.Collectors;
 @Repository
 public class DatePollRepositoryImpl implements DatePollRepository {
 
+    public static final String USER_IS_NOT_IN_THE_DATABASE = "User is not in the database!";
     private final transient DatePollJpaRepository datePollJpaRepository;
     private final transient GroupJpaRepository groupJpaRepository;
+    private final transient UserJpaRepository userJpaRepository;
 
     @Autowired
     public DatePollRepositoryImpl(DatePollJpaRepository datePollJpaRepository,
-                                  GroupJpaRepository groupJpaRepository) {
+                                  GroupJpaRepository groupJpaRepository,
+                                  UserJpaRepository userJpaRepository) {
         this.datePollJpaRepository = datePollJpaRepository;
         this.groupJpaRepository = groupJpaRepository;
+        this.userJpaRepository = userJpaRepository;
     }
 
     /**
@@ -50,7 +55,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     @Override
     public Optional<DatePoll> load(PollLink link) {
         final DatePollDao loaded = datePollJpaRepository
-                .findDatePollDaoByLink(link.getPollIdentifier());
+                .findDatePollDaoByLink(link.getLinkUUIDAsString());
         final DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
         return Optional.of(targetDatePoll);
     }
@@ -80,15 +85,14 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     @SuppressWarnings("PMD.LawOfDemeter")
     @Override
     public Set<DatePoll> getDatePollsByUserId(UserId userId) {
-        final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
-        final Set<GroupDao> groupDaos = groupJpaRepository.findAllByUserDaosContaining(targetUser);
+        final Optional<UserDao> targetUser = userJpaRepository.findById(userId.toString());
+        final UserDao targetUserDao = targetUser.orElseThrow(
+                () -> new IllegalArgumentException(USER_IS_NOT_IN_THE_DATABASE));
+        final Set<GroupDao> groupDaos = groupJpaRepository.findAllByUserDaosContaining(targetUserDao);
         final Set<DatePollDao> datePollDaosFromUser = new HashSet<>();
         groupDaos.stream()
                 .map(datePollJpaRepository::findByGroupDaosContaining)
-                .map(datePollDaosFromUser::addAll);
-
-        //TODO: Refactoring dieser Methode!
-
+                .forEach(datePollDaosFromUser::addAll);
         final Set<DatePoll> targetDatePolls = new HashSet<>();
         datePollDaosFromUser.forEach(
                 datePollDao -> targetDatePolls.add(ModelOfDaoUtil.pollOf(datePollDao)));
