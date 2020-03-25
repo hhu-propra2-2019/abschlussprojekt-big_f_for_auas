@@ -32,10 +32,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {MopsApplication.class, H2DatabaseConfigForTests.class})
 @Transactional
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor"})
 public class DatePollVotingProcedure {
     @Autowired
     private transient DatePollRepositoryImpl datePollRepo;
-    private transient Random random = new Random();
+    private final transient Random random = new Random();
     @Autowired
     private transient DomainGroupRepositoryImpl domainGroupRepository;
     @Autowired
@@ -48,7 +49,7 @@ public class DatePollVotingProcedure {
                 .userVotesForDatePollEntry(new UserId("1"),
                         firstDatePoll.getPollLink(),
                         firstDatePoll.getEntries().iterator().next());
-        Set<DatePollEntryDao> entriesUserVotesFor = datePollEntryRepositoryManager
+        final Set<DatePollEntryDao> entriesUserVotesFor = datePollEntryRepositoryManager
                 .findAllDatePollEntriesUserVotesFor(new UserId("1"),
                         firstDatePoll);
         assertThat(entriesUserVotesFor.size()).isEqualTo(1);
@@ -62,6 +63,7 @@ public class DatePollVotingProcedure {
      * @param groupId Die zugehoerige Gruppen ID.
      * @return DatePoll Das zu erstellende DatePoll Objekt.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     private DatePoll createDatePoll(int users, int pollentries, String title, String groupId) {
         final DatePoll datePoll;
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
