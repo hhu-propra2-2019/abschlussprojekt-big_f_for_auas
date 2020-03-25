@@ -95,12 +95,24 @@ als Online-Organisations-Service dient.
 
 Technischer Kontext {#_technischer_kontext}
 -------------------
-Unsere Aufgabe ist es, unseren Service für die User bereitzustellen und sicherzustellen, dass nur berechtigte User
+Unsere Aufgabe ist es, unseren Service den Nutzer*innen bereitzustellen und sicherzustellen, dass nur berechtigte User
 auf die entsprechenden Umfragen zugreifen können. Die Authentifizierung der User erfolgt extern. Die Anbindung an
 andere Subsysteme erfolgt nur über Links.
 
 Lösungsstrategie {#section-solution-strategy}
 ================
+
+Um unser Ziel der **Wartbarkeit** zu erfüllen, haben wir uns für eine Onion-Architektur entschieden, deren Beschränkungen und Konventionen wir nur in wenigen Fällen oder idealerweise gar nicht verletzen wollen. Damit einher geht eine strikte Trennung der Domain und Infrastruktur.
+
+Das Ziel der **Benutzbarkeit** ist besonders wichtig für unsere Anwendung. Wenn die Benutzer\*innen kein gutes Gefühl beim Bedienen unserer Anwendung haben, werden sie ein alternatives Produkt nutzen, Doodle beispielsweise oder einen anderen kostenfreien Dienst.
+
+Wir haben uns recht früh entschieden, dass die Erstellung einer Terminabstimmung oder Abstimmung in einem Wizard geschehen sollte, da das auf mobilen Endgeräten eine übersichtlichere Darstellung ermöglicht. Wann immer möglich, wollen wir den Benutzer\*innen klares und eindeutiges Feedback zu ihren Eingaben geben, um Frust durch unklare  Validierungskriterien zu vermeiden. Außerdem muss ein Wizard ein gutes Konzept für die Navigation haben, damit der Zurück-Button im Browser funktioniert und keine Probleme durch mehrfach geöffnete Tabs oder Ähnliches entstehen.
+
+Eine Lösung dafür ist „Spring Web Flow“, ein Teil des Spring-Projekts, mit dem man sogenannte „Flows“ orchestrieren, d.h. Benutzungsabläufe auf eine bestimmte Art und Weise definieren kann. Die Definition dieser Flows erfolgt per XML und ist hier ausführlich dokumentiert: https://docs.spring.io/spring-webflow/docs/current/reference/htmlsingle/index.html
+
+Auch wenn Web Flow am Anfang gewöhnungsbedürftig und die Konfiguration per JavaConfig nicht sonderlich gut dokumentiert ist, erspart man sich auf lange Sicht Kopfschmerzen mit den oben genannten Kriterien eines guten Wizards. Der zentrale Vorteil von Web Flow ist neben der Navigierbarkeit im Flow die übersichtliche Darstellung von transaktionalen, mehrschrittigen Vorgängen. Jederzeit ist ersichtlich, in welchem Zustand sich ein Flow befindet und in welche Zustände er übergehen kann.
+
+Um eine zusätzliche Komplexitätsebene zu Vermeidung und auf ausdrückliche Empfehlung unserer Tutoren hin haben wir uns für bezüglich Persistenz für JPA entschieden.
 
 Bausteinsicht {#section-building-block-view}
 =============
