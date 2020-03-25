@@ -1,5 +1,7 @@
-package mops;
+package mops.database;
 
+import mops.MopsApplication;
+import mops.config.H2DatabaseConfigForTests;
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePoll;
@@ -10,62 +12,51 @@ import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
+import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.IntStream;
 
-/**
- * Die Klasse dient der Erstellung von Datenbank Objekten und stellt eine
- * Alternative zum Einlesen von Datenbank Objekten über eine *.sql Datei dar.
- * Eine Verletzung von LawOfDemeter ist hier gerechtfertigt, da 'nur' Objekte
- * zum Speichern in die Datenbank erzeugt werden.
- */
-@SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:MagicNumber"})
-@Profile("production")
-@Transactional
-@Component
-public class DummyDataCommandLineRunner implements CommandLineRunner {
-    private final transient DatePollRepositoryImpl datePollRepo;
-    private final transient Random random = new Random();
-    private final transient DomainGroupRepositoryImpl domainGroupRepository;
-    private final transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
-    @Autowired
-    public DummyDataCommandLineRunner(DatePollRepositoryImpl datePollRepository,
-                                      DomainGroupRepositoryImpl domainGroupRepository,
-                                      DatePollEntryRepositoryManager datePollEntryRepositoryManager) {
-        this.datePollRepo = datePollRepository;
-        this.domainGroupRepository = domainGroupRepository;
-        this.datePollEntryRepositoryManager = datePollEntryRepositoryManager;
-    }
+import static org.assertj.core.api.Assertions.assertThat;
 
-    /**
-     * Erstellt und speichert Dummy Data fuer die Datenbank.
-     * @param args
-     * @throws Exception
-     */
-    @Override
-    public void run(String... args) throws Exception {
+@ActiveProfiles("test")
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = {MopsApplication.class, H2DatabaseConfigForTests.class})
+@Transactional
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor"})
+public class DatePollVotingProcedure {
+    @Autowired
+    private transient DatePollRepositoryImpl datePollRepo;
+    private final transient Random random = new Random();
+    @Autowired
+    private transient DomainGroupRepositoryImpl domainGroupRepository;
+    @Autowired
+    private transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
+    @Test
+    public void oneUserVotesForOneEntry() {
         final DatePoll firstDatePoll = createDatePoll(4, 5, "datepoll 1", "1");
-        final DatePoll secondDatePoll = createDatePoll(2, 2, "datepoll 2", "2");
-        final DatePoll thirdDatePoll = createDatePoll(3, 1, "datepoll 3", "3");
         datePollRepo.save(firstDatePoll);
-        datePollRepo.save(secondDatePoll);
-        datePollRepo.save(thirdDatePoll);
         datePollEntryRepositoryManager
                 .userVotesForDatePollEntry(new UserId("1"),
                         firstDatePoll.getPollLink(),
                         firstDatePoll.getEntries().iterator().next());
+        final Set<DatePollEntryDao> entriesUserVotesFor = datePollEntryRepositoryManager
+                .findAllDatePollEntriesUserVotesFor(new UserId("1"),
+                        firstDatePoll);
+        assertThat(entriesUserVotesFor.size()).isEqualTo(1);
     }
 
     /**
@@ -76,6 +67,7 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
      * @param groupId Die zugehoerige Gruppen ID.
      * @return DatePoll Das zu erstellende DatePoll Objekt.
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     private DatePoll createDatePoll(int users, int pollentries, String title, String groupId) {
         final DatePoll datePoll;
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
@@ -104,4 +96,5 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
         domainGroupRepository.save(group);
         return datePoll;
     }
+
 }
