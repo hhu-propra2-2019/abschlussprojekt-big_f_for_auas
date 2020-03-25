@@ -78,6 +78,7 @@ public final class DatePoll {
      *
      * @param potentialNewEntries
      */
+    @SuppressWarnings("PMD.LawOfDemeter") // streams.
     private void aggregateNewEntries(Set<DatePollEntry> potentialNewEntries) {
         potentialNewEntries.stream()
             .filter(Predicate.not(entries::contains))

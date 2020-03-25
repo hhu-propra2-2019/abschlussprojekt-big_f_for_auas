@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePollEntry;
 
-import java.time.format.DateTimeFormatter;
-
 @Data
 
 //ZU TESTZWECKEN//
@@ -37,12 +35,8 @@ public class DatePollResultDto implements Comparable<DatePollResultDto> {
      * Gibt den formatieren String zurück.
      * @return formatierter String.
      */
+    @SuppressWarnings("PMD.LawOfDemeter")
     public String printName() {
-        final String start = timespan.getStartDate()
-            .format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm"))
-            + " Uhr";
-        final String end = timespan.getEndDate().format(DateTimeFormatter.ofPattern("HH:mm"))
-            + " Uhr";
-        return start + " bis " + end;
+        return timespan.toString();
     }
 }

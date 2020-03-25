@@ -7,9 +7,6 @@ import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 public final class DatePollEntry implements ValidateAble {
