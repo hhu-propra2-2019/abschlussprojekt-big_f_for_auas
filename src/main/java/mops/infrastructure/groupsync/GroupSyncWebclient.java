@@ -13,7 +13,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
+import java.net.ConnectException;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
@@ -42,14 +45,19 @@ public final class GroupSyncWebclient {
     public Optional<GroupSyncInputDto> getGroupSyncDto(long lastStatus) {
         try {
             String responseBody = queryApi(lastStatus);
+            if (responseBody == null) {
+                throw new ConnectException();
+            }
             JsonNode node = mapper.readTree(responseBody);
             return parseGroupSyncDto(node);
         } catch (WebClientException e) {
-            log.warn("Group Sync: Failed:");
-            log.warn(e.getMessage());
+            log.warn("Group Sync: Failed: " + e.getMessage());
         } catch (JsonProcessingException e) {
-            log.warn("Group Sync: Failed: JSON could not be parsed");
-            log.warn(e.getMessage());
+            log.warn("Group Sync: Failed: JSON could not be parsed: " + e.getMessage());
+        } catch (ConnectException e) {
+            log.warn("Group Sync: Failed: Connection failed. Comment out line 94"
+                    + " of GroupSyncWebClient to get Stacktrace. ");
+            log.warn("Hint: You can disable the synchronisation feature using mops.gruppen2.sync.enabled=false");
         }
         return Optional.empty();
     }
@@ -73,12 +81,14 @@ public final class GroupSyncWebclient {
                 webClient.method(HttpMethod.GET)
                         .uri(apiRoot.concat(String.format("/api/updateGroups/%d", lastStatus)))
                         .body(BodyInserters.empty()).acceptCharset(StandardCharsets.UTF_8);
-        // TODO: UnknownHostException usw. fangen
-        // Das ist im obigen Try-Catch-Block nicht möglich und funktioniert mit
-        // Spring Web Flux auf eine bestimmte Art, die ich nicht kenne.
+        // TODO: UnknownHostException usw. korrekt behandeln und ausgeben
         return request
                 .retrieve()
                 .bodyToMono(String.class)
+                // Wenn der Error kein HTTP-Status-Error ist, einfach mit leerem Mono weitermachen.
+                // Wird dann im Try-Catch-Block gefangen. Etwas unsauber, aber ich habe mäßig viel Ahnung
+                // von Reaktiver Programmierung und WebFlux und kann es entsprechend nicht besser
+                .onErrorResume(e -> !(e instanceof WebClientResponseException), e -> Mono.empty())
                 .block();
     }
 }
