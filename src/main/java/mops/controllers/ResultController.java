@@ -22,26 +22,27 @@ public class ResultController {
 
     @SuppressWarnings("PMD.LawOfDemeter")
     private SortedSet<DatePollResultDto> createFakeDatePollResultDtos() {
+        final int number = 5;
         final DatePollResultDto fakeResultDto1 = new DatePollResultDto();
-        fakeResultDto1.setTimespan(new Timespan(LocalDateTime.now(), LocalDateTime.now().plusHours(2)));
-        fakeResultDto1.setYesVotes(14);
-        fakeResultDto1.setMaybeVotes(10);
+        fakeResultDto1.setTimespan(new Timespan(LocalDateTime.now(), LocalDateTime.now().plusHours(number)));
+        fakeResultDto1.setYesVotes(number);
+        fakeResultDto1.setMaybeVotes(number);
 
         final DatePollResultDto fakeResultDto2 = new DatePollResultDto();
-        fakeResultDto2.setTimespan(new Timespan(LocalDateTime.now().plusDays(2),
-                LocalDateTime.now().plusDays(2).plusHours(2)));
-        fakeResultDto2.setYesVotes(10);
-        fakeResultDto2.setMaybeVotes(0);
+        fakeResultDto2.setTimespan(new Timespan(LocalDateTime.now().plusDays(number),
+                LocalDateTime.now().plusDays(number).plusHours(number)));
+        fakeResultDto2.setYesVotes(number);
+        fakeResultDto2.setMaybeVotes(number);
 
         final DatePollResultDto fakeResultDto3 = new DatePollResultDto();
-        fakeResultDto3.setTimespan(new Timespan(LocalDateTime.now().minusDays(2), LocalDateTime.now().minusDays(2).plusHours(2)));
-        fakeResultDto3.setYesVotes(5);
-        fakeResultDto3.setMaybeVotes(15);
+        fakeResultDto3.setTimespan(new Timespan(LocalDateTime.now().minusDays(number), LocalDateTime.now().minusDays(number).plusHours(number)));
+        fakeResultDto3.setYesVotes(number);
+        fakeResultDto3.setMaybeVotes(number);
 
         final DatePollResultDto fakeResultDto4 = new DatePollResultDto();
-        fakeResultDto4.setTimespan(new Timespan(LocalDateTime.now().minusDays(1), LocalDateTime.now().minusDays(1).plusHours(2)));
-        fakeResultDto4.setYesVotes(17);
-        fakeResultDto4.setMaybeVotes(3);
+        fakeResultDto4.setTimespan(new Timespan(LocalDateTime.now().minusDays(1), LocalDateTime.now().minusDays(number).plusHours(number)));
+        fakeResultDto4.setYesVotes(number);
+        fakeResultDto4.setMaybeVotes(number);
 
         final SortedSet<DatePollResultDto> testData = new TreeSet<>();
         testData.add(fakeResultDto1);
