@@ -1,6 +1,7 @@
 package mops.infrastructure.database.repositories;
 
 import mops.domain.models.PollLink;
+
 import mops.domain.models.group.GroupId;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.user.UserId;
@@ -59,7 +60,6 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
                 .collect(Collectors.toSet());
         questionPollJpaRepository.save(DaoOfModelUtil.pollDaoOf(questionPoll, groupDaos));
     }
-
     /**
      * Lädt alle QuestionPolls in denen ein Nutzer Teilnimmt.
      * @param userId Der User, welcher an den QuestionPolls teilnimmt.
@@ -73,7 +73,7 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
         final Set<QuestionPollDao> questionPollDaosFromUser = new HashSet<>();
         groupDaos.stream()
                 .map(questionPollJpaRepository::findByGroupDaosContaining)
-                .map(questionPollDaosFromUser::addAll);
+                .forEach(questionPollDaosFromUser::addAll);
         final Set<QuestionPoll> targetQuestionPolls = new HashSet<>();
         questionPollDaosFromUser.forEach(
                 datePollDao -> targetQuestionPolls.add(ModelOfDaoUtil.pollOf(datePollDao)));
