@@ -29,7 +29,7 @@ public class QuestionPollEntry implements ValidateAble {
 
     /** Validate the title ( possibles Answer from Question) if it empty or only whitespaces etc.
      * Validate count if it is negative.
-     * @return
+     * @return die Validation
      */
     @Override
     public Validation validate() {
@@ -50,19 +50,19 @@ public class QuestionPollEntry implements ValidateAble {
      * @param other QuestionPollEntry zum Vergleichen
      * @return Boolean, ob es der "gleiche" Entry ist.
      */
-    boolean representsSameAnswer(QuestionPollEntry other) { //NOPMD
+    private boolean representsSameAnswer(QuestionPollEntry other) { //NOPMD
         return title.equals(other.title);
     }
 
     /**
-     * inkrementiert die Anzahl der YesVotes
+     * inkrementiert die Anzahl der YesVotes.
      */
     void incYesVote() { //NOPMD
         yesVotes++;
     }
 
     /**
-     * dekrementiert die Anzahl der YesVotes
+     * dekrementiert die Anzahl der YesVotes.
      */
     void decYesVote() { //NOPMD
         yesVotes--;
@@ -73,8 +73,8 @@ public class QuestionPollEntry implements ValidateAble {
      * Gibt SetA - SetB zurück.
      * Bestimmt Gruppenzugehörigkeit nur an Hand der Timespan Objekten in DatePollEntry.
      *
-     * @param setA
-     * @param setB
+     * @param setA erstes Set.
+     * @param setB zweites Set.
      * @return SetA - SetB (alle Elemente aus A, welche nicht in B sind)
      */
     // lawOfDemeter liegt an der stream notation. gleicher code in loop form erzeugt kein warning.
@@ -86,7 +86,7 @@ public class QuestionPollEntry implements ValidateAble {
     }
 
     /**
-     * Macht aus einem QuestionPollEntry ein QuestionPollEntryDto
+     * Macht aus einem QuestionPollEntry ein QuestionPollEntryDto.
      * @return das entsprechende Dto
      */
     public QuestionPollEntryDto toDto() {
