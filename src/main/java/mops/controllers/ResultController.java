@@ -15,13 +15,19 @@ public class ResultController {
     private final transient DatePollInfoAdapter datePollInfoAdapter;
 
     @Autowired
-    public ResultController(DatePollInfoAdapter datePollInfoAdapter ) {
+    public ResultController(DatePollInfoAdapter datePollInfoAdapter) {
         this.datePollInfoAdapter = datePollInfoAdapter;
     }
 
+    /**
+     * Getmapping.
+     * @param model
+     * @param link
+     * @return String.
+     */
     @GetMapping("/vote/{link}")
-    public String mapResults(Model model,@PathVariable String link) {
-        SortedSet<DatePollResultDto> results = datePollInfoAdapter.getAllDatePollResultDto(new PollLink(link));
+    public String mapResults(Model model, @PathVariable String link) {
+        final SortedSet<DatePollResultDto> results = datePollInfoAdapter.getAllDatePollResultDto(new PollLink(link));
         model.addAttribute("results", results);
         return "mobilePollResults";
     }
