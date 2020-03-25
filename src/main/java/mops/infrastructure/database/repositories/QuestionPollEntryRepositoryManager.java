@@ -27,10 +27,11 @@ public class QuestionPollEntryRepositoryManager {
         this.userJpaRepository = userJpaRepository;
     }
     /**
-     * @param questionPollEntryDaoPollEntryDao ...
+     * Die Methode speichert ein QuestionPollEntryDao in die Datenbank.
+     * @param questionPollEntryDao Das zugehoerige QuestionPollEntryDao.
      */
-    public void save(QuestionPollEntryDao questionPollEntryDaoPollEntryDao) {
-        questionPollEntryJpaRepository.save(questionPollEntryDaoPollEntryDao);
+    public void save(QuestionPollEntryDao questionPollEntryDao) {
+        questionPollEntryJpaRepository.save(questionPollEntryDao);
     }
 
     /**
@@ -44,7 +45,7 @@ public class QuestionPollEntryRepositoryManager {
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void userVotesForQuestionPollEntry(UserId userId, PollLink pollLink, QuestionPollEntry questionPollEntry) {
-        final QuestionPollEntryDao targetQuestionPollEntryDao = findQuestionPollEntryDao(pollLink, questionPollEntry);
+        final QuestionPollEntryDao targetQuestionPollEntryDao = loadQuestionPollEntryDao(pollLink, questionPollEntry);
         final UserDao currentUserDao = userJpaRepository.getOne(userId.getId());
         targetQuestionPollEntryDao.getUserVotesFor().add(currentUserDao);
         currentUserDao.getQuestionPollEntrySet().add(targetQuestionPollEntryDao);
@@ -52,7 +53,7 @@ public class QuestionPollEntryRepositoryManager {
         questionPollEntryJpaRepository.save(targetQuestionPollEntryDao);
     }
 
-    private QuestionPollEntryDao findQuestionPollEntryDao(PollLink pollLink, QuestionPollEntry questionPollEntry) {
+    private QuestionPollEntryDao loadQuestionPollEntryDao(PollLink pollLink, QuestionPollEntry questionPollEntry) {
         final QuestionPollDao targetQuestionPollDao = questionPollJpaRepository
                 .findQuestionPollDaoByLink(pollLink.getLinkUUIDAsString());
         return questionPollEntryJpaRepository.findByQuestionPollAndEntryName(

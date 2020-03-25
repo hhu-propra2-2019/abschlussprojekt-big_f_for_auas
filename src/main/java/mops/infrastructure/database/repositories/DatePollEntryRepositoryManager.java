@@ -46,10 +46,7 @@ public class DatePollEntryRepositoryManager {
      * @param datePollEntry Der zugehörige Terminvorschlag.
      * @return DatePollEntryDao Das DatePollEntryDao Objekt aus der Datenbank.
      */
-     public DatePollEntryDao findDatePollEntryDao(
-             PollLink pollLink,
-             DatePollEntry datePollEntry
-     ) {
+     public DatePollEntryDao loadDatePollEntryDao(PollLink pollLink, DatePollEntry datePollEntry) {
          final DatePollDao currentDatePollDao = datePollJpaRepository.
                  findDatePollDaoByLink(pollLink.getLinkUUIDAsString());
          final Timespan periodOfDatePollEntry = datePollEntry.getSuggestedPeriod();
@@ -66,7 +63,7 @@ public class DatePollEntryRepositoryManager {
      * @param datePollEntry Vorschlag fuer den abgestimmt wird.
      */
     public void userVotesForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
-        final DatePollEntryDao targetDatePollEntryDao = findDatePollEntryDao(pollLink, datePollEntry);
+        final DatePollEntryDao targetDatePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
         final UserDao currentUserDao = userJpaRepository.getOne(userId.getId());
         targetDatePollEntryDao.getUserVotesFor().add(currentUserDao);
         currentUserDao.getDatePollEntrySet().add(targetDatePollEntryDao);
@@ -80,7 +77,7 @@ public class DatePollEntryRepositoryManager {
      * @return votes Die Anzahl an "yes" Stimmen fuer die jeweilige Abstimmung.
      */
     public Long getVotesForDatePollEntry(PollLink pollLink, DatePollEntry datePollEntry) {
-        final DatePollEntryDao datePollEntryDao = findDatePollEntryDao(pollLink, datePollEntry);
+        final DatePollEntryDao datePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
         return userJpaRepository.countByDatePollEntrySetContaining(datePollEntryDao);
     }
 
