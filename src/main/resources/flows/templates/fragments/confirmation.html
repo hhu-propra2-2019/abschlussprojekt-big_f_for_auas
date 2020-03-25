@@ -14,8 +14,8 @@
 
     <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
 
-    <div class="card-deck">
-        <div class="card order-3 order-lg-1">
+    <div class="card-deck d-flex flex-column flex-sm-row">
+        <div class="card order-3 order-md-1">
             <div class="card-body">
                 <div class="text-center">
                     <h4 class="card-title"><strong th:text="*{metaInfDto.title}"></strong></h4>
@@ -43,9 +43,9 @@
                 </button>
             </div>
         </div>
-        <div class="w-100 d-lg-none mt-4 order-2"></div>
+        <div class="w-100 d-md-none mt-4 order-2"></div>
 
-        <div class="card order-1 order-lg-3 border-primary">
+        <div class="card order-1 order-md-3 border-primary">
             <div class="card-header text-center bg-primary text-white"><strong>Einstellungen</strong></div>
             <div class="card-body">
 
@@ -70,8 +70,8 @@
                         <span th:unless="*{configDto.voteIsEditable}">Die eigenen Stimmen dürfen im Nachhinein nicht verändert werden</span>
                     </div>
                     <hr>
-                    <div>
-                        <span th:if="*{configDto.anonymous}">Die Abstimmung ist geheim und nur das Ergebnis wird angezeigt</span>
+                    <div th:if="*{configDto.anonymous}">
+                        <span>Die Abstimmung ist geheim und nur das Ergebnis wird angezeigt</span>
                         <hr>
                     </div>
                     <div th:unless="*{publicationDto.ispublic}">
@@ -79,8 +79,7 @@
                         <div class="ml-2 mt-2" th:text="*{publicationDto.groups}"></div>
                     </div>
                     <div th:if="*{publicationDto.ispublic}"> Alle angemeldeten Nutzer*innen von MOPS dürfen an der
-                        Abstimmung
-                        teilnehmen, wenn sie den Link kennen
+                        Abstimmung teilnehmen, wenn sie den Link kennen
                     </div>
                 </div>
             </div>
