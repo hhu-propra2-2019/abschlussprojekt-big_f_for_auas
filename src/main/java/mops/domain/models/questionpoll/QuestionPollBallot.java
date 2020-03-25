@@ -1,7 +1,7 @@
 package mops.domain.models.questionpoll;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Set;
+
 import lombok.Value;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
@@ -13,16 +13,24 @@ import mops.domain.models.user.UserId;
 @Value
 public class QuestionPollBallot implements ValidateAble {
     private final UserId user;
-    private final List<QuestionPollEntry> selectedEntries;
+    private final Set<QuestionPollEntry> selectedEntries;
 
     /**
      * Konstruktor.
      * @param qpUserId
      * @param selectedEntries
      */
-    public QuestionPollBallot(UserId qpUserId, List<QuestionPollEntry> selectedEntries) {
+    public QuestionPollBallot(UserId qpUserId, Set<QuestionPollEntry> selectedEntries) {
         this.user = qpUserId;
-        this.selectedEntries = Collections.unmodifiableList(selectedEntries);
+        this.selectedEntries = selectedEntries;
+    }
+
+    /**
+     * Anzahl der ja stimmen.
+     * @return int
+     */
+    public int getYesEntriesSize() {
+        return selectedEntries.size();
     }
 
     /**
@@ -31,6 +39,15 @@ public class QuestionPollBallot implements ValidateAble {
      */
     @Override
     public Validation validate() {
-        return null;
+        return Validation.noErrors();
+    }
+
+    /**
+     * belongs to?
+     * @param otherUser User um den es geht.
+     * @return boolean, ob er dazugehört oder nicht.
+     */
+    boolean belongsTo(UserId otherUser) { //NOPMD
+        return this.user.equals(otherUser);
     }
 }
