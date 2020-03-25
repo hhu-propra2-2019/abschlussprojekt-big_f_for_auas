@@ -9,6 +9,8 @@ import java.util.EnumSet;
 
 public final class ErrorMessageHelper {
 
+    public static final String DEFAULTERRORS = "defaulterrors";
+
     private ErrorMessageHelper() {
     }
 
@@ -20,7 +22,15 @@ public final class ErrorMessageHelper {
         context.addMessage(new MessageBuilder()
                 .error()
                 .code(code)
-                .source(errorMappings.getProperty(code, "defaulterrors"))
+                .source(errorMappings.getProperty(code, DEFAULTERRORS))
+                .build());
+    }
+
+    public static void addMessageWithSource(String code, MessageContext context, String source) {
+        context.addMessage(new MessageBuilder()
+                .error()
+                .code(code)
+                .source(source)
                 .build());
     }
 
@@ -31,7 +41,7 @@ public final class ErrorMessageHelper {
         context.addMessage(new MessageBuilder()
                 .error()
                 .code(code)
-                .source(errorMappings.getProperty(code, "defaulterrors"))
+                .source(errorMappings.getProperty(code, DEFAULTERRORS))
                 .resolvableArgs(objects)
                 .build());
     }

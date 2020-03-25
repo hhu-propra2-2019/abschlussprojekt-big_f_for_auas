@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import mops.domain.models.datepoll.DatePollEntry;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -12,5 +11,5 @@ import java.util.Set;
 @SuppressWarnings("PMD.AvoidFieldNameMatchingTypeName")
 public class Entries {
 
-    private Set<DatePollEntry> entries = new HashSet<>();
+    private Set<DatePollEntry> entries;
 }

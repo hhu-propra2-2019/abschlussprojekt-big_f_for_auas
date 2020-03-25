@@ -9,23 +9,27 @@
     <input name="account" type="mops.controllers.dtos.Account" required="true" />
 
     <on-start>
-        <evaluate expression="metaInfAdapter.initializeDto()" result="flowScope.metaInfDto"/>
+<!--        <evaluate expression="metaInfAdapter.initializeDto()" result="flowScope.metaInfDto"/>
         <evaluate expression="configAdapter.initializeDto()" result="flowScope.configDto"/>
         <evaluate expression="entriesAdapter.initializeDto()" result="flowScope.entriesDto"/>
-        <evaluate expression="publicationAdapter.initializeDto()" result="flowScope.publicationDto"/>
-        <evaluate expression="builderAdapter.buildConfirmationDto(metaInfDto, configDto, entriesDto, publicationDto)" result="flowScope.confirmationDto"/>
+        <evaluate expression="publicationAdapter.initializeDto()" result="flowScope.publicationDto"/>-->
+        <evaluate expression="builderService.buildConfirmationDto()" result="flowScope.datePollDto"/>
+<!--        <evaluate expression="uploadAdapter.initializeDto()" result="flowScope.uploadDto"/>-->
     </on-start>
 
 
     <view-state id="metaInfStep1" view="scheduling/metaInfStep1" model="metaInfDto">
-
+        <var name="metaInfDto" class="mops.infrastructure.adapters.webflow.datepoll.webflowdtos.MetaInfDto"/>
         <binder>
             <binding property="title"/>
             <binding property="description"/>
             <binding property="location"/>
         </binder>
-
+        <on-entry>
+            <set name="metaInfDto" value="datePollDto.metaInfDto"/>
+        </on-entry>
         <transition on="home" to="home"/>
+        <transition on="fileUpload" to="fileUpload"/>
         <transition on="metaInfStep2" to="metaInfStep2">
             <evaluate expression="metaInfAdapter.validateFirstStep(metaInfDto, messageContext)"/>
         </transition>
@@ -33,14 +37,16 @@
 
 
     <view-state id="metaInfStep2" view="scheduling/metaInfStep2" model="metaInfDto">
-
+        <var name="metaInfDto" class="mops.infrastructure.adapters.webflow.datepoll.webflowdtos.MetaInfDto"/>
         <binder>
             <binding property="startDate"/>
             <binding property="startTime"/>
             <binding property="endDate"/>
             <binding property="endTime"/>
         </binder>
-
+        <on-entry>
+            <set name="metaInfDto" value="datePollDto.metaInfDto"/>
+        </on-entry>
         <transition on="metaInfStep1" to="metaInfStep1"/>
         <transition on="settings" to="settings">
             <evaluate expression="metaInfAdapter.validateDto(metaInfDto, messageContext)"/>
@@ -49,7 +55,7 @@
 
 
     <view-state id="settings" view="scheduling/settings" model="configDto">
-
+        <var name="configDto" class="mops.infrastructure.adapters.webflow.datepoll.webflowdtos.ConfigDto"/>
         <binder>
             <binding property="voteIsEditable"/>
             <binding property="priorityChoice"/>
@@ -58,6 +64,9 @@
             <binding property="open"/>
             <binding property="singleChoice"/>
         </binder>
+        <on-entry>
+            <set name="configDto" value="datePollDto.configDto"/>
+        </on-entry>
 
         <transition on="metaInfStep2" to="metaInfStep2"/>
         <transition on="entries" to="entries">
@@ -67,24 +76,24 @@
 
 
     <view-state id="entries" view="scheduling/entries" model="entriesDto">
-
+        <var name="entriesDto" class="mops.infrastructure.adapters.webflow.datepoll.webflowdtos.EntriesDto"/>
         <binder>
             <binding property="entries"/>
         </binder>
-
+        <on-entry>
+            <set name="entriesDto" value="datePollDto.entriesDto"/>
+        </on-entry>
         <transition on="addoption" to="entries">
             <evaluate expression="entriesAdapter.addEntry(entriesDto, requestParameters.addDate,
                                                                            requestParameters.addStartTime,
                                                                            requestParameters.addEndTime,
                                                                            messageContext)"/>
         </transition>
-
         <transition on="deleteoption" to="entries">
             <evaluate expression="entriesAdapter.deleteEntry(entriesDto, requestParameters.deleteDate,
                                                                            requestParameters.deleteStartTime,
                                                                            requestParameters.deleteEndTime)"/>
         </transition>
-
         <transition on="settings" to="settings"/>
         <transition on="publication" to="publication">
             <evaluate expression="entriesAdapter.validateDto(entriesDto, messageContext)"/>
@@ -93,12 +102,15 @@
 
 
     <view-state id="publication" view="scheduling/publication" model="publicationDto">
-
+        <var name="publicationDto" class="mops.infrastructure.adapters.webflow.dtos.PublicationDto"/>
         <binder>
             <binding property="ispublic"/>
             <binding property="link"/>
             <binding property="groups"/>
         </binder>
+        <on-entry>
+            <set name="publicationDto" value="datePollDto.publicationDto"/>
+        </on-entry>
 
         <transition on="entries" to="entries"/>
         <transition on="confirmation" to="confirmation">
@@ -107,7 +119,23 @@
     </view-state>
 
 
-    <view-state id="confirmation" view="scheduling/confirmation" model="confirmationDto">
+    <view-state id="fileUpload" view="scheduling/fileUpload" model="uploadDto">
+        <var name="uploadDto" class="mops.infrastructure.adapters.webflow.datepoll.webflowdtos.UploadDto"/>
+        <binder>
+            <binding property="pollFile"/>
+        </binder>
+        <on-entry>
+            <set name="uploadDto" value="uploadService.initializeDto()"/>
+        </on-entry>
+
+        <transition on="upload" to="confirmation">
+            <evaluate expression="uploadService.processPollFile(uploadDto.pollFile, messageContext, datePollDto)"/>
+        </transition>
+        <transition on="cancel" to="metaInfStep1" bind="false"/>
+    </view-state>
+
+
+    <view-state id="confirmation" view="scheduling/confirmation" model="datePollDto">
 
         <binder>
             <binding property="metaInfDto"/>
@@ -116,13 +144,9 @@
             <binding property="publicationDto"/>
         </binder>
 
-        <on-entry>
-            <set name="confirmationDto.userId" value="account.name"/>
-        </on-entry>
-
         <transition on="publication" to="publication"/>
         <transition on="submit" to="home">
-            <evaluate expression="builderAdapter.publishDatePoll(confirmationDto, messageContext)"/>
+            <evaluate expression="builderService.publishDatePoll(datePollDto, messageContext, flowRequestContext)"/>
         </transition>
     </view-state>
 

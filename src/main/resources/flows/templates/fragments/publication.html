@@ -23,9 +23,18 @@
         <div class="form-group">
             <label>Berechtigungen</label>
             <div class="form-check">
-                <input class="form-check-input" id="publication-accessibility" th:field="*{ispublic}" type="checkbox">
+                <input class="form-check-input" id="publication-accessibility" th:field="*{ispublic}" type="checkbox" th:classappend="${#fields.hasErrors('ispublic') ? 'checked' : ''}">
                 <label for="publication-accessibility">Öffentliche Umfrage</label>
             </div>
+            <script type="text/javascript">
+                document.addEventListener("DOMContentLoaded",
+                    function () {
+                        if (document.getElementById("publication-accessibility").classList.contains('checked')) {
+                            document.getElementById("publication-accessibility").checked = true;
+                        }
+                    }
+                )
+            </script>
         </div>
 
         <div class="form-group">
