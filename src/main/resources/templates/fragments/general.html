@@ -12,12 +12,12 @@
         <!--/*@thymesVar id="dashboardActive" type=""*/-->
         <li th:class="${dashboardActive}? active"><a href="/">Dashboard</a></li>
         <!--/*@thymesVar id="newTerminActive" type=""*/-->
-        <li th:class="${newTerminActive}? active" th:if="${userId != null}">
+        <li th:class="${newTerminActive}? active">
             <a th:href="@{/scheduling}">Terminfindung erstellen</a>
         </li>
         <!--/*@thymesVar id="newAbstimmungActive" type=""*/-->
-        <li th:class="${newAbstimmungActive}? active" th:if="${userId != null}">
-            <a th:href="@{/poll(userId=${userId.getId()})}">Abstimmung erstellen</a>
+        <li th:class="${newAbstimmungActive}? active"Z>
+            <a th:href="@{/poll}">Abstimmung erstellen</a>
         </li>
         <li><a href="">Beitreten</a></li>
     </ul>
