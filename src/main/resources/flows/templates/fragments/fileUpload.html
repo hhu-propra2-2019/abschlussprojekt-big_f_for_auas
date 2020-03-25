@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{mopslayout :: html(name='Terminfindung und Abstimmung', headcontent=~{:: headcontent}, navigation=~{:: navigation}, bodycontent=~{:: bodycontent})}">
+<head>
+    <meta charset="utf-8">
+    <title>Terminfindung und Abstimmung</title>
+    <th:block th:fragment="headcontent">
+    </th:block>
+</head>
+<body>
+<form method="post" novalidate th:fragment="form" enctype="multipart/form-data"
+      th:object="${uploadDto}" th:action="${flowExecutionUrl}" >
+
+    <div class="general-error-banner" th:fragment="defaultErrorAlerts">
+        <div class="alert alert-danger" th:errors="*" th:text="${err}"></div>
+    </div>
+
+<!--    <input type="file" th:field="*{pollFile}"/>-->
+    <div class="custom-file" id="file-input">
+        <input class="custom-file-input" type="file" id="pollFile" th:field="*{pollFile}" required>
+        <label class="custom-file-label" for="pollFile">Datei auswählen...</label>
+        <div class="invalid-feedback">Die Datei konnte nicht eingelesen werden</div>
+    </div>
+    <script type="text/javascript">
+        document.querySelector('.custom-file-input').addEventListener('change',function(e){
+            var fileName = document.getElementById("pollFile").files[0].name;
+            var nextSibling = e.target.nextElementSibling;
+            nextSibling.innerText = fileName
+        })
+    </script>
+
+    <button type="submit" name="_eventId_upload"  class="btn btn-primary float-right mt-5">Weiter</button>
+    <button type="submit" name="_eventId_cancel"  class="btn btn-primary float-left mt-5">Zurück</button>
+</form>
+</body>
+</html>
