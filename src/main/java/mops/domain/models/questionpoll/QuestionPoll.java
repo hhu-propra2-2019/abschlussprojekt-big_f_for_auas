@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.PollLink;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
+import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.UserId;
 
 @AllArgsConstructor
@@ -25,6 +26,9 @@ public class QuestionPoll {
 
     public static QuestionPollBuilder builder() {
         return new QuestionPollBuilder();
+    }
+    public PollStatus getUserStatus(UserId user) {
+        return recordAndStatus.getUserStatus(user);
     }
 
 }
