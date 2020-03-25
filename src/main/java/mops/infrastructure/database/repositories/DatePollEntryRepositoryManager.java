@@ -85,6 +85,14 @@ public class DatePollEntryRepositoryManager {
     }
 
     /**
+     * Gibt alle DatePollEntries zum zugehoerigen DatePoll zurueck.
+     * @param datePollDao Das DatePoll Objekt.
+     * @return Set<DatePollEntryDao> Die zugehoerigen Enries.
+     */
+    public Set<DatePollEntryDao> findAllByDatePollLink(DatePollDao datePollDao) {
+        return datePollEntryJpaRepository.findByDatePoll(datePollDao);
+    }
+    /**
      * Die Methode gibt alle "Yes" Votes eines Users fuer einen DatePoll zurueck.
      * @param userId zugehoeriger User.
      * @param datePoll zugehoeriger DatePoll.
