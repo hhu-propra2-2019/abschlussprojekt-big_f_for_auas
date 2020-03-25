@@ -73,32 +73,34 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     @Override
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void save(DatePoll datePoll) {
-        setUserVotesForDatePollEntry(datePoll.getBallots(), datePoll);
         final Set<GroupDao> groupDaos = datePoll.getGroups().stream()
                 .map(GroupId::getId)
                 .map(groupJpaRepository::findById)
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toSet());
         final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll, groupDaos);
-        datePollDao.getEntryDaos();
         datePollJpaRepository.save(datePollDao);
+        //Save Votes for DatePoll without Priority
+        checkDatePollBallotsForVotes(datePoll.getBallots(), datePoll);
     }
-    
-    private void setUserVotesForDatePollEntry(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
+    private void checkDatePollBallotsForVotes(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
         for (DatePollBallot datePollBallot:datePollBallots
              ) {
             if (datePollBallot.getSelectedEntriesYes().size() != 0) {
-                for (DatePollEntry targetEntry : datePollBallot.getSelectedEntriesYes()
-                ) {
-                    datePollEntryRepositoryManager
-                            .userVotesForDatePollEntry(datePollBallot.getUser(),
-                                    datePoll.getPollLink(),
-                                    targetEntry);
-                }
+                setVoteForTargetUserAndEntry(datePollBallot.getSelectedEntriesYes(),
+                        datePoll,
+                        datePollBallot.getUser());
             }
         }
     }
-
+    private void setVoteForTargetUserAndEntry(Set<DatePollEntry> datePollEntries, DatePoll datePoll, UserId user) {
+        datePollEntries.forEach(targetEntry -> {
+            datePollEntryRepositoryManager
+                    .userVotesForDatePollEntry(user,
+                            datePoll.getPollLink(),
+                            targetEntry);
+        });
+    }
     /**
      * Lädt alle DatePolls in denen ein Nutzer teilnimmt.
      *
