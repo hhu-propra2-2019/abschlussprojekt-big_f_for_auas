@@ -44,6 +44,16 @@ public class DatePollResultDto implements Comparable<DatePollResultDto> {
     public String printTimespan() {
         final String start = timespan.getStartDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr";
         final String end = timespan.getEndDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr";
+    /**
+     * Gibt den formatieren String zurück.
+     * @return formatierter String.
+     */
+    public String printName() {
+        final String start = timespan.getStartDate()
+            .format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm"))
+            + " Uhr";
+        final String end = timespan.getEndDate().format(DateTimeFormatter.ofPattern("HH:mm"))
+            + " Uhr";
         return start + " bis " + end;
     }
 }
