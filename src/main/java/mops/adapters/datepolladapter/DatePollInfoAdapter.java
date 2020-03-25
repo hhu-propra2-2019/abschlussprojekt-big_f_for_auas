@@ -24,11 +24,9 @@ public class DatePollInfoAdapter {
         this.infoService = infoService;
     }
 
-    public DatePollMetaInfDto showDatePollMetaInformation(PollLink link, UserId userId) {
+    public DatePollMetaInfDto showDatePollMetaInformation(PollLink link) {
         final DatePoll poll = infoService.datePollViewService(link);
-        final DatePollMetaInfDto dto = new DatePollMetaInfDto(poll.getMetaInf());
-        dto.setPollStatus(poll.getUserStatus(userId).getIconName());
-        return dto;
+        return new DatePollMetaInfDto(poll.getMetaInf());
     }
 
     @SuppressWarnings("PMD.LawOfDemeter") // stream

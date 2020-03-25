@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePollEntry;
 
+import java.time.format.DateTimeFormatter;
+
 @Data
 
 //ZU TESTZWECKEN//
@@ -12,12 +14,12 @@ import mops.domain.models.datepoll.DatePollEntry;
 //////////////////
 
 public class DatePollResultDto implements Comparable<DatePollResultDto> {
-    private Timespan suggestedPeriod;
+    private Timespan timespan;
     private int yesVotes;
     private int maybeVotes;
 
     public DatePollResultDto(DatePollEntry entry) {
-        suggestedPeriod = entry.getSuggestedPeriod();
+        timespan = entry.getSuggestedPeriod();
         yesVotes = entry.getYesVotes();
         maybeVotes = entry.getMaybeVotes();
     }
@@ -29,5 +31,11 @@ public class DatePollResultDto implements Comparable<DatePollResultDto> {
     @SuppressWarnings("PMD.LawOfDemeter")
     public int compareTo(DatePollResultDto other) {
         return -1 * Integer.compare(this.yesVotes, other.yesVotes);
+    }
+
+    public String printName() {
+        final String start = timespan.getStartDate().format(DateTimeFormatter.ofPattern("EEEE, d MMM yyyy HH:mm")) + " Uhr";
+        final String end = timespan.getEndDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr";
+        return start + " bis " + end;
     }
 }
