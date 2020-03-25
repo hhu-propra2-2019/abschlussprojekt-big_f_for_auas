@@ -5,20 +5,25 @@ import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
+import mops.infrastructure.database.daos.datepoll.DatePollStatusDao;
+import mops.infrastructure.database.daos.datepoll.DatePollStatusDaoKey;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
+import mops.infrastructure.database.repositories.interfaces.DatePollStatusJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.GroupJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,16 +36,18 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     private final transient GroupJpaRepository groupJpaRepository;
     private final transient UserJpaRepository userJpaRepository;
     private final transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
-
+    private final transient DatePollStatusJpaRepository datePollStatusJpaRepository;
     @Autowired
     public DatePollRepositoryImpl(DatePollJpaRepository datePollJpaRepository,
                                   GroupJpaRepository groupJpaRepository,
                                   UserJpaRepository userJpaRepository,
-                                  DatePollEntryRepositoryManager datePollEntryRepositoryManager) {
+                                  DatePollEntryRepositoryManager datePollEntryRepositoryManager,
+                                  DatePollStatusJpaRepository datePollStatusJpaRepository) {
         this.datePollJpaRepository = datePollJpaRepository;
         this.groupJpaRepository = groupJpaRepository;
         this.userJpaRepository = userJpaRepository;
         this.datePollEntryRepositoryManager = datePollEntryRepositoryManager;
+        this.datePollStatusJpaRepository = datePollStatusJpaRepository;
     }
 
     /**
@@ -66,7 +73,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     }
 
     /**
-     * Speichert ein DatePoll aggregat.
+     * Speichert ein DatePoll Aggregat.
      *
      * @param datePoll Zu speichernde DatePoll
      */
@@ -82,7 +89,26 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         datePollJpaRepository.save(datePollDao);
         //Save Votes for DatePoll without Priority
         checkDatePollBallotsForVotes(datePoll.getBallots(), datePoll);
+        //Save PollStatus for each User ...
+        saveDatePollStatus(datePoll, datePollDao);
     }
+
+    private void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
+        final Map<UserId, PollStatus> votingRecord = datePoll.getRecordAndStatus().getVotingRecord();
+        votingRecord.forEach((userId, pollStatus) -> {
+            DatePollStatusDaoKey nextStatusKey = new DatePollStatusDaoKey(
+                    userId.getId(),
+                    datePoll.getPollLink().getLinkUUIDAsString());
+            DatePollStatusDao datePollStatusDao = new DatePollStatusDao(
+                    nextStatusKey,
+                    DaoOfModelUtil.userDaoOf(userId),
+                    datePollDao,
+                    DaoOfModelUtil.createPollStatusEnumDao(pollStatus)
+            );
+            datePollStatusJpaRepository.save(datePollStatusDao);
+        });
+    }
+
     private void checkDatePollBallotsForVotes(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
         for (DatePollBallot datePollBallot:datePollBallots
              ) {
