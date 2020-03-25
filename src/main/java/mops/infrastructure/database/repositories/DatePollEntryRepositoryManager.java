@@ -2,6 +2,7 @@ package mops.infrastructure.database.repositories;
 
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
+import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.TimespanDao;
@@ -13,6 +14,8 @@ import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepositor
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.Set;
 
 @SuppressWarnings({"PMD.LawOfDemeter"})
 @Repository
@@ -30,6 +33,12 @@ public class DatePollEntryRepositoryManager {
         this.userJpaRepository = userJpaRepository;
     }
     /**
+     * @param datePollEntryDao ...
+     */
+    public void save(DatePollEntryDao datePollEntryDao) {
+        datePollEntryJpaRepository.save(datePollEntryDao);
+    }
+    /**
      * Die Methode soll ein DatePollEntryDao Objekt anhand des pollLinks und des Terminvorschlags
      * heraussuchen. Als Key wird zuerst der pollLink benutzt, um alle zugehoerigen DatePollEntryDaos
      * zu generieren, danach wird anhand des TimespanObjektes nach dem zugehoerigen Terminvorschlag gesucht.
@@ -42,7 +51,7 @@ public class DatePollEntryRepositoryManager {
              DatePollEntry datePollEntry
      ) {
          final DatePollDao currentDatePollDao = datePollJpaRepository.
-                 findDatePollDaoByLink(pollLink.getPollIdentifier());
+                 findDatePollDaoByLink(pollLink.getLinkUUIDAsString());
          final Timespan periodOfDatePollEntry = datePollEntry.getSuggestedPeriod();
          final TimespanDao timespanDao = TimespanDao.of(periodOfDatePollEntry);
          return datePollEntryJpaRepository.findByDatePollAndAndTimespanDao(currentDatePollDao, timespanDao);
@@ -58,7 +67,7 @@ public class DatePollEntryRepositoryManager {
      */
     public void userVotesForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
         final DatePollEntryDao targetDatePollEntryDao = findDatePollEntryDao(pollLink, datePollEntry);
-        final UserDao currentUserDao = userJpaRepository.getOne(Long.parseLong(userId.getId()));
+        final UserDao currentUserDao = userJpaRepository.getOne(userId.getId());
         targetDatePollEntryDao.getUserVotesFor().add(currentUserDao);
         currentUserDao.getDatePollEntrySet().add(targetDatePollEntryDao);
         userJpaRepository.save(currentUserDao);
@@ -73,5 +82,16 @@ public class DatePollEntryRepositoryManager {
     public Long getVotesForDatePollEntry(PollLink pollLink, DatePollEntry datePollEntry) {
         final DatePollEntryDao datePollEntryDao = findDatePollEntryDao(pollLink, datePollEntry);
         return userJpaRepository.countByDatePollEntrySetContaining(datePollEntryDao);
+    }
+
+    /**
+     * Die Methode gibt alle "Yes" Votes eines Users fuer einen DatePoll zurueck.
+     * @param userId zugehoeriger User.
+     * @param datePoll zugehoeriger DatePoll.
+     * @return Set<DatePollEntryDao> alle EntryDaos fuer die der Jeweilige User gestimmt hat.
+     */
+    public Set<DatePollEntryDao> findAllDatePollEntriesUserVotesFor(UserId userId, DatePoll datePoll) {
+        return datePollEntryJpaRepository.findAllDatePollEntriesUserVotesFor(
+                userId.getId(), datePoll.getPollLink().getLinkUUIDAsString());
     }
 }

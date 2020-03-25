@@ -1,7 +1,16 @@
 package mops.domain.models.group;
 
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import mops.domain.models.user.UserId;
 
-@NoArgsConstructor
+import java.util.Set;
+
+@RequiredArgsConstructor
+@Getter
 public class Group {
+
+    private final GroupId id;
+    private final Set<UserId> user;
+
 }

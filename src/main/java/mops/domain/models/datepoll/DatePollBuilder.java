@@ -1,9 +1,5 @@
 package mops.domain.models.datepoll;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import lombok.Getter;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.PollFields;
@@ -15,8 +11,12 @@ import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
 
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.TooManyMethods"})
@@ -29,7 +29,7 @@ public final class DatePollBuilder {
     private transient UserId pollCreatorTarget;
     private transient DatePollConfig configTarget;
     private final transient Set<DatePollEntry> pollEntryTargets = new HashSet<>();
-    private final transient Set<UserId> pollParticipantTargets = new HashSet<>();
+    private final transient Set<GroupId> participatingGroupsTargets = new HashSet<>();
     private transient PollLink linkTarget;
     @Getter
     private Validation validationState;
@@ -40,9 +40,8 @@ public final class DatePollBuilder {
             PollFields.POLL_LINK,
             PollFields.DATE_POLL_CONFIG,
             PollFields.DATE_POLL_ENTRIES,
-            PollFields.CREATOR
-            // TODO: mit Gruppen implementieren und dann wieder validieren
-            //PollFields.PARTICIPANTS
+            PollFields.CREATOR,
+            PollFields.PARTICIPATING_GROUPS
     );
 
     public DatePollBuilder() {
@@ -130,7 +129,6 @@ public final class DatePollBuilder {
         return this;
     }
 
-
     // TODO: Law of Demeter reviewen und Methode ggfs anpassen. Warum werden die Abstimmungsdaten doppelt gespeichert?!
     @SuppressWarnings("PMD.LawOfDemeter")
     public DatePollBuilder datePollEntries(Set<DatePollEntry> datePollEntrySet) {
@@ -148,20 +146,19 @@ public final class DatePollBuilder {
     }
 
 
-
-    /*/**
-     * Fügt alle validierte User der Teilnehmerliste hinzu.
+    /**
+     * Fügt alle Gruppen der Teilnehmerliste hinzu.
      *
-     * @param participants Teilnehmer die zu dieser Terminfindung hinzugefügt werden sollen.
+     * @param participants Gruppen die zu dieser Terminfindung hinzugefügt werden sollen.
      * @return Referenz auf diesen DatePollBuilder.
      */
-    /*public DatePollBuilder participants(Set<UserId> participants) {
-        this.pollParticipantTargets.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPANTS));
-        if (!this.pollParticipantTargets.isEmpty()) {
-            validatedFields.add(PollFields.PARTICIPANTS);
+    public DatePollBuilder participatingGroups(Set<GroupId> participants) {
+        this.participatingGroupsTargets.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPATING_GROUPS));
+        if (!this.participatingGroupsTargets.isEmpty()) {
+            validatedFields.add(PollFields.PARTICIPATING_GROUPS);
         }
         return this;
-    }*/
+    }
 
     /**
      * TODO: Implementieren!
@@ -185,7 +182,6 @@ public final class DatePollBuilder {
         );
         return this;
     }
-
     /**
      * Baut das DatePoll Objekt, wenn alle Konstruktionssteps mind. 1 mal erfolgreich waren.
      *
@@ -198,9 +194,9 @@ public final class DatePollBuilder {
                     metaInfTarget,
                     pollCreatorTarget,
                     configTarget,
-                    pollEntryTargets,
-                    pollParticipantTargets,
-                    new HashSet<DatePollBallot>(),
+                    pollEntryTargets, //new HashSet<>(), war fuer die UserIds gedacht
+                    participatingGroupsTargets,
+                    new HashSet<>(),
                     linkTarget
             );
         } else {

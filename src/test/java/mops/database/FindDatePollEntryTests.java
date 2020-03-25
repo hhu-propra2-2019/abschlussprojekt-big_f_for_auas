@@ -10,11 +10,12 @@ import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.group.Group;
+import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
+import mops.domain.repositories.DomainGroupRepository;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
-import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
-import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
-import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
+import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -33,15 +33,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {MopsApplication.class, H2DatabaseConfigForTests.class})
 @Transactional
-@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor"})
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor", "PMD.ExcessiveImports", "PMD.SingularFields"})
 public class FindDatePollEntryTests {
     private transient DatePoll datePoll;
-
     @Autowired
-    private transient DatePollJpaRepository datePollJpaRepository;
+    private transient DomainGroupRepository domainGroupRepository;
     @Autowired
-    private transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
-    @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
+    private transient DatePollRepositoryImpl datePollRepository;
+    @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber", "PMD.SingularField"})
     @BeforeEach
     public void setupDatePollRepoTest() {
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
@@ -50,30 +49,34 @@ public class FindDatePollEntryTests {
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
 
-        //final Set<UserId> participants = new HashSet<>();
-        //IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
-
         final Set<DatePollEntry> pollEntries = new HashSet<>();
-        IntStream.range(0, 3).forEach(i -> pollEntries.add(new DatePollEntry(
-            new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
+        IntStream.range(0, 1).forEach(i -> pollEntries.add(new DatePollEntry(
+                new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-
+        final Set<UserId> participants = new HashSet<>();
+        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        final Group group = new Group(new GroupId("1"), participants);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
-                //.participants(participants)
+                .participatingGroups(Set.of(group.getId()))
                 .datePollLink(datePollLink)
                 .build();
-        datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll));
+
+        domainGroupRepository.save(group);
+        datePollRepository.save(datePoll);
     }
     @Test
     public void findDatePollEntry() {
         final DatePollEntry datePollEntry = datePoll.getEntries().iterator().next();
-        final DatePollEntryDao datePollEntryDao = datePollEntryRepositoryManager.
-                findDatePollEntryDao(datePoll.getPollLink(), datePollEntry);
-        assertThat(datePollEntryDao.getTimespanDao().getStartDate()).
+        final Set<DatePollEntryDao> datePollEntryDaos = datePollRepository
+                .findDatePollDaoByLink(datePoll.getPollLink().getLinkUUIDAsString())
+                .getEntryDaos();
+        //Funktioniert nur, da genau ein DatePollEntry im Set ist.
+        final DatePollEntryDao targetDatePollEntryDao = datePollEntryDaos.iterator().next();
+        assertThat(targetDatePollEntryDao .getTimespanDao().getStartDate()).
                 isEqualTo(datePollEntry.getSuggestedPeriod().getStartDate());
     }
 }

@@ -10,7 +10,11 @@ import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.group.Group;
+import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
+import mops.domain.repositories.DomainGroupRepository;
+import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
@@ -18,7 +22,9 @@ import mops.infrastructure.database.daos.datepoll.PriorityChoiceDao;
 import mops.infrastructure.database.daos.datepoll.PriorityChoiceDaoKey;
 import mops.infrastructure.database.daos.datepoll.PriorityTypeEnum;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
-import mops.infrastructure.database.repositories.interfaces.DatePollEntryJpaRepository;
+import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
+import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
+import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.PriorityChoiceJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
@@ -43,7 +49,10 @@ import java.util.Set;
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor", "PMD.ExcessiveImports"})
 public class UserVotesForDatePollTest {
     private transient DatePoll datePoll;
-
+    private transient Group group;
+    private transient PollLink targetPollLink;
+    @Autowired
+    private transient DomainGroupRepository domainGroupRepository;
     @Autowired
     private transient PriorityChoiceJpaRepository priorityChoiceJpaRepository;
     @Autowired
@@ -51,7 +60,9 @@ public class UserVotesForDatePollTest {
     @Autowired
     private transient UserJpaRepository userJpaRepository;
     @Autowired
-    private transient DatePollEntryJpaRepository datePollEntryJpaRepository;
+    private transient DatePollRepositoryImpl datePollRepository;
+    @Autowired
+    private transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
     public void setupDatePollRepoTest() {
@@ -59,55 +70,59 @@ public class UserVotesForDatePollTest {
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
         final UserId creator = new UserId("1234");
         final DatePollConfig datePollConfig = new DatePollConfig();
-        final PollLink datePollLink = new PollLink();
-
-        //final Set<UserId> participants = new HashSet<>();
-        //IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
-
+        targetPollLink = new PollLink();
+        final Set<UserId> participants = new HashSet<>();
+        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
         final Set<DatePollEntry> pollEntries = new HashSet<>();
-        IntStream.range(0, 3).forEach(i -> pollEntries.add(new DatePollEntry(
+        IntStream.range(0, 1).forEach(i -> pollEntries.add(new DatePollEntry(
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-
+        group = new Group(new GroupId("1"), participants);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
-                //.participants(participants)
-                .datePollLink(datePollLink)
+                .participatingGroups(Set.of(group.getId()))
+                .datePollLink(targetPollLink)
                 .build();
-        datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll));
+        datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll,
+                DaoOfModelUtil.extractGroups(Set.of(group))));
+        domainGroupRepository.save(group);
     }
-
     @Test
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
     public void testUserVotesForDatePollEntry() {
         final DatePollDao datePollDao = datePollJpaRepository.
-                findDatePollDaoByLink(datePoll.getPollLink().getPollIdentifier());
-        final DatePollEntryDao datePollEntryDao = datePollDao.getEntryDaos().iterator().next();
-        final UserDao userDao = datePollDao.getUserDaos().iterator().next();
-        datePollEntryDao.getUserVotesFor().add(userDao);
-        userDao.getDatePollEntrySet().add(datePollEntryDao);
-        datePollEntryJpaRepository.save(datePollEntryDao);
-        userJpaRepository.save(userDao);
-        final Long number = userJpaRepository.countByDatePollEntrySetContaining(datePollEntryDao);
+                findDatePollDaoByLink(datePoll.getPollLink().getLinkUUIDAsString());
+        //Funktioniert nur, da genau ein DatePollEntry im Set ist, ansonsten koennen die Keys verschieden sein.
+        final DatePollEntryDao targetDatePollEntryDao = datePollDao.getEntryDaos().iterator().next();
+        final GroupDao targetGroup = datePollDao.getGroupDaos().iterator().next();
+        final UserDao targetUser = targetGroup.getUserDaos().iterator().next();
+        final UserId targetUserId = ModelOfDaoUtil.userOf(targetUser).getId();
+        datePollEntryRepositoryManager.userVotesForDatePollEntry(
+                targetUserId,
+                targetPollLink,
+                ModelOfDaoUtil.entryOf(targetDatePollEntryDao));
+        datePollEntryRepositoryManager.save(targetDatePollEntryDao);
+        userJpaRepository.save(targetUser);
+        final Long number = datePollEntryRepositoryManager.getVotesForDatePollEntry(
+                targetPollLink,
+                ModelOfDaoUtil.entryOf(targetDatePollEntryDao));
 
         assertThat(datePollDao).isNotNull();
         assertThat(number).isEqualTo(1);
     }
-
     @Test
     public void testUserPriorityForDatePollEntryIsNotAppreciated() {
-        //Get DatePoll and datePollEntryDao
         final DatePollDao datePollDao = datePollJpaRepository.
-                findDatePollDaoByLink(datePoll.getPollLink().getPollIdentifier());
-        final DatePollEntryDao datePollEntryDao = datePollDao.getEntryDaos().iterator().next();
-        final UserDao userDao = datePollDao.getUserDaos().iterator().next();
-
+                findDatePollDaoByLink(datePoll.getPollLink().getLinkUUIDAsString());
+        final DatePollEntryDao targetDatePollEntryDao = datePollDao.getEntryDaos().iterator().next();
+        final GroupDao targetGroup = datePollDao.getGroupDaos().iterator().next();
+        final UserDao targetUser = targetGroup.getUserDaos().iterator().next();
         PriorityChoiceDao priorityChoiceDao = new PriorityChoiceDao();
-        priorityChoiceDao.setDatePollEntry(datePollEntryDao);
-        priorityChoiceDao.setParticipant(userDao);
+        priorityChoiceDao.setDatePollEntry(targetDatePollEntryDao);
+        priorityChoiceDao.setParticipant(targetUser);
         priorityChoiceDao.setDatePollPriority(PriorityTypeEnum.NOT_APPRECIATED);
         final PriorityChoiceDaoKey priorityChoiceDaoKey = new PriorityChoiceDaoKey();
         priorityChoiceDao.setId(priorityChoiceDaoKey);
@@ -115,5 +130,13 @@ public class UserVotesForDatePollTest {
         priorityChoiceDao = priorityChoiceJpaRepository.getOne(priorityChoiceDaoKey);
         assertThat(priorityChoiceDao.getDatePollPriority())
                 .isEqualByComparingTo(PriorityTypeEnum.NOT_APPRECIATED);
+    }
+    @Test
+    public void testVotesForDatePollEntryAreZero() {
+        final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
+        final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll, Set.of(exampleGroup));
+        datePollRepository.save(datePoll);
+        final DatePollEntryDao datePollEntry = datePollDao.getEntryDaos().iterator().next();
+        assertThat(datePollEntry.getUserVotesFor().size()).isEqualTo(0);
     }
 }
