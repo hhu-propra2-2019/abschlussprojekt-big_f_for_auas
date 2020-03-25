@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -31,6 +32,7 @@ import java.util.stream.IntStream;
  */
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:MagicNumber"})
 @Profile("production")
+@Transactional
 @Component
 public class DummyDataCommandLineRunner implements CommandLineRunner {
     private final transient DatePollRepositoryImpl datePollRepo;
