@@ -13,6 +13,5 @@ public class PublicationDto extends GeneralDto implements Serializable {
 
     private boolean ispublic;
     private String link;
-    private String people;
     private String groups;
 }

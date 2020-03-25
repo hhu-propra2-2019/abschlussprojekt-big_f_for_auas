@@ -29,13 +29,6 @@
         </div>
 
         <div class="form-group">
-            <label for="publication-person">Person hinzufügen</label>
-            <input class="form-control tagsinput" id="publication-person" th:field="*{people}" placeholder="Username"
-                   th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('people'), #fields.hasAnyErrors())}">
-            <div class="invalid-feedback" th:errors="*{people}"></div>
-        </div>
-
-        <div class="form-group">
             <label for="publication-gruppe">Gruppe hinzufügen</label>
             <input class="form-control tagsinput" id="publication-gruppe" th:field="*{groups}" placeholder="Gruppenname"
                    th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('groups'), #fields.hasAnyErrors())}">
