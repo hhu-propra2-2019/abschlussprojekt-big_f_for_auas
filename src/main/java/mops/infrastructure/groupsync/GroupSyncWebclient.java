@@ -45,10 +45,10 @@ public final class GroupSyncWebclient {
             JsonNode node = mapper.readTree(responseBody);
             return parseGroupSyncDto(node);
         } catch (WebClientException e) {
-            log.warn("Group Sync failed");
+            log.warn("Group Sync: Failed:");
             log.warn(e.getMessage());
         } catch (JsonProcessingException e) {
-            log.warn("Group Sync failed: JSON could not be parsed");
+            log.warn("Group Sync: Failed: JSON could not be parsed");
             log.warn(e.getMessage());
         }
         return Optional.empty();
@@ -56,15 +56,15 @@ public final class GroupSyncWebclient {
 
     private Optional<GroupSyncInputDto> parseGroupSyncDto(JsonNode node) throws JsonProcessingException {
         if (node == null || node.isEmpty()) {
-            log.warn("Group Sync failed: no JSON content");
+            log.warn("Group Sync: Failed: no JSON content");
             return Optional.empty();
         }
         Optional<GroupSyncInputDto> groupSyncDto =
                 Optional.ofNullable(mapper.readValue(node.toString(), GroupSyncInputDto.class));
 
         groupSyncDto.ifPresentOrElse(
-                g -> log.debug("Group Sync: ".concat(g.getGroupList().toString())),
-                () -> log.warn("Group Sync failed: Object mapping failed for JSON:\n".concat(node.toPrettyString())));
+                g -> log.debug("Group Sync: Successfully read PublicationDto: ".concat(g.getGroupList().toString())),
+                () -> log.warn("Group Sync: Failed: Object mapping failed for JSON:\n".concat(node.toPrettyString())));
         return groupSyncDto;
     }
 

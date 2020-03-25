@@ -1,15 +1,11 @@
 package mops.infrastructure.database.daos;
 
 import lombok.Data;
+import mops.domain.models.group.Group;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +15,10 @@ import java.util.Set;
 public class GroupDao {
     @Id
     private String id;
+    private String title;
+    @Enumerated(EnumType.STRING)
+    private Group.GroupVisibility visibility;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserDao> userDaos = new HashSet<>();
 

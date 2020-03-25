@@ -1,5 +1,6 @@
 package mops.infrastructure.config;
 
+import mops.domain.repositories.DomainGroupRepository;
 import mops.infrastructure.groupsync.GroupSyncService;
 import mops.infrastructure.groupsync.GroupSyncValidator;
 import mops.infrastructure.groupsync.GroupSyncWebclient;
@@ -18,13 +19,16 @@ public class GroupSyncConfig {
      * eingestellt ist.
      * @param webclient Der Webclient, der die Anfrage an das SCS stellt
      * @param validator Die Komponente, die das von webclient zurückgegebene Dto validiert
+     * @param groupRepository Das Repository, in das die Gruppen synchronisiert werden sollen
      * @return der Service, der die Gruppen synchronisiert.
      */
     @Autowired
     @Bean
     @ConditionalOnProperty(value = "mops.gruppen2.sync.enabled", havingValue = "true")
-    public GroupSyncService syncService(GroupSyncWebclient webclient, GroupSyncValidator validator) {
-        return new GroupSyncService(webclient, validator);
+    public GroupSyncService syncService(GroupSyncWebclient webclient,
+                                        GroupSyncValidator validator,
+                                        DomainGroupRepository groupRepository) {
+        return new GroupSyncService(webclient, validator, groupRepository);
     }
 
 }

@@ -36,9 +36,14 @@ public final class GroupSyncValidator {
                 || dto.getMembers() == null) {
             return Stream.empty();
         }
+        // Nur wegen dieser Guard-Klausel darf unten per ?-Operator entschieden werden!
+        if (!("PUBLIC".equals(dto.getVisibility()) || "PRIVATE".equals(dto.getVisibility()))) {
+            return Stream.empty();
+        }
         Group group = new Group(
                 new GroupId(dto.getId()),
                 dto.getTitle(),
+                "PUBLIC".equals(dto.getVisibility()) ? Group.GroupVisibility.PUBLIC : Group.GroupVisibility.PRIVATE,
                 dto.getMembers().stream().flatMap(this::validatePersonDto).collect(Collectors.toSet()));
         // Falls ein oder mehrere User nicht eingelesen werden konnten, Gruppe nicht erzeugen
         if (group.getUser().isEmpty() || dto.getMembers().size() != group.getUser().size()) {

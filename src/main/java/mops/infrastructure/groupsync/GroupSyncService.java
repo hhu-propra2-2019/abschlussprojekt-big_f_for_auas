@@ -1,5 +1,6 @@
 package mops.infrastructure.groupsync;
 
+import lombok.extern.log4j.Log4j2;
 import mops.domain.repositories.DomainGroupRepository;
 import mops.infrastructure.groupsync.dto.GroupSyncInputDto;
 import mops.infrastructure.groupsync.dto.GroupSyncValidDto;
@@ -7,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Optional;
 
+@Log4j2
 public final class GroupSyncService {
 
     private final transient GroupSyncWebclient syncController;
@@ -32,6 +34,8 @@ public final class GroupSyncService {
 
     @Scheduled(fixedDelay = SYNCHRONISATION_DELAY, initialDelay = INITIAL_SYNCHRONISATION_DELAY)
     public void syncGroups() {
+        log.info("-------------------------------------------");
+        log.info("Group Sync: Start scheduled synchronization");
         Optional<GroupSyncInputDto> groupSyncInputDto = syncController.getGroupSyncDto(lastStatus);
         if (groupSyncInputDto.isPresent()) {
             GroupSyncValidDto groupSyncValidDto =
@@ -44,7 +48,12 @@ public final class GroupSyncService {
             // dass eine Gruppe vorhanden ist, aber nicht synchronisiert wird.
             if (!groupSyncValidDto.isErrorsOccurred()) {
                 lastStatus = groupSyncValidDto.getStatus();
+            } else {
+                log.warn("Group Sync: Attention: The JSON input was not valid. Invalid groups have been dropped.");
             }
+            log.info(String.format(
+                    "Result: %d groups have been read successfully.", groupSyncValidDto.getGroups().size()));
         }
+        log.info("-------------------------------------------");
     }
 }
