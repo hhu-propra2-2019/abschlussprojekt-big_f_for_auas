@@ -55,22 +55,6 @@ public final class DatePollEntry implements ValidateAble {
         maybeVotes--;
     }
 
-    /**
-     * Gibt SetA - SetB zurück.
-     * Bestimmt Gruppenzugehörigkeit nur an Hand der Timespan Objekten in DatePollEntry.
-     *
-     * @param setA
-     * @param setB
-     * @return SetA - SetB (alle Elemente aus A, welche nicht in B sind)
-     */
-    // lawOfDemeter liegt an der stream notation. gleicher code in loop form erzeugt kein warning.
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DefaultPackage"})
-    static Set<DatePollEntry> difference(Set<DatePollEntry> setA, Set<DatePollEntry> setB) { //NOPMD
-        return setA.stream().filter(entryFromSetA -> setB.stream()
-                .noneMatch(entryFromSetB -> entryFromSetB.representsSamePeriod(entryFromSetA)))
-                .collect(Collectors.toSet());
-    }
-
     public DatePollEntryDto toDto() {
         return new DatePollEntryDto(this.suggestedPeriod.getStartDate(),
                 this.suggestedPeriod.getEndDate());

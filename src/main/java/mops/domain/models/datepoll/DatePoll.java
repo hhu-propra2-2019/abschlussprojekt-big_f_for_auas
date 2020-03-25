@@ -1,5 +1,7 @@
 package mops.domain.models.datepoll;
 
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.PollLink;
@@ -75,8 +77,11 @@ public final class DatePoll {
      * @param potentialNewEntries
      */
     private void aggregateNewEntries(Set<DatePollEntry> potentialNewEntries) {
-        final Set<DatePollEntry> newEntries = DatePollEntry.difference(entries, potentialNewEntries);
-        entries.addAll(newEntries);
+        potentialNewEntries.stream()
+            .filter(Predicate.not(entries::contains))
+            .filter(entry -> entry.getYesVotes() == 0 && entry.getMaybeVotes() == 0)
+            .collect(Collectors.toSet())
+            .forEach(entries::add);
     }
 
     private void updatePollStatus() {

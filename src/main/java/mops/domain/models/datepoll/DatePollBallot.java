@@ -1,6 +1,8 @@
 package mops.domain.models.datepoll;
 
 import java.util.HashSet;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
@@ -75,26 +77,32 @@ public class DatePollBallot implements ValidateAble {
     /**
      * Speichert eine neue Abstimmung eines Users. Passt Yes- Votes in den Entries entsprechend an.
      * @param newYes
+     * @param rootEntries referenz auf alle Entries im DatePoll root Aggregat.
      */
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DefaultPackage"})
     void updateYes(Set<DatePollEntry> newYes, Set<DatePollEntry> rootEntries) { //NOPMD
-        final Set<DatePollEntry> leftSetDifference = DatePollEntry.difference(newYes, selectedEntriesYes);
-        final Set<DatePollEntry> rightSetDifference = DatePollEntry.difference(selectedEntriesYes, newYes);
-        rootEntries.stream().filter(leftSetDifference::contains).forEach(DatePollEntry::incYesVote);
-        rootEntries.stream().filter(rightSetDifference::contains).forEach(DatePollEntry::decYesVote);
+        final Set<DatePollEntry> entriesToIncrement = newYes.stream()
+            .filter(Predicate.not(selectedEntriesYes::contains)).collect(Collectors.toSet());
+        final Set<DatePollEntry> entriesToDecrement = selectedEntriesYes.stream()
+            .filter(Predicate.not(newYes::contains)).collect(Collectors.toSet());
+        rootEntries.stream().filter(entriesToIncrement::contains).forEach(DatePollEntry::incYesVote);
+        rootEntries.stream().filter(entriesToDecrement::contains).forEach(DatePollEntry::decYesVote);
         this.selectedEntriesYes = newYes;
     }
 
     /**
-     * Wie updateYes nur für maybe Votes.
-     * @param newMaybe
+     * PSpeichert eine neue Abstimmung eines Users. Passt Maybe- Votes in den Entries entsprechend an.
+     * @param newMaybe neue ausgewählte Entries für maybe abstimmung.
+     * @param rootEntries referenz auf alle Entries im DatePoll root Aggregat.
      */
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DefaultPackage"})
-    void updateMaybe(Set<DatePollEntry> newMaybe, , Set<DatePollEntry> rootEntries) { //NOPMD
-        final Set<DatePollEntry>  leftSetDifference = DatePollEntry.difference(newMaybe, selectedEntriesMaybe);
-        final Set<DatePollEntry> rightSetDifference = DatePollEntry.difference(selectedEntriesMaybe, newMaybe);
-        rootEntries.stream().filter(leftSetDifference::contains).forEach(DatePollEntry::incMaybeVote);
-        rootEntries.stream().filter(rightSetDifference::contains).forEach(DatePollEntry::decYesVote);
+    void updateMaybe(Set<DatePollEntry> newMaybe, Set<DatePollEntry> rootEntries) { //NOPMD
+        final Set<DatePollEntry> entriesToIncrement = newMaybe.stream()
+            .filter(Predicate.not(selectedEntriesMaybe::contains)).collect(Collectors.toSet());
+        final Set<DatePollEntry> entriesToDecrement = selectedEntriesYes.stream()
+            .filter(Predicate.not(newMaybe::contains)).collect(Collectors.toSet());
+        rootEntries.stream().filter(entriesToIncrement::contains).forEach(DatePollEntry::incMaybeVote);
+        rootEntries.stream().filter(entriesToDecrement::contains).forEach(DatePollEntry::decMaybeVote);
         this.selectedEntriesMaybe = newMaybe;
     }
 }
