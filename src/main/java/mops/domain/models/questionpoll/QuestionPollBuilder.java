@@ -1,5 +1,15 @@
 package mops.domain.models.questionpoll;
 
+import lombok.Getter;
+import mops.domain.models.FieldErrorNames;
+import mops.domain.models.PollFields;
+import mops.domain.models.PollLink;
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
+import mops.domain.models.group.GroupId;
+import mops.domain.models.pollstatus.PollRecordAndStatus;
+import mops.domain.models.user.UserId;
+
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Optional;
@@ -9,15 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import lombok.Getter;
-import mops.domain.models.PollFields;
-import mops.domain.models.PollLink;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
-import mops.domain.models.FieldErrorNames;
-import mops.domain.models.pollstatus.PollRecordAndStatus;
-import mops.domain.models.user.UserId;
-
 @SuppressWarnings({"PMD.TooManyMethods", "PMD.DataflowAnomalyAnalysis"})
 public class QuestionPollBuilder {
 
@@ -26,7 +27,7 @@ public class QuestionPollBuilder {
     private transient QuestionPollConfig configTarget;
     private transient QuestionPollMetaInf metaInfTarget;
     private final transient Set<QuestionPollEntry> entriesTarget = new HashSet<>();
-    private final transient Set<UserId> participantsTarget = new HashSet<>();
+    private final transient Set<GroupId> participatingGroupsTarget = new HashSet<>();
 
     @Getter
     private static final EnumSet<PollFields> VALIDSET = EnumSet.of(
@@ -35,7 +36,7 @@ public class QuestionPollBuilder {
             PollFields.QUESTION_POLL_CONFIG,
             PollFields.QUESTION_POLL_ENTRY,
             PollFields.CREATOR,
-            PollFields.PARTICIPANTS
+            PollFields.PARTICIPATING_GROUPS
     );
     private static final Logger LOGGER = Logger.getLogger(QuestionPollBuilder.class.getName());
     private static final int MIN_ENTRIES = 2;
@@ -59,7 +60,7 @@ public class QuestionPollBuilder {
 
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis", "PMD.UnusedPrivateMethod"})
     private <T extends ValidateAble> void validationProcessAndValidationHandling(
-        T validateAble, Consumer<T> applyToValidated, PollFields addToFieldsAfterSuccessfulValidation) {
+            T validateAble, Consumer<T> applyToValidated, PollFields addToFieldsAfterSuccessfulValidation) {
         validationProcess(validateAble, addToFieldsAfterSuccessfulValidation).ifPresent(validated -> {
             applyToValidated.accept(validated);
             validatedFields.add(addToFieldsAfterSuccessfulValidation);
@@ -69,10 +70,10 @@ public class QuestionPollBuilder {
     @SuppressWarnings({"PMD.LawOfDemeter"})
     private <T extends ValidateAble> Set<T> validateAllAndGetCorrect(Set<T> mappedOptions, PollFields fields) {
         return mappedOptions.stream()
-            .map((T validateAble) -> validationProcess(validateAble, fields))
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .collect(Collectors.toSet());
+                .map((T validateAble) -> validationProcess(validateAble, fields))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -96,19 +97,20 @@ public class QuestionPollBuilder {
      */
     public QuestionPollBuilder creator(UserId creator) {
         validationProcessAndValidationHandling(
-            creator, id -> this.creatorTarget = id, PollFields.CREATOR
+                creator, id -> this.creatorTarget = id, PollFields.CREATOR
         );
         return this;
     }
 
     /**
      * Setzt die Konfiguration, wenn diese die Validierung durchläuft.
+     *
      * @param questionPollConfig Konfiguration einer Umfrage.
      * @return Referenz auf diesen QuestionPollBuilder.
      */
     public QuestionPollBuilder questionPollConfig(QuestionPollConfig questionPollConfig) {
         validationProcessAndValidationHandling(
-            questionPollConfig, config -> this.configTarget = config, PollFields.QUESTION_POLL_CONFIG
+                questionPollConfig, config -> this.configTarget = config, PollFields.QUESTION_POLL_CONFIG
         );
         return this;
     }
@@ -135,22 +137,23 @@ public class QuestionPollBuilder {
      * @param participants Teilnehmer die zu dieser Terminfindung hinzugefügt werden sollen.
      * @return Referenz auf diesen QuestionPollBuilder.
      */
-    public QuestionPollBuilder participants(Set<UserId> participants) {
-        this.participantsTarget.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPANTS));
-        if (!this.participantsTarget.isEmpty()) {
-            validatedFields.add(PollFields.PARTICIPANTS);
+    public QuestionPollBuilder participatingGroups(Set<GroupId> participants) {
+        this.participatingGroupsTarget.addAll(validateAllAndGetCorrect(participants, PollFields.PARTICIPATING_GROUPS));
+        if (!this.participatingGroupsTarget.isEmpty()) {
+            validatedFields.add(PollFields.PARTICIPATING_GROUPS);
         }
         return this;
     }
 
     /**
      * Setzt den Link, wenn dieser die Validierung durchläuft.
+     *
      * @param pollLink
      * @return Referenz auf diesen QuestionPollBuilder.
      */
     public QuestionPollBuilder pollLink(PollLink pollLink) {
         validationProcessAndValidationHandling(
-            pollLink, link -> this.linkTarget = link, PollFields.POLL_LINK
+                pollLink, link -> this.linkTarget = link, PollFields.POLL_LINK
         );
         return this;
     }
@@ -169,8 +172,8 @@ public class QuestionPollBuilder {
                     metaInfTarget,
                     creatorTarget,
                     configTarget,
-                    entriesTarget,
-                    participantsTarget,
+                    entriesTarget, //new HashSet<>(), war gedacht fuer die userIds
+                    participatingGroupsTarget,
                     new HashSet<QuestionPollBallot>(),
                     linkTarget
             );

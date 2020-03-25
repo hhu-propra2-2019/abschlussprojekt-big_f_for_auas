@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mops.domain.models.PollLink;
+import mops.domain.models.group.GroupId;
 import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.UserId;
 
@@ -21,7 +22,8 @@ public final class DatePoll {
     private final UserId creator;
     private DatePollConfig config;
     private Set<DatePollEntry> entries;
-    private Set<UserId> participants;
+    //private Set<UserId> participants;
+    private Set<GroupId> groups;
     private Set<DatePollBallot> ballots;
     private PollLink pollLink;
 
@@ -51,8 +53,8 @@ public final class DatePoll {
         updatePollStatus();
         if (recordAndStatus.isTerminated()) {
             return;
-        }
-        if (!config.isOpen() && !participants.contains(user)) {
+        } //&& !participants.contains(user) --> TODO: Is participant in group?
+        if (!config.isOpen()) {
             return;
         }
         if (config.isSingleChoice() && yes.size() > 1) {
@@ -90,7 +92,8 @@ public final class DatePoll {
         }
     }
 
+    //TODO: || participants.contains(user) --> group.contains(user)...
     public boolean isUserParticipant(UserId user) {
-        return config.isOpen() || participants.contains(user);
+        return config.isOpen();
     }
 }

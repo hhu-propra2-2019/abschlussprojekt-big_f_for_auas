@@ -5,11 +5,11 @@ import mops.infrastructure.controllers.dtos.DashboardItemDto;
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollBallot;
+import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.datepoll.DatePollRecordAndStatus;
-import mops.domain.models.datepoll.DatePollBallot;
-import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.user.UserId;
 import org.springframework.stereotype.Service;
 
@@ -79,12 +79,10 @@ public class FakeDatePollInfoService {
             final Set<DatePollEntry> datePollEntries = new HashSet<>();
             final DatePollEntry entry1 = new DatePollEntry(new Timespan(LocalDateTime.now(), LocalDateTime.now()));
             datePollEntries.add(entry1);
-            final Set<UserId> participants = new HashSet<>();
-            participants.add(userid);
             final Set<DatePollBallot> datePollBallots = new HashSet<>();
             final PollLink datePollLink = new PollLink();
             final DatePoll testDatePoll = new DatePoll(datePollRecordAndStatus, datePollMetaInf,
-                    userid, datePollConfig, datePollEntries, participants, datePollBallots, datePollLink);
+                    userid, datePollConfig, datePollEntries, new HashSet<>(), datePollBallots, datePollLink);
 
             testDatePoll.castBallot(userid, datePollEntries, datePollEntries);
             datePolls.add(testDatePoll);

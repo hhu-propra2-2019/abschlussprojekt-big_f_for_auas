@@ -5,8 +5,10 @@ import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollLocation;
 import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.datepoll.DatePollRecordAndStatus;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.user.User;
+import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
@@ -29,7 +31,7 @@ public class TranslatorTests {
         final LocalDateTime lastModified = LocalDateTime.of(2020, 3, 20, 12, 30);
         final PollRecordAndStatusDao dao = new PollRecordAndStatusDao(lastModified);
 
-        final PollRecordAndStatus pollRecordAndStatus = ModelOfDaoUtil.pollRecordAndStatusOf(dao);
+        final DatePollRecordAndStatus pollRecordAndStatus = ModelOfDaoUtil.datePollRecordAndStatusOf(dao);
 
         assertThat(pollRecordAndStatus.getLastModified()).isEqualTo(lastModified);
     }
@@ -134,6 +136,14 @@ public class TranslatorTests {
         assertThat(metaInfDao.getLocation()).isEqualTo(location);
         assertThat(metaInfDao.getTimespan().getStartDate()).isEqualTo(startDate);
         assertThat(metaInfDao.getTimespan().getEndDate()).isEqualTo(endDate);
+    }
+
+    @Test
+    public void userToDAOTest() {
+        final String id = "1";
+        final UserId userId = new UserId(id);
+        final UserDao dao = DaoOfModelUtil.userDaoOf(userId);
+        assertThat(dao.getId()).isEqualTo(id);
     }
 
     @Test

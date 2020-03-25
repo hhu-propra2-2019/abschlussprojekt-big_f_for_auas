@@ -2,6 +2,7 @@ package mops.infrastructure.adapters.webflow.datepoll.webflowdtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public final class EntryDto implements Comparable<EntryDto>, Serializable {
 
     public static final long serialVersionUID = 575665475776735L;
