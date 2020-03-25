@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class QuestionPollEntry implements ValidateAble {
     @Getter
     private final String title;
-    private transient int yesVotes;
+    private transient int yesVotes; //NOPMD
 
     //Vorläufige Werte
     private static final int MAX_LENGTH_TITLE = 40;

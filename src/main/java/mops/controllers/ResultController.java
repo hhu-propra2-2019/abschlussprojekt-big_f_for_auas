@@ -17,33 +17,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class ResultController {
-    private final transient DatePollInfoAdapter datePollInfoAdapter;
 
+    private DatePollInfoAdapter datePollInfoAdapter; //NOPMD
 
-
+    @SuppressWarnings("PMD.LawOfDemeter")
     private SortedSet<DatePollResultDto> createFakeDatePollResultDtos() {
-        DatePollResultDto fakeResultDto1 = new DatePollResultDto();
+        final DatePollResultDto fakeResultDto1 = new DatePollResultDto();
         fakeResultDto1.setTimespan(new Timespan(LocalDateTime.now(), LocalDateTime.now().plusHours(2)));
         fakeResultDto1.setYesVotes(14);
         fakeResultDto1.setMaybeVotes(10);
 
-        DatePollResultDto fakeResultDto2 = new DatePollResultDto();
+        final DatePollResultDto fakeResultDto2 = new DatePollResultDto();
         fakeResultDto2.setTimespan(new Timespan(LocalDateTime.now().plusDays(2),
                 LocalDateTime.now().plusDays(2).plusHours(2)));
         fakeResultDto2.setYesVotes(10);
         fakeResultDto2.setMaybeVotes(0);
 
-        DatePollResultDto fakeResultDto3 = new DatePollResultDto();
+        final DatePollResultDto fakeResultDto3 = new DatePollResultDto();
         fakeResultDto3.setTimespan(new Timespan(LocalDateTime.now().minusDays(2), LocalDateTime.now().minusDays(2).plusHours(2)));
         fakeResultDto3.setYesVotes(5);
         fakeResultDto3.setMaybeVotes(15);
 
-        DatePollResultDto fakeResultDto4 = new DatePollResultDto();
+        final DatePollResultDto fakeResultDto4 = new DatePollResultDto();
         fakeResultDto4.setTimespan(new Timespan(LocalDateTime.now().minusDays(1), LocalDateTime.now().minusDays(1).plusHours(2)));
         fakeResultDto4.setYesVotes(17);
         fakeResultDto4.setMaybeVotes(3);
 
-        SortedSet<DatePollResultDto> testData = new TreeSet<>();
+        final SortedSet<DatePollResultDto> testData = new TreeSet<>();
         testData.add(fakeResultDto1);
         testData.add(fakeResultDto2);
         testData.add(fakeResultDto3);
@@ -52,8 +52,9 @@ public class ResultController {
         return testData;
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private DatePollMetaInfDto createFakeDatePollMetaInfDto() {
-        DatePollMetaInf metaInf = new DatePollMetaInf(
+        final DatePollMetaInf metaInf = new DatePollMetaInf(
                 "FakeTerminfindung",
                 "Nur zum Test",
                 "Zuhause",

@@ -28,7 +28,7 @@ public class DatePollResultDto implements Comparable<DatePollResultDto> {
      * Damit die Results abwärts sortiert angezeigt werden.
      */
     @Override
-    @SuppressWarnings("PMD.LawOfDemeter")
+    @SuppressWarnings("PMD.LawOfDemeter")//NOPMD
     public int compareTo(DatePollResultDto other) {
         return -1 * Integer.compare(this.yesVotes, other.yesVotes);
     }
@@ -37,6 +37,7 @@ public class DatePollResultDto implements Comparable<DatePollResultDto> {
      * Gibt den Wochentag zurück.
      * @return Wochentag als String.
      */
+    @SuppressWarnings("PMD.LawOfDemeter")
     public String printDay() {
         return timespan.getStartDate().format(DateTimeFormatter.ofPattern("EEEE,"));
     }
@@ -45,6 +46,7 @@ public class DatePollResultDto implements Comparable<DatePollResultDto> {
      * Gibt das Datum zurück.
      * @return Datum als String.
      */
+    @SuppressWarnings("PMD.LawOfDemeter")
     public String printDate() {
         return timespan.getStartDate().format(DateTimeFormatter.ofPattern("d MMM yyyy"));
     }
@@ -53,6 +55,7 @@ public class DatePollResultDto implements Comparable<DatePollResultDto> {
      * Gibt den Zeitraum zurück.
      * @return Zeitraum als String.
      */
+    @SuppressWarnings("PMD.LawOfDemeter")
     public String printTimespan() {
         final String start = timespan.getStartDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr";
         final String end = timespan.getEndDate().format(DateTimeFormatter.ofPattern("HH:mm")) + " Uhr";

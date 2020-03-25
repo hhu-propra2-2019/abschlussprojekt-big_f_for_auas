@@ -1,6 +1,5 @@
 package mops.domain.models;
 
-import java.nio.ByteBuffer;
 import lombok.Value;
 
 import java.util.UUID;
