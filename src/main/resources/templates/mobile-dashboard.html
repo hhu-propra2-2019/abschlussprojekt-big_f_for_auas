@@ -13,8 +13,16 @@
             <link rel="stylesheet" th:href="@{/termine1.css}">
 
             <script>
-                function collapseSection(id){
+                function collapseSection(id, icon){
                     $('#'+id).collapse('toggle');
+                    if ( $('#'+icon).hasClass('fa-caret-down') ) {
+                        $('#'+icon).removeClass('fa-caret-down');
+                        $('#'+icon).addClass('fa-caret-up');
+                    }
+                    else {
+                        $('#'+icon).removeClass('fa-caret-up');
+                        $('#'+icon).addClass('fa-caret-down');
+                    }
                 }
             </script>
 
@@ -52,7 +60,11 @@
                 </div>
             </nav>
             <hr>
-            <h5 onclick="collapseSection('myPollsAndSchedules')">Von mir erstellt<span class="badge badge-secondary badge-pill ml-4">4</span></h5>
+            <h5 onclick="collapseSection('myPollsAndSchedules', 'myPollsCaret')">
+                Von mir erstellt
+                <span class="badge badge-secondary badge-pill ml-4">4</span>
+                <i id="myPollsCaret" class="fa fa-caret-down ml-3" aria-hidden="true"></i>
+            </h5>
 
             <div class="collapse show" id="myPollsAndSchedules">
                 <th:block>
@@ -82,7 +94,11 @@
             </div>
             <hr>
 
-            <h5 onclick="collapseSection('otherPollsAndSchedules')">Andere<span class="badge badge-secondary badge-pill ml-3">4</span></h5>
+            <h5 onclick="collapseSection('otherPollsAndSchedules', 'otherPollsCaret')">
+                Andere
+                <span class="badge badge-secondary badge-pill ml-3">4</span>
+                <i id="otherPollsCaret" class="fa fa-caret-down ml-3" aria-hidden="true"></i>
+            </h5>
 
             <div class="collapse show" id="otherPollsAndSchedules">
                 <th:block>

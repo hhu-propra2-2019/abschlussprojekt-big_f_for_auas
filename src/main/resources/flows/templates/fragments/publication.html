@@ -25,6 +25,7 @@
             <div class="form-check">
                 <input class="form-check-input" id="publication-accessibility" th:field="*{ispublic}" type="checkbox">
                 <label for="publication-accessibility">Öffentliche Umfrage</label>
+                <small class="form-text text-muted mt-0">Alle, die den Link haben, können teilnehmen.</small>
             </div>
         </div>
 
@@ -32,6 +33,7 @@
             <label for="publication-person">Person hinzufügen</label>
             <input class="form-control tagsinput" id="publication-person" th:field="*{people}" placeholder="Username"
                    th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('people'), #fields.hasAnyErrors())}">
+            <small class="form-text text-muted mt-0">Einladungen werden an folgende E-Mails verschickt.</small>
             <div class="invalid-feedback" th:errors="*{people}"></div>
         </div>
 
@@ -39,6 +41,8 @@
             <label for="publication-gruppe">Gruppe hinzufügen</label>
             <input class="form-control tagsinput" id="publication-gruppe" th:field="*{groups}" placeholder="Gruppenname"
                    th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('groups'), #fields.hasAnyErrors())}">
+            <small class="form-text text-muted mt-0">Einladungen werden an folgende Gruppen verschickt.</small>
+
             <div class="invalid-feedback" th:errors="*{groups}"></div>
         </div>
 

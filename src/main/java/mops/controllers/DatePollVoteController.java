@@ -2,6 +2,7 @@ package mops.controllers;
 
 
 import mops.adapters.datepolladapter.DatePollEntryAdapterInterface;
+import mops.controllers.dtos.DatePollConfigDto;
 import mops.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
@@ -41,6 +42,10 @@ public class DatePollVoteController {
                            @PathVariable String pollType, @PathVariable String link) {
         final DatePollUserEntryOverview overview = entryAdapter.showUserEntryOverview(new PollLink(link), user);
         model.addAttribute("overview", overview);
+
+        //TODO: remove Fake
+        model.addAttribute("config", new DatePollConfigDto(true, false, false));
+
         return "mobilePollVote";
     }
 

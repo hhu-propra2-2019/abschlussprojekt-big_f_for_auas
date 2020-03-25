@@ -10,6 +10,7 @@ public class DatePollUserEntryOverview {
     private Set<DatePollEntryDto> votedYes;
     private Set<DatePollEntryDto> votedMaybe;
 
+    //TODO: können die 3 gelöscht werden?
     private String title;
     private String description;
     private String location;
