@@ -78,7 +78,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @param datePoll Zu speichernde DatePoll
      */
     @Override
-    @SuppressWarnings({"PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidDuplicateLiterals"})
     public void save(DatePoll datePoll) {
         final Set<GroupDao> groupDaos = datePoll.getGroups().stream()
                 .map(GroupId::getId)
@@ -92,14 +92,14 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         //Save PollStatus for each User ...
         saveDatePollStatus(datePoll, datePollDao);
     }
-
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
         final Map<UserId, PollStatus> votingRecord = datePoll.getRecordAndStatus().getVotingRecord();
         votingRecord.forEach((userId, pollStatus) -> {
-            DatePollStatusDaoKey nextStatusKey = new DatePollStatusDaoKey(
+            final DatePollStatusDaoKey nextStatusKey = new DatePollStatusDaoKey(
                     userId.getId(),
                     datePoll.getPollLink().getLinkUUIDAsString());
-            DatePollStatusDao datePollStatusDao = new DatePollStatusDao(
+            final DatePollStatusDao datePollStatusDao = new DatePollStatusDao(
                     nextStatusKey,
                     DaoOfModelUtil.userDaoOf(userId),
                     datePollDao,
@@ -108,17 +108,18 @@ public class DatePollRepositoryImpl implements DatePollRepository {
             datePollStatusJpaRepository.save(datePollStatusDao);
         });
     }
-
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void checkDatePollBallotsForVotes(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
-        for (DatePollBallot datePollBallot:datePollBallots
+        for (final DatePollBallot targetBallot:datePollBallots
              ) {
-            if (datePollBallot.getSelectedEntriesYes().size() != 0) {
-                setVoteForTargetUserAndEntry(datePollBallot.getSelectedEntriesYes(),
+            if (targetBallot.getSelectedEntriesYes().size() != 0) {
+                setVoteForTargetUserAndEntry(targetBallot.getSelectedEntriesYes(),
                         datePoll,
-                        datePollBallot.getUser());
+                        targetBallot.getUser());
             }
         }
     }
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     private void setVoteForTargetUserAndEntry(Set<DatePollEntry> datePollEntries, DatePoll datePoll, UserId user) {
         datePollEntries.forEach(targetEntry -> datePollEntryRepositoryManager
                 .userVotesForDatePollEntry(user,
