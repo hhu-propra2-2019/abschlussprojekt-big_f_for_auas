@@ -2,7 +2,6 @@ package mops.domain.models.datepoll;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import mops.infrastructure.controllers.dtos.DatePollEntryDto;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
@@ -12,7 +11,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@RequiredArgsConstructor
 @Getter
 public final class DatePollEntry implements ValidateAble {
 
@@ -20,6 +18,12 @@ public final class DatePollEntry implements ValidateAble {
     //Anzahl der Stimmen fuer diesen Termin.
     private int yesVotes;
     private int maybeVotes;
+
+    public DatePollEntry(Timespan suggestedPeriod) {
+        this.suggestedPeriod = suggestedPeriod;
+        yesVotes = 0;
+        maybeVotes = 0;
+    }
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
     @Override
