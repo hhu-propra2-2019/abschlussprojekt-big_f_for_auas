@@ -1,11 +1,11 @@
-package mops.adapters.datepolladapter;
+package mops.infrastructure.adapters.datepolladapter;
 
 import mops.application.services.FakeDatePollInfoService;
 import mops.application.services.FakeDatePollVoteService;
-import mops.controllers.dtos.DashboardItemDto;
-import mops.controllers.dtos.DatePollEntryDto;
-import mops.controllers.dtos.DatePollUserEntryOverview;
-import mops.controllers.dtos.FormattedDatePollEntryDto;
+import mops.infrastructure.controllers.dtos.DashboardItemDto;
+import mops.infrastructure.controllers.dtos.DatePollEntryDto;
+import mops.infrastructure.controllers.dtos.DatePollUserEntryOverview;
+import mops.infrastructure.controllers.dtos.FormattedDatePollEntryDto;
 import mops.domain.models.PollLink;
 import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;

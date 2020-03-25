@@ -1,9 +1,9 @@
-package mops.controllers;
+package mops.infrastructure.controllers;
 
 
-import mops.adapters.datepolladapter.DatePollEntryAdapterInterface;
-import mops.controllers.dtos.DatePollConfigDto;
-import mops.controllers.dtos.DatePollUserEntryOverview;
+import mops.infrastructure.adapters.datepolladapter.DatePollEntryAdapterInterface;
+import mops.infrastructure.controllers.dtos.DatePollConfigDto;
+import mops.infrastructure.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 import org.springframework.beans.factory.annotation.Autowired;

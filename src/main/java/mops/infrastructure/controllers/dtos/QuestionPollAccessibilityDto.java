@@ -1,4 +1,4 @@
-package mops.controllers.dtos;
+package mops.infrastructure.controllers.dtos;
 
 import java.util.Set;
 

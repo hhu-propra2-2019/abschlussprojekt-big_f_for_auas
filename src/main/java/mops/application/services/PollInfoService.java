@@ -1,6 +1,6 @@
 package mops.application.services;
 
-import mops.controllers.dtos.DashboardItemDto;
+import mops.infrastructure.controllers.dtos.DashboardItemDto;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.PollLink;

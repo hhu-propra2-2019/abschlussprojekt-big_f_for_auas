@@ -1,6 +1,6 @@
-package mops.controllers;
+package mops.infrastructure.controllers;
 
-import mops.adapters.datepolladapter.DatePollEntryAdapterInterface;
+import mops.infrastructure.adapters.datepolladapter.DatePollEntryAdapterInterface;
 import mops.domain.models.user.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

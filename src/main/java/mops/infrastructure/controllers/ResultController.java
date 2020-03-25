@@ -1,14 +1,12 @@
-package mops.controllers;
+package mops.infrastructure.controllers;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import mops.adapters.datepolladapter.DatePollInfoAdapter;
-import mops.controllers.dtos.DatePollMetaInfDto;
-import mops.controllers.dtos.DatePollResultDto;
-import mops.domain.models.PollLink;
+import mops.infrastructure.adapters.datepolladapter.DatePollInfoAdapter;
+import mops.infrastructure.controllers.dtos.DatePollMetaInfDto;
+import mops.infrastructure.controllers.dtos.DatePollResultDto;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import org.springframework.beans.factory.annotation.Autowired;

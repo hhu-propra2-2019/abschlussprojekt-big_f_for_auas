@@ -3,7 +3,7 @@ package mops.domain.models.datepoll;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import mops.controllers.dtos.DatePollEntryDto;
+import mops.infrastructure.controllers.dtos.DatePollEntryDto;
 import mops.domain.models.Timespan;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;

@@ -1,7 +1,7 @@
 package mops.application.services;
 
 import lombok.NoArgsConstructor;
-import mops.controllers.dtos.DashboardItemDto;
+import mops.infrastructure.controllers.dtos.DashboardItemDto;
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePoll;
