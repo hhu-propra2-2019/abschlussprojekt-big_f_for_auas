@@ -64,8 +64,8 @@ public final class DatePoll {
         final DatePollBallot ballot = getUserBallot(user)
                 .orElse(new DatePollBallot(user, yes, maybe));
         ballots.add(ballot);
-        ballot.updateYes(yes);
-        ballot.updateMaybe(maybe);
+        ballot.updateYes(yes, entries);
+        ballot.updateMaybe(maybe, entries);
     }
 
     /**

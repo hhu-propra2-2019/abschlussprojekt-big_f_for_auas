@@ -77,11 +77,11 @@ public class DatePollBallot implements ValidateAble {
      * @param newYes
      */
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DefaultPackage"})
-    void updateYes(Set<DatePollEntry> newYes) { //NOPMD
+    void updateYes(Set<DatePollEntry> newYes, Set<DatePollEntry> rootEntries) { //NOPMD
         final Set<DatePollEntry> leftSetDifference = DatePollEntry.difference(newYes, selectedEntriesYes);
         final Set<DatePollEntry> rightSetDifference = DatePollEntry.difference(selectedEntriesYes, newYes);
-        leftSetDifference.forEach(DatePollEntry::incYesVote); // PMD meckert. Wenn man es als Loop schreibt gehts durch
-        rightSetDifference.forEach(DatePollEntry::decYesVote);
+        rootEntries.stream().filter(leftSetDifference::contains).forEach(DatePollEntry::incYesVote);
+        rootEntries.stream().filter(rightSetDifference::contains).forEach(DatePollEntry::decYesVote);
         this.selectedEntriesYes = newYes;
     }
 
@@ -90,11 +90,11 @@ public class DatePollBallot implements ValidateAble {
      * @param newMaybe
      */
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DefaultPackage"})
-    void updateMaybe(Set<DatePollEntry> newMaybe) { //NOPMD
+    void updateMaybe(Set<DatePollEntry> newMaybe, , Set<DatePollEntry> rootEntries) { //NOPMD
         final Set<DatePollEntry>  leftSetDifference = DatePollEntry.difference(newMaybe, selectedEntriesMaybe);
         final Set<DatePollEntry> rightSetDifference = DatePollEntry.difference(selectedEntriesMaybe, newMaybe);
-        leftSetDifference.forEach(DatePollEntry::incMaybeVote); // als loop wirft pmd hier kein lawOfDemeter (??)
-        rightSetDifference.forEach(DatePollEntry::decMaybeVote);
+        rootEntries.stream().filter(leftSetDifference::contains).forEach(DatePollEntry::incMaybeVote);
+        rootEntries.stream().filter(rightSetDifference::contains).forEach(DatePollEntry::decYesVote);
         this.selectedEntriesMaybe = newMaybe;
     }
 }
