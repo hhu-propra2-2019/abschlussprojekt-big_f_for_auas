@@ -30,23 +30,6 @@
         </div>
 
         <div class="form-group">
-            <label for="publication-person">Person hinzufügen</label>
-            <input class="form-control tagsinput" id="publication-person" th:field="*{people}" placeholder="Username"
-                   th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('people'), #fields.hasAnyErrors())}">
-            <small class="form-text text-muted mt-0">Einladungen werden an folgende E-Mails verschickt.</small>
-            <div class="invalid-feedback" th:errors="*{people}"></div>
-            <script type="text/javascript">
-                document.addEventListener("DOMContentLoaded",
-                    function () {
-                        if (document.getElementById("publication-accessibility").classList.contains('checked')) {
-                            document.getElementById("publication-accessibility").checked = true;
-                        }
-                    }
-                )
-            </script>
-        </div>
-
-        <div class="form-group">
             <label for="publication-gruppe">Gruppe hinzufügen</label>
             <input class="form-control tagsinput" id="publication-gruppe" th:field="*{groups}" placeholder="Gruppenname"
                    th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('groups'), #fields.hasAnyErrors())}">
