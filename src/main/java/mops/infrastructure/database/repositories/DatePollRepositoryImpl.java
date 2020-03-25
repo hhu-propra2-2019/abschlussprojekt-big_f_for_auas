@@ -2,6 +2,8 @@ package mops.infrastructure.database.repositories;
 
 import mops.domain.models.PollLink;
 import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollBallot;
+import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
@@ -28,14 +30,17 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     private final transient DatePollJpaRepository datePollJpaRepository;
     private final transient GroupJpaRepository groupJpaRepository;
     private final transient UserJpaRepository userJpaRepository;
+    private final transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
 
     @Autowired
     public DatePollRepositoryImpl(DatePollJpaRepository datePollJpaRepository,
                                   GroupJpaRepository groupJpaRepository,
-                                  UserJpaRepository userJpaRepository) {
+                                  UserJpaRepository userJpaRepository,
+                                  DatePollEntryRepositoryManager datePollEntryRepositoryManager) {
         this.datePollJpaRepository = datePollJpaRepository;
         this.groupJpaRepository = groupJpaRepository;
         this.userJpaRepository = userJpaRepository;
+        this.datePollEntryRepositoryManager = datePollEntryRepositoryManager;
     }
 
     /**
@@ -68,12 +73,30 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     @Override
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void save(DatePoll datePoll) {
+        setUserVotesForDatePollEntry(datePoll.getBallots(), datePoll);
         final Set<GroupDao> groupDaos = datePoll.getGroups().stream()
                 .map(GroupId::getId)
                 .map(groupJpaRepository::findById)
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toSet());
-        datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll, groupDaos));
+        final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll, groupDaos);
+        datePollDao.getEntryDaos();
+        datePollJpaRepository.save(datePollDao);
+    }
+    
+    private void setUserVotesForDatePollEntry(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
+        for (DatePollBallot datePollBallot:datePollBallots
+             ) {
+            if (datePollBallot.getSelectedEntriesYes().size() != 0) {
+                for (DatePollEntry targetEntry : datePollBallot.getSelectedEntriesYes()
+                ) {
+                    datePollEntryRepositoryManager
+                            .userVotesForDatePollEntry(datePollBallot.getUser(),
+                                    datePoll.getPollLink(),
+                                    targetEntry);
+                }
+            }
+        }
     }
 
     /**
