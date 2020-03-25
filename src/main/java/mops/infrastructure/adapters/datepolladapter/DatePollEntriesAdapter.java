@@ -75,6 +75,7 @@ public class DatePollEntriesAdapter {
     }
 
 
+    // TODO: dto mapping muss hier stattfinden
     public Set<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
         return infoService.getAllListItemDtos(userId);
     }
