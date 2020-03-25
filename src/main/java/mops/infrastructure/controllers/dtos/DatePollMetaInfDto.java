@@ -4,8 +4,6 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-import mops.domain.models.datepoll.DatePollMetaInf;
-
 @Data
 public class DatePollMetaInfDto {
 

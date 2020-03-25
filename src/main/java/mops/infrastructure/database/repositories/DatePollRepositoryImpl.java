@@ -134,7 +134,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @SuppressWarnings("PMD.LawOfDemeter")
     @Override
-    public Set<DatePoll> getDatePollsByGroupMembership(UserId userId) {
+    public Set<DatePoll> getDatePollByGroupMembership(UserId userId) {
         final Optional<UserDao> targetUser = userJpaRepository.findById(userId.toString());
         final UserDao targetUserDao = targetUser.orElseThrow(
                 () -> new IllegalArgumentException(USER_IS_NOT_IN_THE_DATABASE));
@@ -150,20 +150,18 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     }
 
     /**
-     * Die Methode gibt den DatePoll anhand des Erstellers zurueck.
-     *
-     * @param userId Die userId des DatePoll Creators.
-     * @return Optional<DatePoll> Das DatePoll Objekt, welches vom User mit userId erstellt wurde.
+     * Gibt ein Set mit allen Datepolls zurück, welche der angegebene User erstellt hat.
+     * @param userId
+     * @return Set<DatePoll>, ist leer wenn User keine DatePolls erstellt hat.
      */
     @Override
+    @SuppressWarnings("PMD.LawOfDemeter") //stream
     public Set<DatePoll> getDatePollByCreator(UserId userId) {
         final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
-        Set<DatePollDao> datePollDaosByCreator = datePollJpaRepository
+        final Set<DatePollDao> datePollDaosCreatedByUser = datePollJpaRepository
             .findByCreatorUserDao(targetUser);
-        final Set<DatePoll> targetDatePolls = new HashSet<>();
-        datePollDaosByCreator.forEach(
-            datePollDao -> targetDatePolls.add(ModelOfDaoUtil.pollOf(datePollDao))
-        );
-        return targetDatePolls;
+        return datePollDaosCreatedByUser.stream()
+            .map(ModelOfDaoUtil::pollOf)
+            .collect(Collectors.toSet());
     }
 }

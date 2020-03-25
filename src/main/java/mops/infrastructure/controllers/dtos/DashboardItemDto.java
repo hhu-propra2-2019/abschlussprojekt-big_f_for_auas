@@ -2,7 +2,6 @@ package mops.infrastructure.controllers.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.user.UserId;
 

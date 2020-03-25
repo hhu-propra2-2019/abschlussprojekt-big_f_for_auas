@@ -41,15 +41,15 @@ public class DatePollInfoAdapter {
     }
 
     public SortedSet<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
-        Set<DatePoll> datePolls = infoService.getDatePollByCreator(userId);
+        final Set<DatePoll> datePolls = infoService.getDatePollByCreator(userId);
         return datePolls.stream()
             .map((DatePoll datePoll) -> datePollToDasboardDto(datePoll, userId))
             .collect(Collectors.toCollection(TreeSet::new));
     }
 
     public SortedSet<DashboardItemDto> getPollsByOthersForDashboard(UserId userId) {
-        Set<DatePoll> datePolls = infoService.getDatePollByStatusFromUser(userId);
-        throw new UnsupportedOperationException("yolo");
+        final Set<DatePoll> datePolls = infoService.getDatePollByStatusFromUser(userId);
+        throw new UnsupportedOperationException("yolo" + datePolls.toString());
     }
 
     private static DatePollResultDto datePollEntryToResultDto(DatePollEntry entry) {

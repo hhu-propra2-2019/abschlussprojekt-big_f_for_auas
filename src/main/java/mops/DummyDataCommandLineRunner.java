@@ -13,8 +13,6 @@ import mops.domain.models.user.UserId;
 import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -43,7 +41,6 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
     private final transient Random random = new Random();
     private final transient DomainGroupRepositoryImpl domainGroupRepository;
     private final transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
-    private final static Logger logger = LoggerFactory.getLogger(DummyDataCommandLineRunner.class);
 
     @Autowired
     public DummyDataCommandLineRunner(DatePollRepositoryImpl datePollRepository,
@@ -62,7 +59,6 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
      */
     @Override
     public void run(String... args) throws Exception {
-        logger.info("DatePolls werden erstellt");
         final DatePoll firstDatePoll = createDatePoll(4, 5, "datepoll 1", "1");
         final DatePoll secondDatePoll = createDatePoll(2, 2, "datepoll 2", "2");
         final DatePoll thirdDatePoll = createDatePoll(3, 1, "datepoll 3", "3");
