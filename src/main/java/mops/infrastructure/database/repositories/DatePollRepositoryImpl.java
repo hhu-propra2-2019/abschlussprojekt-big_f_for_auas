@@ -108,6 +108,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
             datePollStatusJpaRepository.save(datePollStatusDao);
         });
     }
+
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void checkDatePollBallotsForVotes(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
         for (final DatePollBallot targetBallot:datePollBallots
@@ -119,6 +120,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
             }
         }
     }
+
     @SuppressWarnings({"PMD.LawOfDemeter"})
     private void setVoteForTargetUserAndEntry(Set<DatePollEntry> datePollEntries, DatePoll datePoll, UserId user) {
         datePollEntries.forEach(targetEntry -> datePollEntryRepositoryManager
@@ -126,6 +128,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
                         datePoll.getPollLink(),
                         targetEntry));
     }
+
     /**
      * Lädt alle DatePolls in denen ein Nutzer teilnimmt.
      *
@@ -161,6 +164,18 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         final Set<DatePollDao> datePollDaosCreatedByUser = datePollJpaRepository
             .findByCreatorUserDao(targetUser);
         return datePollDaosCreatedByUser.stream()
+            .map(ModelOfDaoUtil::pollOf)
+            .collect(Collectors.toSet());
+    }
+
+    /**
+     * Gibt ein Set mit allen Usern zurück bei denen der User schon einmal abgestimmt hat.
+     * @param userId
+     * @return Set<DatePoll>
+     */
+    @Override
+    public Set<DatePoll> getDatePollWhereUserHasStatus(UserId userId) {
+        return datePollJpaRepository.findDatePollDaoWhereUserHasStatus(userId).stream()
             .map(ModelOfDaoUtil::pollOf)
             .collect(Collectors.toSet());
     }

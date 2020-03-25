@@ -43,6 +43,6 @@ public class PollInfoService {
     }
 
     public Set<DatePoll> getDatePollByStatusFromUser(UserId userId) {
-        throw new UnsupportedOperationException();
+        return datePollRepository.getDatePollWhereUserHasStatus(userId);
     }
 }

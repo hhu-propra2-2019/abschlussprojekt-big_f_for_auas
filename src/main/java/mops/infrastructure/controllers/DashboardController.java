@@ -30,8 +30,7 @@ public class DashboardController {
     public String returnDashboard(@RequestAttribute(name = "userId") UserId userId, Model model) {
         model.addAttribute("userId", userId);
         model.addAttribute("vonMir", infoAdapter.getOwnPollsForDashboard(userId));
-        model.addAttribute("vonAnderen", infoAdapter.getOwnPollsForDashboard(userId));
-        //model.addAttribute("vonAnderen", infoAdapter.getPollsByOthersForDashboard(userId));
+        model.addAttribute("vonAnderen", infoAdapter.getPollsByOthersForDashboard(userId));
         return "mobile-dashboard";
     }
 }

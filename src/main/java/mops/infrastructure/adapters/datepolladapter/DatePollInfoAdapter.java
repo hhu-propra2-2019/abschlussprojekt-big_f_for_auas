@@ -49,7 +49,8 @@ public class DatePollInfoAdapter {
 
     public SortedSet<DashboardItemDto> getPollsByOthersForDashboard(UserId userId) {
         final Set<DatePoll> datePolls = infoService.getDatePollByStatusFromUser(userId);
-        throw new UnsupportedOperationException("yolo" + datePolls.toString());
+        return datePolls.stream().map(datePoll -> datePollToDasboardDto(datePoll, userId))
+            .collect(Collectors.toCollection(TreeSet::new));
     }
 
     private static DatePollResultDto datePollEntryToResultDto(DatePollEntry entry) {
