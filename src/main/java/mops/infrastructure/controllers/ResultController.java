@@ -24,7 +24,7 @@ public class ResultController {
     }
 
     /**
-     * Getmapping. Übergebt
+     * Getmapping.
      * @param userId
      * @param model
      * @param pollType

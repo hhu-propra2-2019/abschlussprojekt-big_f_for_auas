@@ -1,6 +1,6 @@
 package mops.infrastructure.controllers;
 
-import mops.infrastructure.adapters.datepolladapter.DatePollEntryAdapterInterface;
+import mops.infrastructure.adapters.datepolladapter.DatePollEntriesAdapter;
 import mops.domain.models.user.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,21 +18,19 @@ import javax.annotation.security.RolesAllowed;
 @SuppressWarnings({"PMD.AtLeastOneConstructor", "checkstyle:DesignForExtension"})
 public class DashboardController {
 
-    private final transient DatePollEntryAdapterInterface entryAdapter;
+    private final transient DatePollEntriesAdapter entryAdapter;
 
    @Autowired
-   public DashboardController(DatePollEntryAdapterInterface entryAdapter) {
+   public DashboardController(DatePollEntriesAdapter entryAdapter) {
         this.entryAdapter = entryAdapter;
    }
 
     @RolesAllowed({"ROLE_orga", "ROLE_studentin"})
     @GetMapping("/")
     public String returnDashboard(@RequestAttribute(name = "userId") UserId userId, Model model) {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAA: userId ->" + userId.toString());
-        System.out.println(entryAdapter.getAllListItemDtos(userId));
         model.addAttribute("userId", userId);
-        model.addAttribute("vonMir", entryAdapter.getAllListItemDtos(userId));
-        model.addAttribute("vonAnderen", entryAdapter.getAllListItemDtos(userId));
+        model.addAttribute("vonMir", entryAdapter.getOwnPollsForDashboard(userId));
+        model.addAttribute("vonAnderen", entryAdapter.getOwnPollsForDashboard(userId));
         return "mobile-dashboard";
     }
 }

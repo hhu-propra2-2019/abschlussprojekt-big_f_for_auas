@@ -1,44 +1,37 @@
 package mops.infrastructure.adapters.datepolladapter;
 
-import mops.application.services.FakeDatePollInfoService;
-import mops.application.services.FakeDatePollVoteService;
+import mops.application.services.DatePollVoteService;
+import mops.application.services.PollInfoService;
 import mops.infrastructure.controllers.dtos.DashboardItemDto;
 import mops.infrastructure.controllers.dtos.DatePollEntryDto;
 import mops.infrastructure.controllers.dtos.DatePollUserEntryOverview;
 import mops.infrastructure.controllers.dtos.FormattedDatePollEntryDto;
-import mops.domain.models.PollLink;
 import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
+import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-@SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
+@SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:DesignForExtension"})
+/* keine Zeit sich um bessere Kapslung zu kümmern */
 @Service
-public class FakeDatePollEntryAdapter {
+public class DatePollEntriesAdapter {
 
-    private final transient FakeDatePollVoteService voteService;
-    private final transient FakeDatePollInfoService infoService;
+    private final transient DatePollVoteService voteService;
+    private final transient PollInfoService infoService;
 
     @Autowired
-    public FakeDatePollEntryAdapter(FakeDatePollVoteService voteService, FakeDatePollInfoService infoService) {
+    public DatePollEntriesAdapter(DatePollVoteService voteService, PollInfoService infoService) {
         this.voteService = voteService;
         this.infoService = infoService;
     }
 
-    /**
-     * befüllt eine Overview von den abgegebenen Stimmen eines Users zu einem DatePoll.
-     * @param link
-     * @param user
-     * @return Overview
-     */
     public DatePollUserEntryOverview showUserEntryOverview(PollLink link, UserId user) {
         final DatePollUserEntryOverview result = new DatePollUserEntryOverview();
-
         final DatePollBallot ballot = voteService.showUserVotes(user, link);
         result.setVotedYes(
                 ballot.getSelectedEntriesYes()
@@ -52,37 +45,23 @@ public class FakeDatePollEntryAdapter {
                         .map(this::toDTO)
                         .collect(Collectors.toSet())
         );
-        result.setAllEntries(infoService.getEntries(link)
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toSet()));
-
-        final Set<DatePollEntryDto> entries = showAllEntries(link);
-
-        final TreeSet<DatePollEntryDto> treeEntries = new TreeSet<>();
-        for (final DatePollEntryDto entry: entries) {
-            treeEntries.add(entry);
-        }
-        result.setAllEntries(treeEntries);
-
         return result;
     }
 
-
-    /**
-     *  gibt alle Entries raus von einem Poll.
-     * @param link
-     * @return Set<DatePollEntryDto>
-     */
     public Set<DatePollEntryDto> showAllEntries(PollLink link) {
-        return infoService.getEntries(link).stream().map(this::toDTO).collect(Collectors.toSet());
+        final Set<DatePollEntry> entries = infoService.getEntries(link);
+        return entries.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toSet());
     }
 
-    /**
-     * konvertiert entry zu entryDto.
-     * @param entry
-     * @return DatePollEntryDto
-     */
+    public Set<FormattedDatePollEntryDto> getAllEntriesFormatted(PollLink link) {
+        final Set<DatePollEntry> entries = infoService.getEntries(link);
+        return entries.stream()
+                .map(this::toFormattedDTO)
+                .collect(Collectors.toSet());
+    }
+
     private DatePollEntryDto toDTO(DatePollEntry entry) {
         return new DatePollEntryDto(
                 entry.getSuggestedPeriod().getStartDate(),
@@ -90,22 +69,14 @@ public class FakeDatePollEntryAdapter {
         );
     }
 
-    /** ruft die getAllListItemDtos methode vom infoservice auf.
-     *
-     * @param userId
-     * @return Set<DashboardItemDto>
-     */
-    public Set<DashboardItemDto> getAllListItemDtos(UserId userId) {
-        return infoService.getAllListItemDtos(userId);
+    private FormattedDatePollEntryDto toFormattedDTO(DatePollEntry entry) {
+        final String formatted = entry.getSuggestedPeriod().toString();
+        return new FormattedDatePollEntryDto(formatted);
     }
 
-    /** noch ungenutzt.
-     *
-     * @param link
-     * @return Set<FormattedDatePollEntryDto>
-     */
-    public Set<FormattedDatePollEntryDto> getAllEntriesFormatted(PollLink link) {
-        return null;
+
+    public Set<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
+        return infoService.getAllListItemDtos(userId);
     }
 
     private DatePollEntry toEntryDomain(DatePollEntryDto entryDto) {
@@ -127,5 +98,4 @@ public class FakeDatePollEntryAdapter {
                         .map(this::toEntryDomain)
                         .collect(Collectors.toSet()));
     }
-
 }

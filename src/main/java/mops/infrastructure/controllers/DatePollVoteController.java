@@ -1,7 +1,7 @@
 package mops.infrastructure.controllers;
 
 
-import mops.infrastructure.adapters.datepolladapter.DatePollEntryAdapterInterface;
+import mops.infrastructure.adapters.datepolladapter.DatePollEntriesAdapter;
 import mops.infrastructure.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
@@ -20,11 +20,11 @@ import org.springframework.web.context.annotation.SessionScope;
 public class DatePollVoteController {
 
 
-    private final transient DatePollEntryAdapterInterface entryAdapter;
+    private final transient DatePollEntriesAdapter entryAdapter;
 
 
     @Autowired
-    public DatePollVoteController(DatePollEntryAdapterInterface entryAdapter) {
+    public DatePollVoteController(DatePollEntriesAdapter entryAdapter) {
         this.entryAdapter = entryAdapter;
     }
 

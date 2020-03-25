@@ -27,10 +27,12 @@ public class UserRepositoryImpl implements UserRepository {
         final UserDao targetUserDao = userJpaRepository.getOne(userId.getId());
         return Optional.of(ModelOfDaoUtil.userOf(targetUserDao));
     }
+
     public boolean existsById(UserId userId) {
         return userJpaRepository.existsById(userId.getId());
     }
 
+    @Override
     public void saveUserIfNotPresent(UserId userId) {
         if (!this.existsById(userId)) {
             userJpaRepository.save(DaoOfModelUtil.userDaoOf(userId));
