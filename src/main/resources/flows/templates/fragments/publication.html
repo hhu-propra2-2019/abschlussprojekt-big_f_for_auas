@@ -23,16 +23,18 @@
         <div class="form-group">
             <label>Berechtigungen</label>
             <div class="form-check">
-                <input class="form-check-input" id="publication-accessibility" th:field="*{ispublic}" type="checkbox">
+                <input class="form-check-input" id="publication-accessibility" th:field="*{ispublic}" type="checkbox" th:classappend="${#fields.hasErrors('ispublic') ? 'checked' : ''}">
                 <label for="publication-accessibility">Öffentliche Umfrage</label>
             </div>
-        </div>
-
-        <div class="form-group">
-            <label for="publication-person">Person hinzufügen</label>
-            <input class="form-control tagsinput" id="publication-person" th:field="*{people}" placeholder="Username"
-                   th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('people'), #fields.hasAnyErrors())}">
-            <div class="invalid-feedback" th:errors="*{people}"></div>
+            <script type="text/javascript">
+                document.addEventListener("DOMContentLoaded",
+                    function () {
+                        if (document.getElementById("publication-accessibility").classList.contains('checked')) {
+                            document.getElementById("publication-accessibility").checked = true;
+                        }
+                    }
+                )
+            </script>
         </div>
 
         <div class="form-group">

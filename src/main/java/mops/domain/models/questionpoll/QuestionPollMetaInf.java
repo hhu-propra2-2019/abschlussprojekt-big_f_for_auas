@@ -18,9 +18,7 @@ public class QuestionPollMetaInf implements ValidateAble {
 
     // Vorläufige Werte.
     private static final int MAX_TITLE_LENGTH = 20;
-    private static final int MIN_TITLE_LENGTH = 5;
     private static final int MAX_QUESTION_LENGTH = 40;
-    private static final int MIN_QUESTION_LENGTH = 5;
 
     /**
      * Speichert den Titel, die Frage und die optionale Beschreibung für eine QuestionPoll.
@@ -63,9 +61,6 @@ public class QuestionPollMetaInf implements ValidateAble {
             if (this.title.isEmpty()) {
                 newValidator = newValidator.appendValidation(
                         new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_EMPTY));
-            } else if (this.title.length() < MIN_TITLE_LENGTH) {
-                newValidator = newValidator.appendValidation(
-                        new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_SHORT));
             } else if (this.title.length() > MAX_TITLE_LENGTH) {
                 newValidator = newValidator.appendValidation(
                         new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_LONG));
@@ -83,9 +78,6 @@ public class QuestionPollMetaInf implements ValidateAble {
             if (this.question.isEmpty()) {
                 newValidator = newValidator.appendValidation(
                         new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_EMPTY));
-            } else if (this.question.length() < MIN_QUESTION_LENGTH) {
-                newValidator = newValidator.appendValidation(
-                        new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_TOO_SHORT));
             } else if (this.question.length() > MAX_QUESTION_LENGTH) {
                 newValidator = newValidator.appendValidation(
                         new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_TOO_LONG));

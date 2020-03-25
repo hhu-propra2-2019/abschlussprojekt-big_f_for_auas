@@ -12,10 +12,8 @@ public class QuestionPollMetaInfTest { //NOPMD
 
     //Entspricht Vorläufigen Werten
     private static final String VALID_TITLE = "niceTitle";
-    private static final String SHORT_TITLE = "sh";
     private static final String LONG_TITLE = "This Title Is Too Big.";
     private static final String VALID_QUESTION = "Question";
-    private static final String SHORT_QUESTION = "sh";
     private static final String LONG_QUESTION = "This Question is longer than 40 characters.";
     private static final String VALID_DESCRIPTION = "Description";
 
@@ -33,16 +31,6 @@ public class QuestionPollMetaInfTest { //NOPMD
         final QuestionPollMetaInf header = new QuestionPollMetaInf(LONG_TITLE, VALID_QUESTION, "");
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_LONG));
-        final Validation validator = header.validate();
-        assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
-    }
-
-    @Test
-    @SuppressWarnings({"PMD.LawOfDemeter"})
-    public void shortTitle() {
-        final QuestionPollMetaInf header = new QuestionPollMetaInf(SHORT_TITLE, VALID_QUESTION, "");
-        this.testValidator = this.testValidator.appendValidation(
-                new Validation(FieldErrorNames.QUESTION_POLL_HEADER_TITLE_IS_TOO_SHORT));
         final Validation validator = header.validate();
         assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
     }
@@ -74,16 +62,6 @@ public class QuestionPollMetaInfTest { //NOPMD
                 LONG_QUESTION, "");
         this.testValidator = this.testValidator.appendValidation(
                 new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_TOO_LONG));
-        final Validation validator = header.validate();
-        assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
-    }
-
-    @Test
-    @SuppressWarnings({"PMD.LawOfDemeter"})
-    public void shortQuestion() {
-        final QuestionPollMetaInf header = new QuestionPollMetaInf(VALID_TITLE, SHORT_QUESTION, "");
-        this.testValidator = this.testValidator.appendValidation(
-                new Validation(FieldErrorNames.QUESTION_POLL_QUESTION_IS_TOO_SHORT));
         final Validation validator = header.validate();
         assertThat(this.testValidator.getErrorMessages()).isEqualTo(validator.getErrorMessages());
     }

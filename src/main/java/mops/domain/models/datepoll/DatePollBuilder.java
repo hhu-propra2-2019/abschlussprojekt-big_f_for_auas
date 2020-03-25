@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("PMD.DataflowAnomalyAnalysis")
+@SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.TooManyMethods"})
 public final class DatePollBuilder {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
@@ -129,10 +129,8 @@ public final class DatePollBuilder {
         return this;
     }
 
-    /*
-     * streams stellen keine LawOfDemeter violation dar
-     */
-    @SuppressWarnings({"PMD.LawOfDemeter"})
+    // TODO: Law of Demeter reviewen und Methode ggfs anpassen. Warum werden die Abstimmungsdaten doppelt gespeichert?!
+    @SuppressWarnings("PMD.LawOfDemeter")
     public DatePollBuilder datePollEntries(Set<DatePollEntry> datePollEntrySet) {
         this.pollEntryTargets.addAll(validateAllAndGetCorrect(
                 datePollEntrySet.stream()
@@ -159,6 +157,16 @@ public final class DatePollBuilder {
         if (!this.participatingGroupsTargets.isEmpty()) {
             validatedFields.add(PollFields.PARTICIPATING_GROUPS);
         }
+        return this;
+    }
+
+    /**
+     * TODO: Implementieren!
+     * Fügt alle validierten Gruppen der Gruppenliste hinzu.
+     * @param groups Alle Gruppen, deren Teilnehmer*innen zum Abstimmen berechtigt sein sollen.
+     * @return Referenz auf diesen DatePollBuilder;
+     */
+    public DatePollBuilder groups(Set<GroupId> groups) {
         return this;
     }
 

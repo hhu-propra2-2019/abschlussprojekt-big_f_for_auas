@@ -13,11 +13,21 @@
 
         <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
 
+        <div th:if="${terminfindung}" class="form-row py-3">
+            <div th:replace="~{:: upload-button}"></div>
+        </div>
+
         <div th:replace="~{:: input-title}"></div>
+
+        <div th:if="${abstimmung}">
+            <div th:replace="~{:: input-question}"></div>
+        </div>
 
         <div th:replace="~{:: input-description}"></div>
 
-        <div th:if="${terminfindung}" th:replace="~{:: input-location}"></div>
+        <div th:if="${terminfindung}">
+            <div th:replace="~{:: input-location}"></div>
+        </div>
 
         <button type="submit" name="_eventId_metaInfStep2"  class="btn btn-primary float-right mt-5">Weiter</button>
         <button type="submit" name="_eventId_home"  class="btn btn-primary float-left mt-5">Zurück</button>
@@ -36,6 +46,10 @@
         <button type="submit" name="_eventId_metaInfStep1"  class="btn btn-primary float-left mt-5">Zurück</button>
     </form>
 
+    <div class="col d-flex flex-row-reverse" th:fragment="upload-button">
+        <button type="submit" name="_eventId_fileUpload" class="btn btn-primary">Datei hochladen</button>
+
+    </div>
 
     <div class="form-group" th:fragment="input-title">
         <!--<label for="fileUpload" th:if="${terminfindung}">Terminfindung hochladen</label>
@@ -55,6 +69,14 @@
                th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('description'), #fields.hasAnyErrors())}"
                placeholder="Beschreibung">
         <div class="invalid-feedback" th:errors="*{description}"></div>
+    </div>
+
+    <div class="form-group" th:fragment="input-question">
+        <label for="description">Beschreibung (optional)</label>
+        <input class="form-control" id="description" type="text" th:field="*{question}"
+               th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('question'), #fields.hasAnyErrors())}"
+               placeholder="Beschreibung">
+        <div class="invalid-feedback" th:errors="*{question}"></div>
     </div>
 
     <!--/*@thymesVar id="terminfindung" type=""*/-->

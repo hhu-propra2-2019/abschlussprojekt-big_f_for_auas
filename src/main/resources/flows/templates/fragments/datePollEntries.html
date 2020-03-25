@@ -25,18 +25,18 @@
                 <div class="d-flex flex-row flex-wrap align-items-center no-gutters">
 
                     <div class="wrap-input-date order-1 d-flex align-items-center pl-2">
-                        <i class="fa fa-check-square-o fa-2x"></i>
-                        <input class="form-control ml-3 mr-3" type="date" name="addDate" value="2020-05-20"
-                               th:classappend="${#fields.hasErrors('options') ? ' is-invalid' : ''}">
+                        <i class="fa fa-calendar fa-2x"></i>
+                        <input class="form-control ml-3 mr-3" type="date" name="addDate" th:value="*{proposedEntry.date}"
+                               th:classappend="${#fields.hasErrors('entries') ? ' is-invalid' : ''}">
                     </div>
 
                     <div class="wrap-input-von-bis order-2 d-flex align-items-center ml-2 my-2 my-md-0">
                         <i class="fa fa-clock-o fa-2x"></i>
-                        <input class="form-control ml-3" type="time" name="addStartTime" value="15:00"
-                               th:classappend="${#fields.hasErrors('options') ? ' is-invalid' : ''}">
+                        <input class="form-control ml-3" type="time" name="addStartTime" th:value="*{proposedEntry.startTime}"
+                               th:classappend="${#fields.hasErrors('entries') ? ' is-invalid' : ''}">
                         <h4 class="mb-0 ml-2">bis</h4>
-                        <input class="form-control ml-2" type="time" name="addEndTime" value="17:00"
-                               th:classappend="${#fields.hasErrors('options') ? ' is-invalid' : ''}">
+                        <input class="form-control ml-2" type="time" name="addEndTime" th:value="*{proposedEntry.endTime}"
+                               th:classappend="${#fields.hasErrors('entries') ? ' is-invalid' : ''}">
                     </div>
 
                     <div class="wrap-input-add-button order-3 d-flex flex-row-reverse ml-auto">
@@ -47,19 +47,19 @@
 
                 </div>
                 <div class="d-flex flex-row flex-wrap mx-5 mb-1">
-                    <div class="invalid-feedback d-inline" th:errors="*{options}" th:text="${err}"></div>
+                    <div class="invalid-feedback d-inline" th:errors="*{entries}" th:text="${err}"></div>
                 </div>
             </div>
         </div>
     </form>
 
-    <form method="post" th:each="option : ${entriesDto.options}" th:action="${flowExecutionUrl}">
+    <form method="post" th:each="option : ${entriesDto.entries}" th:action="${flowExecutionUrl}">
         <div class="card my-1">
             <div class="card-body p-2">
                 <div class="d-flex flex-row flex-wrap align-items-center no-gutters">
 
                     <div class="wrap-check-icon order-1 d-flex align-items-center w-25 pl-2">
-                        <i class="fa fa-check-square-o fa-2x"></i>
+                        <i class="fa fa-calendar fa-2x"></i>
                         <h4 class="pl-2 pr-2 mb-0" th:text="${option.getDate()}"></h4>
                     </div>
 

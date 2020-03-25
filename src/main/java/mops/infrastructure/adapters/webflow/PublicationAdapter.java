@@ -1,10 +1,10 @@
 package mops.infrastructure.adapters.webflow;
 
-import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import mops.application.services.GroupService;
-import mops.application.services.UserService;
+import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
-import mops.domain.models.user.UserId;
+import mops.infrastructure.adapters.webflow.builderdtos.PublicationInformation;
+import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -20,88 +20,77 @@ import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage
 
 @Service
 @PropertySource(value = "classpath:flows/errormappings/publicationmappings.properties", encoding = "UTF-8")
-public class PublicationAdapter {
+public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, PublicationInformation> {
 
     private final transient GroupService groupService;
-    private final transient UserService userService;
     private final transient Environment errorEnvironment;
 
     //@Autowired
-    public PublicationAdapter(GroupService groupService, UserService userService, Environment env) {
+    public PublicationAdapter(GroupService groupService, Environment env) {
         this.groupService = groupService;
-        this.userService = userService;
         this.errorEnvironment = env;
     }
 
-    /**
-     * TODO: Hier sollte der Link aus dem PublicationService geholt werden.
-     *
-     * @return ...
-     */
+    /*
+     * Link ist eine UUID und wird zufällig erzeugt. Falls der Link keine UUID mehr sein sollte,
+     * müsste man überlegen, wie auf Kollision geprüft wird oder ob der Link aus einem Service geholt wird.
+    */
+    @Override
     public PublicationDto initializeDto() {
         final PublicationDto publicationDto = new PublicationDto();
-        publicationDto.setLink("dummylink");
+        publicationDto.setLink(new PollLink().getPollIdentifier());
+        publicationDto.setIspublic(true);
+        publicationDto.setGroups("");
         return publicationDto;
     }
 
-    /**
-     * Validiert, dass die eingegebenen User und Gruppen existieren und gibt andernfalls passende Fehlermeldungen aus.
-     *
-     * @param publicationDto ...
-     * @param context        Hier werden die Errornachrichten abgelegt
-     * @return Gibt zurück, ob in die nächste View gesprungen werden soll oder nicht
-     */
-    public boolean validate(PublicationDto publicationDto, MessageContext context) {
+    @Override
+    public boolean validateDto(PublicationDto publicationDto, MessageContext context) {
         if (!publicationDto.isIspublic()) {
-            return validateGroupsAndUsers(publicationDto, context);
+            return validateGroups(publicationDto, context);
         }
         return true;
     }
 
-    @SuppressWarnings("PMD.LawOfDemeter")//NOPMD
-    private boolean validateGroupsAndUsers(PublicationDto publicationDto, MessageContext context) {
-        if (publicationDto.getPeople().isBlank() && publicationDto.getGroups().isBlank()) {
-            addMessage("PUBLICATION_PRIVATE_NO_PARTICIPANTS", context, errorEnvironment);
-            publicationDto.setIspublic(true);
+    @Override
+    @SuppressWarnings("PMD.LawOfDemeter") // NOPMD
+    public PublicationInformation build(PublicationDto publicationDto) {
+        return new PublicationInformation(
+                publicationDto.isIspublic(),
+                new PollLink(publicationDto.getLink()),
+                parseGroups(publicationDto.getGroups()).collect(Collectors.toSet()));
+    }
+
+    public boolean validate(PublicationDto publicationDto, MessageContext context) {
+        return validateDto(publicationDto, context);
+    }
+
+    @SuppressWarnings("PMD.LawOfDemeter")
+    private boolean validateGroups(PublicationDto publicationDto, MessageContext context) {
+        if (publicationDto.getLink() == null || publicationDto.getLink().isBlank()) {
+            addMessage("PUBLICATION_LINK_BLANK", context, errorEnvironment);
             return false;
         }
-        final Set<UserId> invalidUsers = invalidUsers(publicationDto);
+        if (publicationDto.getGroups() == null || publicationDto.getGroups().isBlank()) {
+            addMessage("PUBLICATION_PRIVATE_NO_PARTICIPANTS", context, errorEnvironment);
+            return false;
+        }
         final Set<GroupId> invalidGroups = invalidGroups(publicationDto);
-        if (!invalidUsers.isEmpty() || !invalidGroups.isEmpty()) {
-            mapUserErrors(invalidUsers, context);
+        if (!invalidGroups.isEmpty()) {
             mapGroupErrors(invalidGroups, context);
             return false;
         }
         return true;
     }
 
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CloseResource"})
-    // https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html
-    // https://stackoverflow.com/questions/38698182/close-java-8-stream
-    // "Generally, only streams whose source is an IO channel will require closing. Most streams are backed
-    // by collections, arrays, or generating functions, which require no special resource management."
-    private Set<UserId> invalidUsers(PublicationDto publicationDto) {
-        // https://stackoverflow.com/questions/41953388/java-split-and-trim-in-one-shot
-        final Stream<String> people =
-                Arrays.stream(publicationDto.getPeople().trim().split("\\s*,\\s*")).dropWhile(String::isBlank);
-        return people.map(UserId::new).dropWhile(userService::userExists).collect(Collectors.toSet());
-    }
-
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CloseResource"})
+    @SuppressWarnings("PMD.LawOfDemeter")
     private Set<GroupId> invalidGroups(PublicationDto publicationDto) {
-        final Stream<String> groups =
-                Arrays.stream(publicationDto.getGroups().trim().split("\\s*,\\s*")).dropWhile(String::isBlank);
-        return groups.map(GroupId::new).dropWhile(groupService::groupExists).collect(Collectors.toSet());
+        return parseGroups(publicationDto.getGroups()).dropWhile(groupService::groupExists).collect(Collectors.toSet());
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
-    private void mapUserErrors(Set<UserId> invalidUsers, MessageContext context) {
-        if (invalidUsers.isEmpty()) {
-            return;
-        }
-        addMessageWithArguments(
-                "PUBLICATION_USERS_NOT_FOUND", context, errorEnvironment,
-                invalidUsers.stream().map(UserId::toString).collect(Collectors.joining(", ")));
+    private Stream<GroupId> parseGroups(String groups) {
+        return Arrays.stream(groups.trim().split("\\s*,\\s*")).dropWhile(String::isBlank).map(GroupId::new);
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")

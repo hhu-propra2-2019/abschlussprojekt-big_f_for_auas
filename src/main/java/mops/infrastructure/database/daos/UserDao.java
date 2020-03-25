@@ -23,8 +23,10 @@ public class UserDao {
     @Setter
     @Id
     private String id;
+
     /*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDaos")
     private Set<DatePollDao> datePollSet = new HashSet<>();*/
+  
     //CascadeType.MERGE
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userVotesFor")
     private Set<DatePollEntryDao> datePollEntrySet = new HashSet<>();

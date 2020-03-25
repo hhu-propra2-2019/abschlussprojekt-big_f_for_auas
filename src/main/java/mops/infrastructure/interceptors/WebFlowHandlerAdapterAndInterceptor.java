@@ -1,14 +1,13 @@
 package mops.infrastructure.interceptors;
 
 import lombok.NoArgsConstructor;
+import mops.utils.AccountUtil;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.webflow.core.collection.LocalAttributeMap;
 import org.springframework.webflow.core.collection.MutableAttributeMap;
 import org.springframework.webflow.mvc.servlet.FlowHandlerAdapter;
 
 import javax.servlet.http.HttpServletRequest;
-
-import static mops.infrastructure.interceptors.AccountFromTokenUtil.createAccountFromToken;
 
 // https://stackoverflow.com/questions/9687084/using-a-handlerinterceptor-to-add-model-attributes-with-spring-web-flow
 
@@ -59,9 +58,10 @@ public final class WebFlowHandlerAdapterAndInterceptor extends FlowHandlerAdapte
         if (inputMap == null) {
             inputMap = new LocalAttributeMap<>(1, 1);
         }
-        if (request.getUserPrincipal() != null) {
+        if (AccountUtil.isUserLogged()) {
+            final KeycloakAuthenticationToken token = (KeycloakAuthenticationToken) request.getUserPrincipal();
             inputMap.put("account",
-                    createAccountFromToken((KeycloakAuthenticationToken) request.getUserPrincipal()));
+                    AccountUtil.createAccountFromToken(token));
         }
         return inputMap;
     }

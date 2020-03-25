@@ -51,5 +51,4 @@ public class DatePollSyndicationService {
         });
         builder.datePollLink(link);
     }
-
 }
