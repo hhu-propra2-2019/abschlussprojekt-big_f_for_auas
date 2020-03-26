@@ -1,5 +1,7 @@
 package mops.infrastructure.adapters.datepolladapter;
 
+import java.util.HashSet;
+import java.util.NoSuchElementException;
 import mops.application.services.DatePollVoteService;
 import mops.application.services.PollInfoService;
 import mops.infrastructure.controllers.dtos.DatePollEntryDto;
@@ -29,9 +31,20 @@ public class DatePollEntriesAdapter {
         this.infoService = infoService;
     }
 
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public DatePollUserEntryOverview showUserEntryOverview(PollLink link, UserId user) {
         final DatePollUserEntryOverview result = new DatePollUserEntryOverview();
-        final DatePollBallot ballot = voteService.showUserVotes(user, link);
+        DatePollBallot ballot;
+        try {
+            ballot = voteService.showUserVotes(user, link);
+        } catch (NoSuchElementException e) {
+            ballot = new DatePollBallot(user);
+        }
+        result.setAllEntries(
+            infoService.getEntries(link).stream()
+            .map(this::toDTO)
+            .collect(Collectors.toSet())
+        );
         result.setVotedYes(
                 ballot.getSelectedEntriesYes()
                         .stream()
@@ -81,6 +94,9 @@ public class DatePollEntriesAdapter {
      * @param overview
      */
     public void vote(PollLink link, UserId user, DatePollUserEntryOverview overview) {
+        if (overview.isVotedMaybeNull()) {
+            overview.setVotedMaybe(new HashSet<DatePollEntryDto>());
+        }
         voteService.vote(link, user,
                 overview.getVotedYes().stream()
                         .map(this::toEntryDomain)

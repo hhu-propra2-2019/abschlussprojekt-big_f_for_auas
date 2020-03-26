@@ -127,6 +127,7 @@ public class DatabaseDatePollIntegrityTest {
         final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
         final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll, Set.of(exampleGroup));
         datePollRepository.save(datePoll);
+        datePollRepository.save(datePoll);
         final Set<DatePollEntryDao> datePollEntryDaoSet = datePollEntryJpaRepository.findByDatePoll(datePollDao);
         assertThat(datePollEntryDaoSet).hasSize(3);
     }

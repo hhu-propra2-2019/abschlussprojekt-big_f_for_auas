@@ -14,4 +14,12 @@ public class DatePollUserEntryOverview {
     private String title;
     private String description;
     private String location;
+
+    /**
+     * Wenn der User keinen Eintrag mit maybe votet, dann ist das set null.
+     * @return boolean
+     */
+    public boolean isVotedMaybeNull() {
+        return votedMaybe == null;
+    }
 }

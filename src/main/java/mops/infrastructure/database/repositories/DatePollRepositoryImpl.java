@@ -106,6 +106,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         checkDatePollBallotsForVotes(datePoll.getBallots(), datePoll);
         //Save PollStatus for each User ...
         saveDatePollStatus(datePoll, datePollDao);
+        datePollJpaRepository.flush();
     }
 
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})

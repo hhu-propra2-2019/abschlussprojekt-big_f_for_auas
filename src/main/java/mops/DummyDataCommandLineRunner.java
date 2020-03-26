@@ -34,7 +34,7 @@ import java.util.stream.IntStream;
  * zum Speichern in die Datenbank erzeugt werden.
  */
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:MagicNumber"})
-@Profile("production")
+@Profile("development")
 @Transactional
 @Component
 public class DummyDataCommandLineRunner implements CommandLineRunner {
