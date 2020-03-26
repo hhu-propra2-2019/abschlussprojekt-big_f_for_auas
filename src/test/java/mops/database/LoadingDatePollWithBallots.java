@@ -51,7 +51,7 @@ public class LoadingDatePollWithBallots {
     @SuppressWarnings({"checkstyle:MagicNumber", "PMD.JUnitTestContainsTooManyAsserts"})
     @Test
     public void loadSavedDatePoll() {
-        final DatePoll targetDatePoll = createDatePoll(5, 5, "test", "1");
+        final DatePoll targetDatePoll = createDatePoll(5, 5, "test");
         final DatePollEntry targetEntry = targetDatePoll.getEntries().iterator().next();
         datePollRepository.save(targetDatePoll);
         datePollEntryRepositoryManager.userVotesForDatePollEntry(new UserId("1"),
@@ -73,7 +73,7 @@ public class LoadingDatePollWithBallots {
         }
     }
     @SuppressWarnings("checkstyle:MagicNumber")
-    private DatePoll createDatePoll(int users, int pollentries, String title, String groupId) {
+    private DatePoll createDatePoll(int users, int pollentries, String title) {
         final DatePoll datePoll;
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf(title, "Testing", "Uni", timespan);
@@ -88,7 +88,7 @@ public class LoadingDatePollWithBallots {
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
                 new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-        final Group group = new Group(new GroupId(groupId), participants);
+        final Group group = new Group(new GroupId("1"), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
 
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)

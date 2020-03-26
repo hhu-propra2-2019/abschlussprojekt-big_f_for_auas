@@ -24,10 +24,7 @@ import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -88,13 +85,13 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         final DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
         //Extrahiere alle Gruppen, extrahiere alle User in den Gruppen, lade alle DatePollEntries fuer
         //die der User gestimmt hat und rufe castBallot auf, damit diese im datePoll Objekt gespeichert werden.
-        loaded.getGroupDaos()
-                .forEach(groupDao -> groupDao.getUserDaos()
-                        .stream()
-                        .map(ModelOfDaoUtil::userOf)
-                        .forEach(user -> {
-                            setActualBallotForUserAndDatePoll(targetDatePoll, user);
-                        }));
+        loaded.getGroupDaos().stream()
+                .map(GroupDao::getUserDaos)
+                .flatMap(Collection::stream)
+                .map(ModelOfDaoUtil::userOf)
+                .forEach(user -> {
+                    setActualBallotForUserAndDatePoll(targetDatePoll, user);
+                });
         return Optional.of(targetDatePoll);
     }
     private void setActualBallotForUserAndDatePoll(DatePoll targetDatePoll, User user) {
