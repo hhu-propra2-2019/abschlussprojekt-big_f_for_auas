@@ -52,7 +52,7 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
 
     public Set<GroupSuggestionDto> updateSuggestions(UserId userId) {
         Set<GroupMetaInf> suggestions = groupRepository.getMetaInfForPublicGroups();
-        suggestions.addAll(groupRepository.getMetaInfForGroupsOfUser(userId));
+        suggestions.addAll(groupRepository.getMetaInfForPrivateGroupsOfUser(userId));
         return suggestions
                 .stream()
                 .map(metaInf -> new GroupSuggestionDto(metaInf.getId().getId(), metaInf.getTitle()))

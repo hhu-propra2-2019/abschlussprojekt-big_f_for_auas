@@ -22,6 +22,6 @@ public interface GroupJpaRepository extends JpaRepository<GroupDao, String> {
     Set<GroupMetaInf> findAllMetaInfUsingVisibility(GroupVisibility visibility);
 
     @Query(value = "SELECT new mops.domain.models.group.GroupMetaInf(g.id, g.title, g.visibility)"
-            + " FROM GroupDao AS g WHERE :user MEMBER OF g.userDaos")
-    Set<GroupMetaInf> findAllMetaInfForUser(UserDao user);
+            + " FROM GroupDao AS g WHERE :user MEMBER OF g.userDaos AND g.visibility = :visibility")
+    Set<GroupMetaInf> findAllMetaInfForUser(UserDao user, GroupVisibility visibility);
 }

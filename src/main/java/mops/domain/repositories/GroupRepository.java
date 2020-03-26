@@ -14,5 +14,5 @@ public interface GroupRepository {
 
     boolean exists(GroupId groupId);
     Set<GroupMetaInf> getMetaInfForPublicGroups();
-    Set<GroupMetaInf> getMetaInfForGroupsOfUser(UserId userId);
+    Set<GroupMetaInf> getMetaInfForPrivateGroupsOfUser(UserId userId);
 }

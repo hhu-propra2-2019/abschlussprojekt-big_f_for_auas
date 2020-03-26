@@ -56,20 +56,34 @@ public class GroupRepositoryImpl implements GroupRepository {
         groupJpaRepository.save(dao);
     }
 
+    /**
+     * Gibt zurück, ob eine Gruppe existiert.
+     * @param groupId Die Gruppen-ID der abzufragenden Gruppe
+     * @return true, wenn die Gruppe existiert, ansonsten false
+     */
     @Override
     public boolean exists(GroupId groupId) {
         return groupJpaRepository.existsGroupDaoById(groupId.getId());
     }
 
+    /**
+     * Gibt die Metainformationen aller öffentlichen Gruppen zurück.
+     * @return ...
+     */
     @Override
     public Set<GroupMetaInf> getMetaInfForPublicGroups() {
         return groupJpaRepository.findAllMetaInfUsingVisibility(GroupVisibility.PUBLIC);
     }
 
+    /**
+     * Gibt die Metainformationen aller Gruppen hinzu, in denen ein User Mitglied ist.
+     * @param userId
+     * @return
+     */
     @Override
-    public Set<GroupMetaInf> getMetaInfForGroupsOfUser(UserId userId) {
+    public Set<GroupMetaInf> getMetaInfForPrivateGroupsOfUser(UserId userId) {
         UserDao user = new UserDao();
         user.setId(userId.getId());
-        return groupJpaRepository.findAllMetaInfForUser(user);
+        return groupJpaRepository.findAllMetaInfForUser(user, GroupVisibility.PRIVATE);
     }
 }
