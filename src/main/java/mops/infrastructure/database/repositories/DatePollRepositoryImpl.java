@@ -21,6 +21,7 @@ import mops.infrastructure.database.repositories.interfaces.GroupJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -90,6 +91,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * Speichert ein DatePoll Aggregat.
      * @param datePoll Zu speichernde DatePoll
      */
+    @Transactional
     @Override
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidDuplicateLiterals"})
     public void save(DatePoll datePoll) {
@@ -105,6 +107,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         //Save PollStatus for each User ...
         saveDatePollStatus(datePoll, datePollDao);
     }
+
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
         final Map<UserId, PollStatus> votingRecord = datePoll.getRecordAndStatus().getVotingRecord();
