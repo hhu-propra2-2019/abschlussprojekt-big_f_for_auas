@@ -14,4 +14,8 @@ public class DatePollUserEntryOverview {
     private String title;
     private String description;
     private String location;
+
+    public boolean isVotedMaybeNull() {
+        return votedMaybe == null;
+    }
 }
