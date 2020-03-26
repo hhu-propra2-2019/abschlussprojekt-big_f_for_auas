@@ -6,6 +6,7 @@ import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.pollstatus.PollStatus;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import mops.infrastructure.database.daos.GroupDao;
@@ -79,28 +80,32 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @return An Inputlink gekoppeltes DatePoll
      */
     @Override
-    @SuppressWarnings({"PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     public Optional<DatePoll> load(PollLink link) {
         final DatePollDao loaded = datePollJpaRepository
                 .findDatePollDaoByLink(link.getLinkUUIDAsString());
         //TODO: DatePollBallots hinzufuegen?
-        //castBallot(UserId user, Set<DatePollEntry> yes, Set<DatePollEntry> maybe)
         final DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
+        //Extrahiere alle Gruppen, extrahiere alle User in den Gruppen, lade alle DatePollEntries fuer
+        //die der User gestimmt hat und rufe castBallot auf, damit diese im datePoll Objekt gespeichert werden.
         loaded.getGroupDaos()
                 .forEach(groupDao -> groupDao.getUserDaos()
                         .stream()
                         .map(ModelOfDaoUtil::userOf)
                         .forEach(user -> {
-                            final UserId targetUser = user.getId();
-                            final Set<DatePollEntryDao> targetDatePollEntryDaos = datePollEntryRepositoryManager
-                                    .findAllDatePollEntriesUserVotesFor(targetUser, targetDatePoll);
-                            final Set<DatePollEntry> targetDatePollEntries = ModelOfDaoUtil
-                                    .extractDatePollEntries(targetDatePollEntryDaos);
-                            //Set "Yes" Votes to targetDatePoll
-                            //TODO: maybe votes auch abspeichern
-                            targetDatePoll.castBallot(targetUser, targetDatePollEntries, new HashSet<>());
+                            setActualBallotForUserAndDatePoll(targetDatePoll, user);
                         }));
         return Optional.of(targetDatePoll);
+    }
+    private void setActualBallotForUserAndDatePoll(DatePoll targetDatePoll, User user) {
+        final UserId targetUser = user.getId();
+        final Set<DatePollEntryDao> targetDatePollEntryDaos = datePollEntryRepositoryManager
+                .findAllDatePollEntriesUserVotesFor(targetUser, targetDatePoll);
+        final Set<DatePollEntry> targetDatePollEntries = ModelOfDaoUtil
+                .extractDatePollEntries(targetDatePollEntryDaos);
+        //Set "Yes" Votes to targetDatePoll
+        //TODO: maybe votes auch abspeichern
+        targetDatePoll.castBallot(targetUser, targetDatePollEntries, new HashSet<>());
     }
 
     /**
