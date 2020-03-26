@@ -1,5 +1,6 @@
 package mops.application.services;
 
+import java.util.Collections;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.PollLink;
@@ -43,6 +44,7 @@ public class PollInfoService {
     }
 
     public Set<DatePoll> getDatePollByStatusFromUser(UserId userId) {
-        return datePollRepository.getDatePollWhereUserHasStatus(userId);
+        //return datePollRepository.getDatePollWhereUserHasStatus(userId);
+        return Collections.emptySet();
     }
 }

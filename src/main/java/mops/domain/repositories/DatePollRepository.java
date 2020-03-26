@@ -28,5 +28,5 @@ public interface DatePollRepository {
 
     Set<DatePoll> getDatePollByCreator(UserId userId);
 
-    Set<DatePoll> getDatePollWhereUserHasStatus(UserId userId);
+//    Set<DatePoll> getDatePollWhereUserHasStatus(UserId userId);
 }

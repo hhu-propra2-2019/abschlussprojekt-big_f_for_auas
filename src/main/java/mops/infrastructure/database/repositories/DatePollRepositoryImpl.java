@@ -168,16 +168,17 @@ public class DatePollRepositoryImpl implements DatePollRepository {
             .collect(Collectors.toSet());
     }
 
-    /**
-     * Gibt ein Set mit allen Usern zurück bei denen der User schon einmal abgestimmt hat.
-     * @param userId
-     * @return Set<DatePoll>
-     */
-    @SuppressWarnings("PMD.LawOfDemeter") //stream
-    @Override
-    public Set<DatePoll> getDatePollWhereUserHasStatus(UserId userId) {
-        return datePollJpaRepository.findDatePollDaoWhereUserHasStatus(userId).stream()
-            .map(ModelOfDaoUtil::pollOf)
-            .collect(Collectors.toSet());
-    }
+// TODO: Needs fixing and tests
+//    /**
+//     * Gibt ein Set mit allen Usern zurück bei denen der User schon einmal abgestimmt hat.
+//     * @param userId
+//     * @return Set<DatePoll>
+//     */
+//    @SuppressWarnings("PMD.LawOfDemeter") //stream
+//    @Override
+//    public Set<DatePoll> getDatePollWhereUserHasStatus(UserId userId) {
+//        return datePollJpaRepository.findDatePollDaoWhereUserHasStatus(userId).stream()
+//            .map(ModelOfDaoUtil::pollOf)
+//            .collect(Collectors.toSet());
+//    }
 }
