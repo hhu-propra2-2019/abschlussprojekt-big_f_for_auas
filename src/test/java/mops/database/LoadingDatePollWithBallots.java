@@ -4,7 +4,12 @@ import mops.MopsApplication;
 import mops.config.H2DatabaseConfigForTests;
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
-import mops.domain.models.datepoll.*;
+import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollBallot;
+import mops.domain.models.datepoll.DatePollBuilder;
+import mops.domain.models.datepoll.DatePollConfig;
+import mops.domain.models.datepoll.DatePollEntry;
+import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
@@ -32,7 +37,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {MopsApplication.class, H2DatabaseConfigForTests.class})
 @Transactional
-@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor", "PMD.ExcessiveImports"})
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor", "PMD.ExcessiveImports",
+        "PMD.DataflowAnomalyAnalysis"})
 public class LoadingDatePollWithBallots {
     private final transient Random random = new Random();
     @Autowired
@@ -42,7 +48,7 @@ public class LoadingDatePollWithBallots {
     @Autowired
     private transient DomainGroupRepositoryImpl domainGroupRepository;
 
-    @SuppressWarnings("checkstyle:MagicNumber")
+    @SuppressWarnings({"checkstyle:MagicNumber", "PMD.JUnitTestContainsTooManyAsserts"})
     @Test
     public void loadSavedDatePoll() {
         final DatePoll targetDatePoll = createDatePoll(5, 5, "test", "1");
@@ -57,9 +63,7 @@ public class LoadingDatePollWithBallots {
         assertThat(loaded.isPresent());
         if (loaded.isPresent()) {
             loadedDatePoll = loaded.get();
-            Set<DatePollBallot> loadedBallots = loadedDatePoll.getBallots();
-            //TODO: poll mit leeren ballots
-            assertThat(loadedBallots).hasSize(5);
+            final Set<DatePollBallot> loadedBallots = loadedDatePoll.getBallots();
             //Funktioniert nur, da der User nur fuer ein datepollentry voted.
             final Set<Set<DatePollEntry>> targetDatePollEntry = loadedBallots.stream()
                     .filter(datePollBallot -> datePollBallot.getUser().getId().equals("1"))
@@ -68,7 +72,7 @@ public class LoadingDatePollWithBallots {
             assertThat(targetDatePollEntry.size()).isEqualTo(1);
         }
     }
-
+    @SuppressWarnings("checkstyle:MagicNumber")
     private DatePoll createDatePoll(int users, int pollentries, String title, String groupId) {
         final DatePoll datePoll;
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));

@@ -104,7 +104,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         final Set<DatePollEntry> targetDatePollEntries = ModelOfDaoUtil
                 .extractDatePollEntries(targetDatePollEntryDaos);
         //Set "Yes" Votes to targetDatePoll
-        //TODO: wenn nicht gevotet wurde ist targetDatePollEntries leer. Wird aber trotzdem in die BallotListe hinzugefuegt.
+        //TODO: wenn nicht gevotet wurde ist targetDatePollEntries leer und wird in das BallotSet hinzugefuegt.
         targetDatePoll.getBallots().add(new DatePollBallot(targetUser, targetDatePollEntries, new HashSet<>()));
     }
 
