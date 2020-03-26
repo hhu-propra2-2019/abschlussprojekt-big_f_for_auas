@@ -58,7 +58,8 @@ public class LoadingDatePollWithBallots {
         if (loaded.isPresent()) {
             loadedDatePoll = loaded.get();
             Set<DatePollBallot> loadedBallots = loadedDatePoll.getBallots();
-            assertThat(loadedBallots).hasSize(1);
+            //TODO: poll mit leeren ballots
+            assertThat(loadedBallots).hasSize(5);
             //Funktioniert nur, da der User nur fuer ein datepollentry voted.
             final Set<Set<DatePollEntry>> targetDatePollEntry = loadedBallots.stream()
                     .filter(datePollBallot -> datePollBallot.getUser().getId().equals("1"))

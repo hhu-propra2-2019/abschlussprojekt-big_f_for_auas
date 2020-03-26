@@ -84,7 +84,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     public Optional<DatePoll> load(PollLink link) {
         final DatePollDao loaded = datePollJpaRepository
                 .findDatePollDaoByLink(link.getLinkUUIDAsString());
-        //TODO: DatePollBallots hinzufuegen?
+        //TODO: Im Moment kriegen wir bei der Erzeugung eines
         final DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
         //Extrahiere alle Gruppen, extrahiere alle User in den Gruppen, lade alle DatePollEntries fuer
         //die der User gestimmt hat und rufe castBallot auf, damit diese im datePoll Objekt gespeichert werden.
@@ -104,8 +104,8 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         final Set<DatePollEntry> targetDatePollEntries = ModelOfDaoUtil
                 .extractDatePollEntries(targetDatePollEntryDaos);
         //Set "Yes" Votes to targetDatePoll
-        //TODO: maybe votes auch abspeichern
-        targetDatePoll.castBallot(targetUser, targetDatePollEntries, new HashSet<>());
+        //TODO: wenn nicht gevotet wurde ist targetDatePollEntries leer. Wird aber trotzdem in die BallotListe hinzugefuegt.
+        targetDatePoll.getBallots().add(new DatePollBallot(targetUser, targetDatePollEntries, new HashSet<>()));
     }
 
     /**
