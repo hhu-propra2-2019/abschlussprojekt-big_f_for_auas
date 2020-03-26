@@ -121,6 +121,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
             datePollStatusJpaRepository.save(datePollStatusDao);
         });
     }
+
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void checkDatePollBallotsForVotes(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
         for (final DatePollBallot targetBallot:datePollBallots
@@ -132,6 +133,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
             }
         }
     }
+
     @SuppressWarnings({"PMD.LawOfDemeter"})
     private void setVoteForTargetUserAndEntry(Set<DatePollEntry> datePollEntries, DatePoll datePoll, UserId user) {
         datePollEntries.forEach(targetEntry -> datePollEntryRepositoryManager
@@ -139,6 +141,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
                         datePoll.getPollLink(),
                         targetEntry));
     }
+
     /**
      * Lädt alle DatePolls in denen ein Nutzer teilnimmt.
      *
@@ -147,7 +150,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @SuppressWarnings("PMD.LawOfDemeter")
     @Override
-    public Set<DatePoll> getDatePollsByUserId(UserId userId) {
+    public Set<DatePoll> getDatePollByGroupMembership(UserId userId) {
         final Optional<UserDao> targetUser = userJpaRepository.findById(userId.toString());
         final UserDao targetUserDao = targetUser.orElseThrow(
                 () -> new IllegalArgumentException(USER_IS_NOT_IN_THE_DATABASE));
@@ -163,15 +166,32 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     }
 
     /**
-     * Die Methode gibt den DatePoll anhand des Erstellers zurueck.
-     *
-     * @param userId Die userId des DatePoll Creators.
-     * @return Optional<DatePoll> Das DatePoll Objekt, welches vom User mit userId erstellt wurde.
+     * Gibt ein Set mit allen Datepolls zurück, welche der angegebene User erstellt hat.
+     * @param userId
+     * @return Set<DatePoll>, ist leer wenn User keine DatePolls erstellt hat.
      */
     @Override
-    public Optional<DatePoll> getDatePollByCreator(UserId userId) {
+    @SuppressWarnings("PMD.LawOfDemeter") //stream
+    public Set<DatePoll> getDatePollByCreator(UserId userId) {
         final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
-        final DatePollDao byCreatorUserDao = datePollJpaRepository.findByCreatorUserDao(targetUser);
-        return Optional.of(ModelOfDaoUtil.pollOf(byCreatorUserDao));
+        final Set<DatePollDao> datePollDaosCreatedByUser = datePollJpaRepository
+            .findByCreatorUserDao(targetUser);
+        return datePollDaosCreatedByUser.stream()
+            .map(ModelOfDaoUtil::pollOf)
+            .collect(Collectors.toSet());
     }
+
+// TODO: Needs fixing and tests
+//    /**
+//     * Gibt ein Set mit allen Usern zurück bei denen der User schon einmal abgestimmt hat.
+//     * @param userId
+//     * @return Set<DatePoll>
+//     */
+//    @SuppressWarnings("PMD.LawOfDemeter") //stream
+//    @Override
+//    public Set<DatePoll> getDatePollWhereUserHasStatus(UserId userId) {
+//        return datePollJpaRepository.findDatePollDaoWhereUserHasStatus(userId).stream()
+//            .map(ModelOfDaoUtil::pollOf)
+//            .collect(Collectors.toSet());
+//    }
 }

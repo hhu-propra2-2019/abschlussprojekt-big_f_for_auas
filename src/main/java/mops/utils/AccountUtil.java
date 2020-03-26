@@ -1,7 +1,7 @@
 package mops.utils;
 
 import lombok.experimental.UtilityClass;
-import mops.controllers.dtos.Account;
+import mops.infrastructure.controllers.dtos.Account;
 import mops.domain.models.user.UserId;
 import org.keycloak.KeycloakPrincipal;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;

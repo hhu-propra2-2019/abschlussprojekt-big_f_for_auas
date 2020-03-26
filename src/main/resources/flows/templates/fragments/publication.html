@@ -25,22 +25,16 @@
             <div class="form-check">
                 <input class="form-check-input" id="publication-accessibility" th:field="*{ispublic}" type="checkbox" th:classappend="${#fields.hasErrors('ispublic') ? 'checked' : ''}">
                 <label for="publication-accessibility">Öffentliche Umfrage</label>
+                <small class="form-text text-muted mt-0">Alle, die den Link haben, können teilnehmen.</small>
             </div>
-            <script type="text/javascript">
-                document.addEventListener("DOMContentLoaded",
-                    function () {
-                        if (document.getElementById("publication-accessibility").classList.contains('checked')) {
-                            document.getElementById("publication-accessibility").checked = true;
-                        }
-                    }
-                )
-            </script>
         </div>
 
         <div class="form-group">
             <label for="publication-gruppe">Gruppe hinzufügen</label>
             <input class="form-control tagsinput" id="publication-gruppe" th:field="*{groups}" placeholder="Gruppenname"
                    th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('groups'), #fields.hasAnyErrors())}">
+            <small class="form-text text-muted mt-0">Einladungen werden an folgende Gruppen verschickt.</small>
+
             <div class="invalid-feedback" th:errors="*{groups}"></div>
         </div>
 
