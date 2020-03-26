@@ -1,6 +1,8 @@
 package mops.infrastructure.adapters.datepolladapter;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -44,28 +46,33 @@ public class DatePollInfoAdapter {
     }
 
     @SuppressWarnings("PMD.LawOfDemeter") // stream
-    public SortedSet<DatePollResultDto> getAllDatePollResultDto(PollLink link) {
+    public List<DatePollResultDto> getAllDatePollResultDto(PollLink link) {
         final Set<DatePollEntry> entries = infoService.getEntries(link);
-        return entries.stream()
-            .map(DatePollInfoAdapter::datePollEntryToResultDto)
-            .collect(Collectors.toCollection(TreeSet::new));
+        System.out.println("DB Entries Size:" + entries.size());
+        List<DatePollResultDto> results = new ArrayList<>();
+        for (final DatePollEntry entry : entries) {
+            results.add(DatePollInfoAdapter.datePollEntryToResultDto(entry));
+        }
+        results.sort(DatePollResultDto::compareTo);
+        System.out.println("TREE SET SIZE in Adapter:" + results.size());
+        return results;
     }
 
     public SortedSet<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
         final Set<DatePoll> datePolls = infoService.getDatePollByCreator(userId);
         return datePolls.stream()
-            .map((DatePoll datePoll) -> datePollToDasboardDto(datePoll, userId))
+            .map((DatePoll datePoll) -> datePollToDashboardDto(datePoll, userId))
             .collect(Collectors.toCollection(TreeSet::new));
     }
 
     public SortedSet<DashboardItemDto> getPollsByOthersForDashboard(UserId userId) {
         final Set<DatePoll> datePolls = infoService.getDatePollByStatusFromUser(userId);
-        return datePolls.stream().map(datePoll -> datePollToDasboardDto(datePoll, userId))
+        return datePolls.stream().map(datePoll -> datePollToDashboardDto(datePoll, userId))
             .collect(Collectors.toCollection(TreeSet::new));
     }
 
     private static DatePollResultDto datePollEntryToResultDto(DatePollEntry entry) {
-        return new DatePollResultDto(entry.getSuggestedPeriod(),
+         return new DatePollResultDto(entry.getSuggestedPeriod(),
             entry.getYesVotes(),
             entry.getMaybeVotes());
     }
@@ -75,7 +82,7 @@ public class DatePollInfoAdapter {
             metaInf.getLocation().getLocation(), metaInf.getTimespan().getEndDate());
     }
 
-    private static DashboardItemDto datePollToDasboardDto(DatePoll datePoll, UserId userId) {
+    private static DashboardItemDto datePollToDashboardDto(DatePoll datePoll, UserId userId) {
         return new DashboardItemDto(
             datePoll.getPollLink().getPollIdentifier(),
             datePoll.getMetaInf().getTitle(),

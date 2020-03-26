@@ -1,5 +1,6 @@
 package mops.infrastructure.controllers;
 
+import java.util.List;
 import java.util.SortedSet;
 
 import mops.domain.models.PollLink;
@@ -34,10 +35,11 @@ public class ResultController {
     @GetMapping("/result/{pollType}/{link}")
     public String mapResults(@RequestAttribute(name = "userId") UserId userId,
         Model model, @PathVariable String pollType, @PathVariable String link) {
-        final SortedSet<DatePollResultDto> results = datePollInfoAdapter
+        final List<DatePollResultDto> results = datePollInfoAdapter
             .getAllDatePollResultDto(new PollLink(link));
         final DatePollMetaInfDto metaInf = datePollInfoAdapter
             .getDatePollMetaInformation(new PollLink(link), userId);
+        System.out.println("Controller entires: " + results.size());
         model.addAttribute("results", results);
         model.addAttribute("metaInf", metaInf);
         return "mobilePollResults";
