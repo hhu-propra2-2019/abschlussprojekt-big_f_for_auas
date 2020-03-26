@@ -11,6 +11,8 @@ import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.group.GroupMetaInf;
+import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import mops.infrastructure.database.repositories.GroupRepositoryImpl;
@@ -44,9 +46,9 @@ public class DatePollsFromUser {
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void userOneHasThreeDatePolls() {
-        final DatePoll firstDatePoll = createDatePoll(4, 5, "datepoll 1", "1");
-        final DatePoll secondDatePoll = createDatePoll(4, 5, "datepoll 1", "1");
-        final DatePoll thirdDatePoll = createDatePoll(4, 5, "datepoll 1", "1");
+        final DatePoll firstDatePoll = createDatePoll(4, 5, "datepoll 1");
+        final DatePoll secondDatePoll = createDatePoll(4, 5, "datepoll 1");
+        final DatePoll thirdDatePoll = createDatePoll(4, 5, "datepoll 1");
 
         datePollRepo.save(firstDatePoll);
         datePollRepo.save(secondDatePoll);
@@ -59,11 +61,10 @@ public class DatePollsFromUser {
      * @param users Anzahl an Teilnehmern.
      * @param pollentries Anzahl an DatePollEntry Objekten.
      * @param title Der Titel des DatePoll Objektes.
-     * @param groupId Die zugehoerige Gruppen ID.
      * @return DatePoll Das zu erstellende DatePoll Objekt.
      */
     @SuppressWarnings("checkstyle:MagicNumber")
-    private DatePoll createDatePoll(int users, int pollentries, String title, String groupId) {
+    private DatePoll createDatePoll(int users, int pollentries, String title) {
         final DatePoll datePoll;
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf(title, "Testing", "Uni", timespan);
@@ -78,14 +79,15 @@ public class DatePollsFromUser {
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
                 new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-        final Group group = new Group(new GroupId(groupId), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
+        final Group group = new Group(
+                new GroupMetaInf(new GroupId("1"), "Testgruppe", GroupVisibility.PRIVATE), participants);
 
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
-                .participatingGroups(Set.of(group.getId()))
+                .participatingGroups(Set.of(group.getMetaInf().getId()))
                 .datePollLink(datePollLink)
                 .build();
         domainGroupRepository.save(group);

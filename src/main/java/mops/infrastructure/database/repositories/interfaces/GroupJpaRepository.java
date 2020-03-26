@@ -17,11 +17,11 @@ public interface GroupJpaRepository extends JpaRepository<GroupDao, String> {
 
     // Direkt zu Dto lesen, um nicht für eine Read-Operation ein Entity zu laden,
     // das gemanaged werden muss.
-    @Query(value = "SELECT new mops.domain.models.group.GroupMetaInf(g.id, g.title, g.visibility)"
+    @Query("SELECT new mops.domain.models.group.GroupMetaInf(g.id, g.title, g.visibility)"
             + " FROM GroupDao AS g WHERE g.visibility = :visibility")
     Set<GroupMetaInf> findAllMetaInfUsingVisibility(GroupVisibility visibility);
 
-    @Query(value = "SELECT new mops.domain.models.group.GroupMetaInf(g.id, g.title, g.visibility)"
+    @Query("SELECT new mops.domain.models.group.GroupMetaInf(g.id, g.title, g.visibility)"
             + " FROM GroupDao AS g WHERE :user MEMBER OF g.userDaos AND g.visibility = :visibility")
     Set<GroupMetaInf> findAllMetaInfForUser(UserDao user, GroupVisibility visibility);
 }

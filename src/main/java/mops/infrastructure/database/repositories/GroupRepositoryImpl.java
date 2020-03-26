@@ -82,7 +82,7 @@ public class GroupRepositoryImpl implements GroupRepository {
      */
     @Override
     public Set<GroupMetaInf> getMetaInfForPrivateGroupsOfUser(UserId userId) {
-        UserDao user = new UserDao();
+        final UserDao user = new UserDao();
         user.setId(userId.getId());
         return groupJpaRepository.findAllMetaInfForUser(user, GroupVisibility.PRIVATE);
     }

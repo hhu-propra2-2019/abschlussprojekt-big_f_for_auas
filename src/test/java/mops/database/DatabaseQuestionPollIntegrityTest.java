@@ -7,6 +7,8 @@ import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.group.GroupMetaInf;
+import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.questionpoll.QuestionPollBuilder;
 import mops.domain.models.questionpoll.QuestionPollConfig;
@@ -65,13 +67,13 @@ public class DatabaseQuestionPollIntegrityTest {
         IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
         final Set<QuestionPollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> pollEntries.add(new QuestionPollEntry("title" + i)));
-        group = new Group(new GroupId("1"), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
+        group = new Group(new GroupMetaInf(new GroupId("1"), "Testgruppe", GroupVisibility.PRIVATE), participants);
         questionPoll = new QuestionPollBuilder()
                 .questionPollMetaInf(questionPollMetaInf)
                 .creator(creator)
                 .questionPollConfig(questionPollConfig)
                 .questionPollEntries(pollEntries)
-                .participatingGroups(Set.of(group.getId()))
+                .participatingGroups(Set.of(group.getMetaInf().getId()))
                 .pollLink(questionPollLink)
                 .build();
         domainGroupRepository.save(group);

@@ -50,8 +50,9 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
         return publicationDto;
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter") //NOPMD
     public Set<GroupSuggestionDto> updateSuggestions(UserId userId) {
-        Set<GroupMetaInf> suggestions = groupRepository.getMetaInfForPublicGroups();
+        final Set<GroupMetaInf> suggestions = groupRepository.getMetaInfForPublicGroups();
         suggestions.addAll(groupRepository.getMetaInfForPrivateGroupsOfUser(userId));
         return suggestions
                 .stream()
