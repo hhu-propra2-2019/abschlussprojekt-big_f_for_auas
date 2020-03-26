@@ -47,12 +47,12 @@ public final class MetaInfAdapter implements WebFlowAdapter<MetaInfDto, DatePoll
         try {
             timespan = new Timespan(
                     LocalDate.parse(dto.getStartDate()).atTime(LocalTime.parse(dto.getStartTime())), null);
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException | NullPointerException e) {
         }
         try {
             timespan = new Timespan(timespan.getStartDate(),
                     LocalDate.parse(dto.getEndDate()).atTime(LocalTime.parse(dto.getEndTime())));
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException | NullPointerException e) {
         }
         return new DatePollMetaInf(dto.getTitle(), dto.getDescription(), dto.getLocation(), timespan);
     }

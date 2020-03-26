@@ -42,14 +42,14 @@ public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntr
     public boolean validateDto(EntryDto entryDto, MessageContext context) {
         try {
             LocalDate.parse(entryDto.getDate());
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException | NullPointerException e) {
             addMessage("DATE_POLL_DATE_NOT_PARSEABLE", context, errorEnvironment);
             return false;
         }
         try {
             LocalTime.parse(entryDto.getStartTime());
             LocalTime.parse(entryDto.getEndTime());
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException | NullPointerException e) {
             addMessage("DATE_POLL_TIME_NOT_PARSEABLE", context, errorEnvironment);
             return false;
         }

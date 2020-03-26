@@ -75,7 +75,7 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     @Bean
     public LocalValidatorFactoryBean localValidatorFactoryBean() {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-        bean.setValidationMessageSource(messageSource());
+        bean.setValidationMessageSource(webFlowMessageSource());
         return bean;
     }
 
@@ -86,7 +86,7 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
      * @return ...
      */
     @Bean
-    public MessageSource messageSource() {
+    public MessageSource webFlowMessageSource() {
         ReloadableResourceBundleMessageSource messageSource
                 = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:flows/messages/flow-messages");
