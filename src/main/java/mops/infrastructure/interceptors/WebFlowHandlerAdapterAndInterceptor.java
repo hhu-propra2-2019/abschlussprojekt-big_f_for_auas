@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * zur Verfügung. Allerdings betrachet Web Flow das Attribut dann, wie man in FlowHandlerAdapter.handle() sieht,
  * nicht mehr als Input (der Input wird in einer anderen Mapt gespeichert), weshalb wir im Flow nicht
  *
- * <input name="account" type="mops.controllers.dtos.Account" required="true" />
+ * <input name="account" type="mops.infrastructure.controllers.dtos.Account" required="true" />
  *
  * deklarieren können, um zu kennzeichnen, dass das Attribut übergeben wird. Ich habe deswegen
  * defaultCreateFlowExecutionInputMap() überschrieben. Jetzt kann man im Flow den obigen Tag deklarieren

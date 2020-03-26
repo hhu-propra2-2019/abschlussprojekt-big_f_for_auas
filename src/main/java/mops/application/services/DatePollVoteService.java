@@ -33,5 +33,6 @@ public class DatePollVoteService {
     public void vote(PollLink link, UserId user, Set<DatePollEntry> yes, Set<DatePollEntry> maybe) {
         final DatePoll datepoll = datePollRepository.load(link).orElseThrow();
         datepoll.castBallot(user, yes, maybe);
+        datePollRepository.save(datepoll);
     }
 }

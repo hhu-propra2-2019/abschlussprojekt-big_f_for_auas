@@ -1,0 +1,132 @@
+/* Mittleres Element der Terminvorschläge umklappen */
+@media (max-width: 575.98px) {
+
+    .wrap-check-icon {
+        width: 25%;
+    }
+
+    .wrap-von-bis {
+        width: 100%;
+        order: 3 !important;
+    }
+    .wrap-delete-button{
+        width:75%;
+        order:2 !important;
+
+    }
+}
+
+.wrap-input-date {
+    min-width: 25%;
+}
+
+@media (max-width: 767.98px) {
+
+    .wrap-input-date {
+        width: 75%;
+    }
+
+    .wrap-input-von-bis {
+        width: 100%;
+        order: 3 !important;
+    }
+    .wrap-input-add-button{
+        width:25%;
+        order:2 !important;
+    }
+}
+
+
+
+
+
+.addOptionBtn {
+    width: 100px
+}
+
+.optionTime {
+    max-width: 29%;
+}
+
+.border-primary.card-hover:hover {
+    transition: background-color 0.3s ease;
+    background-color: rgba(0, 123, 255, 0.5);
+}
+
+.card-hover:hover span, .card-hover:hover h5, .card-hover:hover i {
+    transition: color 0.3s ease;
+    color: #fff;
+}
+
+.border-dark.card-hover:hover {
+    transition: background-color 0.3s ease;
+    background-color: rgba(52, 58, 64, 0.5)!important;
+}
+
+/* TABLE */
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background: #fff;
+}
+
+.table-striped tbody tr:nth-child(even), .table-striped thead tr {
+    background: #f8f9fa;
+}
+
+table.table-striped tr th {
+    color: #000;
+}
+
+/* CHART */
+/*
+#resultChart {
+    height: 300px !important;
+    width: 300px !important;
+}
+*/
+
+@media only screen and (max-width: 989px){
+    .chart {
+        transform: rotate(-90deg);
+    }
+
+    .desktopConfirmation, .desktopResults, .desktopResultTableWeekday {
+        display: none;
+    }
+
+    .mobileConfirmation, .mobileResults {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 1140px) {
+    .desktopResultTableWeekday {
+        display: none;
+    }
+
+    .desktopResultTableDate {
+        max-width: 100% !important;
+        flex: 0 0 40%;
+    }
+}
+
+@media only screen and (min-width: 1140px) and (max-width: 1280px) {
+    .desktopResultTableWeekday {
+        display: none;
+    }
+
+    .desktopResultTableDate {
+        max-width: 100% !important;
+        flex: 0 0 20%;
+    }
+}
+
+@media only screen and (min-width: 990px){
+    .desktopConfirmation, .desktopResults {
+        display: block;
+    }
+
+    .mobileConfirmation, .mobileResults {
+        display: none;
+    }
+}

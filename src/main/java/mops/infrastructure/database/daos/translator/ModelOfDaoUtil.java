@@ -74,7 +74,8 @@ public final class ModelOfDaoUtil {
     }
 
     public static Group groupOf(GroupDao dao) {
-        return new Group(new GroupId(dao.getId()), extractUserIds(extractUser(dao.getUserDaos())));
+        return new Group(new GroupId(
+                dao.getId()), dao.getTitle(), dao.getVisibility(), extractUserIds(extractUser(dao.getUserDaos())));
     }
 
     public static Set<Group> extractGroup(Set<GroupDao> groupDaos) {

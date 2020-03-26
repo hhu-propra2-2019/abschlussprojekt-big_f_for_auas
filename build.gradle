@@ -59,10 +59,17 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-task'
 	implementation 'org.springframework.webflow:spring-webflow:2.5.1.RELEASE'
 	implementation 'org.apache.commons:commons-text:1.7'
+	// Für die Gruppen-Synchronisation
+	compile 'org.springframework.boot:spring-boot-starter-webflux'
+	compile 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
+	// Für eigene Keys in der application.properties
+	annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
+
 	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation "mops:styleguide:2.2.0"
+	// Testing
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}

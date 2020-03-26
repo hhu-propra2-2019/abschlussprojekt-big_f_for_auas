@@ -12,10 +12,10 @@ public interface DatePollEntryJpaRepository extends JpaRepository<DatePollEntryD
     Set<DatePollEntryDao> findByDatePoll(DatePollDao datePollDao);
     DatePollEntryDao findByDatePollAndAndTimespanDao(DatePollDao datePollDao, TimespanDao timespanDao);
     @Query(
-            value = "select a.* from datepollentry as a, datepollentry_user_votes_for as b "
-                    + "where a.id = b.date_poll_entry_set_id and b.user_votes_for_id = ?1 "
-                    + "and a.date_poll_link = ?2",
-            nativeQuery = true
+        value = "select a.* from datepollentry as a, datepollentry_user_votes_for as b "
+            + "where a.id = b.date_poll_entry_set_id and b.user_votes_for_id = ?1 "
+            + "and a.date_poll_link = ?2",
+        nativeQuery = true
     )
     Set<DatePollEntryDao> findAllDatePollEntriesUserVotesFor(String userId, String pollLink);
 }

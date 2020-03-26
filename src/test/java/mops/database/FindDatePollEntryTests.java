@@ -55,7 +55,7 @@ public class FindDatePollEntryTests {
         )));
         final Set<UserId> participants = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
-        final Group group = new Group(new GroupId("1"), participants);
+        final Group group = new Group(new GroupId("1"), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)

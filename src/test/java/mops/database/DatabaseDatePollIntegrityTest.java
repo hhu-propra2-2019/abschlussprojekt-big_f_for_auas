@@ -75,7 +75,7 @@ public class DatabaseDatePollIntegrityTest {
         participants = new HashSet<>();
         IntStream.range(0, 1).forEach(i -> participants.add(new UserId(Integer.toString(i))));
 
-        group = new Group(new GroupId("1"), participants);
+        group = new Group(new GroupId("1"), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
 
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> pollEntries.add(new DatePollEntry(
@@ -114,7 +114,7 @@ public class DatabaseDatePollIntegrityTest {
         //final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
         datePollRepository.save(datePoll);
         //final Set<UserDao> userDaoSet = userJpaRepository.findAllByGroupSetContaining(exampleGroup);
-        final Set<DatePoll> datePollsByUserId = datePollRepository.getDatePollsByUserId(
+        final Set<DatePoll> datePollsByUserId = datePollRepository.getDatePollByGroupMembership(
                 participants.iterator().next());
         assertThat(datePollsByUserId.size()).isEqualTo(1);
     }

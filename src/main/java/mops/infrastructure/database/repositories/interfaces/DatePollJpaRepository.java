@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface DatePollJpaRepository extends JpaRepository<DatePollDao, String> {
     DatePollDao findDatePollDaoByLink(String link);
-    DatePollDao findByCreatorUserDao(UserDao userDao);
+    Set<DatePollDao> findByCreatorUserDao(UserDao userDao);
     Set<DatePollDao> findByGroupDaosContaining(GroupDao targetGroup);
     @Query(
             value = "select a.* from datepoll as a, datepoll_group_daos b, usergroup_user_daos c "
@@ -18,4 +18,10 @@ public interface DatePollJpaRepository extends JpaRepository<DatePollDao, String
             nativeQuery = true
     )
     Set<DatePollDao> findAllDatePollsOfTargetUser(String userId);
+//    @Query(
+//        value = "select datePoll.* from datepoll as datePoll, datepollstatus "
+//            + "where datePoll.link = datepollstatus.datepoll_link and datepollstatus.user_id = ?1",
+//        nativeQuery = true
+//    )
+//    Set<DatePollDao> findDatePollDaoWhereUserHasStatus(UserId userId);
 }

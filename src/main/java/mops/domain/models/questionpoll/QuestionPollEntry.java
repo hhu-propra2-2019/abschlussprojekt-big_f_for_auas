@@ -1,10 +1,10 @@
 package mops.domain.models.questionpoll;
 
 import lombok.Getter;
-import mops.controllers.dtos.QuestionPollEntryDto;
 import mops.domain.models.FieldErrorNames;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
+import mops.infrastructure.controllers.dtos.QuestionPollEntryDto;
 import mops.utils.DomainObjectCreationUtils;
 
 import java.util.Set;

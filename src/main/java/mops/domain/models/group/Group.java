@@ -11,6 +11,11 @@ import java.util.Set;
 public class Group {
 
     private final GroupId id;
+    private final String title;
+    private final GroupVisibility visibility;
     private final Set<UserId> user;
 
+    public enum GroupVisibility {
+        PUBLIC, PRIVATE
+    }
 }
