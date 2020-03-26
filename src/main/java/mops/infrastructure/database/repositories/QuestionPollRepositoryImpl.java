@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -76,7 +75,7 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
         }
     }
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    private void setVoteForTargetUserAndEntry(List<QuestionPollEntry> questionPollEntries,
+    private void setVoteForTargetUserAndEntry(Set<QuestionPollEntry> questionPollEntries,
                                               QuestionPoll questionPoll, UserId user) {
         questionPollEntries.forEach(targetEntry -> questionPollEntryRepositoryManager
                 .userVotesForQuestionPollEntry(user,
