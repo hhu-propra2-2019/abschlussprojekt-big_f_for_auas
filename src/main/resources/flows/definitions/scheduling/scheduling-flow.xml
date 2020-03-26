@@ -6,7 +6,7 @@
 
     <secured attributes="ROLE_orga, ROLE_studentin" match="any" />
 
-    <input name="account" type="mops.controllers.dtos.Account" required="true" />
+    <input name="account" type="mops.infrastructure.controllers.dtos.Account" required="true" />
 
     <on-start>
 <!--        <evaluate expression="metaInfAdapter.initializeDto()" result="flowScope.metaInfDto"/>

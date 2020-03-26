@@ -4,6 +4,7 @@ import lombok.Value;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Value
 public final class Timespan implements ValidateAble, Comparable<Timespan>, Serializable {
@@ -33,6 +34,20 @@ public final class Timespan implements ValidateAble, Comparable<Timespan>, Seria
             validation = validation.appendValidation(new Validation(FieldErrorNames.TIMESPAN_SAME));
         }
         return validation;
+    }
+
+    public String printStartDateDay() {
+        return startDate.format(DateTimeFormatter.ofPattern("EEEE,"));
+    }
+
+    public String printStartDate() {
+        return startDate.format(DateTimeFormatter.ofPattern("d MMM yyyy"));
+    }
+
+    public String printFormatted() {
+        return String.format("%sUhr bis %sUhr",
+            startDate.format(DateTimeFormatter.ofPattern("HH:mm")),
+            endDate.format(DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     /**
