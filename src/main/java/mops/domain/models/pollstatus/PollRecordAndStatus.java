@@ -29,6 +29,7 @@ public class PollRecordAndStatus {
     @Getter
     @Setter
     private LocalDateTime lastModified = LocalDateTime.now();
+    @Getter
     private transient Map<UserId, PollStatus> votingRecord = new ConcurrentHashMap<>();
     @Getter
     private transient boolean isTerminated;

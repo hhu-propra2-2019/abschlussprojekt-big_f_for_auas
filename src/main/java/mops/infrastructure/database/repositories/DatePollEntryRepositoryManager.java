@@ -46,10 +46,7 @@ public class DatePollEntryRepositoryManager {
      * @param datePollEntry Der zugehörige Terminvorschlag.
      * @return DatePollEntryDao Das DatePollEntryDao Objekt aus der Datenbank.
      */
-     public DatePollEntryDao findDatePollEntryDao(
-             PollLink pollLink,
-             DatePollEntry datePollEntry
-     ) {
+     public DatePollEntryDao loadDatePollEntryDao(PollLink pollLink, DatePollEntry datePollEntry) {
          final DatePollDao currentDatePollDao = datePollJpaRepository.
                  findDatePollDaoByLink(pollLink.getLinkUUIDAsString());
          final Timespan periodOfDatePollEntry = datePollEntry.getSuggestedPeriod();
@@ -65,8 +62,8 @@ public class DatePollEntryRepositoryManager {
      * @param pollLink zugehoeriger DatePoll.
      * @param datePollEntry Vorschlag fuer den abgestimmt wird.
      */
-    public void userVotesForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
-        final DatePollEntryDao targetDatePollEntryDao = findDatePollEntryDao(pollLink, datePollEntry);
+    void userVotesForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
+        final DatePollEntryDao targetDatePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
         final UserDao currentUserDao = userJpaRepository.getOne(userId.getId());
         targetDatePollEntryDao.getUserVotesFor().add(currentUserDao);
         currentUserDao.getDatePollEntrySet().add(targetDatePollEntryDao);
@@ -80,10 +77,18 @@ public class DatePollEntryRepositoryManager {
      * @return votes Die Anzahl an "yes" Stimmen fuer die jeweilige Abstimmung.
      */
     public Long getVotesForDatePollEntry(PollLink pollLink, DatePollEntry datePollEntry) {
-        final DatePollEntryDao datePollEntryDao = findDatePollEntryDao(pollLink, datePollEntry);
+        final DatePollEntryDao datePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
         return userJpaRepository.countByDatePollEntrySetContaining(datePollEntryDao);
     }
 
+    /**
+     * Gibt alle DatePollEntries zum zugehoerigen DatePoll zurueck.
+     * @param datePollDao Das DatePoll Objekt.
+     * @return Set<DatePollEntryDao> Die zugehoerigen Enries.
+     */
+    Set<DatePollEntryDao> findAllDatePollEntriesByDatePollDao(DatePollDao datePollDao) {
+        return datePollEntryJpaRepository.findByDatePoll(datePollDao);
+    }
     /**
      * Die Methode gibt alle "Yes" Votes eines Users fuer einen DatePoll zurueck.
      * @param userId zugehoeriger User.

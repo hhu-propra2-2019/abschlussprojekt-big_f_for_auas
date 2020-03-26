@@ -3,6 +3,8 @@ package mops.infrastructure.database.repositories;
 import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.questionpoll.QuestionPoll;
+import mops.domain.models.questionpoll.QuestionPollBallot;
+import mops.domain.models.questionpoll.QuestionPollEntry;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.QuestionPollRepository;
 import mops.infrastructure.database.daos.GroupDao;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,12 +28,15 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
 
     private final transient QuestionPollJpaRepository questionPollJpaRepository;
     private final transient GroupJpaRepository groupJpaRepository;
+    private final transient QuestionPollEntryRepositoryManager questionPollEntryRepositoryManager;
 
     @Autowired
     public QuestionPollRepositoryImpl(QuestionPollJpaRepository questionPollJpaRepository,
-                                      GroupJpaRepository groupJpaRepository) {
+                                      GroupJpaRepository groupJpaRepository,
+                                      QuestionPollEntryRepositoryManager questionPollEntryRepositoryManager) {
         this.questionPollJpaRepository = questionPollJpaRepository;
         this.groupJpaRepository = groupJpaRepository;
+        this.questionPollEntryRepositoryManager = questionPollEntryRepositoryManager;
     }
 
     /**
@@ -50,7 +56,7 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
      * @param questionPoll Zu speicherndes QuestionPoll
      */
     @Override
-    @SuppressWarnings({"PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidDuplicateLiterals"})
     public void save(QuestionPoll questionPoll) {
         final Set<GroupDao> groupDaos = questionPoll.getGroups().stream()
                 .map(GroupId::getId)
@@ -58,8 +64,25 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toSet());
         questionPollJpaRepository.save(DaoOfModelUtil.pollDaoOf(questionPoll, groupDaos));
+        checkQuestionPollBallotsForVotes(questionPoll.getBallots(), questionPoll);
     }
-
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
+    private void checkQuestionPollBallotsForVotes(Set<QuestionPollBallot> questionPollBallots,
+                                                  QuestionPoll questionPoll) {
+        for (final QuestionPollBallot targetBallot:questionPollBallots) {
+            if (targetBallot.getSelectedEntries().size() != 0) {
+                setVoteForTargetUserAndEntry(targetBallot.getSelectedEntries(), questionPoll, targetBallot.getUser());
+            }
+        }
+    }
+    @SuppressWarnings({"PMD.LawOfDemeter"})
+    private void setVoteForTargetUserAndEntry(List<QuestionPollEntry> questionPollEntries,
+                                              QuestionPoll questionPoll, UserId user) {
+        questionPollEntries.forEach(targetEntry -> questionPollEntryRepositoryManager
+                .userVotesForQuestionPollEntry(user,
+                        questionPoll.getPollLink(),
+                        targetEntry));
+    }
     /**
      * Lädt alle QuestionPolls in denen ein Nutzer Teilnimmt.
      * @param userId Der User, welcher an den QuestionPolls teilnimmt.
@@ -73,7 +96,7 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
         final Set<QuestionPollDao> questionPollDaosFromUser = new HashSet<>();
         groupDaos.stream()
                 .map(questionPollJpaRepository::findByGroupDaosContaining)
-                .map(questionPollDaosFromUser::addAll);
+                .forEach(questionPollDaosFromUser::addAll);
         final Set<QuestionPoll> targetQuestionPolls = new HashSet<>();
         questionPollDaosFromUser.forEach(
                 datePollDao -> targetQuestionPolls.add(ModelOfDaoUtil.pollOf(datePollDao)));
