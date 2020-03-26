@@ -173,6 +173,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @param userId
      * @return Set<DatePoll>
      */
+    @SuppressWarnings("PMD.LawOfDemeter") //stream
     @Override
     public Set<DatePoll> getDatePollWhereUserHasStatus(UserId userId) {
         return datePollJpaRepository.findDatePollDaoWhereUserHasStatus(userId).stream()
