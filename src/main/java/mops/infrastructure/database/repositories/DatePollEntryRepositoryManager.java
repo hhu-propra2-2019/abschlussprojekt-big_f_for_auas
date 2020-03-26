@@ -62,7 +62,7 @@ public class DatePollEntryRepositoryManager {
      * @param pollLink zugehoeriger DatePoll.
      * @param datePollEntry Vorschlag fuer den abgestimmt wird.
      */
-    void userVotesForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
+    public void userVotesForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
         final DatePollEntryDao targetDatePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
         final UserDao currentUserDao = userJpaRepository.getOne(userId.getId());
         targetDatePollEntryDao.getUserVotesFor().add(currentUserDao);
@@ -86,6 +86,7 @@ public class DatePollEntryRepositoryManager {
      * @param datePollDao Das DatePoll Objekt.
      * @return Set<DatePollEntryDao> Die zugehoerigen Enries.
      */
+    @SuppressWarnings({"PMD.CommentDefaultAccessModifier", "PMD.DefaultPackage"})
     Set<DatePollEntryDao> findAllDatePollEntriesByDatePollDao(DatePollDao datePollDao) {
         return datePollEntryJpaRepository.findByDatePoll(datePollDao);
     }
