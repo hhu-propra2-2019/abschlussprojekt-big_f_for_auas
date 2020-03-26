@@ -7,7 +7,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 public final class AdapterUtil {
 
     public static MessageContext getMessageContext() {
-        ReloadableResourceBundleMessageSource messageSource
+        final ReloadableResourceBundleMessageSource messageSource
                 = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:flows/messages/flow-messages");
         messageSource.setDefaultEncoding("UTF-8");

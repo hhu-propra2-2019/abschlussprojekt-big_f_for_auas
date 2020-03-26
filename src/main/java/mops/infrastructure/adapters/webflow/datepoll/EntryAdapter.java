@@ -38,7 +38,7 @@ public final class EntryAdapter implements WebFlowAdapter<EntryDto, DatePollEntr
     }
 
     @Override
-    @SuppressWarnings("PMD.LawOfDemeter")
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidCatchingNPE", "PMD.AvoidCatchingGenericException"})
     public boolean validateDto(EntryDto entryDto, MessageContext context) {
         try {
             LocalDate.parse(entryDto.getDate());
