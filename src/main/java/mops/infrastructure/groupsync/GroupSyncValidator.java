@@ -50,7 +50,7 @@ public final class GroupSyncValidator {
                 new GroupId(dto.getId()),
                 dto.getTitle(),
                 "PUBLIC".equals(dto.getVisibility()) ? Group.GroupVisibility.PUBLIC : Group.GroupVisibility.PRIVATE,
-                dto.getMembers().stream().flatMap(this::validatePersonDto).collect(Collectors.toSet()));
+                dto.getMembers().stream().flatMap(this::validateUserDto).collect(Collectors.toSet()));
         // Falls ein oder mehrere User nicht eingelesen werden konnten, Gruppe nicht erzeugen
         if (group.getUser().isEmpty() || dto.getMembers().size() != group.getUser().size()) {
             return Stream.empty();
@@ -59,7 +59,7 @@ public final class GroupSyncValidator {
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
-    private Stream<UserId> validatePersonDto(UserDto dto) {
+    private Stream<UserId> validateUserDto(UserDto dto) {
         if (dto.getId() == null || dto.getId().isBlank()) {
             return Stream.empty();
         }
