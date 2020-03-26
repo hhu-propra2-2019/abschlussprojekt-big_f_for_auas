@@ -7,6 +7,7 @@ import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
+import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.questionpoll.QuestionPollConfig;
 import mops.domain.models.questionpoll.QuestionPollEntry;
@@ -14,6 +15,7 @@ import mops.domain.models.questionpoll.QuestionPollMetaInf;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
+import mops.infrastructure.database.daos.PollStatusEnum;
 import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollConfigDao;
@@ -197,6 +199,19 @@ public final class DaoOfModelUtil {
         return link.getLinkUUIDAsString();
     }
 
+    public static PollStatusEnum createPollStatusEnumDao(PollStatus currentStatus) {
+        final PollStatusEnum newStatus;
+        if (currentStatus == PollStatus.OPEN) {
+            newStatus = PollStatusEnum.OPEN;
+        } else if (currentStatus == PollStatus.REOPENED) {
+            newStatus = PollStatusEnum.REOPENED;
+        } else if (currentStatus == PollStatus.ONGOING) {
+            newStatus =  PollStatusEnum.ONGOING;
+        } else {
+            newStatus = PollStatusEnum.TERMINATED;
+        }
+        return newStatus;
+    }
     /**
      * Wird nie instanziiert da util klasse.
      */

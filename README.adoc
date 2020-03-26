@@ -12,18 +12,37 @@ ifdef::env-github[]
 endif::[]
 
 === Terminfindung und Abstimmung
-Terminfindungen und Abstimmungen sollten essentielle Bestandteile eines guten Systems fuer Bearbeitung und Korrektur/Benotung von Abgaben sein. Haeufig ist es schwierig, neben bekannten Kommilitonen, Kommilitonen zu finden, welche in der gleichen Veranstaltung sitzen und Interesse an Lerngruppen haben. 
+Terminfindung umfasst das Erstellen einer Terminumfrage, sowie das Teilnehmen an der Umfrage und die
+Präsentation der Ergebnisse. Abstimmungen sind dazu Analog, allerdings wird hier nicht nach einem
+gemeinsamen Termin gesucht, sondern nach einem Meinungsbild zu einer gestellten Frage.
 
 ==== Problemstellung
-Es gibt für Studierende und Mitarbeiter der Uni keine Möglichkeit einfach und schnell Abstimmungen zu erstellen und sich mit Hilfe von Abstimmungen auf Termine zu einigen. Momentan ist eine Terminfindung/Abstimmung nur durch den Einsatz diverser Drittanbieter (Doodle, StrawPoll, ILIAS, WhatsApp ...) möglich. Die Akzeptanz bei wichtigen Entscheidungen ist ohne ein Abstimmungssystem kaum möglich. Die Organisation von Lerngruppen ist in einem anonymen Umfeld (z.B. während einer vorlesung im Hörsaal) nicht ohne weiteres möglich.
+Es gibt für Studierende und Mitarbeitende der HHU keine Möglichkeit in einem System der Universität
+einfach und schnell Abstimmungen zu erstellen und sich mit Hilfe von Umfragen auf Termine zu einigen. Momentan ist
+eine Terminfindung oder Abstimmung nur durch den Einsatz von Drittanbieter-Software
+(Doodle, StrawPoll, ILIAS, WhatsApp ...) möglich.
 
 ==== Wesentliche Features der angepeilten Anwendung
-Es sollen im wesentlichen zwei Services für angehörige der HHU angeboten werden: 
-Eine Möglichkeit der Terminabstimmung und die Möglichkeit über einzele Fragen abstimmen zu lassen.
-Bei beiden Services soll es die Möglichkeit geben die Teilnehmer über Gruppenzugehörigkeit, über einen öffentlichen Link oder über den Usernamen auszuwählen. Bei der Erstellung einer Terminabstimmung bzw. einer Abstimmung sollen mehrere Konfigurations-Einstellungen möglich sein. Für den Nutzer soll ein übersichtliches Dashboard angeboten werden, welches ihn auf die wichtigsten Ereignisse hinweißt. Der Nutzer soll in übersichtlichen Wizard-Steps durch die Konfiguration geführt werden. 
-Der Ersteller soll neue Vorschläge für Abstimmungen und Terminfindungen im nachhinein noch ergänzen können und die Teilnehmer sollen darauf entsprechend reagieren können. Ein Nutzer soll möglichst schnell zu einer (Termin)Umfrage navigieren und eine Abstimmung ausführen.Die Ergebnisse einer Abstimmung sollen nach Abschluss übersichtlich aggregiert werden. Nach einer festgelegten Zeit werden alle Daten, verbunden mit einer (Termin)Umfrage, gelöscht. 
+Es sollen im wesentlichen zwei Services für Angehörige der HHU angeboten werden.
+Es soll einen Terminfindungsservice geben und einen Service, der Umfragen zu konkreten Fragestellungen ermöglicht.
+Bei beiden Services soll es die Möglichkeit geben, die Teilnehmer der Umfrage über Gruppenzugehörigkeit
+oder über den Usernamen zu beschränken. Es sollen auch öffentliche Umfragen gestellt werden können.
+Deshalb soll es die Möglichkeit geben, dass ein User per URL auf die Umfrage zugreifen und daran teilnehmen kann.
+Der Ersteller wird durch die Erstellung einer Umfrage geführt.
+Umfragen können durch den Ersteller konfiguriert werden. Dabei hat er unter anderem die
+Möglichkeit zwischen Single-Choice und Multiple-Choice zu wählen.
+
+Für den Nutzer soll ein übersichtliches Dashboard angeboten werden, welches ihn auf die
+ihn betreffenden Umfragen hinweist. Des Weiteren soll er neue Vorschläge für Abstimmungen
+und Terminfindungen im Nachhinein noch ergänzen können. Nach einer Änderung in einer Umfrage
+sollen Teilnehmer der Umfrage entsprechend informiert werden. Ein Nutzer soll möglichst simpel
+zu einer Umfrage navigieren und abstimmen können.
+
+Die Ergebnisse einer Abstimmung sollen nach Abschluss der Umfrage übersichtlich angezeigt werden.
+Nach einer festgelegten Zeit werden alle Daten, die mit einer Umfrage verbunden sind, gelöscht.
 
 ==== Dokumentation und wo Sie zu finden ist
-Dokumentationen sind grundsätzlich im documentations Ordner im Root Verzeichnis zu finden. Weitere Information lassen sich aus den javadocs entnehmen, sofern vorhanden.
+Dokumentationen sind grundsätzlich im documentations Ordner im Root Verzeichnis zu finden.
+Weitere Information lassen sich aus den javadocs entnehmen, sofern vorhanden.
 
 
