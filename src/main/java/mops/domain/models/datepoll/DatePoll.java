@@ -1,5 +1,6 @@
 package mops.domain.models.datepoll;
 
+import java.util.Collections;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -50,23 +51,9 @@ public final class DatePoll {
      * @param maybe - DatePollEntries für welche der User mit vielleicht gestimmt hat.
      */
     public void castBallot(UserId user, Set<DatePollEntry> yes, Set<DatePollEntry> maybe) {
-        updatePollStatus();
-        if (recordAndStatus.isTerminated()) {
-            return;
-        } //&& !participants.contains(user) --> TODO: Is participant in group?
-        if (!config.isOpen()) {
-            return;
-        }
-        if (config.isSingleChoice() && yes.size() > 1) {
-            return;
-        }
-        if (config.isOpenForOwnEntries()) {
-            aggregateNewEntries(yes);
-            aggregateNewEntries(maybe);
-        }
 
         final DatePollBallot ballot = getUserBallot(user)
-                .orElse(new DatePollBallot(user, yes, maybe));
+                .orElse(new DatePollBallot(user, Collections.emptySet(), Collections.emptySet()));
         ballots.add(ballot);
         ballot.updateYes(yes, entries);
         ballot.updateMaybe(maybe, entries);

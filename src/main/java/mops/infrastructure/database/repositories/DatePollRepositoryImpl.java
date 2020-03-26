@@ -1,5 +1,6 @@
 package mops.infrastructure.database.repositories;
 
+import java.util.Collections;
 import mops.domain.models.PollLink;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBallot;
@@ -106,7 +107,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         //Set "Yes" Votes to targetDatePoll
         //TODO: Diesen Zugriff auf das DatePollBallot-Set ersetzen durch einen Konstruktor Aufruf von DatePoll
         if (!targetDatePollEntries.isEmpty()) {
-            targetDatePoll.getBallots().add(new DatePollBallot(targetUser, targetDatePollEntries));
+            targetDatePoll.castBallot(targetUser, targetDatePollEntries, Collections.emptySet());
         }
     }
 
@@ -128,7 +129,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         checkDatePollBallotsForVotes(datePoll.getBallots(), datePoll);
         //Save PollStatus for each User ...
         saveDatePollStatus(datePoll, datePollDao);
-        datePollJpaRepository.flush();
+        //datePollJpaRepository.flush();
     }
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
@@ -149,8 +150,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
 
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void checkDatePollBallotsForVotes(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
-        for (final DatePollBallot targetBallot:datePollBallots
-             ) {
+        for (final DatePollBallot targetBallot:datePollBallots) {
             if (targetBallot.getSelectedEntriesYes().size() != 0) {
                 setYesVoteForTargetUserAndEntry(targetBallot.getSelectedEntriesYes(),
                         datePoll,
