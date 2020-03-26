@@ -103,7 +103,7 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-        final Group group = new Group(new GroupId(groupId), participants);
+        final Group group = new Group(new GroupId(groupId), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
 
         datePoll = new DatePollBuilder()
             .datePollMetaInf(datePollMetaInf)
