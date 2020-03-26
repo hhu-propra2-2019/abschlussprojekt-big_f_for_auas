@@ -15,7 +15,7 @@ import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
-import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
+import mops.infrastructure.database.repositories.GroupRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class DatePollVotingProcedure {
     private transient DatePollRepositoryImpl datePollRepo;
     private final transient Random random = new Random();
     @Autowired
-    private transient DomainGroupRepositoryImpl domainGroupRepository;
+    private transient GroupRepositoryImpl domainGroupRepository;
     @Autowired
     private transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
     @Test

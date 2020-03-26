@@ -1,7 +1,7 @@
 package mops.infrastructure.groupsync;
 
 import lombok.extern.log4j.Log4j2;
-import mops.domain.repositories.DomainGroupRepository;
+import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.groupsync.dto.GroupSyncInputDto;
 import mops.infrastructure.groupsync.dto.GroupSyncValidDto;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,7 +13,7 @@ public final class GroupSyncService {
 
     private final transient GroupSyncWebclient syncController;
     private final transient GroupSyncValidator syncValidator;
-    private final transient DomainGroupRepository groupRepository;
+    private final transient GroupRepository groupRepository;
 
     // In Millisekunden, 1h => 3600s => 3600s * 1000ms
     private static final long SYNCHRONISATION_DELAY = 1000 * 900;
@@ -26,7 +26,7 @@ public final class GroupSyncService {
 
     public GroupSyncService(GroupSyncWebclient syncController,
                             GroupSyncValidator syncValidator,
-                            DomainGroupRepository groupRepository) {
+                            GroupRepository groupRepository) {
         this.syncController = syncController;
         this.syncValidator = syncValidator;
         this.groupRepository = groupRepository;

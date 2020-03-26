@@ -2,8 +2,12 @@ package mops.infrastructure.database.repositories;
 
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
-import mops.domain.repositories.DomainGroupRepository;
+import mops.domain.models.group.GroupMetaInf;
+import mops.domain.models.group.GroupVisibility;
+import mops.domain.models.user.UserId;
+import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.database.daos.GroupDao;
+import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import mops.infrastructure.database.repositories.interfaces.GroupJpaRepository;
@@ -11,14 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
-public class DomainGroupRepositoryImpl implements DomainGroupRepository {
+public class GroupRepositoryImpl implements GroupRepository {
 
     private final transient GroupJpaRepository groupJpaRepository;
 
     @Autowired
-    public DomainGroupRepositoryImpl(GroupJpaRepository groupJpaRepository) {
+    public GroupRepositoryImpl(GroupJpaRepository groupJpaRepository) {
         this.groupJpaRepository = groupJpaRepository;
     }
 
@@ -49,5 +54,22 @@ public class DomainGroupRepositoryImpl implements DomainGroupRepository {
     public void save(Group group) {
         final GroupDao dao = DaoOfModelUtil.groupDaoOf(group);
         groupJpaRepository.save(dao);
+    }
+
+    @Override
+    public boolean exists(GroupId groupId) {
+        return groupJpaRepository.existsGroupDaoById(groupId.getId());
+    }
+
+    @Override
+    public Set<GroupMetaInf> getMetaInfForPublicGroups() {
+        return groupJpaRepository.findAllMetaInfUsingVisibility(GroupVisibility.PUBLIC);
+    }
+
+    @Override
+    public Set<GroupMetaInf> getMetaInfForGroupsOfUser(UserId userId) {
+        UserDao user = new UserDao();
+        user.setId(userId.getId());
+        return groupJpaRepository.findAllMetaInfForUser(user);
     }
 }

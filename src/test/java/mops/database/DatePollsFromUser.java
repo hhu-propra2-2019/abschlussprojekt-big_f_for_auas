@@ -13,7 +13,7 @@ import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
-import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
+import mops.infrastructure.database.repositories.GroupRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class DatePollsFromUser {
     private transient DatePollRepositoryImpl datePollRepo;
     private final transient Random random = new Random();
     @Autowired
-    private transient DomainGroupRepositoryImpl domainGroupRepository;
+    private transient GroupRepositoryImpl domainGroupRepository;
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void userOneHasThreeDatePolls() {

@@ -18,7 +18,7 @@ import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollEntryDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
-import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
+import mops.infrastructure.database.repositories.GroupRepositoryImpl;
 import mops.infrastructure.database.repositories.interfaces.QuestionPollEntryJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.QuestionPollJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
@@ -51,7 +51,7 @@ public class DatabaseQuestionPollIntegrityTest {
     @Autowired
     private transient QuestionPollEntryJpaRepository questionPollEntryJpaRepository;
     @Autowired
-    private transient DomainGroupRepositoryImpl domainGroupRepository;
+    private transient GroupRepositoryImpl domainGroupRepository;
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
     @BeforeEach
     public void setupQuestionPollRepoTest() {

@@ -18,7 +18,7 @@ import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
-import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
+import mops.infrastructure.database.repositories.GroupRepositoryImpl;
 import mops.infrastructure.database.repositories.interfaces.DatePollEntryJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
@@ -59,7 +59,7 @@ public class DatabaseDatePollIntegrityTest {
     private transient DatePollEntryJpaRepository datePollEntryJpaRepository;
 
     @Autowired
-    private transient DomainGroupRepositoryImpl domainGroupRepository;
+    private transient GroupRepositoryImpl domainGroupRepository;
 
 
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
