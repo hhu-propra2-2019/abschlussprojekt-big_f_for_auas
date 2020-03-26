@@ -33,8 +33,8 @@ public final class GroupSyncWebclient {
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .configure(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES, false);
 
-    private final String apiRoot;
-    private final WebClient webClient;
+    private final transient String apiRoot;
+    private final transient WebClient webClient;
 
     @Autowired
     public GroupSyncWebclient(Environment environment) {
@@ -42,13 +42,14 @@ public final class GroupSyncWebclient {
         this.webClient = WebClient.create(apiRoot);
     }
 
+    @SuppressWarnings("PMD.GuardLogStatement")
     public Optional<GroupSyncInputDto> getGroupSyncDto(long lastStatus) {
         try {
-            String responseBody = queryApi(lastStatus);
+            final String responseBody = queryApi(lastStatus);
             if (responseBody == null) {
                 throw new ConnectException();
             }
-            JsonNode node = mapper.readTree(responseBody);
+            final JsonNode node = mapper.readTree(responseBody);
             return parseGroupSyncDto(node);
         } catch (WebClientException e) {
             log.warn("Group Sync: Failed: " + e.getMessage());
@@ -62,12 +63,13 @@ public final class GroupSyncWebclient {
         return Optional.empty();
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private Optional<GroupSyncInputDto> parseGroupSyncDto(JsonNode node) throws JsonProcessingException {
         if (node == null || node.isEmpty()) {
             log.warn("Group Sync: Failed: no JSON content");
             return Optional.empty();
         }
-        Optional<GroupSyncInputDto> groupSyncDto =
+        final Optional<GroupSyncInputDto> groupSyncDto =
                 Optional.ofNullable(mapper.readValue(node.toString(), GroupSyncInputDto.class));
 
         groupSyncDto.ifPresentOrElse(
@@ -76,8 +78,9 @@ public final class GroupSyncWebclient {
         return groupSyncDto;
     }
 
+    @SuppressWarnings("PMD")
     private String queryApi(long lastStatus) {
-        WebClient.RequestHeadersSpec<?> request =
+        final WebClient.RequestHeadersSpec<?> request =
                 webClient.method(HttpMethod.GET)
                         .uri(apiRoot.concat(String.format("/api/updateGroups/%d", lastStatus)))
                         .body(BodyInserters.empty()).acceptCharset(StandardCharsets.UTF_8);

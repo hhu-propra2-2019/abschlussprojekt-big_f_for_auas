@@ -22,7 +22,7 @@ public final class GroupSyncService {
     // Der Status wird von der API zurückgegeben, um inkrementelle Updates zu ermöglichen
     // Da er lokal gespeichert wird, wird bei jedem Neustart der Anwendung ein voller Resync getriggert,
     // was auch sinnvoll erscheint, falls durch unvorhersehbare Fehler ein inkonsistenter Zustand entsteht
-    private long lastStatus = 0;
+    private transient long lastStatus;
 
     public GroupSyncService(GroupSyncWebclient syncController,
                             GroupSyncValidator syncValidator,
@@ -32,13 +32,14 @@ public final class GroupSyncService {
         this.groupRepository = groupRepository;
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     @Scheduled(fixedDelay = SYNCHRONISATION_DELAY, initialDelay = INITIAL_SYNCHRONISATION_DELAY)
     public void syncGroups() {
         log.info("-------------------------------------------");
         log.info("Group Sync: Start scheduled synchronization");
-        Optional<GroupSyncInputDto> groupSyncInputDto = syncController.getGroupSyncDto(lastStatus);
+        final Optional<GroupSyncInputDto> groupSyncInputDto = syncController.getGroupSyncDto(lastStatus);
         if (groupSyncInputDto.isPresent()) {
-            GroupSyncValidDto groupSyncValidDto =
+            final GroupSyncValidDto groupSyncValidDto =
                     syncValidator.validateAndKeepValid(groupSyncInputDto.get(), lastStatus);
             groupSyncValidDto.getGroups().forEach(groupRepository::save);
             // Status nur updaten, wenn fehlerfrei eingelesen wurde. Andernfalls zwar die gültigen
@@ -46,10 +47,10 @@ public final class GroupSyncService {
             // Ob dieses Verhalten gewünscht ist, kann ich nicht entscheiden.
             // Sorgt aber dafür, dass es zulasten von Overhead im Fall von Fehlern weniger wahrscheinlich ist,
             // dass eine Gruppe vorhanden ist, aber nicht synchronisiert wird.
-            if (!groupSyncValidDto.isErrorsOccurred()) {
-                lastStatus = groupSyncValidDto.getStatus();
-            } else {
+            if (groupSyncValidDto.isErrorsOccurred()) {
                 log.warn("Group Sync: Attention: The JSON input was not valid. Invalid groups have been dropped.");
+            } else {
+                lastStatus = groupSyncValidDto.getStatus();
             }
             log.info(String.format(
                     "Result: %d groups have been read successfully.", groupSyncValidDto.getGroups().size()));

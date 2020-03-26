@@ -1,5 +1,6 @@
 package mops.infrastructure.config;
 
+import lombok.NoArgsConstructor;
 import mops.domain.repositories.DomainGroupRepository;
 import mops.infrastructure.groupsync.GroupSyncService;
 import mops.infrastructure.groupsync.GroupSyncValidator;
@@ -12,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableScheduling
+@NoArgsConstructor
 public class GroupSyncConfig {
 
     /**

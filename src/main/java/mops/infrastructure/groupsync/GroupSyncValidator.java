@@ -1,5 +1,6 @@
 package mops.infrastructure.groupsync;
 
+import lombok.NoArgsConstructor;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
@@ -13,8 +14,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
+@NoArgsConstructor
 public final class GroupSyncValidator {
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     public GroupSyncValidDto validateAndKeepValid(GroupSyncInputDto dto, Long lastStatus) {
         final GroupSyncValidDto validDto = new GroupSyncValidDto();
         validDto.setStatus(dto.getStatus());
@@ -30,6 +33,9 @@ public final class GroupSyncValidator {
         return validDto;
     }
 
+    // CyclomaticComplexity ist rausgenommen, weil die Guard-Klauseln hier
+    // mMn nach nicht sonderlich schwer zu lesen sind.
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CyclomaticComplexity"})
     private Stream<Group> validateGroupDto(GroupDto dto) {
         if (dto.getTitle() == null || dto.getTitle().isBlank()
                 || dto.getId() == null || dto.getId().isEmpty()
@@ -40,7 +46,7 @@ public final class GroupSyncValidator {
         if (!("PUBLIC".equals(dto.getVisibility()) || "PRIVATE".equals(dto.getVisibility()))) {
             return Stream.empty();
         }
-        Group group = new Group(
+        final Group group = new Group(
                 new GroupId(dto.getId()),
                 dto.getTitle(),
                 "PUBLIC".equals(dto.getVisibility()) ? Group.GroupVisibility.PUBLIC : Group.GroupVisibility.PRIVATE,
@@ -52,6 +58,7 @@ public final class GroupSyncValidator {
         return Stream.of(group);
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private Stream<UserId> validatePersonDto(PersonDto dto) {
         if (dto.getId() == null || dto.getId().isBlank()) {
             return Stream.empty();
