@@ -22,6 +22,7 @@ public class UserRepositoryImpl implements UserRepository {
     public UserRepositoryImpl(UserJpaRepository userJpaRepository) {
         this.userJpaRepository = userJpaRepository;
     }
+
     @Override
     public Optional<User> load(UserId userId) {
         final UserDao targetUserDao = userJpaRepository.getOne(userId.getId());

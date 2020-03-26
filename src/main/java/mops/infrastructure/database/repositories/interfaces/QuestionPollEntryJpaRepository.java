@@ -8,4 +8,5 @@ import java.util.Set;
 
 public interface QuestionPollEntryJpaRepository extends JpaRepository<QuestionPollEntryDao, Long> {
     Set<QuestionPollEntryDao> findByQuestionPoll(QuestionPollDao questionPollDao);
+    QuestionPollEntryDao findByQuestionPollAndEntryName(QuestionPollDao questionPoll, String title);
 }

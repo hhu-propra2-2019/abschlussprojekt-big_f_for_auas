@@ -23,9 +23,9 @@ public class DomainGroupRepositoryImpl implements DomainGroupRepository {
     }
 
     /**
-     * ...
-     * @param groupId ...
-     * @return ...
+     * Die Methode soll falls vorhanden eine Gruppe aus der Datenbank laden.
+     * @param groupId ID der Gruppe, welche aus der Datenbank geladen werden soll.
+     * @return Die Gruppe aus der Datenbank.
      */
     @SuppressWarnings({"PMD.LawOfDemeter"})
     @Override
@@ -42,8 +42,8 @@ public class DomainGroupRepositoryImpl implements DomainGroupRepository {
     }
 
     /**
-     * ...
-     * @param group ...
+     * Die Methode speichert die Gruppe in die Datenbank.
+     * @param group Die zu speichernde Gruppe.
      */
     @Override
     public void save(Group group) {

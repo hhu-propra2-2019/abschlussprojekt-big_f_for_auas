@@ -15,7 +15,6 @@ import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.webflow.execution.RequestContext;
 
 @Service
 // Alle Fehler sollen bei defaulterrors angezeigt werden, weswegen wir uns eine leere Properties-Datei injecten lassen
@@ -58,7 +57,7 @@ public final class BuilderService {
     @SuppressWarnings("PMD.LawOfDemeter")
     public boolean publishDatePoll(DatePollDto datePollDto,
                                    MessageContext context,
-                                   RequestContext requestContext) {
+                                   String userId) {
         final DatePollMetaInf metaInf = metaInfAdapter.build(datePollDto.getMetaInfDto());
         final Entries entries = entriesAdapter.build(datePollDto.getEntriesDto());
         final PublicationInformation publicationInformation =
@@ -69,13 +68,13 @@ public final class BuilderService {
 
         final DatePollBuilder builder = new DatePollBuilder();
 
-        builder.creator((UserId) requestContext.getAttributes().get("userId"))
+        builder.creator(new UserId(userId))
                 .datePollMetaInf(metaInf)
                 .datePollConfig(config)
                 .datePollEntries(entries.getEntries())
                 .datePollLink(publicationInformation.getLink());
-        if (publicationInformation.isIspublic()) {
-            builder.groups(publicationInformation.getGroups());
+        if (!publicationInformation.isIspublic()) {
+            builder.participatingGroups(publicationInformation.getGroups());
         }
 
         final boolean isValid = builder.getValidationState().hasNoErrors();

@@ -51,6 +51,19 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     }
 
     /**
+     * Die Methode läd alle DatePollDaos eines bestimmten Users aus der Datenbank und
+     * wandelt diese zu DatePolls um.
+     * @param userId Der User fuer den alle DatePolls aus der Datenbank geladen werden.
+     * @return Das Set der DatePoll Objekte.
+     */
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidDuplicateLiterals"})
+    public Set<DatePoll> findDatePollsByUser(UserId userId) {
+        final Set<DatePollDao> targetDatePollDaos = datePollJpaRepository.findAllDatePollsOfTargetUser(userId.getId());
+        return targetDatePollDaos.stream()
+                .map(ModelOfDaoUtil::pollOf)
+                .collect(Collectors.toSet());
+    }
+    /**
      * Gibt das zugehoerige DatePollDao Objekt in der Datenbank zurueck.
      * @param link DatePoll Identifier.
      * @return DatePollDao
@@ -68,13 +81,13 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     public Optional<DatePoll> load(PollLink link) {
         final DatePollDao loaded = datePollJpaRepository
                 .findDatePollDaoByLink(link.getLinkUUIDAsString());
+        //TODO: DatePollBallots hinzufuegen?
         final DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
         return Optional.of(targetDatePoll);
     }
 
     /**
      * Speichert ein DatePoll Aggregat.
-     *
      * @param datePoll Zu speichernde DatePoll
      */
     @Override

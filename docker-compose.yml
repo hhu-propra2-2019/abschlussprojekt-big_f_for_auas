@@ -12,7 +12,7 @@ services:
      - MYSQL_ROOT_PASSWORD=geheim
      - MYSQL_USER=test
      - MYSQL_PASSWORD=geheim2
-  web:
-    build: .
-    ports:
-      - "8081:8080"
+  #web:
+    #build: .
+    #ports:
+      #- "8081:8080"
