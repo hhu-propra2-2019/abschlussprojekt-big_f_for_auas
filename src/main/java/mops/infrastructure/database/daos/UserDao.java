@@ -36,6 +36,6 @@ public class UserDao {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userVotesFor")
     private Set<QuestionPollEntryDao> questionPollEntrySet = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDaos")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "userDaos")
     private Set<GroupDao> groupSet = new HashSet<>();
 }

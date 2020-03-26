@@ -25,6 +25,7 @@ import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -98,17 +99,26 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         return Optional.of(targetDatePoll);
     }
     @SuppressWarnings("PMD.LawOfDemeter")
-    private void setActualBallotForUserAndDatePoll(DatePoll targetDatePoll, User user) {
+    public void setActualBallotForUserAndDatePoll(DatePoll targetDatePoll, User user) {
         final UserId targetUser = user.getId();
         final Set<DatePollEntryDao> targetDatePollEntryDaos = datePollEntryRepositoryManager
                 .findAllDatePollEntriesUserVotesFor(targetUser, targetDatePoll);
         final Set<DatePollEntry> targetDatePollEntries = ModelOfDaoUtil
                 .extractDatePollEntries(targetDatePollEntryDaos);
         //Set "Yes" Votes to targetDatePoll
+
+        System.out.println("LOAD DATE POLL ENTRY DAOS: " + targetDatePollEntryDaos.size());
+        System.out.println("LOAD USERID: " + targetUser.getId());
+        System.out.println("LOAD POLLINK: " + targetDatePoll.getPollLink().getLinkUUIDAsString());
         //TODO: Diesen Zugriff auf das DatePollBallot-Set ersetzen durch einen Konstruktor Aufruf von DatePoll
-        if (!targetDatePollEntries.isEmpty()) {
+        if (targetDatePollEntries.isEmpty()) {
             targetDatePoll.castBallot(targetUser, targetDatePollEntries, Collections.emptySet());
+            targetDatePoll.getBallots().stream()
+                    .forEach(datePollBallot ->
+                            datePollBallot.getSelectedEntriesYes().stream()
+                    .forEach(datePollEntry -> System.out.println("DATE POLL BALLOTS ___ :" + datePollEntry.getSuggestedPeriod().printFormatted())));
         }
+        targetDatePoll.castBallot(targetUser, targetDatePollEntries, Collections.emptySet());
     }
 
     /**
@@ -129,7 +139,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         checkDatePollBallotsForVotes(datePoll.getBallots(), datePoll);
         //Save PollStatus for each User ...
         saveDatePollStatus(datePoll, datePollDao);
-        //datePollJpaRepository.flush();
+        datePollJpaRepository.flush();
     }
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
@@ -155,6 +165,11 @@ public class DatePollRepositoryImpl implements DatePollRepository {
                 setYesVoteForTargetUserAndEntry(targetBallot.getSelectedEntriesYes(),
                         datePoll,
                         targetBallot.getUser());
+                final Set<DatePollEntryDao> targetDatePollEntryDaos = datePollEntryRepositoryManager
+                        .findAllDatePollEntriesUserVotesFor(targetBallot.getUser(), datePoll);
+                System.out.println("SAVE DATE POLL ENTRY DAOS: " + targetDatePollEntryDaos.size());
+                System.out.println("SAVE USERID: " + targetBallot.getUser().getId());
+                System.out.println("SAVE POLLINK: " + datePoll.getPollLink().getLinkUUIDAsString());
             }
         }
     }

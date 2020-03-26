@@ -11,6 +11,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
@@ -26,7 +28,13 @@ public class GroupDao {
     @Enumerated(EnumType.STRING)
     private Group.GroupVisibility visibility;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "group_user",
+            joinColumns = @JoinColumn(name = "usergroup_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserDao> userDaos = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groupDaos")
