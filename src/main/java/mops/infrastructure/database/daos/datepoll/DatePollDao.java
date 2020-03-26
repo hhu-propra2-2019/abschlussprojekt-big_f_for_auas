@@ -36,7 +36,7 @@ public class DatePollDao {
     @OneToOne(cascade = CascadeType.ALL)
     private UserDao creatorUserDao;
     @OneToMany(
-            cascade = CascadeType.MERGE,
+            cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.LAZY
     )
