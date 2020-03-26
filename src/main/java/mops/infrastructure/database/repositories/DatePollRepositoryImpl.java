@@ -11,6 +11,7 @@ import mops.domain.repositories.DatePollRepository;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
+import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.datepoll.DatePollStatusDao;
 import mops.infrastructure.database.daos.datepoll.DatePollStatusDaoKey;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
@@ -78,11 +79,27 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @return An Inputlink gekoppeltes DatePoll
      */
     @Override
+    @SuppressWarnings({"PMD.LawOfDemeter"})
     public Optional<DatePoll> load(PollLink link) {
         final DatePollDao loaded = datePollJpaRepository
                 .findDatePollDaoByLink(link.getLinkUUIDAsString());
         //TODO: DatePollBallots hinzufuegen?
+        //castBallot(UserId user, Set<DatePollEntry> yes, Set<DatePollEntry> maybe)
         final DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
+        loaded.getGroupDaos()
+                .forEach(groupDao -> groupDao.getUserDaos()
+                        .stream()
+                        .map(ModelOfDaoUtil::userOf)
+                        .forEach(user -> {
+                            final UserId targetUser = user.getId();
+                            final Set<DatePollEntryDao> targetDatePollEntryDaos = datePollEntryRepositoryManager
+                                    .findAllDatePollEntriesUserVotesFor(targetUser, targetDatePoll);
+                            final Set<DatePollEntry> targetDatePollEntries = ModelOfDaoUtil
+                                    .extractDatePollEntries(targetDatePollEntryDaos);
+                            //Set "Yes" Votes to targetDatePoll
+                            //TODO: maybe votes auch abspeichern
+                            targetDatePoll.castBallot(targetUser, targetDatePollEntries, new HashSet<>());
+                        }));
         return Optional.of(targetDatePoll);
     }
 
@@ -126,15 +143,15 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         for (final DatePollBallot targetBallot:datePollBallots
              ) {
             if (targetBallot.getSelectedEntriesYes().size() != 0) {
-                setVoteForTargetUserAndEntry(targetBallot.getSelectedEntriesYes(),
+                setYesVoteForTargetUserAndEntry(targetBallot.getSelectedEntriesYes(),
                         datePoll,
                         targetBallot.getUser());
             }
         }
     }
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    private void setVoteForTargetUserAndEntry(Set<DatePollEntry> datePollEntries, DatePoll datePoll, UserId user) {
-        datePollEntries.forEach(targetEntry -> datePollEntryRepositoryManager
+    private void setYesVoteForTargetUserAndEntry(Set<DatePollEntry> yesVotes, DatePoll datePoll, UserId user) {
+        yesVotes.forEach(targetEntry -> datePollEntryRepositoryManager
                 .userVotesForDatePollEntry(user,
                         datePoll.getPollLink(),
                         targetEntry));
