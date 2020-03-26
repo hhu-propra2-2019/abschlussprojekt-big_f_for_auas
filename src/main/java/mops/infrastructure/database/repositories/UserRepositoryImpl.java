@@ -4,6 +4,7 @@ import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.UserRepository;
 import mops.infrastructure.database.daos.UserDao;
+import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
@@ -29,8 +30,23 @@ public class UserRepositoryImpl implements UserRepository {
         return Optional.of(ModelOfDaoUtil.userOf(targetUserDao));
     }
 
+    Optional<UserDao> loadDao(UserId userId) { //NOPMD
+        if (userJpaRepository.existsById(userId.getId())) {
+            return Optional.of(userJpaRepository.getOne(userId.getId()));
+        } else {
+            return Optional.empty();
+        }
+    }
+
     public boolean existsById(UserId userId) {
         return userJpaRepository.existsById(userId.getId());
+    }
+
+    @SuppressWarnings("PMD.DefaultPackage")
+    /* default */ void updateUser(UserDao userDao) {
+        if (userJpaRepository.existsById(userDao.getId())) {
+            userJpaRepository.save(userDao);
+        }
     }
 
     @Override
@@ -38,5 +54,9 @@ public class UserRepositoryImpl implements UserRepository {
         if (!this.existsById(userId)) {
             userJpaRepository.save(DaoOfModelUtil.userDaoOf(userId));
         }
+    }
+
+    public Long getAllYesVotesForDatePollEntry(DatePollEntryDao datePollEntryDao) {
+        return userJpaRepository.countByDatePollEntrySetContaining(datePollEntryDao);
     }
 }

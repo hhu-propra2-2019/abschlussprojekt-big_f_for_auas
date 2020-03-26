@@ -1,7 +1,8 @@
 package mops.infrastructure.controllers;
 
-
 import mops.infrastructure.adapters.datepolladapter.DatePollEntriesAdapter;
+import mops.infrastructure.adapters.datepolladapter.DatePollInfoAdapter;
+import mops.infrastructure.controllers.dtos.DatePollConfigDto;
 import mops.infrastructure.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
@@ -20,10 +21,12 @@ import org.springframework.web.context.annotation.SessionScope;
 public class DatePollVoteController {
 
     private final transient DatePollEntriesAdapter entryAdapter;
+    private final transient DatePollInfoAdapter infoAdapter;
 
     @Autowired
-    public DatePollVoteController(DatePollEntriesAdapter entryAdapter) {
+    public DatePollVoteController(DatePollEntriesAdapter entryAdapter, DatePollInfoAdapter infoAdapter) {
         this.entryAdapter = entryAdapter;
+        this.infoAdapter = infoAdapter;
     }
 
     /**
@@ -38,7 +41,9 @@ public class DatePollVoteController {
     public String showPoll(Model model, @RequestAttribute(name = "userId") UserId user,
                            @PathVariable String pollType, @PathVariable String link) {
         final DatePollUserEntryOverview overview = entryAdapter.showUserEntryOverview(new PollLink(link), user);
+        final DatePollConfigDto config = infoAdapter.getDatePollConfig(new PollLink(link));
         model.addAttribute("overview", overview);
+        model.addAttribute("config", config);
         return "mobilePollVote";
     }
 

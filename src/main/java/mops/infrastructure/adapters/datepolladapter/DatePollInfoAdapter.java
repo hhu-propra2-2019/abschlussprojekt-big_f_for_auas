@@ -6,8 +6,10 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import mops.application.services.PollInfoService;
+import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.infrastructure.controllers.dtos.DashboardItemDto;
+import mops.infrastructure.controllers.dtos.DatePollConfigDto;
 import mops.infrastructure.controllers.dtos.DatePollMetaInfDto;
 import mops.infrastructure.controllers.dtos.DatePollResultDto;
 import mops.domain.models.datepoll.DatePoll;
@@ -30,6 +32,15 @@ public class DatePollInfoAdapter {
     public DatePollMetaInfDto getDatePollMetaInformation(PollLink link, UserId userId) {
         final DatePoll poll = infoService.getDatePollByLink(link);
         return DatePollInfoAdapter.datePollMetaInfToDto(poll.getMetaInf());
+    }
+
+    public DatePollConfigDto getDatePollConfig(PollLink link) {
+        final DatePoll poll = infoService.getDatePollByLink(link);
+        return DatePollInfoAdapter.datePollConfigToDto(poll.getConfig());
+    }
+
+    private static DatePollConfigDto datePollConfigToDto(DatePollConfig config) {
+        return new DatePollConfigDto(config.isAnonymous(), config.isSingleChoice(), config.isPriorityChoice());
     }
 
     @SuppressWarnings("PMD.LawOfDemeter") // stream
