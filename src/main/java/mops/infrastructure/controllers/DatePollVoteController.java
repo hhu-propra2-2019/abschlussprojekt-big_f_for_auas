@@ -1,7 +1,5 @@
 package mops.infrastructure.controllers;
 
-
-import mops.domain.models.datepoll.DatePollConfig;
 import mops.infrastructure.adapters.datepolladapter.DatePollEntriesAdapter;
 import mops.infrastructure.adapters.datepolladapter.DatePollInfoAdapter;
 import mops.infrastructure.controllers.dtos.DatePollConfigDto;

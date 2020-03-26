@@ -30,7 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
         return Optional.of(ModelOfDaoUtil.userOf(targetUserDao));
     }
 
-    Optional<UserDao> loadDao(UserId userId) {
+    Optional<UserDao> loadDao(UserId userId) { //NOPMD
         if (userJpaRepository.existsById(userId.getId())) {
             return Optional.of(userJpaRepository.getOne(userId.getId()));
         } else {
@@ -42,7 +42,8 @@ public class UserRepositoryImpl implements UserRepository {
         return userJpaRepository.existsById(userId.getId());
     }
 
-    void updateUser(UserDao userDao) {
+    @SuppressWarnings("PMD.DefaultPackage")
+    /* default */ void updateUser(UserDao userDao) {
         if (userJpaRepository.existsById(userDao.getId())) {
             userJpaRepository.save(userDao);
         }

@@ -30,9 +30,8 @@ public class DatePollBallot implements ValidateAble {
     }
 
     /**
-     * Erzeugt ein leeres Ballot für den Nutzer der noch nie abgestimmt hat, es aber ändern möchte.
+     * Erzeugt leeres ballot.
      * @param userId
-     * @return DatePollBallot
      */
     public DatePollBallot(UserId userId) {
         this.user = userId;

@@ -1,20 +1,16 @@
 package mops.infrastructure.database.repositories;
 
-import java.util.Optional;
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
-import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
-import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
 import mops.infrastructure.database.repositories.interfaces.DatePollEntryJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
-import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

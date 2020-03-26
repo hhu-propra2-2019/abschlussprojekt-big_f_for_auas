@@ -11,7 +11,6 @@ import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
-import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +31,7 @@ public class DatePollEntriesAdapter {
         this.infoService = infoService;
     }
 
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
     public DatePollUserEntryOverview showUserEntryOverview(PollLink link, UserId user) {
         final DatePollUserEntryOverview result = new DatePollUserEntryOverview();
         DatePollBallot ballot;
