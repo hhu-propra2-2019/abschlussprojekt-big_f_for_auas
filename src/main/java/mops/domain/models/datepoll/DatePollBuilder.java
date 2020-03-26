@@ -126,6 +126,13 @@ public final class DatePollBuilder {
         validationProcessAndValidationHandling(
                 datePollConfig, config -> this.configTarget = config, PollFields.DATE_POLL_CONFIG
         );
+        if (validatedFields.contains(PollFields.DATE_POLL_CONFIG)) {
+            if (datePollConfig.isOpen()) {
+                validatedFields.add(PollFields.PARTICIPATING_GROUPS);
+            } else {
+                validatedFields.remove(PollFields.PARTICIPATING_GROUPS);
+            }
+        }
         return this;
     }
 
@@ -157,16 +164,6 @@ public final class DatePollBuilder {
         if (!this.participatingGroupsTargets.isEmpty()) {
             validatedFields.add(PollFields.PARTICIPATING_GROUPS);
         }
-        return this;
-    }
-
-    /**
-     * TODO: Implementieren!
-     * Fügt alle validierten Gruppen der Gruppenliste hinzu.
-     * @param groups Alle Gruppen, deren Teilnehmer*innen zum Abstimmen berechtigt sein sollen.
-     * @return Referenz auf diesen DatePollBuilder;
-     */
-    public DatePollBuilder groups(Set<GroupId> groups) {
         return this;
     }
 

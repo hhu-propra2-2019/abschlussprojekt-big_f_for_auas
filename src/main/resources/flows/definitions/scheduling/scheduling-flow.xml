@@ -146,7 +146,7 @@
 
         <transition on="publication" to="publication"/>
         <transition on="submit" to="home">
-            <evaluate expression="builderService.publishDatePoll(datePollDto, messageContext, flowRequestContext)"/>
+            <evaluate expression="builderService.publishDatePoll(datePollDto, messageContext, account.name)"/>
         </transition>
     </view-state>
 
