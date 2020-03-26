@@ -24,7 +24,11 @@ import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -89,11 +93,10 @@ public class DatePollRepositoryImpl implements DatePollRepository {
                 .map(GroupDao::getUserDaos)
                 .flatMap(Collection::stream)
                 .map(ModelOfDaoUtil::userOf)
-                .forEach(user -> {
-                    setActualBallotForUserAndDatePoll(targetDatePoll, user);
-                });
+                .forEach(user -> setActualBallotForUserAndDatePoll(targetDatePoll, user));
         return Optional.of(targetDatePoll);
     }
+    @SuppressWarnings("PMD.LawOfDemeter")
     private void setActualBallotForUserAndDatePoll(DatePoll targetDatePoll, User user) {
         final UserId targetUser = user.getId();
         final Set<DatePollEntryDao> targetDatePollEntryDaos = datePollEntryRepositoryManager
@@ -101,8 +104,10 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         final Set<DatePollEntry> targetDatePollEntries = ModelOfDaoUtil
                 .extractDatePollEntries(targetDatePollEntryDaos);
         //Set "Yes" Votes to targetDatePoll
-        //TODO: wenn nicht gevotet wurde ist targetDatePollEntries leer und wird in das BallotSet hinzugefuegt.
-        targetDatePoll.getBallots().add(new DatePollBallot(targetUser, targetDatePollEntries, new HashSet<>()));
+        //TODO: Diesen Zugriff auf das DatePollBallot-Set ersetzen durch einen Konstruktor Aufruf von DatePoll
+        if (!targetDatePollEntries.isEmpty()) {
+            targetDatePoll.getBallots().add(new DatePollBallot(targetUser, targetDatePollEntries));
+        }
     }
 
     /**
@@ -186,7 +191,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
 
     /**
      * Gibt ein Set mit allen Datepolls zurück, welche der angegebene User erstellt hat.
-     * @param userId
+     * @param userId ...
      * @return Set<DatePoll>, ist leer wenn User keine DatePolls erstellt hat.
      */
     @Override

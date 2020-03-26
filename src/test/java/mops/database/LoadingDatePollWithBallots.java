@@ -60,6 +60,7 @@ public class LoadingDatePollWithBallots {
         final Optional<DatePoll> loaded = datePollRepository.load(targetDatePoll.getPollLink());
         DatePoll loadedDatePoll = null;
 
+        //TODO: Refactoring des Tests.
         assertThat(loaded.isPresent());
         if (loaded.isPresent()) {
             loadedDatePoll = loaded.get();
