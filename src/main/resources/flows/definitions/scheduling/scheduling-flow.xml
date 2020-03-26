@@ -110,6 +110,7 @@
         </binder>
         <on-entry>
             <set name="publicationDto" value="datePollDto.publicationDto"/>
+            <set name="publicationDto.suggestions" value="publicationAdapter.updateSuggestions(account.name)"/>
         </on-entry>
 
         <transition on="entries" to="entries"/>

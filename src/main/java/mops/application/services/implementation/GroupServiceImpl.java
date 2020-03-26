@@ -1,13 +1,18 @@
 package mops.application.services.implementation;
 
 import mops.application.services.GroupService;
+import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.user.UserId;
 import mops.infrastructure.rest.GroupRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
-public class GroupServiceImpl implements GroupService {
+public final class GroupServiceImpl implements GroupService {
 
     private final transient GroupRepositoryImpl groupRepository;
 
@@ -24,5 +29,10 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public boolean groupExists(GroupId groupId) {
         return groupRepository.existsById(groupId);
+    }
+
+    @Override
+    public Set<Group> getValidGroupsForUser(UserId userId) {
+        return new HashSet<>();
     }
 }

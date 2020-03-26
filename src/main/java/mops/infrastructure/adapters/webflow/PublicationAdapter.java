@@ -3,7 +3,9 @@ package mops.infrastructure.adapters.webflow;
 import mops.application.services.GroupService;
 import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.user.UserId;
 import mops.infrastructure.adapters.webflow.builderdtos.PublicationInformation;
+import mops.infrastructure.adapters.webflow.dtos.GroupSuggestionDto;
 import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
@@ -11,6 +13,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -42,7 +45,14 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
         publicationDto.setLink(new PollLink().getPollIdentifier());
         publicationDto.setIspublic(true);
         publicationDto.setGroups("");
+        publicationDto.setSuggestions(new HashSet<>());
         return publicationDto;
+    }
+
+    public Set<GroupSuggestionDto> updateSuggestions(UserId userId) {
+        return groupService.getValidGroupsForUser(userId).stream()
+                .map(group -> new GroupSuggestionDto(group.getId().getId(), group.getTitle()))
+                .collect(Collectors.toSet());
     }
 
     @Override
