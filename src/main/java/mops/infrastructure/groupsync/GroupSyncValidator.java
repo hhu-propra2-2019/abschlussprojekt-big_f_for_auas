@@ -7,7 +7,7 @@ import mops.domain.models.user.UserId;
 import mops.infrastructure.groupsync.dto.GroupDto;
 import mops.infrastructure.groupsync.dto.GroupSyncInputDto;
 import mops.infrastructure.groupsync.dto.GroupSyncValidDto;
-import mops.infrastructure.groupsync.dto.PersonDto;
+import mops.infrastructure.groupsync.dto.UserDto;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -59,7 +59,7 @@ public final class GroupSyncValidator {
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
-    private Stream<UserId> validatePersonDto(PersonDto dto) {
+    private Stream<UserId> validatePersonDto(UserDto dto) {
         if (dto.getId() == null || dto.getId().isBlank()) {
             return Stream.empty();
         }

@@ -3,7 +3,7 @@ package mops.infrastructure.groupsync.dto;
 import lombok.Data;
 
 @Data
-public class PersonDto {
+public class UserDto {
 
     private String id;
 }

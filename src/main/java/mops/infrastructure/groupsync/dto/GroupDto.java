@@ -12,5 +12,5 @@ public class GroupDto {
     private String description;
     private String visibility;
 
-    private Set<PersonDto> members;
+    private Set<UserDto> members;
 }
