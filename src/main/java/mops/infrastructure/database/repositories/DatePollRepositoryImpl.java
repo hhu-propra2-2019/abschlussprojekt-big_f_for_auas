@@ -1,5 +1,6 @@
 package mops.infrastructure.database.repositories;
 
+import java.util.Collections;
 import mops.domain.models.PollLink;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBallot;
@@ -103,14 +104,13 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     @SuppressWarnings("PMD.LawOfDemeter")
     private void setActualBallotForUserAndDatePoll(DatePoll targetDatePoll, User user) {
         final UserId targetUser = user.getId();
+        // TODO: Unterscheidung zwischen Yes und Maybe Votes, findet nicht statt
         final Set<DatePollEntryDao> targetDatePollEntryDaos = datePollEntryRepositoryManager
                 .findAllDatePollEntriesUserVotesFor(targetUser, targetDatePoll);
         final Set<DatePollEntry> targetDatePollEntries = ModelOfDaoUtil
                 .extractDatePollEntries(targetDatePollEntryDaos);
-        //Set "Yes" Votes to targetDatePoll
-        //TODO: Diesen Zugriff auf das DatePollBallot-Set ersetzen durch einen Konstruktor Aufruf von DatePoll
         if (!targetDatePollEntries.isEmpty()) {
-            targetDatePoll.getBallots().add(new DatePollBallot(targetUser, targetDatePollEntries));
+            targetDatePoll.castBallot(targetUser, targetDatePollEntries, Collections.emptySet());
         }
     }
 
