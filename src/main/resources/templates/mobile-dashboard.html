@@ -12,21 +12,6 @@
             <script type="text/javascript" th:src="@{/popper/popper.min.js}"></script>
             <script type="text/javascript" th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
             <script type="text/javascript" th:src="@{/bootstrap/bootstrap.min.js}"></script>
-
-            <script>
-                function collapseSection(id, icon){
-                    $('#'+id).collapse('toggle');
-                    if ( $('#'+icon).hasClass('fa-caret-down') ) {
-                        $('#'+icon).removeClass('fa-caret-down');
-                        $('#'+icon).addClass('fa-caret-right');
-                    }
-                    else {
-                        $('#'+icon).removeClass('fa-caret-right');
-                        $('#'+icon).addClass('fa-caret-down');
-                    }
-                }
-            </script>
-
         </th:block>
     </head>
     <body>
