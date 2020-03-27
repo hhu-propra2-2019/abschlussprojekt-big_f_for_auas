@@ -1,5 +1,6 @@
 package mops.domain.models.datepoll;
 
+import java.util.Collections;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,6 @@ public final class DatePoll {
     private final UserId creator;
     private DatePollConfig config;
     private Set<DatePollEntry> entries;
-    //private Set<UserId> participants;
     private Set<GroupId> groups;
     private Set<DatePollBallot> ballots;
     private PollLink pollLink;
@@ -37,9 +37,7 @@ public final class DatePoll {
 
     @SuppressWarnings({"PMD.LawOfDemeter"}) //stream
     public Optional<DatePollBallot> getUserBallot(UserId user) {
-        return ballots.stream()
-                .filter(datePollBallot -> datePollBallot.belongsTo(user))
-                .findAny();
+        return ballots.stream().filter(ballots -> ballots.belongsTo(user)).findAny();
     }
 
     /**
@@ -53,9 +51,6 @@ public final class DatePoll {
         updatePollStatus();
         if (recordAndStatus.isTerminated()) {
             return;
-        } //&& !participants.contains(user) --> TODO: Is participant in group?
-        if (!config.isOpen()) {
-            return;
         }
         if (config.isSingleChoice() && yes.size() > 1) {
             return;
@@ -66,7 +61,7 @@ public final class DatePoll {
         }
 
         final DatePollBallot ballot = getUserBallot(user)
-                .orElse(new DatePollBallot(user, yes, maybe));
+                .orElse(new DatePollBallot(user, Collections.emptySet(), Collections.emptySet()));
         ballots.add(ballot);
         ballot.updateYes(yes, entries);
         ballot.updateMaybe(maybe, entries);
@@ -74,8 +69,6 @@ public final class DatePoll {
 
     /**
      * Fügt neue Terminvorschläge zur Liste hinzu.
-     * Wird sich wahrscheinlich noch ändern, sobald applicationService und Web Oberfläche da sind.
-     *
      * @param potentialNewEntries
      */
     @SuppressWarnings("PMD.LawOfDemeter") // streams.
@@ -88,13 +81,8 @@ public final class DatePoll {
     }
 
     private void updatePollStatus() {
-        if (metaInf.isBeforeEnd(LocalDateTime.now())) {
+        if (metaInf.isAfterEndOfDatePollTimespan(LocalDateTime.now())) {
             recordAndStatus.terminate();
         }
-    }
-
-    //TODO: || participants.contains(user) --> group.contains(user)...
-    public boolean isUserParticipant(UserId user) {
-        return config.isOpen();
     }
 }

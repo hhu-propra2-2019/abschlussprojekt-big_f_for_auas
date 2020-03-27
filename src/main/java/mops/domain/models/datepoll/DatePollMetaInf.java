@@ -35,8 +35,8 @@ public final class DatePollMetaInf implements ValidateAble {
     }
 
 
-    public boolean isBeforeEnd(LocalDateTime time) {
-        return timespan.isBeforeEnd(time);
+    public boolean isAfterEndOfDatePollTimespan(LocalDateTime time) {
+        return !timespan.isBeforeEnd(time);
     }
 
     @Override

@@ -51,22 +51,6 @@ public class DatePollBallot implements ValidateAble {
     }
 
     /**
-     * Anzahl der ja stimmen.
-     * @return int
-     */
-    public int getYesEntriesSize() {
-        return selectedEntriesYes.size();
-    }
-
-    /**
-     * Anzahl der vielleicht stimmen.
-     * @return int
-     */
-    public int getMaybeEntriesSize() {
-        return selectedEntriesMaybe.size();
-    }
-
-    /**
      * ...
      * @return...
      */
@@ -109,7 +93,7 @@ public class DatePollBallot implements ValidateAble {
     void updateMaybe(Set<DatePollEntry> newMaybe, Set<DatePollEntry> rootEntries) { //NOPMD
         final Set<DatePollEntry> entriesToIncrement = newMaybe.stream()
             .filter(Predicate.not(selectedEntriesMaybe::contains)).collect(Collectors.toSet());
-        final Set<DatePollEntry> entriesToDecrement = selectedEntriesYes.stream()
+        final Set<DatePollEntry> entriesToDecrement = selectedEntriesMaybe.stream()
             .filter(Predicate.not(newMaybe::contains)).collect(Collectors.toSet());
         rootEntries.stream().filter(entriesToIncrement::contains).forEach(DatePollEntry::incMaybeVote);
         rootEntries.stream().filter(entriesToDecrement::contains).forEach(DatePollEntry::decMaybeVote);
