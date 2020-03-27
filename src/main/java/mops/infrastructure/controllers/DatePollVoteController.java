@@ -69,6 +69,7 @@ public class DatePollVoteController {
     public String votePoll(@ModelAttribute("overview") DatePollUserEntryOverview overview,
                            Model model, @PathVariable String pollType, @PathVariable String link,
                            @RequestAttribute(name = "userId") UserId user) {
+        System.out.println("YES VOTES:" + overview.getVotedYes().size());
         entryAdapter.vote(new PollLink(link), user, overview);
         return "redirect:/result/" + pollType + "/" + link;
     }

@@ -22,9 +22,9 @@
     <div class="container">
         <form th:action method="post">
             <div>
-                <h2 th:text="${metaInf.getTitle()}"></h2>
-                <h3 th:text="${metaInf.getDescription()}"></h3>
-                <h3 th:text="${metaInf.getLocation()}"></h3>
+                <h2 >Titel <span th:text="${metaInf.getTitle()}"> </span> </h2>
+                <h3 >Beschreibung <span th:text="${metaInf.getDescription()}"></span></h3>
+                <h3 >Ort <span th:text="${metaInf.getLocation()}"></span></h3>
             </div>
             <table id="resultTable" class="table table-striped table-bordered table-sm">
                 <thead>

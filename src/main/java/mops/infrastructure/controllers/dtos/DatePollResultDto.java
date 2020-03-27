@@ -1,17 +1,22 @@
 package mops.infrastructure.controllers.dtos;
 
+import java.time.LocalDateTime;
+import lombok.Data;
 import mops.domain.models.Timespan;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 @Data
-@AllArgsConstructor
 public class DatePollResultDto implements Comparable<DatePollResultDto> {
     private Timespan timespan;
     private int yesVotes;
     private int maybeVotes;
+    private final LocalDateTime createdAt;
 
+    public DatePollResultDto(Timespan timespan, int yesVotes, int maybeVotes) {
+        this.timespan = timespan;
+        this.yesVotes = yesVotes;
+        this.maybeVotes = maybeVotes;
+        this.createdAt = LocalDateTime.now();
+    }
 
     /**
      * Damit die Results abwärts sortiert angezeigt werden.

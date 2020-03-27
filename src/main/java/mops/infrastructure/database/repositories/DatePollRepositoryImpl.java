@@ -24,7 +24,6 @@ import mops.infrastructure.database.repositories.interfaces.GroupJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -33,10 +32,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Repository
 // TODO: Entscheiden, ob die Excessive Imports ein Problem sind
 // Hinweis: ich habe die Klasse nicht geschrieben, sonder nur den Master gemerged
 @SuppressWarnings("PMD.ExcessiveImports")
+@Repository
 public class DatePollRepositoryImpl implements DatePollRepository {
 
     public static final String USER_IS_NOT_IN_THE_DATABASE = "User is not in the database!";
@@ -109,16 +108,16 @@ public class DatePollRepositoryImpl implements DatePollRepository {
                 .findAllDatePollEntriesUserVotesFor(targetUser, targetDatePoll);
         final Set<DatePollEntry> targetDatePollEntries = ModelOfDaoUtil
                 .extractDatePollEntries(targetDatePollEntryDaos);
-        if (!targetDatePollEntries.isEmpty()) {
+        if (targetDatePollEntries.isEmpty()) {
             targetDatePoll.castBallot(targetUser, targetDatePollEntries, Collections.emptySet());
         }
+        targetDatePoll.castBallot(targetUser, targetDatePollEntries, Collections.emptySet());
     }
 
     /**
      * Speichert ein DatePoll Aggregat.
      * @param datePoll Zu speichernde DatePoll
      */
-    @Transactional
     @Override
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidDuplicateLiterals"})
     public void save(DatePoll datePoll) {
@@ -135,7 +134,6 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         saveDatePollStatus(datePoll, datePollDao);
         datePollJpaRepository.flush();
     }
-
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
         final Map<UserId, PollStatus> votingRecord = datePoll.getRecordAndStatus().getVotingRecord();
@@ -155,8 +153,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
 
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void checkDatePollBallotsForVotes(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
-        for (final DatePollBallot targetBallot:datePollBallots
-             ) {
+        for (final DatePollBallot targetBallot:datePollBallots) {
             if (targetBallot.getSelectedEntriesYes().size() != 0) {
                 setYesVoteForTargetUserAndEntry(targetBallot.getSelectedEntriesYes(),
                         datePoll,
