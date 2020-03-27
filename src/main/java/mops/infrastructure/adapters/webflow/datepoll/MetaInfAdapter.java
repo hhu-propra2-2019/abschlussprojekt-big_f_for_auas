@@ -32,7 +32,8 @@ public final class MetaInfAdapter implements WebFlowAdapter<MetaInfDto, DatePoll
         this.errorEnvironment = errorEnvironment;
     }
 
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis", "PMD.EmptyCatchBlock"}) // NOPMD
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis", //NOPMD
+            "PMD.EmptyCatchBlock", "PMD.AvoidCatchingNPE", "PMD.AvoidCatchingGenericException"}) // NOPMD
     public DatePollMetaInf convert(MetaInfDto dto) {
         if (dto.getTitle() == null) {
             dto.setTitle("");
@@ -47,12 +48,12 @@ public final class MetaInfAdapter implements WebFlowAdapter<MetaInfDto, DatePoll
         try {
             timespan = new Timespan(
                     LocalDate.parse(dto.getStartDate()).atTime(LocalTime.parse(dto.getStartTime())), null);
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException | NullPointerException e) {
         }
         try {
             timespan = new Timespan(timespan.getStartDate(),
                     LocalDate.parse(dto.getEndDate()).atTime(LocalTime.parse(dto.getEndTime())));
-        } catch (DateTimeParseException e) {
+        } catch (DateTimeParseException | NullPointerException e) {
         }
         return new DatePollMetaInf(dto.getTitle(), dto.getDescription(), dto.getLocation(), timespan);
     }
