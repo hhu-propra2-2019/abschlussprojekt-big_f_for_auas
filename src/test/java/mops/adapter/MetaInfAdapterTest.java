@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = {MetaInfAdapter.class})
+@SuppressWarnings("checkstyle:MagicNumber")
 public class MetaInfAdapterTest {
 
     private MetaInfDto dto;
