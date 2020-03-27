@@ -1,6 +1,7 @@
 package mops.infrastructure.adapters.datepolladapter;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import mops.application.services.DatePollVoteService;
 import mops.application.services.PollInfoService;
@@ -40,23 +41,25 @@ public class DatePollEntriesAdapter {
         } catch (NoSuchElementException e) {
             ballot = new DatePollBallot(user);
         }
-        result.setAllEntries(
-            infoService.getEntries(link).stream()
+        final List<DatePollEntryDto> allEntries = infoService.getEntries(link).stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+        final List<DatePollEntryDto> votedForYesEntries = ballot.getSelectedEntriesYes()
+            .stream()
             .map(this::toDTO)
-            .collect(Collectors.toSet())
-        );
-        result.setVotedYes(
-                ballot.getSelectedEntriesYes()
-                        .stream()
-                        .map(this::toDTO)
-                        .collect(Collectors.toSet())
-        );
-        result.setVotedMaybe(
-                ballot.getSelectedEntriesMaybe()
-                        .stream()
-                        .map(this::toDTO)
-                        .collect(Collectors.toSet())
-        );
+            .collect(Collectors.toList());
+        final List<DatePollEntryDto> votedForMaybeEntries = ballot.getSelectedEntriesMaybe()
+            .stream()
+            .map(this::toDTO)
+            .collect(Collectors.toList());
+
+        allEntries.sort(DatePollEntryDto::compareTo);
+        votedForYesEntries.sort(DatePollEntryDto::compareTo);
+        votedForMaybeEntries.sort(DatePollEntryDto::compareTo);
+
+        result.setAllEntries(allEntries);
+        result.setVotedYes(votedForYesEntries);
+        result.setVotedMaybe(votedForMaybeEntries);
         return result;
     }
 
@@ -95,7 +98,7 @@ public class DatePollEntriesAdapter {
      */
     public void vote(PollLink link, UserId user, DatePollUserEntryOverview overview) {
         if (overview.isVotedMaybeNull()) {
-            overview.setVotedMaybe(new HashSet<DatePollEntryDto>());
+            overview.setVotedMaybe(new ArrayList<>());
         }
         voteService.vote(link, user,
                 overview.getVotedYes().stream()

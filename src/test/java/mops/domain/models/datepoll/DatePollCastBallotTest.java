@@ -48,6 +48,33 @@ public class DatePollCastBallotTest {
     }
 
     @Test
+    @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.DataflowAnomalyAnalysis"})
+    public void userVotesYesAndMaybe() {
+        final DatePoll datePoll = createDatePollWithTwoEntries();
+        final Set<DatePollEntry> entries = datePoll.getEntries();
+        DatePollEntry entry1 = null;
+        DatePollEntry entry2 = null;
+        for (final DatePollEntry entry : entries) {
+            if (entry1 == null) {
+                entry1 = entry;
+            } else {
+                entry2 = entry;
+            }
+        }
+        final HashSet<DatePollEntry> vote1 = new HashSet<>();
+        final HashSet<DatePollEntry> vote2 = new HashSet<>();
+        vote1.add(entry1);
+        vote2.add(entry2);
+
+        datePoll.castBallot(new UserId("1"), vote1, vote2);
+
+        assertThat(entry1.getYesVotes())
+            .withFailMessage("Yes Vote is not incremented").isEqualTo(1);
+        assertThat(entry2.getMaybeVotes())
+            .withFailMessage("Maybe Vote is not incremented").isEqualTo(1);
+    }
+
+    @Test
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
     public void firstYesCastUpdatesEntry() {
         final DatePoll datePoll = createDatePollWithOneEntry();
