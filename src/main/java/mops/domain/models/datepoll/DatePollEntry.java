@@ -30,16 +30,6 @@ public final class DatePollEntry implements ValidateAble {
         return validation.appendValidation(suggestedPeriod.validate());
     }
 
-    /**
-     * Vergleich von Entries an Hand des vorgeschlagenen Timeslots.
-     *
-     * @param other
-     * @return boolean
-     */
-    boolean representsSamePeriod(DatePollEntry other) { //NOPMD
-        return suggestedPeriod.equals(other.suggestedPeriod);
-    }
-
     void incYesVote() { //NOPMD
         yesVotes++;
     }
@@ -49,7 +39,7 @@ public final class DatePollEntry implements ValidateAble {
     }
 
     void incMaybeVote() { //NOPMD
-        yesVotes++;
+        maybeVotes++;
     }
 
     void decMaybeVote() { //NOPMD

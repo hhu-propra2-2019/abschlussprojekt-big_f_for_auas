@@ -18,4 +18,11 @@ public interface DatePollEntryJpaRepository extends JpaRepository<DatePollEntryD
         nativeQuery = true
     )
     Set<DatePollEntryDao> findAllDatePollEntriesUserVotesFor(String userId, String pollLink);
+    @Query(
+        value = "select a.* from datepollentry as a, datepollentry_user_votes_for_maybe as b "
+                + "where a.id = b.date_poll_entry_set_maybe_id and b.user_votes_for_maybe_id = ?1 "
+                + "and a.date_poll_link = ?2",
+        nativeQuery = true
+    )
+    Set<DatePollEntryDao> findAllDatePollEntriesUserVotesForMaybe(String id, String linkUUIDAsString);
 }

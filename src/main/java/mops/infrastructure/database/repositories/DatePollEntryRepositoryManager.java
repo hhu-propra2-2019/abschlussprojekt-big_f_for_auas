@@ -14,6 +14,7 @@ import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.Set;
 
 @SuppressWarnings({"PMD.LawOfDemeter"})
@@ -45,7 +46,7 @@ public class DatePollEntryRepositoryManager {
      * @param datePollEntry Der zugehörige Terminvorschlag.
      * @return DatePollEntryDao Das DatePollEntryDao Objekt aus der Datenbank.
      */
-     public DatePollEntryDao loadDatePollEntryDao(PollLink pollLink, DatePollEntry datePollEntry) {
+     private DatePollEntryDao loadDatePollEntryDao(PollLink pollLink, DatePollEntry datePollEntry) {
          final DatePollDao currentDatePollDao = datePollJpaRepository.
                  findDatePollDaoByLink(pollLink.getLinkUUIDAsString());
          final Timespan periodOfDatePollEntry = datePollEntry.getSuggestedPeriod();
@@ -61,6 +62,7 @@ public class DatePollEntryRepositoryManager {
      * @param pollLink zugehoeriger DatePoll.
      * @param datePollEntry Vorschlag fuer den abgestimmt wird.
      */
+    @Transactional
     public void userVotesForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
         final DatePollEntryDao targetDatePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
         userRepository.saveUserIfNotPresent(userId);
@@ -96,8 +98,26 @@ public class DatePollEntryRepositoryManager {
      * @param datePoll zugehoeriger DatePoll.
      * @return Set<DatePollEntryDao> alle EntryDaos fuer die der Jeweilige User gestimmt hat.
      */
+    @Transactional
     public Set<DatePollEntryDao> findAllDatePollEntriesUserVotesFor(UserId userId, DatePoll datePoll) {
         return datePollEntryJpaRepository.findAllDatePollEntriesUserVotesFor(
+                userId.getId(), datePoll.getPollLink().getLinkUUIDAsString());
+    }
+
+    @SuppressWarnings("checkstyle:DesignForExtension") //NOPMD
+    void userVotesMaybeForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) { //NOPMD
+        final DatePollEntryDao targetDatePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
+        userRepository.saveUserIfNotPresent(userId);
+        final UserDao userDao = userRepository.loadDao(userId).orElseThrow();
+        targetDatePollEntryDao.getUserVotesForMaybe().add(userDao);
+        userDao.getDatePollEntrySetMaybe().add(targetDatePollEntryDao);
+        userRepository.updateUser(userDao);
+        datePollEntryJpaRepository.save(targetDatePollEntryDao);
+    }
+    @Transactional
+    @SuppressWarnings("checkstyle:DesignForExtension")
+    public Set<DatePollEntryDao> findAllDatePollEntriesUserVotesForMaybe(UserId userId, DatePoll datePoll) {
+        return datePollEntryJpaRepository.findAllDatePollEntriesUserVotesForMaybe(
                 userId.getId(), datePoll.getPollLink().getLinkUUIDAsString());
     }
 }

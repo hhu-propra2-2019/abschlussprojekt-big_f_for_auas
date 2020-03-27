@@ -34,7 +34,7 @@ import java.util.stream.IntStream;
  * zum Speichern in die Datenbank erzeugt werden.
  */
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:MagicNumber"})
-@Profile("development")
+@Profile("production")
 @Transactional
 @Component
 public class DummyDataCommandLineRunner implements CommandLineRunner {
@@ -46,8 +46,8 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
 
     @Autowired
     public DummyDataCommandLineRunner(DatePollRepositoryImpl datePollRepository,
-                                      GroupRepositoryImpl domainGroupRepository,
-                                      DatePollEntryRepositoryManager datePollEntryRepositoryManager) {
+        GroupRepositoryImpl domainGroupRepository,
+        DatePollEntryRepositoryManager datePollEntryRepositoryManager) {
         this.datePollRepo = datePollRepository;
         this.domainGroupRepository = domainGroupRepository;
         this.datePollEntryRepositoryManager = datePollEntryRepositoryManager;
@@ -63,7 +63,7 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         final DatePoll firstDatePoll = createDatePoll(4, 5, "datepoll 1", "1");
         final DatePoll secondDatePoll = createDatePoll(2, 2, "datepoll 2", "2");
-        final DatePoll thirdDatePoll = createDatePoll(3, 1, "datepoll 3", "3");
+        final DatePoll thirdDatePoll = createDatePoll(3, 1, "datepoll 3", "4");
         final DatePoll orgaPoll1 = createDatePollForOrga(2, 4, "orga 1", "4");
         final DatePoll orgaPoll2 = createDatePollForOrga(4, 8, "orga 2", "5");
         final DatePoll orgaPoll3 = createDatePollForOrga(8, 16, "orga 4", "6");
@@ -105,8 +105,8 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-        final Group group = new Group(
-                new GroupMetaInf(new GroupId(groupId), "Testgruppe", GroupVisibility.PRIVATE), participants);
+        final GroupMetaInf groupMetaInf = new GroupMetaInf(new GroupId(groupId), "user group", GroupVisibility.PRIVATE);
+        final Group group = new Group(groupMetaInf, participants);
 
         datePoll = new DatePollBuilder()
             .datePollMetaInf(datePollMetaInf)
@@ -127,19 +127,19 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
             LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf(title, "Testing", "Uni",
             timespan);
-        final UserId creator = new UserId("orga");
+        final UserId creator = new UserId("studentin");
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
 
         final Set<UserId> participants = new HashSet<>();
         IntStream.range(0, users).forEach(i -> participants.add(new UserId(Integer.toString(i))));
-
+        participants.add(creator);
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-        final Group group = new Group(
-                new GroupMetaInf(new GroupId(groupId), "Testgruppe", GroupVisibility.PRIVATE), participants);
+        final GroupMetaInf groupMetaInf = new GroupMetaInf(new GroupId(groupId), "orga group", GroupVisibility.PRIVATE);
+        final Group group = new Group(groupMetaInf, participants);
 
         datePoll = new DatePollBuilder()
             .datePollMetaInf(datePollMetaInf)
