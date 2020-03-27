@@ -1,5 +1,6 @@
 package mops.domain.models.datepoll;
 
+import java.util.Collections;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -54,9 +55,6 @@ public final class DatePoll {
         if (recordAndStatus.isTerminated()) {
             return;
         } //&& !participants.contains(user) --> TODO: Is participant in group?
-        if (!config.isOpen()) {
-            return;
-        }
         if (config.isSingleChoice() && yes.size() > 1) {
             return;
         }
@@ -66,7 +64,7 @@ public final class DatePoll {
         }
 
         final DatePollBallot ballot = getUserBallot(user)
-                .orElse(new DatePollBallot(user, yes, maybe));
+                .orElse(new DatePollBallot(user, Collections.emptySet(), Collections.emptySet()));
         ballots.add(ballot);
         ballot.updateYes(yes, entries);
         ballot.updateMaybe(maybe, entries);
@@ -74,8 +72,6 @@ public final class DatePoll {
 
     /**
      * Fügt neue Terminvorschläge zur Liste hinzu.
-     * Wird sich wahrscheinlich noch ändern, sobald applicationService und Web Oberfläche da sind.
-     *
      * @param potentialNewEntries
      */
     @SuppressWarnings("PMD.LawOfDemeter") // streams.
@@ -88,7 +84,7 @@ public final class DatePoll {
     }
 
     private void updatePollStatus() {
-        if (metaInf.isBeforeEnd(LocalDateTime.now())) {
+        if (metaInf.isAfterEndOfDatePollTimespan(LocalDateTime.now())) {
             recordAndStatus.terminate();
         }
     }
