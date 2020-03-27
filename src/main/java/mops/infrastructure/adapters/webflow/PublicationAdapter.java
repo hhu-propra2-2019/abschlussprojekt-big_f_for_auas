@@ -1,9 +1,12 @@
 package mops.infrastructure.adapters.webflow;
 
-import mops.application.services.GroupService;
 import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.group.GroupMetaInf;
+import mops.domain.models.user.UserId;
+import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.adapters.webflow.builderdtos.PublicationInformation;
+import mops.infrastructure.adapters.webflow.dtos.GroupSuggestionDto;
 import mops.infrastructure.adapters.webflow.dtos.PublicationDto;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
@@ -11,6 +14,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -23,12 +27,12 @@ import static mops.infrastructure.adapters.webflow.ErrorMessageHelper.addMessage
 @PropertySource(value = "classpath:flows/errormappings/publicationmappings.properties", encoding = "UTF-8")
 public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, PublicationInformation> {
 
-    private final transient GroupService groupService;
+    private final transient GroupRepository groupRepository;
     private final transient Environment errorEnvironment;
 
     //@Autowired
-    public PublicationAdapter(GroupService groupService, Environment env) {
-        this.groupService = groupService;
+    public PublicationAdapter(GroupRepository groupRepository, Environment env) {
+        this.groupRepository = groupRepository;
         this.errorEnvironment = env;
     }
 
@@ -42,7 +46,18 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
         publicationDto.setLink(new PollLink().getPollIdentifier());
         publicationDto.setIspublic(true);
         publicationDto.setGroups("");
+        publicationDto.setSuggestions(new HashSet<>());
         return publicationDto;
+    }
+
+    @SuppressWarnings("PMD.LawOfDemeter") //NOPMD
+    public Set<GroupSuggestionDto> updateSuggestions(UserId userId) {
+        final Set<GroupMetaInf> suggestions = groupRepository.getMetaInfForPublicGroups();
+        suggestions.addAll(groupRepository.getMetaInfForPrivateGroupsOfUser(userId));
+        return suggestions
+                .stream()
+                .map(metaInf -> new GroupSuggestionDto(metaInf.getId().getId(), metaInf.getTitle()))
+                .collect(Collectors.toSet());
     }
 
     @Override
@@ -87,7 +102,7 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
     @SuppressWarnings("PMD.LawOfDemeter")
     private Set<GroupId> invalidGroups(PublicationDto publicationDto) {
         return parseGroups(publicationDto.getGroups())
-                .filter(Predicate.not(groupService::groupExists)).collect(Collectors.toSet());
+                .filter(Predicate.not(groupRepository::exists)).collect(Collectors.toSet());
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")

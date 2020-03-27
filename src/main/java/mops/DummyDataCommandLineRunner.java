@@ -9,10 +9,12 @@ import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.group.GroupMetaInf;
+import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
-import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
+import mops.infrastructure.database.repositories.GroupRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -39,13 +41,13 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
 
     private final transient DatePollRepositoryImpl datePollRepo;
     private final transient Random random = new Random();
-    private final transient DomainGroupRepositoryImpl domainGroupRepository;
+    private final transient GroupRepositoryImpl domainGroupRepository;
     private final transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
 
     @Autowired
     public DummyDataCommandLineRunner(DatePollRepositoryImpl datePollRepository,
-        DomainGroupRepositoryImpl domainGroupRepository,
-        DatePollEntryRepositoryManager datePollEntryRepositoryManager) {
+                                      GroupRepositoryImpl domainGroupRepository,
+                                      DatePollEntryRepositoryManager datePollEntryRepositoryManager) {
         this.datePollRepo = datePollRepository;
         this.domainGroupRepository = domainGroupRepository;
         this.datePollEntryRepositoryManager = datePollEntryRepositoryManager;
@@ -103,14 +105,15 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-        final Group group = new Group(new GroupId(groupId), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
+        final Group group = new Group(
+                new GroupMetaInf(new GroupId(groupId), "Testgruppe", GroupVisibility.PRIVATE), participants);
 
         datePoll = new DatePollBuilder()
             .datePollMetaInf(datePollMetaInf)
             .creator(creator)
             .datePollConfig(datePollConfig)
             .datePollEntries(pollEntries)
-            .participatingGroups(Set.of(group.getId()))
+            .participatingGroups(Set.of(group.getMetaInf().getId()))
             .datePollLink(datePollLink)
             .build();
         domainGroupRepository.save(group);
@@ -135,14 +138,15 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-        final Group group = new Group(new GroupId(groupId), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
+        final Group group = new Group(
+                new GroupMetaInf(new GroupId(groupId), "Testgruppe", GroupVisibility.PRIVATE), participants);
 
         datePoll = new DatePollBuilder()
             .datePollMetaInf(datePollMetaInf)
             .creator(creator)
             .datePollConfig(datePollConfig)
             .datePollEntries(pollEntries)
-            .participatingGroups(Set.of(group.getId()))
+            .participatingGroups(Set.of(group.getMetaInf().getId()))
             .datePollLink(datePollLink)
             .build();
         domainGroupRepository.save(group);

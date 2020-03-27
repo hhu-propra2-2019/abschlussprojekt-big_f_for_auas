@@ -88,9 +88,9 @@ public final class DaoOfModelUtil {
 
     public static GroupDao groupDaoOf(Group group) {
         final GroupDao groupDao = new GroupDao();
-        groupDao.setId(group.getId().getId());
-        groupDao.setTitle(group.getTitle());
-        groupDao.setVisibility(group.getVisibility());
+        groupDao.setId(group.getMetaInf().getId().getId());
+        groupDao.setTitle(group.getMetaInf().getTitle());
+        groupDao.setVisibility(group.getMetaInf().getVisibility());
         groupDao.setUserDaos(extractUser(group.getUser()));
         return groupDao;
     }
