@@ -51,7 +51,7 @@
 
                         </td>
                         <td th:text="${entry.getYesVotes()}">0</td>
-                        <td th:if="${config.isPriorityChoice()}" th:text="${entry.getMaybeVotes()}">0</td>
+                        <td th:if="${config.isPriorityChoice()}" th:text="${entry.getMaybeVotes()}">NEIN</td>
                     </tr>
                 </tbody>
             </table>
