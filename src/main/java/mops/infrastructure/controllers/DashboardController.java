@@ -67,8 +67,8 @@ public class DashboardController {
         model.addAttribute("ongoing", ongoing);
 
         model.addAttribute("userId", userId);
-        model.addAttribute("vonMir", ownPolls);
-        model.addAttribute("vonAnderen", otherPolls);
+        model.addAttribute("ownPolls", ownPolls);
+        model.addAttribute("otherPolls", otherPolls);
         return "mobile-dashboard";
     }
 }
