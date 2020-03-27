@@ -5,8 +5,8 @@ import lombok.Getter;
 public enum PollStatus {
     OPEN("fa-hourglass"),
     REOPENED("fa-exclamation"),
-    ONGOING("fa-eye"),
-    TERMINATED("fa-check");
+    ONGOING("fa-check"),
+    TERMINATED("fa-eye");
 
     @Getter
     private final String iconName;
