@@ -13,6 +13,10 @@ group = 'termine1'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+bootJar {
+	archiveFileName = "termine1.jar"
+}
+
 tasks.withType(SpotBugsTask) {
 	reports.xml.enabled = false
 	reports.html.enabled = true

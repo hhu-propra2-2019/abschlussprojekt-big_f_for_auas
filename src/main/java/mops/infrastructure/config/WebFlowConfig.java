@@ -76,7 +76,7 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     @Bean
     public LocalValidatorFactoryBean localValidatorFactoryBean() {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-        bean.setValidationMessageSource(webFlowMessageSource());
+        bean.setValidationMessageSource(messageSource());
         return bean;
     }
 
@@ -87,11 +87,10 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
      * @return ...
      */
     @Bean
-    public MessageSource webFlowMessageSource() {
+    public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource
                 = new ReloadableResourceBundleMessageSource();
         messageSource.setDefaultLocale(Locale.GERMAN);
-        messageSource.setFallbackToSystemLocale(true);
         messageSource.setBasename("classpath:flows/messages/flow-messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;

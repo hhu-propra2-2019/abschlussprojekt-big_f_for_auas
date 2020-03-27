@@ -5,14 +5,15 @@ services:
     volumes:
       - ./mariadb/db/entrypoint:/docker-entrypoint-initdb.d/
       - ./mariadb/db/config.cnf:/etc/mysql/conf.d/config.cnf
-    ports:
-      - "13306:3306"
     environment:
      - MYSQL_DATABASE=termine1
-     - MYSQL_ROOT_PASSWORD=geheim
+     - MYSQL_RANDOM_ROOT_PASSWORD=true
      - MYSQL_USER=test
      - MYSQL_PASSWORD=geheim2
-  #web:
-    #build: .
-    #ports:
-      #- "8081:8080"
+  web:
+    build: .
+    depends_on:
+      - database
+    ports:
+      - "8081:8080"
+    command: /code/wait-for-it.sh database:3306 -t 60 --strict -- java -jar /code/termine1.jar
