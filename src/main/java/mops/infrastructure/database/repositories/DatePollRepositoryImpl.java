@@ -263,11 +263,11 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @param endDate End-Datum des DatePolls.
      * @return Set<PollLink> Die Links der zu entfernenden DatePolls.
      **/
+    @SuppressWarnings("PMD.LawOfDemeter") //stream
     public Set<PollLink> getTerminatedDatePolls(LocalDate endDate) {
-        Set<DatePollDao> pollsToDelete = datePollJpaRepository.findAllTerminatedDatePollsByEndDate(endDate);
-        Set<PollLink> collectedPolls = pollsToDelete.stream().map(DatePollDao::getLink)
+        final Set<DatePollDao> pollsToDelete = datePollJpaRepository.findAllTerminatedDatePollsByEndDate(endDate);
+        return pollsToDelete.stream().map(DatePollDao::getLink)
                 .map(ModelOfDaoUtil::linkOf)
                 .collect(Collectors.toSet());
-        return collectedPolls;
     }
 }
