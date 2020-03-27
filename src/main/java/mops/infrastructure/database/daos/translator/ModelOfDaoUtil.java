@@ -10,6 +10,7 @@ import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.datepoll.DatePollRecordAndStatus;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.questionpoll.QuestionPollBallot;
 import mops.domain.models.questionpoll.QuestionPollConfig;
@@ -20,6 +21,7 @@ import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
+import mops.infrastructure.database.daos.PollStatusEnum;
 import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollConfigDao;
@@ -229,6 +231,20 @@ public final class ModelOfDaoUtil {
 
     public static PollLink linkOf(String link) {
         return new PollLink(UUID.fromString(link));
+    }
+
+    public static PollStatus createPollStatus(PollStatusEnum statusEnum) {
+        final PollStatus newStatus;
+        if (statusEnum == PollStatusEnum.OPEN) {
+            newStatus = PollStatus.OPEN;
+        } else if (statusEnum == PollStatusEnum.REOPENED) {
+            newStatus = PollStatus.REOPENED;
+        } else if (statusEnum == PollStatusEnum.ONGOING) {
+            newStatus =  PollStatus.ONGOING;
+        } else {
+            newStatus = PollStatus.TERMINATED;
+        }
+        return newStatus;
     }
 
     /**

@@ -28,7 +28,8 @@ public class DatePollVoteController {
     private final transient PollInfoService infoService;
 
     @Autowired
-    public DatePollVoteController(DatePollEntriesAdapter entryAdapter, DatePollInfoAdapter infoAdapter, PollInfoService infoService) {
+    public DatePollVoteController(
+            DatePollEntriesAdapter entryAdapter, DatePollInfoAdapter infoAdapter, PollInfoService infoService) {
         this.entryAdapter = entryAdapter;
         this.infoAdapter = infoAdapter;
         this.infoService = infoService;
@@ -48,8 +49,8 @@ public class DatePollVoteController {
         final DatePollUserEntryOverview overview = entryAdapter.showUserEntryOverview(new PollLink(link), user);
         final DatePollConfigDto config = infoAdapter.getDatePollConfig(new PollLink(link));
 
-        DatePoll datepoll = infoService.getDatePollByLink(new PollLink(link));
-        PollStatus userStatus = datepoll.getUserStatus(user);
+        final DatePoll datepoll = infoService.getDatePollByLink(new PollLink(link));
+        final PollStatus userStatus = datepoll.getUserStatus(user);
         if (userStatus == PollStatus.ONGOING) {
             return "redirect:/result/" + pollType + "/" + link;
         }

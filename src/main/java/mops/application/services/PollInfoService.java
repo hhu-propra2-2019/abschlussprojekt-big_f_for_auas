@@ -4,8 +4,10 @@ import java.util.Collections;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.PollLink;
+import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
+import mops.infrastructure.database.repositories.StatusForUserAndPollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,12 @@ import java.util.Set;
 public class PollInfoService {
 
     private final transient DatePollRepository datePollRepository;
+    private final transient StatusForUserAndPollRepository statusRepository;
 
     @Autowired
-    public PollInfoService(DatePollRepository datePollRepository) {
+    public PollInfoService(DatePollRepository datePollRepository, StatusForUserAndPollRepository statusRepository) {
         this.datePollRepository = datePollRepository;
+        this.statusRepository = statusRepository;
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
@@ -45,6 +49,11 @@ public class PollInfoService {
 
     public Set<DatePoll> getDatePollByStatusFromUser(UserId userId) {
         //return datePollRepository.getDatePollWhereUserHasStatus(userId);
+        //TODO: immer leer?
         return Collections.emptySet();
+    }
+
+    public PollStatus getPollStatus(UserId userId, DatePoll datePoll) {
+        return statusRepository.getCurrentPollStatusForUser(userId, datePoll.getPollLink());
     }
 }
