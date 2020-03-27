@@ -23,7 +23,6 @@ public final class DatePoll {
     private final UserId creator;
     private DatePollConfig config;
     private Set<DatePollEntry> entries;
-    //private Set<UserId> participants;
     private Set<GroupId> groups;
     private Set<DatePollBallot> ballots;
     private PollLink pollLink;
@@ -52,7 +51,7 @@ public final class DatePoll {
         updatePollStatus();
         if (recordAndStatus.isTerminated()) {
             return;
-        } //&& !participants.contains(user) --> TODO: Is participant in group?
+        }
         if (config.isSingleChoice() && yes.size() > 1) {
             return;
         }
@@ -85,10 +84,5 @@ public final class DatePoll {
         if (metaInf.isAfterEndOfDatePollTimespan(LocalDateTime.now())) {
             recordAndStatus.terminate();
         }
-    }
-
-    //TODO: || participants.contains(user) --> group.contains(user)...
-    public boolean isUserParticipant(UserId user) {
-        return config.isOpen();
     }
 }

@@ -51,22 +51,6 @@ public class DatePollBallot implements ValidateAble {
     }
 
     /**
-     * Anzahl der ja stimmen.
-     * @return int
-     */
-    public int getYesEntriesSize() {
-        return selectedEntriesYes.size();
-    }
-
-    /**
-     * Anzahl der vielleicht stimmen.
-     * @return int
-     */
-    public int getMaybeEntriesSize() {
-        return selectedEntriesMaybe.size();
-    }
-
-    /**
      * ...
      * @return...
      */
