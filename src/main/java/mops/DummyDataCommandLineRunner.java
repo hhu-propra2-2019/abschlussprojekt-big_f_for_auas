@@ -100,7 +100,6 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
 
         final Set<UserId> participants = new HashSet<>();
         IntStream.range(0, users).forEach(i -> participants.add(new UserId(Integer.toString(i))));
-        participants.add(creator);
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
@@ -133,6 +132,7 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
 
         final Set<UserId> participants = new HashSet<>();
         IntStream.range(0, users).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        participants.add(creator);
 
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
