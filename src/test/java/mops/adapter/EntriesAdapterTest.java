@@ -30,6 +30,7 @@ public class EntriesAdapterTest {
     public void testInitializeDto() {
         assertThat(dto).hasNoNullFieldsOrProperties();
     }
+
     @Test
     public void testValidateDto() {
         dto.setProposedEntry(null);

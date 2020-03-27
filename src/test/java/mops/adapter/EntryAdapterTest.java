@@ -31,7 +31,7 @@ public class EntryAdapterTest {
     }
 
     @Test
-    public void testValidateDto() {
+    public void testValidateNullDto() {
         dto.setDate(null);
         dto.setStartTime(null);
         dto.setEndTime(null);
@@ -41,4 +41,39 @@ public class EntryAdapterTest {
         assertThat(valid).isFalse();
     }
 
+    @Test
+    public void testValidateInvalidDateDto() {
+        // Falsches Format: DD.MM.YYYY
+        dto.setDate("05.03.2040");
+        dto.setStartTime("12:00");
+        dto.setEndTime("13:00");
+
+        boolean valid = adapter.validateDto(dto, messageContext);
+
+        assertThat(valid).isFalse();
+    }
+
+    @Test
+    public void testValidateInvalidStartTimeDto() {
+        dto.setDate("2020-05-01");
+        // Falsches Format: HH-MM
+        dto.setStartTime("13-00");
+        dto.setEndTime("15:00");
+
+        boolean valid = adapter.validateDto(dto, messageContext);
+
+        assertThat(valid).isFalse();
+    }
+
+    @Test
+    public void testValidateInvalidEndTimeDto() {
+        dto.setDate("2020-05-01");
+        dto.setStartTime("13:00");
+        // Falsches Format: HH-MM
+        dto.setEndTime("15-00");
+
+        boolean valid = adapter.validateDto(dto, messageContext);
+
+        assertThat(valid).isFalse();
+    }
 }
