@@ -26,6 +26,10 @@ bootJar {
 	excludeDevtools = true
 }
 
+bootRun {
+	sourceResources sourceSets.main
+}
+
 configurations {
 	developmentOnly
 	runtimeClasspath {
@@ -66,7 +70,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	compile 'org.springframework.boot:spring-boot-devtools'
 
 	// Testing
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {

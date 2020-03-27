@@ -15,8 +15,10 @@
         <div class="alert alert-danger" th:errors="*" th:text="${err}"></div>
     </div>
 
-<!--    <input type="file" th:field="*{pollFile}"/>-->
-    <div class="custom-file" id="file-input">
+    <div>
+        Bitte gib hier die Datei an, die die Informationen über deine Abstimmung enthält. Falls du noch nicht weißt, wie man eine passende Datei erstellt, schau dir einfach die Beispieldatei an.<br>
+    </div>
+    <div class="custom-file my-4" id="file-input">
         <input class="custom-file-input" type="file" id="pollFile" th:field="*{pollFile}" required>
         <label class="custom-file-label" for="pollFile">Datei auswählen...</label>
         <div class="invalid-feedback">Die Datei konnte nicht eingelesen werden</div>
@@ -28,6 +30,50 @@
             nextSibling.innerText = fileName
         })
     </script>
+
+    <h3 class="d-flex align-content-center" onclick="collapseSection('upload-instructions', 'instruction-caret')">
+        <i id="instruction-caret" class="fa fa-caret-right mr-3" aria-hidden="true"></i>
+        Beispieldatei
+    </h3>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <div class="collapse hide mt-4" id="upload-instructions">
+        <p>Die JSON-Datei sollte folgende Struktur haben:</p>
+        <pre><code class="language-json">
+                {
+                  "title": "Kuchen essen mit Paul",
+                  "description": "So sollte die Datei aussehen, die automatisch eingelesen wird.",
+                  "location": "überall und immer",
+                  "startDate": "2020-03-25",
+                  "startTime": "12:00",
+                  "endDate": "2020-04-25",
+                  "endTime": "18:00",
+                  "voteIsEditable": true,
+                  "singleChoice": false,
+                  "priorityChoice": true,
+                  "anonymous": false,
+                  "ispublic": false,
+                  "groups": ["termine1", "big_f_for_auas", "gruppe-xyz"],
+                  "entries": [
+                    {
+                      "date": "2020-05-20",
+                      "startTime": "16:00",
+                      "endTime": "17:00"
+                    },
+                    {
+                      "date": "2020-05-21",
+                      "startTime": "16:00",
+                      "endTime": "17:00"
+                    },
+                    {
+                      "date": "2020-05-22",
+                      "startTime": "16:00",
+                      "endTime": "17:00"
+                    }
+                  ]
+                }
+            </code></pre>
+        Weitere Informationen findest du in der Dokumentation.
+    </div>
 
     <button type="submit" name="_eventId_upload"  class="btn btn-primary float-right mt-5">Weiter</button>
     <button type="submit" name="_eventId_cancel"  class="btn btn-primary float-left mt-5">Zurück</button>
