@@ -32,7 +32,7 @@ import java.util.stream.IntStream;
  * zum Speichern in die Datenbank erzeugt werden.
  */
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:MagicNumber"})
-@Profile("production")
+@Profile("development")
 @Transactional
 @Component
 public class DummyDataCommandLineRunner implements CommandLineRunner {
@@ -131,7 +131,7 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
 
         final Set<UserId> participants = new HashSet<>();
         IntStream.range(0, users).forEach(i -> participants.add(new UserId(Integer.toString(i))));
-        participants.add(creator);
+        //participants.add(creator);
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
                 new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))

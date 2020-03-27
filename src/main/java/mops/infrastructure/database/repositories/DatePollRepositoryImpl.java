@@ -105,11 +105,11 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         checkDatePollBallotsForVotes(datePoll.getBallots(), datePoll);
         //Save PollStatus for each User ...
         saveDatePollStatus(datePoll, datePollDao);
-        datePollJpaRepository.flush();
+        //datePollJpaRepository.flush();
     }
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis", "checkstyle:DesignForExtension"})
     @Transactional
-    private void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
+    public void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
         final Map<UserId, PollStatus> votingRecord = datePoll.getRecordAndStatus().getVotingRecord();
         votingRecord.forEach((userId, pollStatus) -> {
             final DatePollStatusDaoKey nextStatusKey = new DatePollStatusDaoKey(
@@ -125,8 +125,9 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         });
     }
 
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
-    private void checkDatePollBallotsForVotes(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
+    @Transactional
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis", "checkstyle:DesignForExtension"})
+    public void checkDatePollBallotsForVotes(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
         for (final DatePollBallot targetBallot:datePollBallots
              ) {
             if (targetBallot.getSelectedEntriesYes().size() != 0) {
