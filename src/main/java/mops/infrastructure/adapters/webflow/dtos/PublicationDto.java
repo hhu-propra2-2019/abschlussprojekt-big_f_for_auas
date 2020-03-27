@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -14,4 +15,5 @@ public class PublicationDto extends GeneralDto implements Serializable {
     private boolean ispublic;
     private String link;
     private String groups;
+    private Set<GroupSuggestionDto> suggestions;
 }

@@ -18,24 +18,34 @@ public class DatePollBallot implements ValidateAble {
 
     /**
      * Konstruktor wo man ja und vielleicht abstimmen kann.
-     * @param qpUserId
+     * @param userId
      * @param selectedEntriesYes
      * @param selectedEntriesMaybe
      */
-    public DatePollBallot(UserId qpUserId, Set<DatePollEntry> selectedEntriesYes,
+    public DatePollBallot(UserId userId, Set<DatePollEntry> selectedEntriesYes,
         Set<DatePollEntry> selectedEntriesMaybe) {
-        this.user = qpUserId;
+        this.user = userId;
         this.selectedEntriesYes = selectedEntriesYes;
         this.selectedEntriesMaybe = selectedEntriesMaybe;
     }
 
+    /**
+     * Erzeugt leeres ballot.
+     * @param userId
+     */
+    public DatePollBallot(UserId userId) {
+        this.user = userId;
+        this.selectedEntriesYes = new HashSet<>();
+        this.selectedEntriesMaybe = new HashSet<>();
+    }
+
     /** Konstruktor wo man nur ja abstimmen kann.
      *
-     * @param qpUserId
+     * @param userId
      * @param selectedEntriesYes
      */
-    public DatePollBallot(UserId qpUserId, Set<DatePollEntry> selectedEntriesYes) {
-        this.user = qpUserId;
+    public DatePollBallot(UserId userId, Set<DatePollEntry> selectedEntriesYes) {
+        this.user = userId;
         this.selectedEntriesYes = selectedEntriesYes;
         this.selectedEntriesMaybe = new HashSet<>();
     }

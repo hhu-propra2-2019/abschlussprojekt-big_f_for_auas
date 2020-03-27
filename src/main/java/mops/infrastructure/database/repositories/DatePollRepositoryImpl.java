@@ -6,11 +6,13 @@ import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.pollstatus.PollStatus;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
+import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.datepoll.DatePollStatusDao;
 import mops.infrastructure.database.daos.datepoll.DatePollStatusDaoKey;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
@@ -21,7 +23,9 @@ import mops.infrastructure.database.repositories.interfaces.GroupJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
@@ -29,6 +33,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
+// TODO: Entscheiden, ob die Excessive Imports ein Problem sind
+// Hinweis: ich habe die Klasse nicht geschrieben, sonder nur den Master gemerged
+@SuppressWarnings("PMD.ExcessiveImports")
 public class DatePollRepositoryImpl implements DatePollRepository {
 
     public static final String USER_IS_NOT_IN_THE_DATABASE = "User is not in the database!";
@@ -78,18 +85,40 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @return An Inputlink gekoppeltes DatePoll
      */
     @Override
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     public Optional<DatePoll> load(PollLink link) {
         final DatePollDao loaded = datePollJpaRepository
                 .findDatePollDaoByLink(link.getLinkUUIDAsString());
-        //TODO: DatePollBallots hinzufuegen?
+        //TODO: Im Moment kriegen wir bei der Erzeugung eines
         final DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
+        //Extrahiere alle Gruppen, extrahiere alle User in den Gruppen, lade alle DatePollEntries fuer
+        //die der User gestimmt hat und rufe castBallot auf, damit diese im datePoll Objekt gespeichert werden.
+        loaded.getGroupDaos().stream()
+                .map(GroupDao::getUserDaos)
+                .flatMap(Collection::stream)
+                .map(ModelOfDaoUtil::userOf)
+                .forEach(user -> setActualBallotForUserAndDatePoll(targetDatePoll, user));
         return Optional.of(targetDatePoll);
+    }
+    @SuppressWarnings("PMD.LawOfDemeter")
+    private void setActualBallotForUserAndDatePoll(DatePoll targetDatePoll, User user) {
+        final UserId targetUser = user.getId();
+        final Set<DatePollEntryDao> targetDatePollEntryDaos = datePollEntryRepositoryManager
+                .findAllDatePollEntriesUserVotesFor(targetUser, targetDatePoll);
+        final Set<DatePollEntry> targetDatePollEntries = ModelOfDaoUtil
+                .extractDatePollEntries(targetDatePollEntryDaos);
+        //Set "Yes" Votes to targetDatePoll
+        //TODO: Diesen Zugriff auf das DatePollBallot-Set ersetzen durch einen Konstruktor Aufruf von DatePoll
+        if (!targetDatePollEntries.isEmpty()) {
+            targetDatePoll.getBallots().add(new DatePollBallot(targetUser, targetDatePollEntries));
+        }
     }
 
     /**
      * Speichert ein DatePoll Aggregat.
      * @param datePoll Zu speichernde DatePoll
      */
+    @Transactional
     @Override
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidDuplicateLiterals"})
     public void save(DatePoll datePoll) {
@@ -104,7 +133,9 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         checkDatePollBallotsForVotes(datePoll.getBallots(), datePoll);
         //Save PollStatus for each User ...
         saveDatePollStatus(datePoll, datePollDao);
+        datePollJpaRepository.flush();
     }
+
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
         final Map<UserId, PollStatus> votingRecord = datePoll.getRecordAndStatus().getVotingRecord();
@@ -127,7 +158,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         for (final DatePollBallot targetBallot:datePollBallots
              ) {
             if (targetBallot.getSelectedEntriesYes().size() != 0) {
-                setVoteForTargetUserAndEntry(targetBallot.getSelectedEntriesYes(),
+                setYesVoteForTargetUserAndEntry(targetBallot.getSelectedEntriesYes(),
                         datePoll,
                         targetBallot.getUser());
             }
@@ -135,8 +166,8 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     }
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    private void setVoteForTargetUserAndEntry(Set<DatePollEntry> datePollEntries, DatePoll datePoll, UserId user) {
-        datePollEntries.forEach(targetEntry -> datePollEntryRepositoryManager
+    private void setYesVoteForTargetUserAndEntry(Set<DatePollEntry> yesVotes, DatePoll datePoll, UserId user) {
+        yesVotes.forEach(targetEntry -> datePollEntryRepositoryManager
                 .userVotesForDatePollEntry(user,
                         datePoll.getPollLink(),
                         targetEntry));
@@ -167,7 +198,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
 
     /**
      * Gibt ein Set mit allen Datepolls zurück, welche der angegebene User erstellt hat.
-     * @param userId
+     * @param userId ...
      * @return Set<DatePoll>, ist leer wenn User keine DatePolls erstellt hat.
      */
     @Override

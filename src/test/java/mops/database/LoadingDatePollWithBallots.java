@@ -5,6 +5,7 @@ import mops.config.H2DatabaseConfigForTests;
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePoll;
+import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
@@ -14,8 +15,9 @@ import mops.domain.models.group.GroupId;
 import mops.domain.models.group.GroupMetaInf;
 import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.UserId;
+import mops.domain.repositories.GroupRepository;
+import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
-import mops.infrastructure.database.repositories.GroupRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,33 +40,42 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {MopsApplication.class, H2DatabaseConfigForTests.class})
 @Transactional
-@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor"})
-public class DatePollsFromUser {
-    @Autowired
-    private transient DatePollRepositoryImpl datePollRepo;
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor", "PMD.ExcessiveImports",
+        "PMD.DataflowAnomalyAnalysis"})
+public class LoadingDatePollWithBallots {
     private final transient Random random = new Random();
     @Autowired
-    private transient GroupRepositoryImpl groupRepository;
-    @SuppressWarnings("checkstyle:MagicNumber")
+    private transient DatePollRepositoryImpl datePollRepository;
+    @Autowired
+    private transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
+    @Autowired
+    private transient GroupRepository groupRepository;
+
+    @SuppressWarnings({"checkstyle:MagicNumber", "PMD.JUnitTestContainsTooManyAsserts"})
     @Test
-    public void userOneHasThreeDatePolls() {
-        final DatePoll firstDatePoll = createDatePoll(4, 5, "datepoll 1");
-        final DatePoll secondDatePoll = createDatePoll(4, 5, "datepoll 1");
-        final DatePoll thirdDatePoll = createDatePoll(4, 5, "datepoll 1");
+    public void loadSavedDatePoll() {
+        final DatePoll targetDatePoll = createDatePoll(5, 5, "test");
+        final DatePollEntry targetEntry = targetDatePoll.getEntries().iterator().next();
+        datePollRepository.save(targetDatePoll);
+        datePollEntryRepositoryManager.userVotesForDatePollEntry(new UserId("1"),
+                targetDatePoll.getPollLink(),
+                targetEntry);
+        final Optional<DatePoll> loaded = datePollRepository.load(targetDatePoll.getPollLink());
+        DatePoll loadedDatePoll = null;
 
-        datePollRepo.save(firstDatePoll);
-        datePollRepo.save(secondDatePoll);
-        datePollRepo.save(thirdDatePoll);
-        assertThat(datePollRepo.findDatePollsByUser(new UserId("1")).size()).isEqualTo(3);
+        //TODO: Refactoring des Tests.
+        assertThat(loaded.isPresent());
+        if (loaded.isPresent()) {
+            loadedDatePoll = loaded.get();
+            final Set<DatePollBallot> loadedBallots = loadedDatePoll.getBallots();
+            //Funktioniert nur, da der User nur fuer ein datepollentry voted.
+            final Set<Set<DatePollEntry>> targetDatePollEntry = loadedBallots.stream()
+                    .filter(datePollBallot -> datePollBallot.getUser().getId().equals("1"))
+                    .map(DatePollBallot::getSelectedEntriesYes)
+                    .collect(Collectors.toSet());
+            assertThat(targetDatePollEntry.size()).isEqualTo(1);
+        }
     }
-
-    /**
-     * Beispiel Daten fuer ein DatePoll Objekt.
-     * @param users Anzahl an Teilnehmern.
-     * @param pollentries Anzahl an DatePollEntry Objekten.
-     * @param title Der Titel des DatePoll Objektes.
-     * @return DatePoll Das zu erstellende DatePoll Objekt.
-     */
     @SuppressWarnings("checkstyle:MagicNumber")
     private DatePoll createDatePoll(int users, int pollentries, String title) {
         final DatePoll datePoll;
@@ -93,5 +106,4 @@ public class DatePollsFromUser {
         groupRepository.save(group);
         return datePoll;
     }
-
 }

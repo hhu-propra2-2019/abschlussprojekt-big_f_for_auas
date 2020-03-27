@@ -11,7 +11,6 @@ import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.repositories.interfaces.DatePollEntryJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
-import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,15 +21,15 @@ import java.util.Set;
 public class DatePollEntryRepositoryManager {
     private final transient DatePollJpaRepository datePollJpaRepository;
     private final transient DatePollEntryJpaRepository datePollEntryJpaRepository;
-    private final transient UserJpaRepository userJpaRepository;
+    private final transient UserRepositoryImpl userRepository;
     @Autowired
     public DatePollEntryRepositoryManager(
             DatePollJpaRepository datePollJpaRepository,
             DatePollEntryJpaRepository datePollEntryJpaRepository,
-            UserJpaRepository userJpaRepository) {
+        UserRepositoryImpl userRepository) {
         this.datePollJpaRepository = datePollJpaRepository;
         this.datePollEntryJpaRepository = datePollEntryJpaRepository;
-        this.userJpaRepository = userJpaRepository;
+        this.userRepository = userRepository;
     }
     /**
      * @param datePollEntryDao ...
@@ -64,10 +63,11 @@ public class DatePollEntryRepositoryManager {
      */
     public void userVotesForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
         final DatePollEntryDao targetDatePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
-        final UserDao currentUserDao = userJpaRepository.getOne(userId.getId());
-        targetDatePollEntryDao.getUserVotesFor().add(currentUserDao);
-        currentUserDao.getDatePollEntrySet().add(targetDatePollEntryDao);
-        userJpaRepository.save(currentUserDao);
+        userRepository.saveUserIfNotPresent(userId);
+        final UserDao userDao = userRepository.loadDao(userId).orElseThrow();
+        targetDatePollEntryDao.getUserVotesFor().add(userDao);
+        userDao.getDatePollEntrySet().add(targetDatePollEntryDao);
+        userRepository.updateUser(userDao);
         datePollEntryJpaRepository.save(targetDatePollEntryDao);
     }
     /**
@@ -78,7 +78,7 @@ public class DatePollEntryRepositoryManager {
      */
     public Long getVotesForDatePollEntry(PollLink pollLink, DatePollEntry datePollEntry) {
         final DatePollEntryDao datePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
-        return userJpaRepository.countByDatePollEntrySetContaining(datePollEntryDao);
+        return userRepository.getAllYesVotesForDatePollEntry(datePollEntryDao);
     }
 
     /**
