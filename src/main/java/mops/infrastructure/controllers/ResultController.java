@@ -5,6 +5,7 @@ import java.util.SortedSet;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.adapters.datepolladapter.DatePollInfoAdapter;
+import mops.infrastructure.controllers.dtos.DatePollConfigDto;
 import mops.infrastructure.controllers.dtos.DatePollMetaInfDto;
 import mops.infrastructure.controllers.dtos.DatePollResultDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +36,14 @@ public class ResultController {
     public String mapResults(@RequestAttribute(name = "userId") UserId userId,
         Model model, @PathVariable String pollType, @PathVariable String link) {
         final SortedSet<DatePollResultDto> results = datePollInfoAdapter
-            .getAllDatePollResultDto(new PollLink(link));
+                .getAllDatePollResultDto(new PollLink(link));
         final DatePollMetaInfDto metaInf = datePollInfoAdapter
-            .getDatePollMetaInformation(new PollLink(link), userId);
+                .getDatePollMetaInformation(new PollLink(link), userId);
+        final DatePollConfigDto config = datePollInfoAdapter
+                .getDatePollConfig(new PollLink(link));
         model.addAttribute("results", results);
         model.addAttribute("metaInf", metaInf);
+        model.addAttribute("config", config);
         return "mobilePollResults";
     }
 }
