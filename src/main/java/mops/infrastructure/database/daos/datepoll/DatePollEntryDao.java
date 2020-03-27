@@ -32,7 +32,7 @@ public class DatePollEntryDao {
     private Long id;
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private DatePollDao datePoll;
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserDao> userVotesFor = new HashSet<>();
     @Embedded
     private TimespanDao timespanDao;

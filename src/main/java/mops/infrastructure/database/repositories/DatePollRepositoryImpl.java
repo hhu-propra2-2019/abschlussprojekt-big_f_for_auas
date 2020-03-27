@@ -22,6 +22,7 @@ import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
@@ -107,6 +108,7 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         datePollJpaRepository.flush();
     }
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
+    @Transactional
     private void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
         final Map<UserId, PollStatus> votingRecord = datePoll.getRecordAndStatus().getVotingRecord();
         votingRecord.forEach((userId, pollStatus) -> {
@@ -135,8 +137,17 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         }
     }
 
+    /**
+     * Setzt die, fuer ein Set an DatePollEntries die "Yes" Stimmen fuer den angegeben User.
+     * Die DatePollEntries gehoeren dabei genau einem DatePoll an.
+     * Die Informationen werden fuer den Methodenaufruf an das datePollEntryRepositoryManager weitergeleitet.
+     * @param datePollEntries Die zugehoerigen Entries.
+     * @param datePoll Das zugehoerige DatePoll Objekt.
+     * @param user Der zugehoerige User.
+     */
+    @Transactional
     @SuppressWarnings({"PMD.LawOfDemeter"})
-    private void setVoteForTargetUserAndEntry(Set<DatePollEntry> datePollEntries, DatePoll datePoll, UserId user) {
+    public void setVoteForTargetUserAndEntry(Set<DatePollEntry> datePollEntries, DatePoll datePoll, UserId user) {
         datePollEntries.forEach(targetEntry -> datePollEntryRepositoryManager
                 .userVotesForDatePollEntry(user,
                         datePoll.getPollLink(),

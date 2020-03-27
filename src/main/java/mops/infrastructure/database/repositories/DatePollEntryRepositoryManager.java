@@ -14,6 +14,7 @@ import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.Set;
 
 @SuppressWarnings({"PMD.LawOfDemeter"})
@@ -61,6 +62,7 @@ public class DatePollEntryRepositoryManager {
      * @param pollLink zugehoeriger DatePoll.
      * @param datePollEntry Vorschlag fuer den abgestimmt wird.
      */
+    @Transactional
     public void userVotesForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
         final DatePollEntryDao targetDatePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
         userRepository.saveUserIfNotPresent(userId);
