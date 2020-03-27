@@ -5,7 +5,6 @@ import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.pollstatus.PollStatus;
 import mops.infrastructure.adapters.datepolladapter.DatePollEntriesAdapter;
 import mops.infrastructure.adapters.datepolladapter.DatePollInfoAdapter;
-import mops.infrastructure.controllers.dtos.DatePollConfigDto;
 import mops.infrastructure.controllers.dtos.DatePollUserEntryOverview;
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
@@ -28,7 +27,8 @@ public class DatePollVoteController {
     private final transient PollInfoService infoService;
 
     @Autowired
-    public DatePollVoteController(DatePollEntriesAdapter entryAdapter, DatePollInfoAdapter infoAdapter, PollInfoService infoService) {
+    public DatePollVoteController(
+            DatePollEntriesAdapter entryAdapter, DatePollInfoAdapter infoAdapter, PollInfoService infoService) {
         this.entryAdapter = entryAdapter;
         this.infoAdapter = infoAdapter;
         this.infoService = infoService;
@@ -45,17 +45,14 @@ public class DatePollVoteController {
     @GetMapping("/vote/{pollType}/{link}")
     public String showPoll(Model model, @RequestAttribute(name = "userId") UserId user,
                            @PathVariable String pollType, @PathVariable String link) {
-        final DatePollUserEntryOverview overview = entryAdapter.showUserEntryOverview(new PollLink(link), user);
-        final DatePollConfigDto config = infoAdapter.getDatePollConfig(new PollLink(link));
-
-        DatePoll datepoll = infoService.getDatePollByLink(new PollLink(link));
-        PollStatus userStatus = datepoll.getUserStatus(user);
+        final DatePoll datepoll = infoService.getDatePollByLink(new PollLink(link));
+        final PollStatus userStatus = datepoll.getUserStatus(user);
         if (userStatus == PollStatus.ONGOING) {
             return "redirect:/result/" + pollType + "/" + link;
         }
 
-        model.addAttribute("overview", overview);
-        model.addAttribute("config", config);
+        model.addAttribute("overview", entryAdapter.showUserEntryOverview(new PollLink(link), user));
+        model.addAttribute("config", infoAdapter.getDatePollConfig(new PollLink(link)));
         return "mobilePollVote";
     }
 
