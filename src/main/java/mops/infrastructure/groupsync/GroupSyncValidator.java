@@ -3,6 +3,8 @@ package mops.infrastructure.groupsync;
 import lombok.NoArgsConstructor;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.group.GroupMetaInf;
+import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.groupsync.dto.GroupDto;
 import mops.infrastructure.groupsync.dto.GroupSyncInputDto;
@@ -47,9 +49,10 @@ public final class GroupSyncValidator {
             return Stream.empty();
         }
         final Group group = new Group(
-                new GroupId(dto.getId()),
-                dto.getTitle(),
-                "PUBLIC".equals(dto.getVisibility()) ? Group.GroupVisibility.PUBLIC : Group.GroupVisibility.PRIVATE,
+                new GroupMetaInf(
+                        new GroupId(dto.getId()),
+                        dto.getTitle(),
+                        "PUBLIC".equals(dto.getVisibility()) ? GroupVisibility.PUBLIC : GroupVisibility.PRIVATE),
                 dto.getMembers().stream().flatMap(this::validateUserDto).collect(Collectors.toSet()));
         // Falls ein oder mehrere User nicht eingelesen werden konnten, Gruppe nicht erzeugen
         if (group.getUser().isEmpty() || dto.getMembers().size() != group.getUser().size()) {

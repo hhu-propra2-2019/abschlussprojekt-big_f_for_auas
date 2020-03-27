@@ -41,6 +41,16 @@ zu einer Umfrage navigieren und abstimmen können.
 Die Ergebnisse einer Abstimmung sollen nach Abschluss der Umfrage übersichtlich angezeigt werden.
 Nach einer festgelegten Zeit werden alle Daten, die mit einer Umfrage verbunden sind, gelöscht.
 
+==== Aktueller Stand (27.03.2020, 11:00 Uhr)
+Die größte Schwierigkeit besteht momentan in der Verknüpfung der Datenbank-Implementierung mit
+Geschäftslogik und Front-End.
+Startet ein*e Nutzer*in die Anwendung wird er/sie auf ein Dashboard geleitet, auf dem er/sie die ihm/ihr
+zugehörigen (Termin-)Umfragen sieht. Die Anwendung funktioniert soweit,
+dass man eine Terminabstimmung erstellen und im Nachhinein darauf zugreifen und abstimmen kann.
+Auch die zur Abstimmung gehörigen Nutzer*innen können auf die Abstimmung zugreifen. Zu einer Umfrage,
+bei der man schon abgestimmt hat kann man die bisherigen Ergebnisse sehen und auch erneut abstimmen.
+Diese Dinge funktionieren nicht nur für die Terminfindung sondern auch für einfache Umfragen.
+
 ==== Dokumentation und wo Sie zu finden ist
 Dokumentationen sind grundsätzlich im documentations Ordner im Root Verzeichnis zu finden.
 Weitere Information lassen sich aus den javadocs entnehmen, sofern vorhanden.

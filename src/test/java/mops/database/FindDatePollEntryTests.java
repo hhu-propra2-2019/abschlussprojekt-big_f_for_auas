@@ -12,8 +12,10 @@ import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.group.GroupMetaInf;
+import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.UserId;
-import mops.domain.repositories.DomainGroupRepository;
+import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FindDatePollEntryTests {
     private transient DatePoll datePoll;
     @Autowired
-    private transient DomainGroupRepository domainGroupRepository;
+    private transient GroupRepository groupRepository;
     @Autowired
     private transient DatePollRepositoryImpl datePollRepository;
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber", "PMD.SingularField"})
@@ -55,17 +57,18 @@ public class FindDatePollEntryTests {
         )));
         final Set<UserId> participants = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
-        final Group group = new Group(new GroupId("1"), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
+        final Group group = new Group(
+                new GroupMetaInf(new GroupId("1"), "Testgruppe", GroupVisibility.PRIVATE), participants);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
-                .participatingGroups(Set.of(group.getId()))
+                .participatingGroups(Set.of(group.getMetaInf().getId()))
                 .datePollLink(datePollLink)
                 .build();
 
-        domainGroupRepository.save(group);
+        groupRepository.save(group);
         datePollRepository.save(datePoll);
     }
     @Test

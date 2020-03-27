@@ -120,8 +120,7 @@ Bausteinsicht {#section-building-block-view}
 Whitebox Gesamtsystem {#_whitebox_gesamtsystem}
 ---------------------
 
-***\<Übersichtsdiagramm\>***
-
+![Terminfindung Erstellung](./images/gesamtsystem.jpg)
 Begründung
 
 :   *\<Erläuternder Text\>*

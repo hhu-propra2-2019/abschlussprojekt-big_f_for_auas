@@ -1,9 +1,9 @@
 package mops.infrastructure.adapters.datepolladapter;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 import mops.application.services.PollInfoService;
 import mops.domain.models.datepoll.DatePollConfig;
@@ -44,24 +44,32 @@ public class DatePollInfoAdapter {
     }
 
     @SuppressWarnings("PMD.LawOfDemeter") // stream
-    public SortedSet<DatePollResultDto> getAllDatePollResultDto(PollLink link) {
+    public List<DatePollResultDto> getAllDatePollResultDto(PollLink link) {
         final Set<DatePollEntry> entries = infoService.getEntries(link);
-        return entries.stream()
+        final List<DatePollResultDto> results = entries.stream()
             .map(DatePollInfoAdapter::datePollEntryToResultDto)
-            .collect(Collectors.toCollection(TreeSet::new));
+            .collect(Collectors.toCollection(ArrayList::new));
+        results.sort(DatePollResultDto::compareTo);
+        return results;
     }
 
-    public SortedSet<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
+    @SuppressWarnings("PMD.LawOfDemeter") // stream
+    public List<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
         final Set<DatePoll> datePolls = infoService.getDatePollByCreator(userId);
-        return datePolls.stream()
-            .map((DatePoll datePoll) -> datePollToDasboardDto(datePoll, userId))
-            .collect(Collectors.toCollection(TreeSet::new));
+        final List<DashboardItemDto> items = datePolls.stream()
+            .map(datePoll -> DatePollInfoAdapter.datePollToDasboardDto(datePoll, userId))
+            .collect(Collectors.toCollection(ArrayList::new));
+        items.sort(DashboardItemDto::compareTo);
+        return items;
     }
 
-    public SortedSet<DashboardItemDto> getPollsByOthersForDashboard(UserId userId) {
+    public List<DashboardItemDto> getPollsByOthersForDashboard(UserId userId) {
         final Set<DatePoll> datePolls = infoService.getDatePollByStatusFromUser(userId);
-        return datePolls.stream().map(datePoll -> datePollToDasboardDto(datePoll, userId))
-            .collect(Collectors.toCollection(TreeSet::new));
+        final List<DashboardItemDto> items = datePolls.stream()
+            .map(datePoll -> DatePollInfoAdapter.datePollToDasboardDto(datePoll, userId))
+            .collect(Collectors.toCollection(ArrayList::new));
+        items.sort(DashboardItemDto::compareTo);
+        return items;
     }
 
     private static DatePollResultDto datePollEntryToResultDto(DatePollEntry entry) {
