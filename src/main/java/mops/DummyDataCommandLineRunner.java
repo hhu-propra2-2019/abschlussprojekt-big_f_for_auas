@@ -44,8 +44,8 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
 
     @Autowired
     public DummyDataCommandLineRunner(DatePollRepositoryImpl datePollRepository,
-        DomainGroupRepositoryImpl domainGroupRepository,
-        DatePollEntryRepositoryManager datePollEntryRepositoryManager) {
+                                      DomainGroupRepositoryImpl domainGroupRepository,
+                                      DatePollEntryRepositoryManager datePollEntryRepositoryManager) {
         this.datePollRepo = datePollRepository;
         this.domainGroupRepository = domainGroupRepository;
         this.datePollEntryRepositoryManager = datePollEntryRepositoryManager;
@@ -72,9 +72,9 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
         datePollRepo.save(orgaPoll2);
         datePollRepo.save(orgaPoll3);
         datePollEntryRepositoryManager
-            .userVotesForDatePollEntry(new UserId("1"),
-                firstDatePoll.getPollLink(),
-                firstDatePoll.getEntries().iterator().next());
+                .userVotesForDatePollEntry(new UserId("1"),
+                        firstDatePoll.getPollLink(),
+                        firstDatePoll.getEntries().iterator().next());
     }
 
     /**
@@ -89,9 +89,9 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
     private DatePoll createDatePoll(int users, int pollentries, String title, String groupId) {
         final DatePoll datePoll;
         final Timespan timespan = new Timespan(LocalDateTime.now(),
-            LocalDateTime.now().plusDays(10));
+                LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf(title, "Testing", "Uni",
-            timespan);
+                timespan);
         final UserId creator = new UserId(Integer.toString(random.nextInt()));
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
@@ -101,49 +101,50 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
 
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
-            new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
+                new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
         final Group group = new Group(new GroupId(groupId), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
+
         datePoll = new DatePollBuilder()
-            .datePollMetaInf(datePollMetaInf)
-            .creator(creator)
-            .datePollConfig(datePollConfig)
-            .datePollEntries(pollEntries)
-            .participatingGroups(Set.of(group.getId()))
-            .datePollLink(datePollLink)
-            .build();
+                .datePollMetaInf(datePollMetaInf)
+                .creator(creator)
+                .datePollConfig(datePollConfig)
+                .datePollEntries(pollEntries)
+                .participatingGroups(Set.of(group.getId()))
+                .datePollLink(datePollLink)
+                .build();
         domainGroupRepository.save(group);
         return datePoll;
     }
 
     private DatePoll createDatePollForOrga(int users, int pollentries, String title,
-        String groupId) {
+                                           String groupId) {
         final DatePoll datePoll;
         final Timespan timespan = new Timespan(LocalDateTime.now(),
-            LocalDateTime.now().plusDays(10));
+                LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf(title, "Testing", "Uni",
-            timespan);
+                timespan);
         final UserId creator = new UserId("orga");
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
 
         final Set<UserId> participants = new HashSet<>();
         IntStream.range(0, users).forEach(i -> participants.add(new UserId(Integer.toString(i))));
-
+        participants.add(creator);
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
-            new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
+                new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
         final Group group = new Group(new GroupId(groupId), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
 
         datePoll = new DatePollBuilder()
-            .datePollMetaInf(datePollMetaInf)
-            .creator(creator)
-            .datePollConfig(datePollConfig)
-            .datePollEntries(pollEntries)
-            .participatingGroups(Set.of(group.getId()))
-            .datePollLink(datePollLink)
-            .build();
+                .datePollMetaInf(datePollMetaInf)
+                .creator(creator)
+                .datePollConfig(datePollConfig)
+                .datePollEntries(pollEntries)
+                .participatingGroups(Set.of(group.getId()))
+                .datePollLink(datePollLink)
+                .build();
         domainGroupRepository.save(group);
         return datePoll;
     }
