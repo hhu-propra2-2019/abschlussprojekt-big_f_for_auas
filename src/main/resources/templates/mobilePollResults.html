@@ -18,7 +18,7 @@
         <ul th:replace="fragments/general.html :: navigationList"></ul>
     </nav>
 </header>
-<main th:fragment="bodycontent">
+<main th:fragment="bodycontent" th:action>
     <div class="container">
         <form th:action method="post">
             <div>
@@ -56,11 +56,12 @@
                 </tbody>
             </table>
 
-            <button type="submit" name="_eventId_home" class="btn btn-primary float-right">Fertig</button>
-            <button type="submit" name="_eventId_vote" class="btn btn-primary float-left">Ändern</button>
+            <div class="d-flex flex-row justify-content-between mt-4">
+                <button type="submit" class="btn btn-primary float-left">Ändern</button>
+                <a class="btn btn-primary float-right " th:href="@{/}">Fertig</a>
+            </div>
         </form>
     </div>
 </main>
 </body>
 </html>
-

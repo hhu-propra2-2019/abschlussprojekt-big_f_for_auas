@@ -48,8 +48,8 @@
 
                 <hr>
                 <div class="clearfix">
-                    <button type="submit" name="_eventId_results" class="btn btn-primary float-right m-2">Abstimmen</button>
-                    <button type="submit" name="_eventId_home"  class="btn btn-secondary float-left m-2">Zurück</button>
+                    <button type="submit" class="btn btn-primary float-right m-2">Abstimmen</button>
+                    <a class="btn btn-secondary float-left m-2" th:href="@{/}">Zurück</a>
                 </div>
             </div>
         </div>
@@ -60,8 +60,8 @@
 
 <div th:fragment="results">
     <form th:action method="post">
-        <button type="submit" name="_eventId_home" class="btn btn-primary float-left mt-5">Fertig</button>
-        <button type="submit" name="_eventId_vote" class="btn btn-primary float-left mt-5">Ändern</button>
+        <a class="btn btn-primary float-left mt-5" th:href="@{/}">Fertig</a>
+        <button type="submit" class="btn btn-primary float-left mt-5">Ändern</button>
     </form>
 </div>
 </body>

@@ -49,7 +49,6 @@ zugehörigen (Termin-)Umfragen sieht. Die Anwendung funktioniert soweit,
 dass man eine Terminabstimmung erstellen und im Nachhinein darauf zugreifen und abstimmen kann.
 Auch die zur Abstimmung gehörigen Nutzer*innen können auf die Abstimmung zugreifen. Zu einer Umfrage,
 bei der man schon abgestimmt hat kann man die bisherigen Ergebnisse sehen und auch erneut abstimmen.
-Diese Dinge funktionieren nicht nur für die Terminfindung sondern auch für einfache Umfragen.
 
 ==== Dokumentation und wo Sie zu finden ist
 Dokumentationen sind grundsätzlich im documentations Ordner im Root Verzeichnis zu finden.
