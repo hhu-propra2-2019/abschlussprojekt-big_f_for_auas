@@ -116,10 +116,10 @@ public class DatePollRepositoryImpl implements DatePollRepository {
 
         final Set<DatePollEntry> targetDatePollEntriesMaybe = ModelOfDaoUtil
                 .extractDatePollEntries(targetEntriesMaybe);
-        if (targetDatePollEntries.isEmpty()) {
+        if (!(targetDatePollEntries.isEmpty() && targetDatePollEntriesMaybe.isEmpty())) {
             targetDatePoll.castBallot(targetUser, targetDatePollEntries, targetDatePollEntriesMaybe);
         }
-        targetDatePoll.castBallot(targetUser, targetDatePollEntries, targetDatePollEntriesMaybe);
+
     }
 
     /**

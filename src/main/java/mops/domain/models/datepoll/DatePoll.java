@@ -65,6 +65,7 @@ public final class DatePoll {
         ballots.add(ballot);
         ballot.updateYes(yes, entries);
         ballot.updateMaybe(maybe, entries);
+        recordAndStatus.setUserStatusOngoing(user);
     }
 
     /**
