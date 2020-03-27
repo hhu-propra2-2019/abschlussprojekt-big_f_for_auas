@@ -24,6 +24,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
 
 @Configuration
 @SuppressWarnings("PMD")
@@ -89,6 +90,8 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     public MessageSource webFlowMessageSource() {
         ReloadableResourceBundleMessageSource messageSource
                 = new ReloadableResourceBundleMessageSource();
+        messageSource.setDefaultLocale(Locale.GERMAN);
+        messageSource.setFallbackToSystemLocale(true);
         messageSource.setBasename("classpath:flows/messages/flow-messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
