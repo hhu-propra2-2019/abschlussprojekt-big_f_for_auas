@@ -19,27 +19,15 @@ function showMutable(){
     }
 }
 
-
-//TODO: add chart or delete methods
-/* CHART */
-
-function addData(chart, label, data) {
-    chart.data.labels.push(label);
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
-    });
-    chart.update();
-}
-
-function removeData(chart) {
-    chart.data.labels.pop();
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.pop();
-    });
-    chart.update();
-}
-
-function updateTitle(chart, title) {
-    chart.options.title.text = title;
-    chart.update();
+function collapseSection(id, icon){
+    let iconSelector = $('#'+icon);
+    $('#'+id).collapse('toggle');
+    if ( iconSelector.hasClass('fa-caret-down') ) {
+        iconSelector.removeClass('fa-caret-down');
+        iconSelector.addClass('fa-caret-up');
+    }
+    else {
+        iconSelector.removeClass('fa-caret-up');
+        iconSelector.addClass('fa-caret-down');
+    }
 }

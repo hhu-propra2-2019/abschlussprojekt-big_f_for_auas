@@ -10,6 +10,7 @@
             <link rel="stylesheet" th:href="@{/css/font-awesome-4.7.0/css/font-awesome.min.css}">
             <link rel="stylesheet" th:href="@{/css/font-awesome-4.7.0/css/font-awesome.min.css}">
             <link rel="stylesheet" th:href="@{/css/termine1.css}">
+            <script type="text/javascript" th:src="@{/js/termine1.js}"></script>
             <script type="text/javascript" th:src="@{/popper/popper.min.js}"></script>
             <script type="text/javascript" th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
             <script type="text/javascript" th:src="@{/bootstrap/bootstrap.min.js}"></script>
@@ -39,30 +40,30 @@
         <main th:fragment="bodycontent">
             <div class="container-fluid row justify-content-center">
                 <div class="col-9 col-md-6 col-lg-4 col-xl-3 d-flex flex-row justify-content-between">
-                    <span class="">
+                    <span>
                         <i class="fa fa-hourglass"></i>
-                        <span th:text="${vonMir.size()}"> 4 </span>
+                        <span th:text="${open+reopened}"> 4 </span>
                     </span>
-                    <span class="">
+                    <span>
                         <i class="fa fa-check"></i>
-                        <span th:text="${vonMir.size()}"> 2 </span>
+                        <span th:text="${ongoing}"> 2 </span>
                     </span>
-                    <span class="">
+                    <span>
                         <i class="fa fa-eye"></i>
-                        <span th:text="${vonMir.size()}"> 1 </span>
+                        <span th:text="${terminated}"> 1 </span>
                     </span>
                 </div>
             </div>
             <hr>
-            <h5 onclick="collapseSection('myPollsAndSchedules', 'myPollsCaret')">
+            <h5 th:unless="${ownPolls.size()==0}" onclick="collapseSection('myPollsAndSchedules', 'myPollsCaret')">
                 <i id="myPollsCaret" class="fa fa-caret-down mr-3" aria-hidden="true"></i>
                 Von mir erstellt
-                <span class="badge badge-secondary badge-pill ml-3">4</span>
+                <span th:text="${ownPolls.size()}" class="badge badge-secondary badge-pill ml-4">4</span>
             </h5>
 
-            <div class="collapse show" id="myPollsAndSchedules">
+            <div th:unless="${ownPolls.size()==0}" class="collapse show" id="myPollsAndSchedules">
                 <th:block>
-                    <div class="container px-0" th:each="dto : ${vonMir}">
+                    <div class="container px-0" th:each="dto : ${ownPolls}">
                         <a  class="text-decoration-none text-dark" th:href="@{'/vote/' + ${dto.getPollType()} + '/' + ${dto.getDatePollIdentifier()}}" data-questiontype="reopened">
                             <div class="card card-hover w-100 border-primary mb-1">
                                 <div class="card-body p-3">
@@ -85,17 +86,17 @@
                     </div>
                 </th:block>
             </div>
-            <hr>
+            <hr th:unless="${otherPolls.size()==0}" >
 
-            <h5 onclick="collapseSection('otherPollsAndSchedules', 'otherPollsCaret')">
+            <h5 th:unless="${otherPolls.size()==0}" onclick="collapseSection('otherPollsAndSchedules', 'otherPollsCaret')">
                 <i id="otherPollsCaret" class="fa fa-caret-down mr-2" aria-hidden="true"></i>
                 Andere
-                <span class="badge badge-secondary badge-pill ml-3">4</span>
+                <span th:text="${otherPolls.size()}" class="badge badge-secondary badge-pill ml-3">4</span>
             </h5>
 
-            <div class="collapse show" id="otherPollsAndSchedules">
+            <div th:unless="${otherPolls.size()==0}" class="collapse show" id="otherPollsAndSchedules">
                 <th:block>
-                    <div class="container px-0" th:each="dto : ${vonAnderen}">
+                    <div class="container px-0" th:each="dto : ${otherPolls}">
                         <a class="text-decoration-none text-dark" th:href="@{'/vote/' + ${dto.getPollType()} + '/' + ${dto.getDatePollIdentifier()}}" data-questiontype="reopened">
                             <div class="card card-hover w-100 border-primary mb-1">
                                 <div class="card-body p-3">
