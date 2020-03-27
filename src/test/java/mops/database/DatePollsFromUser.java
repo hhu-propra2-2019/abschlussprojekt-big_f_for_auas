@@ -42,7 +42,7 @@ public class DatePollsFromUser {
     private transient DatePollRepositoryImpl datePollRepo;
     private final transient Random random = new Random();
     @Autowired
-    private transient GroupRepositoryImpl domainGroupRepository;
+    private transient GroupRepositoryImpl groupRepository;
     @SuppressWarnings("checkstyle:MagicNumber")
     @Test
     public void userOneHasThreeDatePolls() {
@@ -90,7 +90,7 @@ public class DatePollsFromUser {
                 .participatingGroups(Set.of(group.getMetaInf().getId()))
                 .datePollLink(datePollLink)
                 .build();
-        domainGroupRepository.save(group);
+        groupRepository.save(group);
         return datePoll;
     }
 

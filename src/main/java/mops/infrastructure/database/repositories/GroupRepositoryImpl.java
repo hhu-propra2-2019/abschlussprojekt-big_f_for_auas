@@ -76,7 +76,7 @@ public class GroupRepositoryImpl implements GroupRepository {
     }
 
     /**
-     * Gibt die Metainformationen aller Gruppen hinzu, in denen ein User Mitglied ist.
+     * Gibt die Metainformationen aller Gruppen zurück, in denen ein User Mitglied ist.
      * @param userId
      * @return
      */

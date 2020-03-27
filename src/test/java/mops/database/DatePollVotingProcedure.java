@@ -44,7 +44,7 @@ public class DatePollVotingProcedure {
     private transient DatePollRepositoryImpl datePollRepo;
     private final transient Random random = new Random();
     @Autowired
-    private transient GroupRepositoryImpl domainGroupRepository;
+    private transient GroupRepositoryImpl groupRepository;
     @Autowired
     private transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
     @Test
@@ -95,7 +95,7 @@ public class DatePollVotingProcedure {
                 .participatingGroups(Set.of(group.getMetaInf().getId()))
                 .datePollLink(datePollLink)
                 .build();
-        domainGroupRepository.save(group);
+        groupRepository.save(group);
         return datePoll;
     }
 

@@ -61,7 +61,7 @@ public class DatabaseDatePollIntegrityTest {
     private transient DatePollEntryJpaRepository datePollEntryJpaRepository;
 
     @Autowired
-    private transient GroupRepositoryImpl domainGroupRepository;
+    private transient GroupRepositoryImpl groupRepository;
 
 
     @SuppressWarnings({"checkstyle:DesignForExtension", "checkstyle:MagicNumber"})
@@ -92,7 +92,7 @@ public class DatabaseDatePollIntegrityTest {
                 .participatingGroups(Set.of(group.getMetaInf().getId()))
                 .datePollLink(datePollLink)
                 .build();
-        domainGroupRepository.save(group);
+        groupRepository.save(group);
     }
 
     @Test
