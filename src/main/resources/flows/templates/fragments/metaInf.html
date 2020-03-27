@@ -72,10 +72,10 @@
     </div>
 
     <div class="form-group" th:fragment="input-question">
-        <label for="description">Beschreibung (optional)</label>
-        <input class="form-control" id="description" type="text" th:field="*{question}"
+        <label for="description">Fragestellung</label>
+        <input class="form-control" id="question" type="text" th:field="*{question}"
                th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('question'), #fields.hasAnyErrors())}"
-               placeholder="Beschreibung">
+               placeholder="Fragestellung">
         <div class="invalid-feedback" th:errors="*{question}"></div>
     </div>
 
