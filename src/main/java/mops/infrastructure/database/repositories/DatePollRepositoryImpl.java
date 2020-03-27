@@ -134,9 +134,9 @@ public class DatePollRepositoryImpl implements DatePollRepository {
                 .map(groupJpaRepository::findById)
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toSet());
-        GroupMetaInf groupMetaInf = new GroupMetaInf(
+        final GroupMetaInf groupMetaInf = new GroupMetaInf(
                 new GroupId(UUID.randomUUID().toString()), "erstellerGruppe", GroupVisibility.PRIVATE);
-        Group group = new Group(groupMetaInf, Set.of(datePoll.getCreator()));
+        final Group group = new Group(groupMetaInf, Set.of(datePoll.getCreator()));
         groupDaos.add(DaoOfModelUtil.groupDaoOf(group));
         final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll, groupDaos);
         datePollJpaRepository.save(datePollDao);

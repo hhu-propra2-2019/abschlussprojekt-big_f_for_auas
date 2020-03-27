@@ -104,8 +104,8 @@ public class DatePollEntryRepositoryManager {
                 userId.getId(), datePoll.getPollLink().getLinkUUIDAsString());
     }
 
-    @SuppressWarnings("checkstyle:DesignForExtension")
-    void userVotesMaybeForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
+    @SuppressWarnings("checkstyle:DesignForExtension") //NOPMD
+    void userVotesMaybeForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) { //NOPMD
         final DatePollEntryDao targetDatePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
         userRepository.saveUserIfNotPresent(userId);
         final UserDao userDao = userRepository.loadDao(userId).orElseThrow();
