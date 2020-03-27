@@ -13,8 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,7 +33,7 @@ public class DatePollDao {
     private DatePollConfigDao configDao;
     @Embedded
     private DatePollMetaInfDao metaInfDao;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private UserDao creatorUserDao;
     @OneToMany(
             cascade = CascadeType.ALL,

@@ -32,7 +32,7 @@ import java.util.stream.IntStream;
  * zum Speichern in die Datenbank erzeugt werden.
  */
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:MagicNumber"})
-@Profile("development")
+@Profile("production")
 @Transactional
 @Component
 public class DummyDataCommandLineRunner implements CommandLineRunner {
@@ -104,7 +104,6 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
         final Group group = new Group(new GroupId(groupId), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
-
         datePoll = new DatePollBuilder()
             .datePollMetaInf(datePollMetaInf)
             .creator(creator)
