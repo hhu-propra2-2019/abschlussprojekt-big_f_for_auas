@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
+        <script type="text/javascript" th:src="@{/js/termine1.js}"></script>
     </th:block>
 </head>
 <body>
@@ -15,19 +16,19 @@
             <label>Anzahl Auswahlmöglichkeiten</label>
             <div class="form-check">
                 <input class="form-check-input" id="single-choice" type="radio"
-                       value="true" th:field="*{singleChoice}" checked>
+                       value="true" th:field="*{singleChoice}" checked onchange="showPriorities()">
                 <label for="single-choice" class="form-check-label">
                     Single Choice
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" id="single-choice" type="radio"
-                       value="false" th:field="*{singleChoice}">
-                <label for="single-choice" class="form-check-label">
+                <input class="form-check-input" id="multiple-choice" type="radio"
+                       value="false" th:field="*{singleChoice}" onchange="showPriorities()">
+                <label for="multiple-choice" class="form-check-label">
                     Multiple Choice
                 </label>
             </div>
-            <div class="form-check">
+            <div class="form-check collapse hide" id="collapsePriorities">
                 <div class="form-check">
                     <input class="form-check-input" id="priority-choice1" type="radio" value="false" th:field="*{priorityChoice}" checked>
                     <label for="priority-choice1" class="form-check-label">
