@@ -10,6 +10,7 @@ import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.datepoll.DatePollRecordAndStatus;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.group.GroupMetaInf;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.questionpoll.QuestionPollBallot;
 import mops.domain.models.questionpoll.QuestionPollConfig;
@@ -74,8 +75,9 @@ public final class ModelOfDaoUtil {
     }
 
     public static Group groupOf(GroupDao dao) {
-        return new Group(new GroupId(
-                dao.getId()), dao.getTitle(), dao.getVisibility(), extractUserIds(extractUser(dao.getUserDaos())));
+        return new Group(
+                new GroupMetaInf(new GroupId(dao.getId()), dao.getTitle(), dao.getVisibility()),
+                extractUserIds(extractUser(dao.getUserDaos())));
     }
 
     public static Set<Group> extractGroup(Set<GroupDao> groupDaos) {
@@ -127,7 +129,7 @@ public final class ModelOfDaoUtil {
     private static Set<GroupId> extractGroupIds(Set<GroupDao> groupDaos) {
         final Set<Group> groups = extractGroup(groupDaos);
         return groups.stream()
-                .map(Group::getId)
+                .map(g -> g.getMetaInf().getId())
                 .collect(Collectors.toSet());
     }
 
@@ -186,7 +188,7 @@ public final class ModelOfDaoUtil {
         );
     }
 
-    private static Set<DatePollEntry> extractDatePollEntries(Set<DatePollEntryDao> daoEntries) {
+    public static Set<DatePollEntry> extractDatePollEntries(Set<DatePollEntryDao> daoEntries) {
         final Set<DatePollEntry> datePollEntries = new HashSet<>();
         for (final DatePollEntryDao daoEntry : daoEntries) {
             final DatePollEntry currentEntry = ModelOfDaoUtil.entryOf(daoEntry);

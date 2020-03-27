@@ -2,7 +2,7 @@
 package mops.infrastructure.database.daos;
 
 import lombok.Data;
-import mops.domain.models.group.Group;
+import mops.domain.models.group.GroupVisibility;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 
@@ -25,7 +25,7 @@ public class GroupDao {
     private String id;
     private String title;
     @Enumerated(EnumType.STRING)
-    private Group.GroupVisibility visibility;
+    private GroupVisibility visibility;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserDao> userDaos = new HashSet<>();

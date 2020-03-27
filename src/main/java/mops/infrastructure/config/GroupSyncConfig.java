@@ -1,7 +1,7 @@
 package mops.infrastructure.config;
 
 import lombok.NoArgsConstructor;
-import mops.domain.repositories.DomainGroupRepository;
+import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.groupsync.GroupSyncService;
 import mops.infrastructure.groupsync.GroupSyncValidator;
 import mops.infrastructure.groupsync.GroupSyncWebclient;
@@ -29,7 +29,7 @@ public class GroupSyncConfig {
     @ConditionalOnProperty(value = "mops.gruppen2.sync.enabled", havingValue = "true")
     public GroupSyncService syncService(GroupSyncWebclient webclient,
                                         GroupSyncValidator validator,
-                                        DomainGroupRepository groupRepository) {
+                                        GroupRepository groupRepository) {
         return new GroupSyncService(webclient, validator, groupRepository);
     }
 

@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
         <script type="text/javascript" th:src="@{/js/jquery-3.4.1.slim.min.js}"></script>
         <script type="text/javascript" th:src="@{/js/termine1.js}"></script>
         <link rel="stylesheet" th:href="@{/css/font-awesome-4.7.0/css/font-awesome.min.css}">
@@ -32,7 +31,7 @@
                 <tr>
                     <th class="th-sm"></th>
                     <th class="th-sm"><i class="fa fa-check"></i></th>
-                    <th class="th-sm"><b>(</b><i class="fa fa-check"></i><b>)</b></th>
+                    <th th:if="${config.isPriorityChoice()}" class="th-sm"><b>(</b><i class="fa fa-check"></i><b>)</b></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,92 +45,20 @@
                                     <span th:text="${entry.getStartDate()}"></span>
                                 </div>
                                 <div class="col desktopResultTableTimespan">
-                                    <span th:text="${entry.printTimespan()}"></span>
+                                    <span th:text="${entry.getFormattedTimeSpan()}"></span>
                                 </div>
                             </div>
 
                         </td>
                         <td th:text="${entry.getYesVotes()}">0</td>
-                        <td th:text="${entry.getMaybeVotes()}">0</td>
+                        <td th:if="${config.isPriorityChoice()}" th:text="${entry.getMaybeVotes()}">0</td>
                     </tr>
                 </tbody>
             </table>
 
-            <!--
-            <div class="chart desktopResults"><canvas id="resultChart" width="300" height="300"></canvas></div>
-
-            <div id="resultContainer" th:object="${overview}">
-                <div th:attr="data-pollTitle=${entry.printTitle()}"></div>
-                TODO: ifs in js
-                <div th:if="${entry.hasDescrition()}" th:attr="data-pollDescription=${entry.printDescription()}"></div>
-                <div th:if="${entry.hasLocation()}" th:attr="data-pollLocation=${entry.printLocation()}"></div>
-                <div th:if="${entry.hasQuestion()}" th:attr="data-pollQuestion=${entry.printQuestion()}"></div>
-                <div th:each="entry : *{allEntries}">
-                    <div th:attr="data-entryName=${entry.printName()}"></div>
-                    <div th:attr="data-entryVotesYes=${entry.countVotesYes()}"></div>
-                    <div th:attr="data-entryVotesMaybe=${entry.countVotesMaybe()}"></div>
-                </div>
-            </div>
-            -->
-
             <button type="submit" name="_eventId_home" class="btn btn-primary float-right">Fertig</button>
             <button type="submit" name="_eventId_vote" class="btn btn-primary float-left">Ändern</button>
         </form>
-        <script>
-
-            let ctx = document.getElementById("resultChart").getContext('2d');
-            let resultChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['08.03.2020, 10:00 Uhr - 11:00 Uhr', '09.03.2020, 12:00 Uhr - 13:00 Uhr', '10.03.2020, 11:00 Uhr - 15:00 Uhr', "11.03.2020, 11:00 Uhr - 12:30 Uhr"],
-                    datasets: [{
-                        data: [12, 13, 14],
-                        label: 'Anzahl Stimmen ja',
-                        backgroundColor: [
-                            'rgba(40,167,69,0.2)',
-                            'rgba(40,167,69,0.2)',
-                            'rgba(40,167,69,0.2)',
-                            'rgba(40,167,69,0.2)'
-                        ],
-                        borderColor: [
-                            'rgb(40,167,69)',
-                            'rgb(40,167,69)',
-                            'rgb(40,167,69)',
-                            'rgb(40,167,69)'
-                        ],
-                        borderWidth: 1
-                    },
-                        {
-                            data: [10, 3, 8],
-                            label: 'Anzahl Stimmen vielleicht',
-                            backgroundColor: [
-                                'rgba(255,193,7,0.2)',
-                                'rgba(255,193,7,0.2)',
-                                'rgba(255,193,7,0.2)',
-                                'rgba(255,193,7,0.2)'
-                            ],
-                            borderColor: [
-                                'rgb(255,193,7)',
-                                'rgb(255,193,7)',
-                                'rgb(255,193,7)',
-                                'rgb(255,193,7)'
-                            ],
-                            borderWidth: 1
-                        }]
-                },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true
-                            }
-                        }]
-                    },
-                    maintainAspectRation: false
-                }
-            });
-
-        </script>
     </div>
 </main>
 </body>

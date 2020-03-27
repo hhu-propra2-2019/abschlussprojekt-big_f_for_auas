@@ -12,8 +12,10 @@ import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.group.GroupMetaInf;
+import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.UserId;
-import mops.domain.repositories.DomainGroupRepository;
+import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
@@ -52,7 +54,7 @@ public class UserVotesForDatePollTest {
     private transient Group group;
     private transient PollLink targetPollLink;
     @Autowired
-    private transient DomainGroupRepository domainGroupRepository;
+    private transient GroupRepository groupRepository;
     @Autowired
     private transient PriorityChoiceJpaRepository priorityChoiceJpaRepository;
     @Autowired
@@ -77,18 +79,19 @@ public class UserVotesForDatePollTest {
         IntStream.range(0, 1).forEach(i -> pollEntries.add(new DatePollEntry(
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-        group = new Group(new GroupId("1"), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
+        group = new Group(
+                new GroupMetaInf(new GroupId("1"), "Testgruppe", GroupVisibility.PRIVATE), participants);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
-                .participatingGroups(Set.of(group.getId()))
+                .participatingGroups(Set.of(group.getMetaInf().getId()))
                 .datePollLink(targetPollLink)
                 .build();
         datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll,
                 DaoOfModelUtil.extractGroups(Set.of(group))));
-        domainGroupRepository.save(group);
+        groupRepository.save(group);
     }
     @Test
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
