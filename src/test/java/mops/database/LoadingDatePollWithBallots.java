@@ -12,16 +12,18 @@ import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.group.GroupMetaInf;
+import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.UserId;
+import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
-import mops.infrastructure.database.repositories.DomainGroupRepositoryImpl;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.junit.jupiter.api.Test;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -31,6 +33,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
@@ -46,7 +49,7 @@ public class LoadingDatePollWithBallots {
     @Autowired
     private transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
     @Autowired
-    private transient DomainGroupRepositoryImpl domainGroupRepository;
+    private transient GroupRepository groupRepository;
 
     @SuppressWarnings({"checkstyle:MagicNumber", "PMD.JUnitTestContainsTooManyAsserts"})
     @Test
@@ -89,17 +92,18 @@ public class LoadingDatePollWithBallots {
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
                 new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-        final Group group = new Group(new GroupId("1"), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
+        final Group group = new Group(
+                new GroupMetaInf(new GroupId("1"), "Testgruppe", GroupVisibility.PRIVATE), participants);
 
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
                 .datePollConfig(datePollConfig)
                 .datePollEntries(pollEntries)
-                .participatingGroups(Set.of(group.getId()))
+                .participatingGroups(Set.of(group.getMetaInf().getId()))
                 .datePollLink(datePollLink)
                 .build();
-        domainGroupRepository.save(group);
+        groupRepository.save(group);
         return datePoll;
     }
 }

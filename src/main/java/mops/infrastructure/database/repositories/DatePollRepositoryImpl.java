@@ -33,6 +33,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
+// TODO: Entscheiden, ob die Excessive Imports ein Problem sind
+// Hinweis: ich habe die Klasse nicht geschrieben, sonder nur den Master gemerged
+@SuppressWarnings("PMD.ExcessiveImports")
 public class DatePollRepositoryImpl implements DatePollRepository {
 
     public static final String USER_IS_NOT_IN_THE_DATABASE = "User is not in the database!";
