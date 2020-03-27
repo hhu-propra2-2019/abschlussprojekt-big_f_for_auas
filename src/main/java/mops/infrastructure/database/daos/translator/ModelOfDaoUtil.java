@@ -188,7 +188,7 @@ public final class ModelOfDaoUtil {
         );
     }
 
-    private static Set<DatePollEntry> extractDatePollEntries(Set<DatePollEntryDao> daoEntries) {
+    public static Set<DatePollEntry> extractDatePollEntries(Set<DatePollEntryDao> daoEntries) {
         final Set<DatePollEntry> datePollEntries = new HashSet<>();
         for (final DatePollEntryDao daoEntry : daoEntries) {
             final DatePollEntry currentEntry = ModelOfDaoUtil.entryOf(daoEntry);
