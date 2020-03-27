@@ -1,12 +1,8 @@
 package mops.domain.models.datepoll;
 
 import lombok.Getter;
-import mops.domain.models.FieldErrorNames;
-import mops.domain.models.PollFields;
-import mops.domain.models.PollLink;
-import mops.domain.models.Timespan;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
+import lombok.extern.log4j.Log4j2;
+import mops.domain.models.*;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
 
@@ -15,15 +11,18 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"PMD.DataflowAnomalyAnalysis", "PMD.TooManyMethods"})
+@Log4j2
 public final class DatePollBuilder {
 
     public static final String COULD_NOT_CREATE = "The Builder contains errors and DatePoll could not be created";
-    private static final Logger LOGGER = Logger.getLogger(DatePollBuilder.class.getName());
+    public static final String DATE_POLL_BUILD_FAILED = "DatePoll build failed";
+    public static final String FAILED_TO_VALIDATE = "Failed to validate: ";
+    public static final String SEPERATOR = "----------------------";
+    public static final String FIELD_NOT_PRESENT = "Field not present: ";
     //muss nicht 1-1 im ByteCode bekannt sein.
     private transient DatePollMetaInf metaInfTarget;
     private transient UserId pollCreatorTarget;
@@ -140,10 +139,7 @@ public final class DatePollBuilder {
     @SuppressWarnings("PMD.LawOfDemeter")
     public DatePollBuilder datePollEntries(Set<DatePollEntry> datePollEntrySet) {
         this.pollEntryTargets.addAll(validateAllAndGetCorrect(
-                datePollEntrySet.stream()
-                        .map(entry -> new DatePollEntry(new Timespan(
-                                entry.getSuggestedPeriod().getStartDate(), entry.getSuggestedPeriod().getEndDate())))
-                        .collect(Collectors.toSet()),
+                datePollEntrySet,
                 PollFields.DATE_POLL_ENTRIES
         ));
         if (!pollEntryTargets.isEmpty()) {
@@ -179,6 +175,7 @@ public final class DatePollBuilder {
         );
         return this;
     }
+
     /**
      * Baut das DatePoll Objekt, wenn alle Konstruktionssteps mind. 1 mal erfolgreich waren.
      *
@@ -198,9 +195,15 @@ public final class DatePollBuilder {
             );
         } else {
             final EnumSet<FieldErrorNames> errorNames = validationState.getErrorMessages();
+            log.debug(SEPERATOR);
+            log.debug(DATE_POLL_BUILD_FAILED);
             for (final FieldErrorNames error : errorNames) {
-                LOGGER.log(Level.SEVERE, error.toString());
+                log.debug(FAILED_TO_VALIDATE + error.toString());
             }
+            VALID_SET.stream()
+                    .filter(Predicate.not(validatedFields::contains))
+                    .forEach(notSet -> log.debug(FIELD_NOT_PRESENT + notSet.name()));
+            log.debug(SEPERATOR);
             throw new IllegalStateException(COULD_NOT_CREATE);
         }
     }
