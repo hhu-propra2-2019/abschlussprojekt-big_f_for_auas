@@ -26,14 +26,7 @@ public class GroupDao {
     private String title;
     @Enumerated(EnumType.STRING)
     private GroupVisibility visibility;
-
-    /*@ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "group_user",
-            joinColumns = @JoinColumn(name = "usergroup_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))*/
+    
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) // mappedBy = "groupSet"
     private Set<UserDao> userDaos = new HashSet<>();
 
