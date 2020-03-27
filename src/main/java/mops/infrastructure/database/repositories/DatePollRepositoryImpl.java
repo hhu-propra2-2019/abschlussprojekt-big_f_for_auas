@@ -27,6 +27,7 @@ import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -246,4 +247,27 @@ public class DatePollRepositoryImpl implements DatePollRepository {
 //            .map(ModelOfDaoUtil::pollOf)
 //            .collect(Collectors.toSet());
 //    }
+
+    /**
+     * Methode entfernt ein DatePollDao aus der Datenbank anhand des PollLinks.
+     * @param pollLink der zum DatePollDao zugehoerige Link.
+     */
+    @SuppressWarnings("PMD.LawOfDemeter") //stream
+    public void delete(PollLink pollLink) {
+        datePollJpaRepository.delete(
+                datePollJpaRepository.findDatePollDaoByLink(pollLink.getLinkUUIDAsString()));
+    }
+
+    /**
+     * Methode gibt alle nach einem bestimmten Enddatum abeglaufenen DatePolls zurueck.
+     * @param endDate End-Datum des DatePolls.
+     * @return Set<PollLink> Die Links der zu entfernenden DatePolls.
+     **/
+    public Set<PollLink> getTerminatedDatePolls(LocalDate endDate) {
+        Set<DatePollDao> pollsToDelete = datePollJpaRepository.findAllTerminatedDatePollsByEndDate(endDate);
+        Set<PollLink> collectedPolls = pollsToDelete.stream().map(DatePollDao::getLink)
+                .map(ModelOfDaoUtil::linkOf)
+                .collect(Collectors.toSet());
+        return collectedPolls;
+    }
 }
