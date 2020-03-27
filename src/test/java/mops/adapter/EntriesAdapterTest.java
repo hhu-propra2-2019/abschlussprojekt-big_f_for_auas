@@ -12,13 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = {EntriesAdapter.class, EntryAdapter.class})
+@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.LawOfDemeter"})
 public class EntriesAdapterTest {
 
-    private EntriesDto dto;
+    private transient EntriesDto dto;
 
     @Autowired
     private transient EntriesAdapter adapter;
-    private MessageContext messageContext;
+    private transient MessageContext messageContext;
 
     @BeforeEach
     public final void beforeEach() {
@@ -36,7 +37,7 @@ public class EntriesAdapterTest {
         dto.setProposedEntry(null);
         dto.setEntries(null);
 
-        boolean valid = adapter.validateDto(dto, messageContext);
+        final boolean valid = adapter.validateDto(dto, messageContext);
 
         assertThat(valid).isFalse();
     }

@@ -6,6 +6,9 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 
 public final class AdapterUtil {
 
+    private AdapterUtil() {
+    }
+
     public static MessageContext getMessageContext() {
         final ReloadableResourceBundleMessageSource messageSource
                 = new ReloadableResourceBundleMessageSource();

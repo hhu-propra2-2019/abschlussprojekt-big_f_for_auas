@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = {MetaInfAdapter.class})
-@SuppressWarnings("checkstyle:MagicNumber")
+@SuppressWarnings({"checkstyle:MagicNumber", "PMD.AtLeastOneConstructor", "PMD.LawOfDemeter"})
 public class MetaInfAdapterTest {
 
-    private MetaInfDto dto;
+    private transient MetaInfDto dto;
 
     @Autowired
     private transient MetaInfAdapter adapter;
-    private MessageContext messageContext;
+    private transient MessageContext messageContext;
 
     @BeforeEach
     public final void beforeEach() {
@@ -51,7 +51,7 @@ public class MetaInfAdapterTest {
     public void testValidateFirstStepNull() {
         nullDto();
 
-        boolean valid = adapter.validateFirstStep(dto, messageContext);
+        final boolean valid = adapter.validateFirstStep(dto, messageContext);
 
         assertThat(valid).isFalse();
     }
@@ -60,7 +60,7 @@ public class MetaInfAdapterTest {
     public void testValidateDtoNull() {
         nullDto();
 
-        boolean valid = adapter.validateDto(dto, messageContext);
+        final boolean valid = adapter.validateDto(dto, messageContext);
 
         assertThat(valid).isFalse();
     }
@@ -75,12 +75,12 @@ public class MetaInfAdapterTest {
         dto.setEndDate("2020-06-01");
         dto.setEndTime("13:00");
 
-        DatePollMetaInf targetMetaInf =
+        final DatePollMetaInf targetMetaInf =
                 new DatePollMetaInf("1234", "diesdas", "hier",
                         new Timespan(LocalDateTime.of(2020, 5, 3, 10, 0),
                                 LocalDateTime.of(2020, 6, 1, 13, 0)));
 
-        DatePollMetaInf metaInf = adapter.convert(dto);
+        final DatePollMetaInf metaInf = adapter.convert(dto);
 
         assertThat(metaInf).isEqualToComparingFieldByField(targetMetaInf);
     }

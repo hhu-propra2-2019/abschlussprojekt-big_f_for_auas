@@ -6,15 +6,15 @@ import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.ConfigDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.binding.message.MessageContext;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = {ConfigAdapter.class})
+@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.LawOfDemeter"})
 public class ConfigAdapterTest {
 
-    private ConfigDto dto;
+    private transient ConfigDto dto;
 
     @Autowired
     private transient ConfigAdapter adapter;
@@ -29,6 +29,7 @@ public class ConfigAdapterTest {
         assertThat(dto).hasNoNullFieldsOrProperties();
     }
 
+    @SuppressWarnings("PMD")
     public final void setAllFalse() {
         dto.setOpen(false);
         dto.setPriorityChoice(false);
@@ -41,9 +42,9 @@ public class ConfigAdapterTest {
     @Test
     public void testConvertFalse() {
         setAllFalse();
-        DatePollConfig targetConfig = new DatePollConfig(false, false, false, false, false, false);
+        final DatePollConfig targetConfig = new DatePollConfig(false, false, false, false, false, false);
 
-        DatePollConfig config = adapter.build(dto);
+        final DatePollConfig config = adapter.build(dto);
 
         assertThat(config).isEqualTo(targetConfig);
     }
@@ -52,9 +53,9 @@ public class ConfigAdapterTest {
     public void testConvertEditable() {
         setAllFalse();
         dto.setVoteIsEditable(true);
-        DatePollConfig targetConfig = new DatePollConfig(true, false, false, false, false, false);
+        final DatePollConfig targetConfig = new DatePollConfig(true, false, false, false, false, false);
 
-        DatePollConfig config = adapter.build(dto);
+        final DatePollConfig config = adapter.build(dto);
 
         assertThat(config).isEqualTo(targetConfig);
     }
@@ -63,9 +64,9 @@ public class ConfigAdapterTest {
     public void testConvertOwnEntries() {
         setAllFalse();
         dto.setOpenForOwnEntries(true);
-        DatePollConfig targetConfig = new DatePollConfig(false, true, false, false, false, false);
+        final DatePollConfig targetConfig = new DatePollConfig(false, true, false, false, false, false);
 
-        DatePollConfig config = adapter.build(dto);
+        final DatePollConfig config = adapter.build(dto);
 
         assertThat(config).isEqualTo(targetConfig);
     }
@@ -74,9 +75,9 @@ public class ConfigAdapterTest {
     public void testConvertSingleChoice() {
         setAllFalse();
         dto.setSingleChoice(true);
-        DatePollConfig targetConfig = new DatePollConfig(false, false, true, false, false, false);
+        final DatePollConfig targetConfig = new DatePollConfig(false, false, true, false, false, false);
 
-        DatePollConfig config = adapter.build(dto);
+        final DatePollConfig config = adapter.build(dto);
 
         assertThat(config).isEqualTo(targetConfig);
     }
@@ -85,9 +86,9 @@ public class ConfigAdapterTest {
     public void testConvertPriorityChoice() {
         setAllFalse();
         dto.setPriorityChoice(true);
-        DatePollConfig targetConfig = new DatePollConfig(false, false, false, true, false, false);
+        final DatePollConfig targetConfig = new DatePollConfig(false, false, false, true, false, false);
 
-        DatePollConfig config = adapter.build(dto);
+        final DatePollConfig config = adapter.build(dto);
 
         assertThat(config).isEqualTo(targetConfig);
     }
@@ -96,9 +97,9 @@ public class ConfigAdapterTest {
     public void testConvertAnonymous() {
         setAllFalse();
         dto.setAnonymous(true);
-        DatePollConfig targetConfig = new DatePollConfig(false, false, false, false, true, false);
+        final DatePollConfig targetConfig = new DatePollConfig(false, false, false, false, true, false);
 
-        DatePollConfig config = adapter.build(dto);
+        final DatePollConfig config = adapter.build(dto);
 
         assertThat(config).isEqualTo(targetConfig);
     }
@@ -107,9 +108,9 @@ public class ConfigAdapterTest {
     public void testConvertOpen() {
         setAllFalse();
         dto.setOpen(true);
-        DatePollConfig targetConfig = new DatePollConfig(false, false, false, false, false, true);
+        final DatePollConfig targetConfig = new DatePollConfig(false, false, false, false, false, true);
 
-        DatePollConfig config = adapter.build(dto);
+        final DatePollConfig config = adapter.build(dto);
 
         assertThat(config).isEqualTo(targetConfig);
     }

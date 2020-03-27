@@ -11,13 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = {EntryAdapter.class})
+@SuppressWarnings({"PMD.AtLeastOneConstructor", "PMD.LawOfDemeter"})
 public class EntryAdapterTest {
 
-    private EntryDto dto;
+    private transient EntryDto dto;
 
     @Autowired
     private transient EntryAdapter adapter;
-    private MessageContext messageContext;
+    private transient MessageContext messageContext;
 
     @BeforeEach
     public final void beforeEach() {
@@ -36,7 +37,7 @@ public class EntryAdapterTest {
         dto.setStartTime(null);
         dto.setEndTime(null);
 
-        boolean valid = adapter.validateDto(dto, messageContext);
+        final boolean valid = adapter.validateDto(dto, messageContext);
 
         assertThat(valid).isFalse();
     }
@@ -48,7 +49,7 @@ public class EntryAdapterTest {
         dto.setStartTime("12:00");
         dto.setEndTime("13:00");
 
-        boolean valid = adapter.validateDto(dto, messageContext);
+        final boolean valid = adapter.validateDto(dto, messageContext);
 
         assertThat(valid).isFalse();
     }
@@ -60,7 +61,7 @@ public class EntryAdapterTest {
         dto.setStartTime("13-00");
         dto.setEndTime("15:00");
 
-        boolean valid = adapter.validateDto(dto, messageContext);
+        final boolean valid = adapter.validateDto(dto, messageContext);
 
         assertThat(valid).isFalse();
     }
@@ -72,7 +73,7 @@ public class EntryAdapterTest {
         // Falsches Format: HH-MM
         dto.setEndTime("15-00");
 
-        boolean valid = adapter.validateDto(dto, messageContext);
+        final boolean valid = adapter.validateDto(dto, messageContext);
 
         assertThat(valid).isFalse();
     }
