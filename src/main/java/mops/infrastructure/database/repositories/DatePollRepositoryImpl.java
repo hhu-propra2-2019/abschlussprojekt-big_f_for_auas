@@ -22,7 +22,6 @@ import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
@@ -105,10 +104,9 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         checkDatePollBallotsForVotes(datePoll.getBallots(), datePoll);
         //Save PollStatus for each User ...
         saveDatePollStatus(datePoll, datePollDao);
-        //datePollJpaRepository.flush();
+        datePollJpaRepository.flush();
     }
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis", "checkstyle:DesignForExtension"})
-    @Transactional
     public void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
         final Map<UserId, PollStatus> votingRecord = datePoll.getRecordAndStatus().getVotingRecord();
         votingRecord.forEach((userId, pollStatus) -> {
@@ -124,8 +122,6 @@ public class DatePollRepositoryImpl implements DatePollRepository {
             datePollStatusJpaRepository.save(datePollStatusDao);
         });
     }
-
-    @Transactional
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis", "checkstyle:DesignForExtension"})
     public void checkDatePollBallotsForVotes(Set<DatePollBallot> datePollBallots, DatePoll datePoll) {
         for (final DatePollBallot targetBallot:datePollBallots
@@ -146,7 +142,6 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      * @param datePoll Das zugehoerige DatePoll Objekt.
      * @param user Der zugehoerige User.
      */
-    @Transactional
     @SuppressWarnings({"PMD.LawOfDemeter"})
     public void setVoteForTargetUserAndEntry(Set<DatePollEntry> datePollEntries, DatePoll datePoll, UserId user) {
         datePollEntries.forEach(targetEntry -> datePollEntryRepositoryManager
