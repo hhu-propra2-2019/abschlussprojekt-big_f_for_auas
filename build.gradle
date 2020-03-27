@@ -65,8 +65,6 @@ dependencies {
 	// Für eigene Keys in der application.properties
 	annotationProcessor group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'
 
-	compile group: 'org.webjars.npm', name: 'popper.js', version: '1.16.1'
-
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
