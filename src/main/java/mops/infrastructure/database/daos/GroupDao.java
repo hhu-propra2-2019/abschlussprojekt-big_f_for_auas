@@ -26,13 +26,10 @@ public class GroupDao {
     private String title;
     @Enumerated(EnumType.STRING)
     private GroupVisibility visibility;
-    
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) // mappedBy = "groupSet"
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<UserDao> userDaos = new HashSet<>();
-
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groupDaos")
     private Set<DatePollDao> datePollDaos = new HashSet<>();
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "groupDaos")
     private Set<QuestionPollDao> questionPollDaos = new HashSet<>();
 }
