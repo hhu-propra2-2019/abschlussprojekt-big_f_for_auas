@@ -46,7 +46,7 @@ public class DatePollEntryRepositoryManager {
      * @param datePollEntry Der zugehörige Terminvorschlag.
      * @return DatePollEntryDao Das DatePollEntryDao Objekt aus der Datenbank.
      */
-     public DatePollEntryDao loadDatePollEntryDao(PollLink pollLink, DatePollEntry datePollEntry) {
+     private DatePollEntryDao loadDatePollEntryDao(PollLink pollLink, DatePollEntry datePollEntry) {
          final DatePollDao currentDatePollDao = datePollJpaRepository.
                  findDatePollDaoByLink(pollLink.getLinkUUIDAsString());
          final Timespan periodOfDatePollEntry = datePollEntry.getSuggestedPeriod();
@@ -101,6 +101,23 @@ public class DatePollEntryRepositoryManager {
     @Transactional
     public Set<DatePollEntryDao> findAllDatePollEntriesUserVotesFor(UserId userId, DatePoll datePoll) {
         return datePollEntryJpaRepository.findAllDatePollEntriesUserVotesFor(
+                userId.getId(), datePoll.getPollLink().getLinkUUIDAsString());
+    }
+
+    @SuppressWarnings("checkstyle:DesignForExtension")
+    void userVotesMaybeForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
+        final DatePollEntryDao targetDatePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
+        userRepository.saveUserIfNotPresent(userId);
+        final UserDao userDao = userRepository.loadDao(userId).orElseThrow();
+        targetDatePollEntryDao.getUserVotesForMaybe().add(userDao);
+        userDao.getDatePollEntrySetMaybe().add(targetDatePollEntryDao);
+        userRepository.updateUser(userDao);
+        datePollEntryJpaRepository.save(targetDatePollEntryDao);
+    }
+    @Transactional
+    @SuppressWarnings("checkstyle:DesignForExtension")
+    public Set<DatePollEntryDao> findAllDatePollEntriesUserVotesForMaybe(UserId userId, DatePoll datePoll) {
+        return datePollEntryJpaRepository.findAllDatePollEntriesUserVotesForMaybe(
                 userId.getId(), datePoll.getPollLink().getLinkUUIDAsString());
     }
 }

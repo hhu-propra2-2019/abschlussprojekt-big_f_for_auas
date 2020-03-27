@@ -7,7 +7,13 @@ import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollEntryDao;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,6 +40,8 @@ public class UserDao {
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "userVotesFor")
     private Set<DatePollEntryDao> datePollEntrySet = new HashSet<>();
 
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, mappedBy = "userVotesForMaybe")
+    private Set<DatePollEntryDao> datePollEntrySetMaybe = new HashSet<>();
     /*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDaos")
     private Set<QuestionPollDao> questionPollSet = new HashSet<>();*/
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userVotesFor")

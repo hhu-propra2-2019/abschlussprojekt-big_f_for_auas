@@ -1,11 +1,13 @@
 package mops.infrastructure.database.repositories;
 
-import java.util.Collections;
 import mops.domain.models.PollLink;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
+import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.group.GroupMetaInf;
+import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
@@ -30,6 +32,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 // TODO: Entscheiden, ob die Excessive Imports ein Problem sind
@@ -89,7 +92,6 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     public Optional<DatePoll> load(PollLink link) {
         final DatePollDao loaded = datePollJpaRepository
                 .findDatePollDaoByLink(link.getLinkUUIDAsString());
-        //TODO: Im Moment kriegen wir bei der Erzeugung eines
         final DatePoll targetDatePoll = ModelOfDaoUtil.pollOf(loaded);
         //Extrahiere alle Gruppen, extrahiere alle User in den Gruppen, lade alle DatePollEntries fuer
         //die der User gestimmt hat und rufe castBallot auf, damit diese im datePoll Objekt gespeichert werden.
@@ -106,12 +108,17 @@ public class DatePollRepositoryImpl implements DatePollRepository {
         // TODO: Unterscheidung zwischen Yes und Maybe Votes, findet nicht statt
         final Set<DatePollEntryDao> targetDatePollEntryDaos = datePollEntryRepositoryManager
                 .findAllDatePollEntriesUserVotesFor(targetUser, targetDatePoll);
+        final Set<DatePollEntryDao> targetEntriesMaybe = datePollEntryRepositoryManager
+                .findAllDatePollEntriesUserVotesForMaybe(targetUser, targetDatePoll);
         final Set<DatePollEntry> targetDatePollEntries = ModelOfDaoUtil
                 .extractDatePollEntries(targetDatePollEntryDaos);
+
+        final Set<DatePollEntry> targetDatePollEntriesMaybe = ModelOfDaoUtil
+                .extractDatePollEntries(targetEntriesMaybe);
         if (targetDatePollEntries.isEmpty()) {
-            targetDatePoll.castBallot(targetUser, targetDatePollEntries, Collections.emptySet());
+            targetDatePoll.castBallot(targetUser, targetDatePollEntries, targetDatePollEntriesMaybe);
         }
-        targetDatePoll.castBallot(targetUser, targetDatePollEntries, Collections.emptySet());
+        targetDatePoll.castBallot(targetUser, targetDatePollEntries, targetDatePollEntriesMaybe);
     }
 
     /**
@@ -121,11 +128,16 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     @Override
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidDuplicateLiterals"})
     public void save(DatePoll datePoll) {
+
         final Set<GroupDao> groupDaos = datePoll.getGroups().stream()
                 .map(GroupId::getId)
                 .map(groupJpaRepository::findById)
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toSet());
+        GroupMetaInf groupMetaInf = new GroupMetaInf(
+                new GroupId(UUID.randomUUID().toString()), "erstellerGruppe", GroupVisibility.PRIVATE);
+        Group group = new Group(groupMetaInf, Set.of(datePoll.getCreator()));
+        groupDaos.add(DaoOfModelUtil.groupDaoOf(group));
         final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll, groupDaos);
         datePollJpaRepository.save(datePollDao);
         //Save Votes for DatePoll without Priority
@@ -159,7 +171,19 @@ public class DatePollRepositoryImpl implements DatePollRepository {
                         datePoll,
                         targetBallot.getUser());
             }
+            if (targetBallot.getSelectedEntriesMaybe().size() != 0) {
+                setMaybeVoteForTargetUserAndEntry(targetBallot.getSelectedEntriesMaybe(),
+                        datePoll,
+                        targetBallot.getUser());
+            }
         }
+    }
+
+    private void setMaybeVoteForTargetUserAndEntry(Set<DatePollEntry> maybeVotes, DatePoll datePoll, UserId user) {
+        maybeVotes.forEach(targetEntry -> datePollEntryRepositoryManager
+                .userVotesMaybeForDatePollEntry(user,
+                        datePoll.getPollLink(),
+                        targetEntry));
     }
 
     @SuppressWarnings({"PMD.LawOfDemeter"})
