@@ -55,7 +55,7 @@
                 </div>
             </div>
             <hr>
-            <h5 th:unless="${ownPolls.size()==0}" onclick="collapseSection('myPollsAndSchedules', 'myPollsCaret')">
+            <h5 th:unless="${ownPolls.size()==0}" class="d-flex align-content-center" onclick="collapseSection('myPollsAndSchedules', 'myPollsCaret')">
                 <i id="myPollsCaret" class="fa fa-caret-down mr-3" aria-hidden="true"></i>
                 Von mir erstellt
                 <span th:text="${ownPolls.size()}" class="badge badge-secondary badge-pill ml-4">4</span>
@@ -88,7 +88,7 @@
             </div>
             <hr th:unless="${otherPolls.size()==0}" >
 
-            <h5 th:unless="${otherPolls.size()==0}" onclick="collapseSection('otherPollsAndSchedules', 'otherPollsCaret')">
+            <h5 th:unless="${otherPolls.size()==0}" class="d-flex align-content-center" onclick="collapseSection('otherPollsAndSchedules', 'otherPollsCaret')">
                 <i id="otherPollsCaret" class="fa fa-caret-down mr-2" aria-hidden="true"></i>
                 Andere
                 <span th:text="${otherPolls.size()}" class="badge badge-secondary badge-pill ml-3">4</span>
