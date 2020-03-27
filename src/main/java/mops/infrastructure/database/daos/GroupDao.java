@@ -28,13 +28,14 @@ public class GroupDao {
     @Enumerated(EnumType.STRING)
     private Group.GroupVisibility visibility;
 
-    @ManyToMany(cascade = {
+    /*@ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
     @JoinTable(name = "group_user",
             joinColumns = @JoinColumn(name = "usergroup_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
+            inverseJoinColumns = @JoinColumn(name = "user_id"))*/
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) // mappedBy = "groupSet"
     private Set<UserDao> userDaos = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groupDaos")

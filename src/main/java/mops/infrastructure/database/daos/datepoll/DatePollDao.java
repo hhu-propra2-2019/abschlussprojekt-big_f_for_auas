@@ -7,15 +7,7 @@ import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.UserDao;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,7 +25,7 @@ public class DatePollDao {
     private DatePollConfigDao configDao;
     @Embedded
     private DatePollMetaInfDao metaInfDao;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private UserDao creatorUserDao;
     @OneToMany(
             cascade = CascadeType.ALL,
