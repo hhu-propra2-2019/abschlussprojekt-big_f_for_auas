@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 
 @Controller
@@ -22,10 +23,10 @@ public class ResultController {
 
     /**
      * Getmapping.
-     * @param userId
-     * @param model
-     * @param pollType
-     * @param link
+     * @param userId ...
+     * @param model ...
+     * @param pollType ...
+     * @param link ...
      * @return String.
      */
     @GetMapping("/result/{pollType}/{link}")
@@ -38,6 +39,19 @@ public class ResultController {
         model.addAttribute("config", datePollInfoAdapter
             .getDatePollConfig(new PollLink(link)));
         return "mobilePollResults";
+    }
+
+    /**
+     * Hier werden die User beim Klick auf „Ändern“ zurück auf die /vote/-Route geleitet.
+     * @param userId ...
+     * @param pollType ...
+     * @param link ...
+     * @return ...
+     */
+    @PostMapping("/result/{pollType}/{link}")
+    public String change(@RequestAttribute(name = "userId") UserId userId,
+                             @PathVariable String pollType, @PathVariable String link) {
+        return "redirect:/vote/" + pollType + "/" + link;
     }
 }
 

@@ -10,7 +10,7 @@
 <body>
     <ul th:fragment="navigationList">
         <!--/*@thymesVar id="dashboardActive" type=""*/-->
-        <li th:class="${dashboardActive}? active"><a href="/">Dashboard</a></li>
+        <li th:class="${dashboardActive}? active"><a th:href="@{/}">Dashboard</a></li>
         <!--/*@thymesVar id="newTerminActive" type=""*/-->
         <li th:class="${newTerminActive}? active">
             <a th:href="@{/scheduling}">Terminfindung erstellen</a>
