@@ -21,10 +21,10 @@ function collapseSection(id, icon){
     $('#'+id).collapse('toggle');
     if ( iconSelector.hasClass('fa-caret-down') ) {
         iconSelector.removeClass('fa-caret-down');
-        iconSelector.addClass('fa-caret-up');
+        iconSelector.addClass('fa-caret-right');
     }
     else {
-        iconSelector.removeClass('fa-caret-up');
+        iconSelector.removeClass('fa-caret-right');
         iconSelector.addClass('fa-caret-down');
     }
 }
