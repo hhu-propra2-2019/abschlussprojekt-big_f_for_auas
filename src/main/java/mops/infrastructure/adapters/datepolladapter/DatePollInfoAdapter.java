@@ -48,16 +48,21 @@ public class DatePollInfoAdapter {
     @SuppressWarnings("PMD.LawOfDemeter") // stream
     public List<DatePollResultDto> getAllDatePollResultDto(PollLink link) {
         final Set<DatePollEntry> entries = infoService.getEntries(link);
-        return entries.stream()
+        final List<DatePollResultDto> results = entries.stream()
             .map(DatePollInfoAdapter::datePollEntryToResultDto)
             .collect(Collectors.toCollection(ArrayList::new));
+        results.sort(DatePollResultDto::compareTo);
+        return results;
     }
 
-    public SortedSet<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
+    @SuppressWarnings("PMD.LawOfDemeter") // stream
+    public List<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
         final Set<DatePoll> datePolls = infoService.getDatePollByCreator(userId);
-        return datePolls.stream()
-            .map((DatePoll datePoll) -> datePollToDasboardDto(datePoll, userId))
-            .collect(Collectors.toCollection(TreeSet::new));
+        final List<DashboardItemDto> items = datePolls.stream()
+            .map(datePoll -> DatePollInfoAdapter.datePollToDasboardDto(datePoll, userId))
+            .collect(Collectors.toCollection(ArrayList::new));
+        items.sort(DashboardItemDto::compareTo);
+        return items;
     }
 
     public SortedSet<DashboardItemDto> getPollsByOthersForDashboard(UserId userId) {

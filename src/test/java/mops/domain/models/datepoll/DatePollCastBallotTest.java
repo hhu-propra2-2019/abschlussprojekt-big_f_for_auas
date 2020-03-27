@@ -8,8 +8,9 @@ import java.util.HashSet;
 import java.util.Set;
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
-import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.group.GroupMetaInf;
+import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.UserId;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,7 @@ public class DatePollCastBallotTest {
     private static final int TIMES_I_FIXED_CAST_BALLOT = 10;
 
     @Test
-    @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
+    @SuppressWarnings({"PMD.JUnitTestContainsTooManyAsserts", "PMD.DataflowAnomalyAnalysis"})
     public void secondCastUpdatesEntriesFromOldCast() {
         final DatePoll datePoll = createDatePollWithTwoEntries();
         final Set<DatePollEntry> entries = datePoll.getEntries();
@@ -75,15 +76,14 @@ public class DatePollCastBallotTest {
         final Set<DatePollEntry> entries = new HashSet<>();
         entries.add(entry1);
 
-        final Set<UserId> participants = new HashSet<>();
-
-        final Group group = new Group(new GroupId("1"), "Testgruppe", Group.GroupVisibility.PRIVATE, participants);
+        final GroupMetaInf groupMetaInf = new GroupMetaInf(new GroupId("1"),
+            "TestGruppe", GroupVisibility.PRIVATE);
         return new DatePollBuilder()
             .datePollMetaInf(datePollMetaInf)
             .creator(creator)
             .datePollConfig(datePollConfig)
             .datePollEntries(entries)
-            .participatingGroups(Set.of(group.getId()))
+            .participatingGroups(Set.of(groupMetaInf.getId()))
             .datePollLink(datePollLink)
             .build();
     }
@@ -104,16 +104,14 @@ public class DatePollCastBallotTest {
         entries.add(entry1);
         entries.add(entry2);
 
-        final Set<UserId> participants = new HashSet<>();
-
-        final Group group = new Group(new GroupId("1"), "Testgruppe",
-            Group.GroupVisibility.PRIVATE, participants);
+        final GroupMetaInf groupMetaInf = new GroupMetaInf(new GroupId("1"),
+            "TestGruppe", GroupVisibility.PRIVATE);
         return new DatePollBuilder()
             .datePollMetaInf(datePollMetaInf)
             .creator(creator)
             .datePollConfig(datePollConfig)
             .datePollEntries(entries)
-            .participatingGroups(Set.of(group.getId()))
+            .participatingGroups(Set.of(groupMetaInf.getId()))
             .datePollLink(datePollLink)
             .build();
     }
