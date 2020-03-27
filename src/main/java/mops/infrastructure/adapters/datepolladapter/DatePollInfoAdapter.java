@@ -1,9 +1,7 @@
 package mops.infrastructure.adapters.datepolladapter;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 import mops.application.services.PollInfoService;
 import mops.domain.models.datepoll.DatePollConfig;
@@ -44,11 +42,11 @@ public class DatePollInfoAdapter {
     }
 
     @SuppressWarnings("PMD.LawOfDemeter") // stream
-    public SortedSet<DatePollResultDto> getAllDatePollResultDto(PollLink link) {
+    public List<DatePollResultDto> getAllDatePollResultDto(PollLink link) {
         final Set<DatePollEntry> entries = infoService.getEntries(link);
         return entries.stream()
             .map(DatePollInfoAdapter::datePollEntryToResultDto)
-            .collect(Collectors.toCollection(TreeSet::new));
+            .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public SortedSet<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
