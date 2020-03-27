@@ -144,6 +144,9 @@ public final class UploadService {
                     && !jsonPoll.get("ispublic").asBoolean() && jsonPoll.get("groups") != null) {
                 final String[] groups = mapper.readValue(jsonPoll.get("groups").toString(), String[].class);
                 publicationDto.setGroups(String.join(",", groups));
+                publicationDto.setIspublic(false);
+            } else {
+                publicationDto.setIspublic(true);
             }
             if (publicationAdapter.validateDto(publicationDto, context)) {
                 return Optional.of(publicationDto);
