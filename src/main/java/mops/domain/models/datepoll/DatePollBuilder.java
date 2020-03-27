@@ -2,7 +2,11 @@ package mops.domain.models.datepoll;
 
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
-import mops.domain.models.*;
+import mops.domain.models.FieldErrorNames;
+import mops.domain.models.PollFields;
+import mops.domain.models.PollLink;
+import mops.domain.models.ValidateAble;
+import mops.domain.models.Validation;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.UserId;
 
@@ -181,6 +185,7 @@ public final class DatePollBuilder {
      *
      * @return Ein DatePoll Objekt in einem validen State.
      */
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.GuardLogStatement"})
     public DatePoll build() {
         if (validationState.hasNoErrors() && validatedFields.equals(VALID_SET)) {
             return new DatePoll(

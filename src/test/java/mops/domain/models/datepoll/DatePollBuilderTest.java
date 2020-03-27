@@ -13,8 +13,16 @@ import java.util.Set;
 import static mops.domain.models.datepoll.DatePollBuilder.COULD_NOT_CREATE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+@SuppressWarnings({"PMD.LawOfDemeter", "PMD.CommentDefaultAccessModifier", "PMD.DefaultPackage",
+        "PMD.BeanMembersShouldSerialize", "PMD.AtLeastOneConstructor", "PMD.TooManyStaticImports"})
+        /* fluent assertj api stellt keine Verletzung des LoD dar, selbst wenn ist das bei den tests nicht schlimm.
+         * Alle test methods können package private sein.
+         * Felder transient in tests zu machen erscheint wenig sinvoll.
+         */
 class DatePollBuilderTest {
 
 
