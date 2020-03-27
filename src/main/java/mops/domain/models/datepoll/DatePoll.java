@@ -38,9 +38,7 @@ public final class DatePoll {
 
     @SuppressWarnings({"PMD.LawOfDemeter"}) //stream
     public Optional<DatePollBallot> getUserBallot(UserId user) {
-        return ballots.stream()
-                .filter(datePollBallot -> datePollBallot.belongsTo(user))
-                .findAny();
+        return ballots.stream().filter(ballots -> ballots.belongsTo(user)).findAny();
     }
 
     /**
