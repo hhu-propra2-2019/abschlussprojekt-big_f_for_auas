@@ -1,8 +1,12 @@
 package mops.infrastructure.adapters.datepolladapter;
 
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
 import java.util.stream.Collectors;
+import java.util.TreeSet;
 import mops.application.services.PollInfoService;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollMetaInf;

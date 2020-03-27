@@ -1,7 +1,6 @@
 package mops.infrastructure.controllers;
 
 import java.util.List;
-import java.util.SortedSet;
 
 import mops.domain.models.PollLink;
 import mops.domain.models.user.UserId;
