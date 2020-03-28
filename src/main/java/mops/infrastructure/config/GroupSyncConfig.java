@@ -50,9 +50,15 @@ public class GroupSyncConfig {
         return new GroupSyncService(webclient, validator, groupRepository);
     }
 
+    /**
+     * Hier wird eine ClientRegistration anhand der Konfigurationsdaten aus application.properties erzeugt,
+     * die dann im WebClient unten verwendet wird.
+     * @return ...
+     */
     @Bean
-    InMemoryReactiveClientRegistrationRepository customClientRegistrationRepository() {
-        ClientRegistration clientRegistration =
+    @SuppressWarnings("PMD.LawOfDemeter")
+    public InMemoryReactiveClientRegistrationRepository customClientRegistrationRepository() {
+        final ClientRegistration clientRegistration =
                 ClientRegistrations.fromOidcIssuerLocation(issuerUri)
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .registrationId(clientId)
@@ -63,9 +69,14 @@ public class GroupSyncConfig {
         return new InMemoryReactiveClientRegistrationRepository(clientRegistration);
     }
 
+    /**
+     * Hier wird der Webclient für OAuth2 konfiguriert. Dieser Webclient wird dann in GroupSyncWebclient injected.
+     * @return ...
+     */
     @Bean
-    WebClient webClient() {
-        ServerOAuth2AuthorizedClientExchangeFilterFunction oauth =
+    @SuppressWarnings("PMD.LawOfDemeter")
+    public WebClient webClient() {
+        final ServerOAuth2AuthorizedClientExchangeFilterFunction oauth =
                 new ServerOAuth2AuthorizedClientExchangeFilterFunction(
                         customClientRegistrationRepository(),
                         new UnAuthenticatedServerOAuth2AuthorizedClientRepository());
