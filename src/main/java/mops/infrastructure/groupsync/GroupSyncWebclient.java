@@ -37,9 +37,9 @@ public final class GroupSyncWebclient {
     private final transient WebClient webClient;
 
     @Autowired
-    public GroupSyncWebclient(Environment environment) {
+    public GroupSyncWebclient(WebClient webClient, Environment environment) {
         this.apiRoot = environment.getProperty("mops.gruppen2.api-root", "/");
-        this.webClient = WebClient.create(apiRoot);
+        this.webClient = webClient;
     }
 
     @SuppressWarnings("PMD.GuardLogStatement")
