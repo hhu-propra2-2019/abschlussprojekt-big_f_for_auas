@@ -136,7 +136,7 @@ public final class UploadService {
         return Optional.empty();
     }
 
-    @SuppressWarnings({"PMD.EmptyCatchBlock", "PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.EmptyCatchBlock", "PMD.LawOfDemeter", "PMD.ConfusingTernary"})
     private Optional<PublicationDto> parsePublicationInformation(JsonNode jsonPoll, MessageContext context) {
         try {
             final PublicationDto publicationDto = publicationAdapter.initializeDto();
