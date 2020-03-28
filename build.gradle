@@ -1,21 +1,29 @@
-import com.github.spotbugs.SpotBugsTask
-
 plugins {
 	id 'org.springframework.boot' version '2.2.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 	id 'checkstyle'
 	id 'pmd'
-	id "com.github.spotbugs" version "3.0.0"
+	id "com.github.spotbugs" version "4.0.4"
+}
+
+repositories {
+	maven {
+		url="https://s3.cs.hhu.de/public/mops/"
+		metadataSources {
+			artifact()
+		}
+	}
+	mavenCentral()
 }
 
 group = 'termine1'
-version = '0.0.1-SNAPSHOT'
+version = '0.8-oder-so'
 sourceCompatibility = '11'
 
-tasks.withType(SpotBugsTask) {
-	reports.xml.enabled = false
-	reports.html.enabled = true
+bootJar {
+	archiveFileName = "termine1.jar"
+	excludeDevtools = true
 }
 
 configurations {
@@ -28,36 +36,26 @@ configurations {
 	}
 }
 
-// Do not compile if warnings are present.
-/* compileJava{
-	options.compilerArgs << "-Werror"
-} */
-
-repositories {
-	maven {
-		url="https://s3.cs.hhu.de/public/mops/"
-		metadataSources {
-			artifact()
-		}
-	}
-	mavenCentral()
-}
-
 ext {
 	set('springCloudVersion', "Hoxton.SR1")
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation "mops:styleguide:2.2.0"
+
 	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.2.5'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.keycloak:keycloak-spring-boot-starter:9.0.0'
 	implementation 'org.keycloak.bom:keycloak-adapter-bom:9.0.0'
+
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-starter-task'
 	implementation 'org.springframework.webflow:spring-webflow:2.5.1.RELEASE'
+
 	implementation 'org.apache.commons:commons-text:1.7'
 	// Für die Gruppen-Synchronisation
 	compile 'org.springframework.boot:spring-boot-starter-webflux'
@@ -67,8 +65,9 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	implementation "mops:styleguide:2.2.0"
+
 	// Testing
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

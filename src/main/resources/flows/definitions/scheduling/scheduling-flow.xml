@@ -115,7 +115,7 @@
 
         <transition on="entries" to="entries"/>
         <transition on="confirmation" to="confirmation">
-            <evaluate expression="publicationAdapter.validate(publicationDto, messageContext)"/>
+            <evaluate expression="publicationAdapter.validateDto(publicationDto, messageContext)"/>
         </transition>
     </view-state>
 
