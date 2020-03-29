@@ -7,10 +7,14 @@ import mops.domain.models.group.GroupId;
 import java.util.Set;
 
 @Data
-public class ValidatedInputDto {
+public final class ValidatedInputDto {
 
     private boolean errorsOccurred;
     private long status;
     private Set<Group> groups;
     private Set<GroupId> deletedGroups;
+
+    public int getChangedGroupCount() {
+        return groups.size() + deletedGroups.size();
+    }
 }

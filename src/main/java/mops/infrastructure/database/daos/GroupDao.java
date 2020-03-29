@@ -5,7 +5,6 @@ import lombok.Data;
 import mops.domain.models.group.GroupVisibility;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
-import org.springframework.lang.NonNull;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

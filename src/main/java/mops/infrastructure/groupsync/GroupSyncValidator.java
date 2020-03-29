@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 @NoArgsConstructor
 public final class GroupSyncValidator {
 
-    @SuppressWarnings("PMD.LawOfDemeter")
+    @SuppressWarnings("PMD.LawOfDemeter") //NOPMD
     public ValidatedInputDto validateAndKeepValid(JacksonInputDto dto) {
         final Set<ValidatedGroup> validatedGroups =
                 dto.getGroupList().stream().flatMap(this::validateGroups).collect(Collectors.toSet());
@@ -37,7 +37,7 @@ public final class GroupSyncValidator {
                         .collect(Collectors.toSet()));
         // Falls ein oder mehrere Gruppen nicht eingelesen werden konnten, Flag setzen
         // Könnte man auch analog zu validateGroupDto lösen, ist so aber eindeutiger.
-        if (dto.getGroupList().size() != (validDto.getGroups().size() + validDto.getDeletedGroups().size())) {
+        if (dto.getGroupList().size() != validDto.getChangedGroupCount()) {
             validDto.setErrorsOccurred(true);
         }
         return validDto;
@@ -58,8 +58,8 @@ public final class GroupSyncValidator {
                     new DeletedGroup(new GroupId(dto.getId())));
         }
         if (isValid(dto)) {
-            GroupVisibility visibility =
-                    ("PUBLIC".equals(dto.getVisibility())) ? GroupVisibility.PUBLIC : GroupVisibility.PRIVATE;
+            final GroupVisibility visibility =
+                    "PUBLIC".equals(dto.getVisibility()) ? GroupVisibility.PUBLIC : GroupVisibility.PRIVATE;
             return Stream.of(
                     new ValidGroup(
                             new GroupMetaInf(
@@ -71,6 +71,7 @@ public final class GroupSyncValidator {
         return Stream.empty();
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private boolean isDeleted(GroupDto dto) {
         return dto.getId() != null && !dto.getId().isBlank()
                 && dto.getTitle() == null
@@ -80,11 +81,12 @@ public final class GroupSyncValidator {
                 && dto.getMembers().isEmpty();
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     private boolean isValid(GroupDto dto) {
         if (dto.getMembers() == null) {
             return false;
         }
-        Set<UserId> users = dto.getMembers().stream().flatMap(this::validateUserDto).collect(Collectors.toSet());
+        final Set<UserId> users = dto.getMembers().stream().flatMap(this::validateUserDto).collect(Collectors.toSet());
         return dto.getId() != null && !dto.getId().isBlank()
                 && dto.getTitle() != null
                 && !dto.getTitle().isBlank()
@@ -103,17 +105,17 @@ public final class GroupSyncValidator {
 
     private abstract static class ValidatedGroup extends Group {
 
-        ValidatedGroup(GroupMetaInf metaInf, Set<UserId> users) {
+        /* default */ ValidatedGroup(GroupMetaInf metaInf, Set<UserId> users) {
             super(metaInf, users);
         }
 
-        abstract boolean isValid();
-        abstract boolean isDeleted();
+        public abstract boolean isValid();
+        public abstract boolean isDeleted();
     }
 
     private static class ValidGroup extends ValidatedGroup {
 
-        ValidGroup(GroupMetaInf metaInf, Set<UserId> users) {
+        /* default */ ValidGroup(GroupMetaInf metaInf, Set<UserId> users) {
             super(metaInf, users);
         }
 
@@ -130,7 +132,7 @@ public final class GroupSyncValidator {
 
     private static class DeletedGroup extends ValidatedGroup {
 
-        DeletedGroup(GroupId groupId) {
+        /* default */ DeletedGroup(GroupId groupId) {
             super(new GroupMetaInf(groupId, null, null), null);
         }
 
