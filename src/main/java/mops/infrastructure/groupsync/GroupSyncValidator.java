@@ -7,11 +7,12 @@ import mops.domain.models.group.GroupMetaInf;
 import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.groupsync.dto.GroupDto;
-import mops.infrastructure.groupsync.dto.GroupSyncInputDto;
-import mops.infrastructure.groupsync.dto.GroupSyncValidDto;
+import mops.infrastructure.groupsync.dto.JacksonInputDto;
+import mops.infrastructure.groupsync.dto.ValidatedInputDto;
 import mops.infrastructure.groupsync.dto.UserDto;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,45 +21,76 @@ import java.util.stream.Stream;
 public final class GroupSyncValidator {
 
     @SuppressWarnings("PMD.LawOfDemeter")
-    public GroupSyncValidDto validateAndKeepValid(GroupSyncInputDto dto, Long lastStatus) {
-        final GroupSyncValidDto validDto = new GroupSyncValidDto();
+    public ValidatedInputDto validateAndKeepValid(JacksonInputDto dto) {
+        final Set<ValidatedGroup> validatedGroups =
+                dto.getGroupList().stream().flatMap(this::validateGroups).collect(Collectors.toSet());
+        final ValidatedInputDto validDto = new ValidatedInputDto();
         validDto.setStatus(dto.getStatus());
-        validDto.setGroups(dto.getGroupList()
-                .stream()
-                .flatMap(this::validateGroupDto)
-                .collect(Collectors.toSet()));
+        validDto.setGroups(
+                validatedGroups.stream()
+                        .filter(ValidatedGroup::isValid)
+                        .collect(Collectors.toSet()));
+        validDto.setDeletedGroups(
+                validatedGroups.stream()
+                        .filter(ValidatedGroup::isDeleted)
+                        .map(group -> group.getMetaInf().getId())
+                        .collect(Collectors.toSet()));
         // Falls ein oder mehrere Gruppen nicht eingelesen werden konnten, Flag setzen
         // Könnte man auch analog zu validateGroupDto lösen, ist so aber eindeutiger.
-        if (dto.getGroupList().size() != validDto.getGroups().size()) {
+        if (dto.getGroupList().size() != (validDto.getGroups().size() + validDto.getDeletedGroups().size())) {
             validDto.setErrorsOccurred(true);
         }
         return validDto;
     }
 
-    // CyclomaticComplexity ist rausgenommen, weil die Guard-Klauseln hier
-    // mMn nach nicht sonderlich schwer zu lesen sind.
-    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.CyclomaticComplexity"})
-    private Stream<Group> validateGroupDto(GroupDto dto) {
-        if (dto.getTitle() == null || dto.getTitle().isBlank()
-                || dto.getId() == null || dto.getId().isEmpty()
-                || dto.getMembers() == null) {
-            return Stream.empty();
+    /**
+     * Entscheidet, ob die Gruppe gültig ist oder eine gelöschte Gruppe (= alle Felder außer ID sind null).
+     * Außerdem kann die Gruppe ungültig sein, d.h. die ID ist leer oder null und die anderen Felder sind
+     * nur teilweise gesetzt. Dann wird ein leerer Stream zurückgegeben, der mit flatMap() unkompliziert
+     * aussortiert werden kann.
+     * @param dto Das Dto, das entweder eine gültige, ungültige oder gelöschte Gruppe sein kann.
+     * @return das entsprechende Objekt
+     */
+    @SuppressWarnings("PMD.LawOfDemeter")
+    private Stream<ValidatedGroup> validateGroups(GroupDto dto) {
+        if (isDeleted(dto)) {
+            return Stream.of(
+                    new DeletedGroup(new GroupId(dto.getId())));
         }
-        // Nur wegen dieser Guard-Klausel darf unten per ?-Operator entschieden werden!
-        if (!("PUBLIC".equals(dto.getVisibility()) || "PRIVATE".equals(dto.getVisibility()))) {
-            return Stream.empty();
+        if (isValid(dto)) {
+            GroupVisibility visibility =
+                    ("PUBLIC".equals(dto.getVisibility())) ? GroupVisibility.PUBLIC : GroupVisibility.PRIVATE;
+            return Stream.of(
+                    new ValidGroup(
+                            new GroupMetaInf(
+                                    new GroupId(dto.getId()), dto.getTitle(), visibility),
+                            // TODO: Overhead beseitigen: User werden zwei Mal geparsed. Eventuell ändern.
+                            dto.getMembers()
+                                    .stream().flatMap(this::validateUserDto).collect(Collectors.toSet())));
         }
-        final Group group = new Group(
-                new GroupMetaInf(
-                        new GroupId(dto.getId()),
-                        dto.getTitle(),
-                        "PUBLIC".equals(dto.getVisibility()) ? GroupVisibility.PUBLIC : GroupVisibility.PRIVATE),
-                dto.getMembers().stream().flatMap(this::validateUserDto).collect(Collectors.toSet()));
-        // Falls ein oder mehrere User nicht eingelesen werden konnten, Gruppe nicht erzeugen
-        if (group.getUser().isEmpty() || dto.getMembers().size() != group.getUser().size()) {
-            return Stream.empty();
+        return Stream.empty();
+    }
+
+    private boolean isDeleted(GroupDto dto) {
+        return dto.getId() != null && !dto.getId().isBlank()
+                && dto.getTitle() == null
+                && dto.getDescription() == null
+                && dto.getVisibility() == null
+                && dto.getMembers() != null
+                && dto.getMembers().isEmpty();
+    }
+
+    private boolean isValid(GroupDto dto) {
+        if (dto.getMembers() == null) {
+            return false;
         }
-        return Stream.of(group);
+        Set<UserId> users = dto.getMembers().stream().flatMap(this::validateUserDto).collect(Collectors.toSet());
+        return dto.getId() != null && !dto.getId().isBlank()
+                && dto.getTitle() != null
+                && !dto.getTitle().isBlank()
+                && dto.getDescription() != null
+                && ("PRIVATE".equals(dto.getVisibility()) || "PUBLIC".equals(dto.getVisibility()))
+                && users.size() == dto.getMembers().size();
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
@@ -67,5 +99,49 @@ public final class GroupSyncValidator {
             return Stream.empty();
         }
         return Stream.of(new UserId(dto.getId()));
+    }
+
+    private abstract static class ValidatedGroup extends Group {
+
+        ValidatedGroup(GroupMetaInf metaInf, Set<UserId> users) {
+            super(metaInf, users);
+        }
+
+        abstract boolean isValid();
+        abstract boolean isDeleted();
+    }
+
+    private static class ValidGroup extends ValidatedGroup {
+
+        ValidGroup(GroupMetaInf metaInf, Set<UserId> users) {
+            super(metaInf, users);
+        }
+
+        @Override
+        public boolean isDeleted() {
+            return false;
+        }
+
+        @Override
+        public boolean isValid() {
+            return true;
+        }
+    }
+
+    private static class DeletedGroup extends ValidatedGroup {
+
+        DeletedGroup(GroupId groupId) {
+            super(new GroupMetaInf(groupId, null, null), null);
+        }
+
+        @Override
+        public boolean isDeleted() {
+            return true;
+        }
+
+        @Override
+        public boolean isValid() {
+            return false;
+        }
     }
 }

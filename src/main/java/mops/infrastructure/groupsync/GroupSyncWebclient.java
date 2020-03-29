@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
-import mops.infrastructure.groupsync.dto.GroupSyncInputDto;
+import mops.infrastructure.groupsync.dto.JacksonInputDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
@@ -43,7 +43,7 @@ public final class GroupSyncWebclient {
     }
 
     @SuppressWarnings("PMD.GuardLogStatement")
-    public Optional<GroupSyncInputDto> getGroupSyncDto(long lastStatus) {
+    public Optional<JacksonInputDto> getGroupSyncDto(long lastStatus) {
         try {
             final String responseBody = queryApi(lastStatus);
             if (responseBody == null) {
@@ -64,13 +64,13 @@ public final class GroupSyncWebclient {
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
-    private Optional<GroupSyncInputDto> parseGroupSyncDto(JsonNode node) throws JsonProcessingException {
+    private Optional<JacksonInputDto> parseGroupSyncDto(JsonNode node) throws JsonProcessingException {
         if (node == null || node.isEmpty()) {
             log.warn("Group Sync: Failed: no JSON content");
             return Optional.empty();
         }
-        final Optional<GroupSyncInputDto> groupSyncDto =
-                Optional.ofNullable(mapper.readValue(node.toString(), GroupSyncInputDto.class));
+        final Optional<JacksonInputDto> groupSyncDto =
+                Optional.ofNullable(mapper.readValue(node.toString(), JacksonInputDto.class));
 
         groupSyncDto.ifPresentOrElse(
                 g -> log.debug("Group Sync: Successfully read PublicationDto: ".concat(g.getGroupList().toString())),

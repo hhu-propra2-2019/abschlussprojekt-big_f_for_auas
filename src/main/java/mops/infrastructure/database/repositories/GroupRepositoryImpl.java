@@ -57,6 +57,17 @@ public class GroupRepositoryImpl implements GroupRepository {
     }
 
     /**
+     * Löscht eine Gruppe anhand ihrer ID.
+     * @param groupId Die ID der zu löschenden Gruppe
+     */
+    @Override
+    public void deleteById(GroupId groupId) {
+        if (groupJpaRepository.existsGroupDaoById(groupId.getId())) {
+            groupJpaRepository.deleteById(groupId.getId());
+        }
+    }
+
+    /**
      * Gibt zurück, ob eine Gruppe existiert.
      * @param groupId Die Gruppen-ID der abzufragenden Gruppe
      * @return true, wenn die Gruppe existiert, ansonsten false
