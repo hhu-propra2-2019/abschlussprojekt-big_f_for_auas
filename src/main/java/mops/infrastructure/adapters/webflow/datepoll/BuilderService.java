@@ -6,11 +6,13 @@ import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
+import mops.domain.repositories.UserRepository;
 import mops.infrastructure.adapters.webflow.ErrorMessageHelper;
 import mops.infrastructure.adapters.webflow.PublicationAdapter;
 import mops.infrastructure.adapters.webflow.builderdtos.PublicationInformation;
 import mops.infrastructure.adapters.webflow.datepoll.builderdtos.Entries;
 import mops.infrastructure.adapters.webflow.datepoll.webflowdtos.DatePollDto;
+import mops.infrastructure.controllers.dtos.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.annotation.PropertySource;
@@ -28,6 +30,7 @@ public final class BuilderService {
     private final transient EntriesAdapter entriesAdapter;
     private final transient PublicationAdapter publicationAdapter;
     private final transient Environment errorEnvironment;
+    private final transient UserRepository userRepository;
 
     @Autowired
     public BuilderService(PublicationService publicationService,
@@ -35,13 +38,14 @@ public final class BuilderService {
                           ConfigAdapter configAdapter,
                           EntriesAdapter entriesAdapter,
                           PublicationAdapter publicationAdapter,
-                          Environment errorEnvironment) {
+                          Environment errorEnvironment, UserRepository userRepository) {
         this.publicationService = publicationService;
         this.metaInfAdapter = metaInfAdapter;
         this.configAdapter = configAdapter;
         this.entriesAdapter = entriesAdapter;
         this.publicationAdapter = publicationAdapter;
         this.errorEnvironment = errorEnvironment;
+        this.userRepository = userRepository;
     }
 
     public DatePollDto buildConfirmationDto() {
@@ -58,7 +62,9 @@ public final class BuilderService {
     @SuppressWarnings("PMD.LawOfDemeter")
     public boolean publishDatePoll(DatePollDto datePollDto,
                                    MessageContext context,
-                                   User user) {
+                                   Account account) {
+        // TODO: Check, ob User vorhanden (sollte eigentlich nicht nötig sein)
+        final User user = userRepository.load(new UserId(account.getName())).get();
         final DatePollMetaInf metaInf = metaInfAdapter.build(datePollDto.getMetaInfDto());
         final Entries entries = entriesAdapter.build(datePollDto.getEntriesDto());
         final PublicationInformation publicationInformation =
