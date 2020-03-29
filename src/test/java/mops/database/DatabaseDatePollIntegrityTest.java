@@ -13,6 +13,7 @@ import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.group.GroupMetaInf;
 import mops.domain.models.group.GroupVisibility;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
@@ -50,7 +51,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DatabaseDatePollIntegrityTest {
     private transient DatePoll datePoll;
     private transient Group group;
-    private transient Set<UserId> participants;
+    private transient Set<User> participants;
     @Autowired
     private transient DatePollRepositoryImpl datePollRepository;
     @Autowired
@@ -69,13 +70,13 @@ public class DatabaseDatePollIntegrityTest {
     public void setupDatePollRepoTest() {
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
-        final UserId creator = new UserId("1234");
+        final User creator = new User(new UserId("1234"));
         final DatePollConfig datePollConfig = new DatePollConfig();
 
         final PollLink datePollLink = new PollLink(UUID.randomUUID());
 
         participants = new HashSet<>();
-        IntStream.range(0, 1).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        IntStream.range(0, 1).forEach(i -> participants.add(new User(new UserId(Integer.toString(i)))));
 
         group = new Group(new GroupMetaInf(new GroupId("1"), "Testgruppe", GroupVisibility.PRIVATE), participants);
 
@@ -117,7 +118,7 @@ public class DatabaseDatePollIntegrityTest {
         datePollRepository.save(datePoll);
         //final Set<UserDao> userDaoSet = userJpaRepository.findAllByGroupSetContaining(exampleGroup);
         final Set<DatePoll> datePollsByUserId = datePollRepository.getDatePollByGroupMembership(
-                participants.iterator().next());
+                participants.iterator().next().getId());
         assertThat(datePollsByUserId.size()).isEqualTo(1);
     }
 

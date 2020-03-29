@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,10 +43,7 @@ public class DatePollDao {
     )
     private Set<DatePollEntryDao> entryDaos = new HashSet<>();
 
-    @ManyToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
+    @ManyToMany
     private Set<GroupDao> groupDaos = new HashSet<>();
     /*@ManyToMany(
             cascade = CascadeType.ALL,

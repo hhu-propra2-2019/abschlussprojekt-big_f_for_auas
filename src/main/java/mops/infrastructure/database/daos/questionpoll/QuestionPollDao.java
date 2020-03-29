@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 @Getter
@@ -40,10 +41,8 @@ public class QuestionPollDao {
             orphanRemoval = true
     )
     private Set<QuestionPollEntryDao> entryDaos;
-    @ManyToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
+    // TODO: SQL: CascadeType.ALL
+    @ManyToMany
     private Set<GroupDao> groupDaos = new HashSet<>();
     /*@ManyToMany(
             cascade = CascadeType.ALL,

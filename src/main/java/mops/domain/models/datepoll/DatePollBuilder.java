@@ -8,7 +8,7 @@ import mops.domain.models.PollLink;
 import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.group.GroupId;
-import mops.domain.models.user.UserId;
+import mops.domain.models.user.User;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -29,7 +29,7 @@ public final class DatePollBuilder {
     public static final String FIELD_NOT_PRESENT = "Field not present: ";
     //muss nicht 1-1 im ByteCode bekannt sein.
     private transient DatePollMetaInf metaInfTarget;
-    private transient UserId pollCreatorTarget;
+    private transient User pollCreatorTarget;
     private transient DatePollConfig configTarget;
     private final transient Set<DatePollEntry> pollEntryTargets = new HashSet<>();
     private final transient Set<GroupId> participatingGroupsTargets = new HashSet<>();
@@ -112,7 +112,7 @@ public final class DatePollBuilder {
      * @param creator der Ersteller einer Terminfindung.
      * @return Referenz auf diesen DatePollBuilder.
      */
-    public DatePollBuilder creator(UserId creator) {
+    public DatePollBuilder creator(User creator) {
         validationProcessAndValidationHandling(
                 creator, id -> this.pollCreatorTarget = id, PollFields.CREATOR
         );

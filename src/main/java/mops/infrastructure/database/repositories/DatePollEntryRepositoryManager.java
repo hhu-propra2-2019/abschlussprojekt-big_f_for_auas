@@ -4,6 +4,7 @@ import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollEntry;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.TimespanDao;
 import mops.infrastructure.database.daos.UserDao;
@@ -65,7 +66,7 @@ public class DatePollEntryRepositoryManager {
     @Transactional
     public void userVotesForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) {
         final DatePollEntryDao targetDatePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
-        userRepository.saveUserIfNotPresent(userId);
+        userRepository.saveUserIfNotPresent(new User(userId));
         final UserDao userDao = userRepository.loadDao(userId).orElseThrow();
         targetDatePollEntryDao.getUserVotesFor().add(userDao);
         userDao.getDatePollEntrySet().add(targetDatePollEntryDao);
@@ -107,7 +108,7 @@ public class DatePollEntryRepositoryManager {
     @SuppressWarnings("checkstyle:DesignForExtension") //NOPMD
     void userVotesMaybeForDatePollEntry(UserId userId, PollLink pollLink, DatePollEntry datePollEntry) { //NOPMD
         final DatePollEntryDao targetDatePollEntryDao = loadDatePollEntryDao(pollLink, datePollEntry);
-        userRepository.saveUserIfNotPresent(userId);
+        userRepository.saveUserIfNotPresent(new User(userId));
         final UserDao userDao = userRepository.loadDao(userId).orElseThrow();
         targetDatePollEntryDao.getUserVotesForMaybe().add(userDao);
         userDao.getDatePollEntrySetMaybe().add(targetDatePollEntryDao);

@@ -67,7 +67,7 @@ public final class ModelOfDaoUtil {
         return new DatePoll(
                 pollRecordAndStatus,
                 metaInf,
-                creator.getId(),
+                creator,
                 config,
                 entries,
                 groupIds,
@@ -79,18 +79,12 @@ public final class ModelOfDaoUtil {
     public static Group groupOf(GroupDao dao) {
         return new Group(
                 new GroupMetaInf(new GroupId(dao.getId()), dao.getTitle(), dao.getVisibility()),
-                extractUserIds(extractUser(dao.getUserDaos())));
+                extractUser(dao.getUserDaos()));
     }
 
     public static Set<Group> extractGroup(Set<GroupDao> groupDaos) {
         return groupDaos.stream()
                 .map(ModelOfDaoUtil::groupOf)
-                .collect(Collectors.toSet());
-    }
-
-    private static Set<UserId> extractUserIds(Set<User> user) {
-        return user.stream()
-                .map(User::getId)
                 .collect(Collectors.toSet());
     }
 
@@ -119,7 +113,7 @@ public final class ModelOfDaoUtil {
         return new QuestionPoll(
                 pollRecordAndStatus,
                 metaInf,
-                creator.getId(),
+                creator,
                 config,
                 entries,
                 groupIds,

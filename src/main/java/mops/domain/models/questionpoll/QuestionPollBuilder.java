@@ -8,7 +8,7 @@ import mops.domain.models.ValidateAble;
 import mops.domain.models.Validation;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
-import mops.domain.models.user.UserId;
+import mops.domain.models.user.User;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"PMD.TooManyMethods", "PMD.DataflowAnomalyAnalysis"})
 public class QuestionPollBuilder {
 
-    private transient UserId creatorTarget;
+    private transient User creatorTarget;
     private transient PollLink linkTarget;
     private transient QuestionPollConfig configTarget;
     private transient QuestionPollMetaInf metaInfTarget;
@@ -95,7 +95,7 @@ public class QuestionPollBuilder {
      * @param creator der Ersteller einer Umfrage.
      * @return Referenz auf diesen QuestionPollBuilder.
      */
-    public QuestionPollBuilder creator(UserId creator) {
+    public QuestionPollBuilder creator(User creator) {
         validationProcessAndValidationHandling(
                 creator, id -> this.creatorTarget = id, PollFields.CREATOR
         );

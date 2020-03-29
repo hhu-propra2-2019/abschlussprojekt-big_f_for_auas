@@ -2,7 +2,7 @@ package mops.domain.models.group;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import mops.domain.models.user.UserId;
+import mops.domain.models.user.User;
 
 import java.util.Set;
 
@@ -11,5 +11,5 @@ import java.util.Set;
 public class Group {
 
     private final GroupMetaInf metaInf;
-    private final Set<UserId> user;
+    private final Set<User> user;
 }

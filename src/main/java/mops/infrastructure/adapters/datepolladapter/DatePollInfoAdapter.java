@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import mops.application.services.PollInfoService;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.user.User;
+import mops.domain.repositories.UserRepository;
 import mops.infrastructure.controllers.dtos.DashboardItemDto;
 import mops.infrastructure.controllers.dtos.DatePollConfigDto;
 import mops.infrastructure.controllers.dtos.DatePollMetaInfDto;
@@ -24,9 +26,11 @@ import org.springframework.stereotype.Service;
 public class DatePollInfoAdapter {
 
     private final transient PollInfoService infoService;
+    private final transient UserRepository userRepository;
 
-    public DatePollInfoAdapter(PollInfoService infoService) {
+    public DatePollInfoAdapter(PollInfoService infoService, UserRepository userRepository) {
         this.infoService = infoService;
+        this.userRepository = userRepository;
     }
 
     public DatePollMetaInfDto getDatePollMetaInformation(PollLink link, UserId userId) {
@@ -55,18 +59,22 @@ public class DatePollInfoAdapter {
 
     @SuppressWarnings("PMD.LawOfDemeter") // stream
     public List<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
+        // TODO: checken, ob User vorhanden
+        final User user = userRepository.load(userId).get();
         final Set<DatePoll> datePolls = infoService.getDatePollByCreator(userId);
         final List<DashboardItemDto> items = datePolls.stream()
-            .map(datePoll -> DatePollInfoAdapter.datePollToDasboardDto(datePoll, userId))
+            .map(datePoll -> DatePollInfoAdapter.datePollToDasboardDto(datePoll, user))
             .collect(Collectors.toCollection(ArrayList::new));
         items.sort(DashboardItemDto::compareTo);
         return items;
     }
 
     public List<DashboardItemDto> getPollsByOthersForDashboard(UserId userId) {
+        // TODO: checken, ob User vorhanden
+        final User user = userRepository.load(userId).get();
         final Set<DatePoll> datePolls = infoService.getDatePollByStatusFromUser(userId);
         final List<DashboardItemDto> items = datePolls.stream()
-            .map(datePoll -> DatePollInfoAdapter.datePollToDasboardDto(datePoll, userId))
+            .map(datePoll -> DatePollInfoAdapter.datePollToDasboardDto(datePoll, user))
             .collect(Collectors.toCollection(ArrayList::new));
         items.sort(DashboardItemDto::compareTo);
         return items;
@@ -83,12 +91,12 @@ public class DatePollInfoAdapter {
             metaInf.getLocation().getLocation(), metaInf.getTimespan().getEndDate());
     }
 
-    private static DashboardItemDto datePollToDasboardDto(DatePoll datePoll, UserId userId) {
+    private static DashboardItemDto datePollToDasboardDto(DatePoll datePoll, User user) {
         return new DashboardItemDto(
             datePoll.getPollLink().getPollIdentifier(),
             datePoll.getMetaInf().getTitle(),
             datePoll.getMetaInf().getTimespan().getEndDate(),
-            datePoll.getRecordAndStatus().getUserStatus(userId).getIconName(),
+            datePoll.getRecordAndStatus().getUserStatus(user).getIconName(),
             datePoll.getMetaInf().getTimespan().getEndDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")),
             datePoll.getMetaInf().getTimespan().getEndDate().format(DateTimeFormatter.ofPattern("HH:mm")),
             datePoll.getRecordAndStatus().getLastModified(),

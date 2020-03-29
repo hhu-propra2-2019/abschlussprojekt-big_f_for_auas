@@ -14,6 +14,7 @@ import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.group.GroupMetaInf;
 import mops.domain.models.group.GroupVisibility;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.database.daos.GroupDao;
@@ -70,11 +71,11 @@ public class UserVotesForDatePollTest {
     public void setupDatePollRepoTest() {
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
-        final UserId creator = new UserId("1234");
+        final User creator = new User(new UserId("1234"));
         final DatePollConfig datePollConfig = new DatePollConfig();
         targetPollLink = new PollLink();
-        final Set<UserId> participants = new HashSet<>();
-        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        final Set<User> participants = new HashSet<>();
+        IntStream.range(0, 3).forEach(i -> participants.add(new User(new UserId(Integer.toString(i)))));
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, 1).forEach(i -> pollEntries.add(new DatePollEntry(
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))

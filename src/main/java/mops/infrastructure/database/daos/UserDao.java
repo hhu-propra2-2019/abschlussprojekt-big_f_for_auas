@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,9 +45,11 @@ public class UserDao {
     private Set<DatePollEntryDao> datePollEntrySetMaybe = new HashSet<>();
     /*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDaos")
     private Set<QuestionPollDao> questionPollSet = new HashSet<>();*/
+    // TODO: SQL: CascadeType.ALL
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userVotesFor")
     private Set<QuestionPollEntryDao> questionPollEntrySet = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userDaos")
+    // TODO: SQL: CascadeType.ALL
+    @ManyToMany(mappedBy = "userDaos")
     private Set<GroupDao> groupSet = new HashSet<>();
 }

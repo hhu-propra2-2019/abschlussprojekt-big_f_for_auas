@@ -11,9 +11,7 @@ import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
-import mops.domain.models.group.GroupId;
-import mops.domain.models.group.GroupMetaInf;
-import mops.domain.models.group.GroupVisibility;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
@@ -29,11 +27,12 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static mops.database.DatabaseTestUtil.createGroup;
+import static mops.database.DatabaseTestUtil.createRandomUser;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ActiveProfiles("test")
@@ -43,7 +42,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AtLeastOneConstructor", "PMD.ExcessiveImports",
         "PMD.DataflowAnomalyAnalysis"})
 public class LoadingDatePollWithBallots {
-    private final transient Random random = new Random();
     @Autowired
     private transient DatePollRepositoryImpl datePollRepository;
     @Autowired
@@ -81,19 +79,16 @@ public class LoadingDatePollWithBallots {
         final DatePoll datePoll;
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf(title, "Testing", "Uni", timespan);
-        final UserId creator = new UserId(Integer.toString(random.nextInt()));
+        final User creator = createRandomUser();
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
 
-        final Set<UserId> participants = new HashSet<>();
-        IntStream.range(0, users).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        final Group group = createGroup(users);
 
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
                 new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-        final Group group = new Group(
-                new GroupMetaInf(new GroupId("1"), "Testgruppe", GroupVisibility.PRIVATE), participants);
 
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)

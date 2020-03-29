@@ -11,6 +11,7 @@ import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.group.GroupMetaInf;
 import mops.domain.models.group.GroupVisibility;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.repositories.DatePollEntryRepositoryManager;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
@@ -94,12 +95,12 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
             LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf(title, "Testing", "Uni",
             timespan);
-        final UserId creator = new UserId(Integer.toString(random.nextInt()));
+        final User creator = new User(new UserId(Integer.toString(random.nextInt())));
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
 
-        final Set<UserId> participants = new HashSet<>();
-        IntStream.range(0, users).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        final Set<User> participants = new HashSet<>();
+        IntStream.range(0, users).forEach(i -> participants.add(new User(new UserId(Integer.toString(i)))));
 
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(
@@ -127,12 +128,12 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
             LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf(title, "Testing", "Uni",
             timespan);
-        final UserId creator = new UserId("studentin");
+        final User creator = new User(new UserId("orga"));
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
 
-        final Set<UserId> participants = new HashSet<>();
-        IntStream.range(0, users).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        final Set<User> participants = new HashSet<>();
+        IntStream.range(0, users).forEach(i -> participants.add(new User(new UserId(Integer.toString(i)))));
         participants.add(creator);
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, pollentries).forEach(i -> pollEntries.add(new DatePollEntry(

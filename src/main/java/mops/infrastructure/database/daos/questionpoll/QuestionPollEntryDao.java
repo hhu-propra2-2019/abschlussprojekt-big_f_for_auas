@@ -30,6 +30,7 @@ public class QuestionPollEntryDao {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private QuestionPollDao questionPoll;
     private String entryName;
+    // TODO: SQL: CascadeType.ALL
     @ManyToMany(
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY

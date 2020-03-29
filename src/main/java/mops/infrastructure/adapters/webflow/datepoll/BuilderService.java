@@ -4,6 +4,7 @@ import mops.application.services.PublicationService;
 import mops.domain.models.datepoll.DatePollBuilder;
 import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollMetaInf;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.adapters.webflow.ErrorMessageHelper;
 import mops.infrastructure.adapters.webflow.PublicationAdapter;
@@ -57,7 +58,7 @@ public final class BuilderService {
     @SuppressWarnings("PMD.LawOfDemeter")
     public boolean publishDatePoll(DatePollDto datePollDto,
                                    MessageContext context,
-                                   String userId) {
+                                   User user) {
         final DatePollMetaInf metaInf = metaInfAdapter.build(datePollDto.getMetaInfDto());
         final Entries entries = entriesAdapter.build(datePollDto.getEntriesDto());
         final PublicationInformation publicationInformation =
@@ -68,7 +69,7 @@ public final class BuilderService {
 
         final DatePollBuilder builder = new DatePollBuilder();
 
-        builder.creator(new UserId(userId))
+        builder.creator(user)
                 .datePollMetaInf(metaInf)
                 .datePollConfig(config)
                 .datePollEntries(entries.getEntries())

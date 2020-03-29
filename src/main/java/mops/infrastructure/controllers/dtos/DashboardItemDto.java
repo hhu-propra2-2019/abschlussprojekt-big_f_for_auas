@@ -3,6 +3,7 @@ package mops.infrastructure.controllers.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import mops.domain.models.questionpoll.QuestionPoll;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 
 import java.time.LocalDateTime;
@@ -25,11 +26,11 @@ public class DashboardItemDto implements Comparable<DashboardItemDto> {
     public static final String QUESTIONPOLL_TYPE = "qp";
     public static final String DATEPOLL_TYPE = "dp";
 
-    public DashboardItemDto(QuestionPoll questionPoll, UserId userId) {
+    public DashboardItemDto(QuestionPoll questionPoll, User user) {
         datePollIdentifier = questionPoll.getPollLink().getPollIdentifier();
         title = questionPoll.getMetaInf().getTitle();
         endDate = questionPoll.getMetaInf().getTimespan().getEndDate();
-        status = questionPoll.getUserStatus(userId).getIconName();
+        status = questionPoll.getUserStatus(user).getIconName();
         date = questionPoll.getMetaInf().getTimespan().getEndDate()
             .format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         time = questionPoll.getMetaInf().getTimespan().getEndDate()

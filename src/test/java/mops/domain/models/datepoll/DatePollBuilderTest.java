@@ -4,6 +4,7 @@ import mops.domain.models.FieldErrorNames;
 import mops.domain.models.PollLink;
 import mops.domain.models.Validation;
 import mops.domain.models.group.GroupId;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ class DatePollBuilderTest {
 
 
     private DatePollMetaInf metaInfTarget;
-    private UserId pollCreatorTarget;
+    private User pollCreatorTarget;
     private DatePollConfig configTarget;
     private DatePollEntry mockEntry;
     private GroupId mockGroupId;
@@ -36,7 +37,7 @@ class DatePollBuilderTest {
     @BeforeEach
     void init() {
         metaInfTarget = mock(DatePollMetaInf.class);
-        pollCreatorTarget = mock(UserId.class);
+        pollCreatorTarget = mock(User.class);
         configTarget = mock(DatePollConfig.class);
         linkTarget = mock(PollLink.class);
         mockEntry = mock(DatePollEntry.class);
