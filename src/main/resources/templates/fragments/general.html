@@ -5,21 +5,23 @@
     <meta charset="utf-8">
     <title>Terminfindung und Abstimmung</title>
     <th:block th:fragment="headcontent">
+        <link rel="stylesheet" th:href="@{/css/font-awesome-4.7.0/css/font-awesome.min.css}">
     </th:block>
 </head>
 <body>
     <ul th:fragment="navigationList">
         <!--/*@thymesVar id="dashboardActive" type=""*/-->
-        <li th:class="${dashboardActive}? active"><a th:href="@{/}">Dashboard</a></li>
+        <li th:class="${dashboardActive}? active">
+            <a th:href="@{/}"><i class="fa fa-home fa-2x mr-3"></i>Dashboard</a>
+        </li>
         <!--/*@thymesVar id="newTerminActive" type=""*/-->
         <li th:class="${newTerminActive}? active">
-            <a th:href="@{/scheduling}">Terminfindung erstellen</a>
+            <a th:href="@{/scheduling}"><i class="fa fa-calendar-o fa-2x mr-3"></i>Terminfindung erstellen</a>
         </li>
         <!--/*@thymesVar id="newAbstimmungActive" type=""*/-->
         <li th:class="${newAbstimmungActive}? active"Z>
-            <a th:href="@{/poll}">Abstimmung erstellen</a>
+            <a th:href="@{/poll}"><i class="fa fa-bar-chart fa-2x mr-3"></i>Abstimmung erstellen</a>
         </li>
-        <li><a href="">Beitreten</a></li>
     </ul>
 
     <div class="form-group" th:fragment="terminOption">

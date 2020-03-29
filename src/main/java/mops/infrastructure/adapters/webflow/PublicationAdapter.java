@@ -44,7 +44,7 @@ public final class PublicationAdapter implements WebFlowAdapter<PublicationDto, 
     public PublicationDto initializeDto() {
         final PublicationDto publicationDto = new PublicationDto();
         publicationDto.setLink(new PollLink().getPollIdentifier());
-        publicationDto.setIspublic(true);
+        publicationDto.setIspublic(false);
         publicationDto.setGroups("");
         publicationDto.setSuggestions(new HashSet<>());
         return publicationDto;

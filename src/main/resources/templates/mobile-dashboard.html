@@ -22,7 +22,15 @@
         </header>
         <main th:fragment="bodycontent">
 
-            <div class="container-fluid row justify-content-center">
+            <div th:if="${ownPolls.size() == 0 and otherPolls.size() == 0}" class="jumbotron">
+                <h1 class="display-4">Hallo</h1>
+                <p class="lead">Hier gibt es nichts zu sehen.</p>
+                <hr class="my-4">
+                <p>Erstelle eine Umfrage, um mit anderen Termine abzustimmen.</p>
+                <a class="btn btn-success btn-lg mt-3" th:href="@{/scheduling}" role="button">Termine abstimmen</a>
+            </div>
+
+            <div class="container-fluid row justify-content-center" th:unless="${ownPolls.size() == 0 and otherPolls.size() == 0}">
                 <div class="col-9 col-md-6 col-lg-4 col-xl-3 d-flex flex-row justify-content-between">
                     <span>
                         <i class="fa fa-hourglass"></i>

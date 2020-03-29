@@ -95,10 +95,17 @@
                                                                            requestParameters.deleteEndTime)"/>
         </transition>
         <transition on="settings" to="settings"/>
-        <transition on="publication" to="publication">
+        <transition on="publication" to="groupSyncEnabled">
             <evaluate expression="entriesAdapter.validateDto(entriesDto, messageContext)"/>
         </transition>
     </view-state>
+
+
+    <action-state id="groupSyncEnabled">
+        <evaluate expression="environment.getProperty('mops.gruppen2.sync.enabled', false)" />
+        <transition on="true" to="publication" />
+        <transition on="false" to="confirmation" />
+    </action-state>
 
 
     <view-state id="publication" view="scheduling/publication" model="publicationDto">

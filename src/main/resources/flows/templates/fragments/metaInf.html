@@ -11,6 +11,12 @@
     <form method="post" novalidate th:fragment="form-step1"
           th:object="${metaInfDto}" th:action="${flowExecutionUrl}" >
 
+        <div th:if="${abstimmung}">
+            <div class="alert alert-warning" role="alert">
+                Die Abstimmungsfunktionalität ist noch nicht implementiert. Dieses Wizard wird nach Eingabe der Abstimmungsoptionen abstürzen.
+            </div>
+        </div>
+
         <div th:replace="fragments/general.html :: defaultErrorAlerts"></div>
 
         <div th:if="${terminfindung}" class="form-row py-3">

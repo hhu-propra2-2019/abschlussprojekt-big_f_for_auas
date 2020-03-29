@@ -136,7 +136,7 @@ public final class UploadService {
         return Optional.empty();
     }
 
-    @SuppressWarnings({"PMD.EmptyCatchBlock", "PMD.LawOfDemeter"})
+    @SuppressWarnings({"PMD.EmptyCatchBlock", "PMD.LawOfDemeter", "PMD.ConfusingTernary"})
     private Optional<PublicationDto> parsePublicationInformation(JsonNode jsonPoll, MessageContext context) {
         try {
             final PublicationDto publicationDto = publicationAdapter.initializeDto();
@@ -144,6 +144,9 @@ public final class UploadService {
                     && !jsonPoll.get("ispublic").asBoolean() && jsonPoll.get("groups") != null) {
                 final String[] groups = mapper.readValue(jsonPoll.get("groups").toString(), String[].class);
                 publicationDto.setGroups(String.join(",", groups));
+                publicationDto.setIspublic(false);
+            } else {
+                publicationDto.setIspublic(true);
             }
             if (publicationAdapter.validateDto(publicationDto, context)) {
                 return Optional.of(publicationDto);
