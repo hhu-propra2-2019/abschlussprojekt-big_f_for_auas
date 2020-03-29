@@ -55,3 +55,4 @@ Dokumentationen sind grundsätzlich im documentations Ordner im Root Verzeichnis
 Weitere Information lassen sich aus den javadocs entnehmen, sofern vorhanden.
 
 
+Das docker-compose file wird mit *docker-compose up --build* gestartet.

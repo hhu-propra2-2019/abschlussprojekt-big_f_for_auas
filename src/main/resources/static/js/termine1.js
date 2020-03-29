@@ -1,5 +1,10 @@
 $(document).ready(function() {
     $('#collapsePriorities').collapse('show');
+    if($('#publication-accessibility').hasClass("checked")){
+        setOpen(true);
+    } else {
+        setOpen(false);
+    }
     });
 
 
@@ -14,6 +19,19 @@ function showPriorities(){
     else{
         $('#collapsePriorities').collapse('hide');
     }
+}
+
+function showGroups() {
+    if($('#publication-accessibility').is(":checked")) {
+        $('#groupSection').collapse('hide');
+    }
+    else {
+        $('#groupSection').collapse('show');
+    }
+}
+
+function setOpen(state) {
+    $('#publication-accessibility').prop("checked", state);
 }
 
 function collapseSection(id, icon){
