@@ -29,7 +29,7 @@ public final class ConfigAdapter implements WebFlowAdapter<ConfigDto, DatePollCo
         configDto.setSingleChoice(false);
         configDto.setPriorityChoice(false);
         configDto.setAnonymous(false);
-        configDto.setOpen(true);
+        configDto.setOpen(false);
         return configDto;
     }
 

@@ -23,13 +23,13 @@
         <div class="form-group">
             <label>Berechtigungen</label>
             <div class="form-check">
-                <input class="form-check-input" id="publication-accessibility" th:field="*{ispublic}" type="checkbox" th:classappend="${#fields.hasErrors('ispublic') ? 'checked' : ''}">
+                <input class="form-check-input" id="publication-accessibility" onchange="showGroups()" th:field="*{ispublic}" type="checkbox" th:classappend="${#fields.hasErrors('ispublic') ? 'checked' : ''}">
                 <label for="publication-accessibility">Öffentliche Umfrage</label>
                 <small class="form-text text-muted mt-0">Alle angemeldeten Nutzer*innen von MOPS können teilnehmen, wenn sie den Link kennen.</small>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group collapse show" id="groupSection">
             <label for="publication-gruppe">Gruppe hinzufügen</label>
             <input class="form-control tagsinput" id="publication-gruppe" th:field="*{groups}" placeholder="Gruppenname"
                    th:classappend="${T(mops.utils.BootstrapValidInvalidUtil).getClass(#fields.hasErrors('groups'), #fields.hasAnyErrors())}">
