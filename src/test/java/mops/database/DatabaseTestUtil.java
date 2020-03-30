@@ -19,6 +19,7 @@ public final class DatabaseTestUtil {
     private DatabaseTestUtil() {
     }
 
+    @SuppressWarnings("PMD.LawOfDemeter")
     public static Group createGroup(int users) {
         final Set<User> participants =
                 IntStream.range(0, users)

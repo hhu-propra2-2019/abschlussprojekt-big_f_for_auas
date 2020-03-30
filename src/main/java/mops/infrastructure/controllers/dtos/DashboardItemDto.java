@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.user.User;
-import mops.domain.models.user.UserId;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

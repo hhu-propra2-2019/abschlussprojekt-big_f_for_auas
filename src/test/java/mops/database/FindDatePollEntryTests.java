@@ -1,6 +1,5 @@
 package mops.database;
 
-import java.util.stream.IntStream;
 import mops.MopsApplication;
 import mops.config.H2DatabaseConfigForTests;
 import mops.domain.models.PollLink;
@@ -11,11 +10,7 @@ import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
-import mops.domain.models.group.GroupId;
-import mops.domain.models.group.GroupMetaInf;
-import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.User;
-import mops.domain.models.user.UserId;
 import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
@@ -26,10 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 import static mops.database.DatabaseTestUtil.createGroup;
 import static mops.database.DatabaseTestUtil.createRandomUser;

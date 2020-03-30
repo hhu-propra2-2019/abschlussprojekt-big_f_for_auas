@@ -50,6 +50,7 @@ public class DatePollVoteController {
      * @return mobilePollVote
      */
     @GetMapping("/vote/{pollType}/{link}")
+    @SuppressWarnings("PMD.LawOfDemeter")
     public String showPoll(Model model, @RequestAttribute(name = "userId") UserId userId,
                            @PathVariable String pollType, @PathVariable String link) {
         // TODO: Check, of User vorhanden

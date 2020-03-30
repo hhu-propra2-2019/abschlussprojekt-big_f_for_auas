@@ -54,6 +54,7 @@ public class GroupRepositoryImpl implements GroupRepository {
      * @param group Die zu speichernde Gruppe.
      */
     @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
     public void save(Group group) {
         // TODO: sollte überflüssig sein, wenn
         group.getUser().forEach(userRepository::saveUserIfNotPresent);

@@ -5,7 +5,6 @@ import mops.domain.models.PollLink;
 import mops.domain.models.Validation;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.user.User;
-import mops.domain.models.user.UserId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -10,9 +10,6 @@ import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
-import mops.domain.models.group.GroupId;
-import mops.domain.models.group.GroupMetaInf;
-import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
@@ -27,7 +24,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import java.util.stream.IntStream;
 
@@ -43,7 +39,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DatePollsFromUser {
     @Autowired
     private transient DatePollRepositoryImpl datePollRepo;
-    private final transient Random random = new Random();
     @Autowired
     private transient GroupRepositoryImpl groupRepository;
     @SuppressWarnings("checkstyle:MagicNumber")

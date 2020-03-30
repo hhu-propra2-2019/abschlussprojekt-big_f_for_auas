@@ -82,6 +82,7 @@ public class UserVotesForDatePollTest {
         )));
         group = new Group(
                 new GroupMetaInf(new GroupId("1"), "Testgruppe", GroupVisibility.PRIVATE), participants);
+        groupRepository.save(group);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
@@ -92,7 +93,6 @@ public class UserVotesForDatePollTest {
                 .build();
         datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll,
                 DaoOfModelUtil.extractGroups(Set.of(group))));
-        groupRepository.save(group);
     }
     @Test
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -139,7 +139,9 @@ public class UserVotesForDatePollTest {
     public void testVotesForDatePollEntryAreZero() {
         final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
         final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll, Set.of(exampleGroup));
+
         datePollRepository.save(datePoll);
+
         final DatePollEntryDao datePollEntry = datePollDao.getEntryDaos().iterator().next();
         assertThat(datePollEntry.getUserVotesFor().size()).isEqualTo(0);
     }

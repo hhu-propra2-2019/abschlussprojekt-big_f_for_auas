@@ -1,21 +1,16 @@
 package mops.database;
 
-import java.util.stream.IntStream;
 import mops.MopsApplication;
 import mops.config.H2DatabaseConfigForTests;
 import mops.domain.models.PollLink;
 import mops.domain.models.Timespan;
 import mops.domain.models.group.Group;
-import mops.domain.models.group.GroupId;
-import mops.domain.models.group.GroupMetaInf;
-import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.questionpoll.QuestionPollBuilder;
 import mops.domain.models.questionpoll.QuestionPollConfig;
 import mops.domain.models.questionpoll.QuestionPollEntry;
 import mops.domain.models.questionpoll.QuestionPollMetaInf;
 import mops.domain.models.user.User;
-import mops.domain.models.user.UserId;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
@@ -37,6 +32,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 import static mops.database.DatabaseTestUtil.createGroup;
 import static mops.database.DatabaseTestUtil.createRandomUser;
@@ -69,7 +65,8 @@ public class DatabaseQuestionPollIntegrityTest {
         final PollLink questionPollLink = new PollLink();
         final Set<QuestionPollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, 3).forEach(i -> pollEntries.add(new QuestionPollEntry("title" + i)));
-        group = createGroup(5);
+        group = createGroup(3);
+        domainGroupRepository.save(group);
         questionPoll = new QuestionPollBuilder()
                 .questionPollMetaInf(questionPollMetaInf)
                 .creator(creator)
@@ -78,7 +75,6 @@ public class DatabaseQuestionPollIntegrityTest {
                 .participatingGroups(Set.of(group.getMetaInf().getId()))
                 .pollLink(questionPollLink)
                 .build();
-        domainGroupRepository.save(group);
     }
 
     @Test

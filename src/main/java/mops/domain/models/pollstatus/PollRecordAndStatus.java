@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import mops.domain.models.user.User;
-import mops.domain.models.user.UserId;
 
 import java.time.LocalDateTime;
 import java.util.Map;

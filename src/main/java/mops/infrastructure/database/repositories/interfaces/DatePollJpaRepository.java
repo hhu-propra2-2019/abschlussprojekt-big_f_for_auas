@@ -19,6 +19,10 @@ public interface DatePollJpaRepository extends JpaRepository<DatePollDao, String
             nativeQuery = true
     )
     Set<DatePollDao> findAllDatePollsOfTargetUser(String userId);
+
+
+    Set<DatePollDao> findDistinctByGroupDaosIn(Set<GroupDao> groupDaos);
+
     @Query(
             value = "select a.* from datepoll as a where a.end_date <= ?1",
             nativeQuery = true

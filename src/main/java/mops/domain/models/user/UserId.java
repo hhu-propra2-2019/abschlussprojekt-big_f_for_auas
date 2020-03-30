@@ -3,8 +3,6 @@ package mops.domain.models.user;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import mops.domain.models.ValidateAble;
-import mops.domain.models.Validation;
 
 import java.io.Serializable;
 

@@ -18,7 +18,6 @@ import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
 import mops.infrastructure.database.repositories.GroupRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +34,7 @@ import java.util.stream.IntStream;
  * zum Speichern in die Datenbank erzeugt werden.
  */
 @SuppressWarnings({"PMD.LawOfDemeter", "checkstyle:MagicNumber"})
-@Profile("production")
+//@Profile("production")
 @Transactional
 @Component
 public class DummyDataCommandLineRunner implements CommandLineRunner {
@@ -108,6 +107,7 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
         )));
         final GroupMetaInf groupMetaInf = new GroupMetaInf(new GroupId(groupId), "user group", GroupVisibility.PRIVATE);
         final Group group = new Group(groupMetaInf, participants);
+        domainGroupRepository.save(group);
 
         datePoll = new DatePollBuilder()
             .datePollMetaInf(datePollMetaInf)
@@ -117,7 +117,6 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
             .participatingGroups(Set.of(group.getMetaInf().getId()))
             .datePollLink(datePollLink)
             .build();
-        domainGroupRepository.save(group);
         return datePoll;
     }
 
@@ -141,6 +140,7 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
         )));
         final GroupMetaInf groupMetaInf = new GroupMetaInf(new GroupId(groupId), "orga group", GroupVisibility.PRIVATE);
         final Group group = new Group(groupMetaInf, participants);
+        domainGroupRepository.save(group);
 
         datePoll = new DatePollBuilder()
             .datePollMetaInf(datePollMetaInf)
@@ -150,7 +150,6 @@ public class DummyDataCommandLineRunner implements CommandLineRunner {
             .participatingGroups(Set.of(group.getMetaInf().getId()))
             .datePollLink(datePollLink)
             .build();
-        domainGroupRepository.save(group);
         return datePoll;
     }
 }

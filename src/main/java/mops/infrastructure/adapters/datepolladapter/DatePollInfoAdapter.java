@@ -57,7 +57,7 @@ public class DatePollInfoAdapter {
         return results;
     }
 
-    @SuppressWarnings("PMD.LawOfDemeter") // stream
+    @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"}) // stream
     public List<DashboardItemDto> getOwnPollsForDashboard(UserId userId) {
         // TODO: checken, ob User vorhanden
         final User user = userRepository.load(userId).get();
@@ -69,6 +69,7 @@ public class DatePollInfoAdapter {
         return items;
     }
 
+    @SuppressWarnings("PMD.DataflowAnomalyAnalysis") // stream
     public List<DashboardItemDto> getPollsByOthersForDashboard(UserId userId) {
         // TODO: checken, ob User vorhanden
         final User user = userRepository.load(userId).get();
