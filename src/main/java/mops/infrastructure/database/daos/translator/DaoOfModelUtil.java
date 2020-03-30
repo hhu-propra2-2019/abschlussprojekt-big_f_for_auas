@@ -12,7 +12,7 @@ import mops.domain.models.questionpoll.QuestionPoll;
 import mops.domain.models.questionpoll.QuestionPollConfig;
 import mops.domain.models.questionpoll.QuestionPollEntry;
 import mops.domain.models.questionpoll.QuestionPollMetaInf;
-import mops.domain.models.user.UserId;
+import mops.domain.models.user.User;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.PollRecordAndStatusDao;
 import mops.infrastructure.database.daos.PollStatusEnum;
@@ -91,7 +91,11 @@ public final class DaoOfModelUtil {
         groupDao.setId(group.getMetaInf().getId().getId());
         groupDao.setTitle(group.getMetaInf().getTitle());
         groupDao.setVisibility(group.getMetaInf().getVisibility());
-        groupDao.setUserDaos(extractUser(group.getUser()));
+        groupDao.setUserDaos(
+                group.getUser()
+                        .stream()
+                        .map(DaoOfModelUtil::userDaoOf)
+                        .collect(Collectors.toSet()));
         return groupDao;
     }
 
@@ -116,10 +120,10 @@ public final class DaoOfModelUtil {
         return entry;
     }
 
-    public static UserDao userDaoOf(UserId userId) {
-        final UserDao user = new UserDao();
-        user.setId(userId.getId());
-        return user;
+    public static UserDao userDaoOf(User user) {
+        final UserDao userDao = new UserDao();
+        userDao.setId(user.getId().getId());
+        return userDao;
     }
 
     public static DatePollConfigDao configDaoOf(DatePollConfig datePollConfig) {
@@ -184,15 +188,6 @@ public final class DaoOfModelUtil {
             questionPollEntryDaos.add(currentEntry);
         }
         return questionPollEntryDaos;
-    }
-
-    private static Set<UserDao> extractUser(Set<UserId> userIds) {
-        final Set<UserDao> userDaoSet = new HashSet<>();
-        for (final UserId currentUserId : userIds) {
-            final UserDao currentUser = DaoOfModelUtil.userDaoOf(currentUserId);
-            userDaoSet.add(currentUser);
-        }
-        return userDaoSet;
     }
 
     public static String linkDaoOf(PollLink link) {

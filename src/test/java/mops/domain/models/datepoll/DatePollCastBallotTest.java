@@ -11,6 +11,7 @@ import mops.domain.models.Timespan;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.group.GroupMetaInf;
 import mops.domain.models.group.GroupVisibility;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import org.junit.jupiter.api.Test;
 
@@ -94,7 +95,7 @@ public class DatePollCastBallotTest {
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(
             TIMES_I_FIXED_CAST_BALLOT));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("Titel", "Testing", "Uni", timespan);
-        final UserId creator = new UserId("1");
+        final User creator = new User(new UserId("1"));
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
 
@@ -119,7 +120,7 @@ public class DatePollCastBallotTest {
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(
             TIMES_I_FIXED_CAST_BALLOT));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("Titel", "Testing", "Uni", timespan);
-        final UserId creator = new UserId("1");
+        final User creator = new User(new UserId("1"));
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
 

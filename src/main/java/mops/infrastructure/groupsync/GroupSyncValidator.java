@@ -5,6 +5,7 @@ import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.group.GroupMetaInf;
 import mops.domain.models.group.GroupVisibility;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.infrastructure.groupsync.dto.GroupDto;
 import mops.infrastructure.groupsync.dto.GroupSyncInputDto;
@@ -62,10 +63,10 @@ public final class GroupSyncValidator {
     }
 
     @SuppressWarnings("PMD.LawOfDemeter")
-    private Stream<UserId> validateUserDto(UserDto dto) {
+    private Stream<User> validateUserDto(UserDto dto) {
         if (dto.getId() == null || dto.getId().isBlank()) {
             return Stream.empty();
         }
-        return Stream.of(new UserId(dto.getId()));
+        return Stream.of(new User(new UserId(dto.getId())));
     }
 }

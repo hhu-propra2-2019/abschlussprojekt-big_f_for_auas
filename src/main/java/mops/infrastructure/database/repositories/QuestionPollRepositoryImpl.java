@@ -7,6 +7,7 @@ import mops.domain.models.questionpoll.QuestionPollBallot;
 import mops.domain.models.questionpoll.QuestionPollEntry;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.QuestionPollRepository;
+import mops.domain.repositories.UserRepository;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
@@ -28,14 +29,17 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
     private final transient QuestionPollJpaRepository questionPollJpaRepository;
     private final transient GroupJpaRepository groupJpaRepository;
     private final transient QuestionPollEntryRepositoryManager questionPollEntryRepositoryManager;
+    private final transient UserRepository userRepository;
 
     @Autowired
     public QuestionPollRepositoryImpl(QuestionPollJpaRepository questionPollJpaRepository,
                                       GroupJpaRepository groupJpaRepository,
-                                      QuestionPollEntryRepositoryManager questionPollEntryRepositoryManager) {
+                                      QuestionPollEntryRepositoryManager questionPollEntryRepositoryManager,
+                                      UserRepository userRepository) {
         this.questionPollJpaRepository = questionPollJpaRepository;
         this.groupJpaRepository = groupJpaRepository;
         this.questionPollEntryRepositoryManager = questionPollEntryRepositoryManager;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -90,7 +94,8 @@ public class QuestionPollRepositoryImpl implements QuestionPollRepository {
     @SuppressWarnings("PMD.LawOfDemeter")
     @Override
     public Set<QuestionPoll> getQuestionPollsByUserId(UserId userId) {
-        final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
+        // TODO: Checken, ob geladener User existiert
+        final UserDao targetUser = DaoOfModelUtil.userDaoOf(userRepository.load(userId).get());
         final Set<GroupDao> groupDaos = groupJpaRepository.findAllByUserDaosContaining(targetUser);
         final Set<QuestionPollDao> questionPollDaosFromUser = new HashSet<>();
         groupDaos.stream()

@@ -9,6 +9,7 @@ import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.pollstatus.PollRecordAndStatus;
 import mops.domain.models.pollstatus.PollStatus;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class QuestionPoll {
 
     private final PollRecordAndStatus recordAndStatus;
     private final QuestionPollMetaInf metaInf;
-    private final UserId creator;
+    private final User creator;
     private final QuestionPollConfig config;
     private final Set<QuestionPollEntry> entries;
     private Set<GroupId> groups;
@@ -33,7 +34,7 @@ public class QuestionPoll {
      * @param user User dessen Status zurückgegeben werden soll.
      * @return Status des Users.
      */
-    public PollStatus getUserStatus(UserId user) {
+    public PollStatus getUserStatus(User user) {
         return recordAndStatus.getUserStatus(user);
     }
 

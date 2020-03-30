@@ -6,6 +6,7 @@ import mops.domain.models.group.GroupMetaInf;
 import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.GroupRepository;
+import mops.domain.repositories.UserRepository;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.translator.DaoOfModelUtil;
@@ -21,10 +22,12 @@ import java.util.Set;
 public class GroupRepositoryImpl implements GroupRepository {
 
     private final transient GroupJpaRepository groupJpaRepository;
+    private final transient UserRepository userRepository;
 
     @Autowired
-    public GroupRepositoryImpl(GroupJpaRepository groupJpaRepository) {
+    public GroupRepositoryImpl(GroupJpaRepository groupJpaRepository, UserRepository userRepository) {
         this.groupJpaRepository = groupJpaRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -51,7 +54,10 @@ public class GroupRepositoryImpl implements GroupRepository {
      * @param group Die zu speichernde Gruppe.
      */
     @Override
+    @SuppressWarnings("PMD.LawOfDemeter")
     public void save(Group group) {
+        // TODO: sollte überflüssig sein, wenn
+        group.getUser().forEach(userRepository::saveUserIfNotPresent);
         final GroupDao dao = DaoOfModelUtil.groupDaoOf(group);
         groupJpaRepository.save(dao);
     }

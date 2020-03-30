@@ -141,8 +141,8 @@ public class TranslatorTests {
     @Test
     public void userToDAOTest() {
         final String id = "1";
-        final UserId userId = new UserId(id);
-        final UserDao dao = DaoOfModelUtil.userDaoOf(userId);
+        final User user = new User(new UserId(id));
+        final UserDao dao = DaoOfModelUtil.userDaoOf(user);
         assertThat(dao.getId()).isEqualTo(id);
     }
 

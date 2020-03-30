@@ -3,7 +3,7 @@ package mops.domain.models.pollstatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import mops.domain.models.user.UserId;
+import mops.domain.models.user.User;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class PollRecordAndStatus {
     @Setter
     private LocalDateTime lastModified = LocalDateTime.now();
     @Getter
-    private transient Map<UserId, PollStatus> votingRecord = new ConcurrentHashMap<>();
+    private transient Map<User, PollStatus> votingRecord = new ConcurrentHashMap<>();
     @Getter
     private transient boolean isTerminated;
 
@@ -40,7 +40,7 @@ public class PollRecordAndStatus {
      *
      * @param user der User, der abgestimmt hat
      */
-    protected void recordUserVote(UserId user) {
+    protected void recordUserVote(User user) {
         votingRecord.put(user, PollStatus.ONGOING);
     }
 
@@ -52,7 +52,7 @@ public class PollRecordAndStatus {
      * @return der Status (siehe oben)
      */
     @SuppressWarnings("PMD.DataflowAnomalyAnalysis")
-    public PollStatus getUserStatus(UserId user) {
+    public PollStatus getUserStatus(User user) {
 
         PollStatus status = PollStatus.TERMINATED;
 

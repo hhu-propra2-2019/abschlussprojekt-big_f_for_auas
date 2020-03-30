@@ -50,9 +50,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void saveUserIfNotPresent(UserId userId) {
-        if (!this.existsById(userId)) {
-            userJpaRepository.save(DaoOfModelUtil.userDaoOf(userId));
+    public void saveUserIfNotPresent(User user) {
+        if (!this.existsById(user.getId())) {
+            userJpaRepository.save(DaoOfModelUtil.userDaoOf(user));
         }
     }
 

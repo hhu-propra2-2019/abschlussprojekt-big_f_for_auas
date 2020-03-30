@@ -1,6 +1,5 @@
 package mops.database;
 
-import java.util.stream.IntStream;
 import mops.MopsApplication;
 import mops.config.H2DatabaseConfigForTests;
 import mops.domain.models.PollLink;
@@ -11,10 +10,7 @@ import mops.domain.models.datepoll.DatePollConfig;
 import mops.domain.models.datepoll.DatePollEntry;
 import mops.domain.models.datepoll.DatePollMetaInf;
 import mops.domain.models.group.Group;
-import mops.domain.models.group.GroupId;
-import mops.domain.models.group.GroupMetaInf;
-import mops.domain.models.group.GroupVisibility;
-import mops.domain.models.user.UserId;
+import mops.domain.models.user.User;
 import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.database.daos.datepoll.DatePollEntryDao;
 import mops.infrastructure.database.repositories.DatePollRepositoryImpl;
@@ -25,11 +21,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.IntStream;
 
+import static mops.database.DatabaseTestUtil.createGroup;
+import static mops.database.DatabaseTestUtil.createRandomUser;
 import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,7 +47,7 @@ public class FindDatePollEntryTests {
     public void setupDatePollRepoTest() {
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
-        final UserId creator = new UserId("1234");
+        final User creator = createRandomUser();
         final DatePollConfig datePollConfig = new DatePollConfig();
         final PollLink datePollLink = new PollLink();
 
@@ -55,10 +55,7 @@ public class FindDatePollEntryTests {
         IntStream.range(0, 1).forEach(i -> pollEntries.add(new DatePollEntry(
                 new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
-        final Set<UserId> participants = new HashSet<>();
-        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
-        final Group group = new Group(
-                new GroupMetaInf(new GroupId("1"), "Testgruppe", GroupVisibility.PRIVATE), participants);
+        final Group group = createGroup(10);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)

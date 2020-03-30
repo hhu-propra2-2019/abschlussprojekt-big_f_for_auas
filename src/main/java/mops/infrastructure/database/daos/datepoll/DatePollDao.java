@@ -42,10 +42,7 @@ public class DatePollDao {
     )
     private Set<DatePollEntryDao> entryDaos = new HashSet<>();
 
-    @ManyToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
+    @ManyToMany
     private Set<GroupDao> groupDaos = new HashSet<>();
     /*@ManyToMany(
             cascade = CascadeType.ALL,

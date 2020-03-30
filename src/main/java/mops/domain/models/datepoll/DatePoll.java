@@ -8,6 +8,7 @@ import lombok.Getter;
 import mops.domain.models.PollLink;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.pollstatus.PollStatus;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public final class DatePoll {
 
     private DatePollRecordAndStatus recordAndStatus;
     private DatePollMetaInf metaInf;
-    private final UserId creator;
+    private final User creator;
     private DatePollConfig config;
     private Set<DatePollEntry> entries;
     private Set<GroupId> groups;
@@ -31,7 +32,7 @@ public final class DatePoll {
         return new DatePollBuilder();
     }
 
-    public PollStatus getUserStatus(UserId user) {
+    public PollStatus getUserStatus(User user) {
         return recordAndStatus.getUserStatus(user);
     }
 

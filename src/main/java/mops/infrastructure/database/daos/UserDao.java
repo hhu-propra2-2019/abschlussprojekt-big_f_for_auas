@@ -44,9 +44,11 @@ public class UserDao {
     private Set<DatePollEntryDao> datePollEntrySetMaybe = new HashSet<>();
     /*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userDaos")
     private Set<QuestionPollDao> questionPollSet = new HashSet<>();*/
+    // TODO: SQL: CascadeType.ALL
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "userVotesFor")
     private Set<QuestionPollEntryDao> questionPollEntrySet = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userDaos")
+    // TODO: SQL: CascadeType.ALL
+    @ManyToMany(mappedBy = "userDaos")
     private Set<GroupDao> groupSet = new HashSet<>();
 }

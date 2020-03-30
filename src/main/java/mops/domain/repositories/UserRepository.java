@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface UserRepository {
     Optional<User> load(UserId userId);
-    void saveUserIfNotPresent(UserId userId);
+    void saveUserIfNotPresent(User user);
 }

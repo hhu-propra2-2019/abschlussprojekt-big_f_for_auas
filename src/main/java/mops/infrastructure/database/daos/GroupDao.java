@@ -6,7 +6,6 @@ import mops.domain.models.group.GroupVisibility;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
 import mops.infrastructure.database.daos.questionpoll.QuestionPollDao;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -26,10 +25,14 @@ public class GroupDao {
     private String title;
     @Enumerated(EnumType.STRING)
     private GroupVisibility visibility;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @ManyToMany
     private Set<UserDao> userDaos = new HashSet<>();
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "groupDaos")
+
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<DatePollDao> datePollDaos = new HashSet<>();
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "groupDaos")
+
+    // TODO: SQL: CascadeType.ALL
+    @ManyToMany(mappedBy = "groupDaos")
     private Set<QuestionPollDao> questionPollDaos = new HashSet<>();
 }

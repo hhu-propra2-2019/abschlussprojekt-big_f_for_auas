@@ -14,6 +14,7 @@ import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
 import mops.domain.models.group.GroupMetaInf;
 import mops.domain.models.group.GroupVisibility;
+import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.GroupRepository;
 import mops.infrastructure.database.daos.GroupDao;
@@ -70,17 +71,18 @@ public class UserVotesForDatePollTest {
     public void setupDatePollRepoTest() {
         final Timespan timespan = new Timespan(LocalDateTime.now(), LocalDateTime.now().plusDays(10));
         final DatePollMetaInf datePollMetaInf = new DatePollMetaInf("TestDatePoll", "Testing", "Uni", timespan);
-        final UserId creator = new UserId("1234");
+        final User creator = new User(new UserId("1234"));
         final DatePollConfig datePollConfig = new DatePollConfig();
         targetPollLink = new PollLink();
-        final Set<UserId> participants = new HashSet<>();
-        IntStream.range(0, 3).forEach(i -> participants.add(new UserId(Integer.toString(i))));
+        final Set<User> participants = new HashSet<>();
+        IntStream.range(0, 3).forEach(i -> participants.add(new User(new UserId(Integer.toString(i)))));
         final Set<DatePollEntry> pollEntries = new HashSet<>();
         IntStream.range(0, 1).forEach(i -> pollEntries.add(new DatePollEntry(
             new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
         group = new Group(
                 new GroupMetaInf(new GroupId("1"), "Testgruppe", GroupVisibility.PRIVATE), participants);
+        groupRepository.save(group);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
@@ -91,7 +93,6 @@ public class UserVotesForDatePollTest {
                 .build();
         datePollJpaRepository.save(DaoOfModelUtil.pollDaoOf(datePoll,
                 DaoOfModelUtil.extractGroups(Set.of(group))));
-        groupRepository.save(group);
     }
     @Test
     @SuppressWarnings("PMD.JUnitTestContainsTooManyAsserts")
@@ -138,7 +139,9 @@ public class UserVotesForDatePollTest {
     public void testVotesForDatePollEntryAreZero() {
         final GroupDao exampleGroup = DaoOfModelUtil.groupDaoOf(group);
         final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll, Set.of(exampleGroup));
+
         datePollRepository.save(datePoll);
+
         final DatePollEntryDao datePollEntry = datePollDao.getEntryDaos().iterator().next();
         assertThat(datePollEntry.getUserVotesFor().size()).isEqualTo(0);
     }

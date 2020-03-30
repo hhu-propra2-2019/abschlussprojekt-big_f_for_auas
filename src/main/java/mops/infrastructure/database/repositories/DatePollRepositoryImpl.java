@@ -4,14 +4,12 @@ import mops.domain.models.PollLink;
 import mops.domain.models.datepoll.DatePoll;
 import mops.domain.models.datepoll.DatePollBallot;
 import mops.domain.models.datepoll.DatePollEntry;
-import mops.domain.models.group.Group;
 import mops.domain.models.group.GroupId;
-import mops.domain.models.group.GroupMetaInf;
-import mops.domain.models.group.GroupVisibility;
 import mops.domain.models.pollstatus.PollStatus;
 import mops.domain.models.user.User;
 import mops.domain.models.user.UserId;
 import mops.domain.repositories.DatePollRepository;
+import mops.domain.repositories.UserRepository;
 import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import mops.infrastructure.database.daos.datepoll.DatePollDao;
@@ -23,8 +21,8 @@ import mops.infrastructure.database.daos.translator.ModelOfDaoUtil;
 import mops.infrastructure.database.repositories.interfaces.DatePollJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.DatePollStatusJpaRepository;
 import mops.infrastructure.database.repositories.interfaces.GroupJpaRepository;
-import mops.infrastructure.database.repositories.interfaces.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -33,7 +31,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 // TODO: Entscheiden, ob die Excessive Imports ein Problem sind
@@ -45,18 +42,18 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     public static final String USER_IS_NOT_IN_THE_DATABASE = "User is not in the database!";
     private final transient DatePollJpaRepository datePollJpaRepository;
     private final transient GroupJpaRepository groupJpaRepository;
-    private final transient UserJpaRepository userJpaRepository;
+    private final transient UserRepository userRepository;
     private final transient DatePollEntryRepositoryManager datePollEntryRepositoryManager;
     private final transient DatePollStatusJpaRepository datePollStatusJpaRepository;
     @Autowired
     public DatePollRepositoryImpl(DatePollJpaRepository datePollJpaRepository,
                                   GroupJpaRepository groupJpaRepository,
-                                  UserJpaRepository userJpaRepository,
+                                  UserRepository userRepository,
                                   DatePollEntryRepositoryManager datePollEntryRepositoryManager,
                                   DatePollStatusJpaRepository datePollStatusJpaRepository) {
         this.datePollJpaRepository = datePollJpaRepository;
         this.groupJpaRepository = groupJpaRepository;
-        this.userJpaRepository = userJpaRepository;
+        this.userRepository = userRepository;
         this.datePollEntryRepositoryManager = datePollEntryRepositoryManager;
         this.datePollStatusJpaRepository = datePollStatusJpaRepository;
     }
@@ -69,7 +66,11 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidDuplicateLiterals"})
     public Set<DatePoll> findDatePollsByUser(UserId userId) {
-        final Set<DatePollDao> targetDatePollDaos = datePollJpaRepository.findAllDatePollsOfTargetUser(userId.getId());
+        final Set<DatePollDao> targetDatePollDaos =
+                datePollJpaRepository
+                        .findDistinctByGroupDaosIn(
+                                groupJpaRepository
+                                        .findAllByUserDaosContaining(DaoOfModelUtil.userDaoOf(new User(userId))));
         return targetDatePollDaos.stream()
                 .map(ModelOfDaoUtil::pollOf)
                 .collect(Collectors.toSet());
@@ -130,15 +131,20 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.AvoidDuplicateLiterals"})
     public void save(DatePoll datePoll) {
 
+        userRepository.saveUserIfNotPresent(datePoll.getCreator());
+
         final Set<GroupDao> groupDaos = datePoll.getGroups().stream()
                 .map(GroupId::getId)
                 .map(groupJpaRepository::findById)
                 .map(Optional::orElseThrow)
                 .collect(Collectors.toSet());
-        final GroupMetaInf groupMetaInf = new GroupMetaInf(
+
+        // WHAT?!
+        /*final GroupMetaInf groupMetaInf = new GroupMetaInf(
                 new GroupId(UUID.randomUUID().toString()), "erstellerGruppe", GroupVisibility.PRIVATE);
         final Group group = new Group(groupMetaInf, Set.of(datePoll.getCreator()));
-        groupDaos.add(DaoOfModelUtil.groupDaoOf(group));
+        groupDaos.add(DaoOfModelUtil.groupDaoOf(group));*/
+
         final DatePollDao datePollDao = DaoOfModelUtil.pollDaoOf(datePoll, groupDaos);
         datePollJpaRepository.save(datePollDao);
         //Save Votes for DatePoll without Priority
@@ -149,14 +155,14 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     }
     @SuppressWarnings({"PMD.LawOfDemeter", "PMD.DataflowAnomalyAnalysis"})
     private void saveDatePollStatus(DatePoll datePoll, DatePollDao datePollDao) {
-        final Map<UserId, PollStatus> votingRecord = datePoll.getRecordAndStatus().getVotingRecord();
-        votingRecord.forEach((userId, pollStatus) -> {
+        final Map<User, PollStatus> votingRecord = datePoll.getRecordAndStatus().getVotingRecord();
+        votingRecord.forEach((user, pollStatus) -> {
             final DatePollStatusDaoKey nextStatusKey = new DatePollStatusDaoKey(
-                    userId.getId(),
+                    user.getId().getId(),
                     datePoll.getPollLink().getLinkUUIDAsString());
             final DatePollStatusDao datePollStatusDao = new DatePollStatusDao(
                     nextStatusKey,
-                    DaoOfModelUtil.userDaoOf(userId),
+                    DaoOfModelUtil.userDaoOf(user),
                     datePollDao,
                     DaoOfModelUtil.createPollStatusEnumDao(pollStatus)
             );
@@ -204,9 +210,10 @@ public class DatePollRepositoryImpl implements DatePollRepository {
     @SuppressWarnings("PMD.LawOfDemeter")
     @Override
     public Set<DatePoll> getDatePollByGroupMembership(UserId userId) {
-        final Optional<UserDao> targetUser = userJpaRepository.findById(userId.toString());
-        final UserDao targetUserDao = targetUser.orElseThrow(
-                () -> new IllegalArgumentException(USER_IS_NOT_IN_THE_DATABASE));
+        final UserDao targetUserDao =
+                DaoOfModelUtil.userDaoOf(
+                        userRepository.load(userId).orElseThrow(
+                                () -> new IllegalArgumentException(USER_IS_NOT_IN_THE_DATABASE)));
         final Set<GroupDao> groupDaos = groupJpaRepository.findAllByUserDaosContaining(targetUserDao);
         final Set<DatePollDao> datePollDaosFromUser = new HashSet<>();
         groupDaos.stream()
@@ -225,8 +232,8 @@ public class DatePollRepositoryImpl implements DatePollRepository {
      */
     @Override
     @SuppressWarnings("PMD.LawOfDemeter") //stream
-    public Set<DatePoll> getDatePollByCreator(UserId userId) {
-        final UserDao targetUser = DaoOfModelUtil.userDaoOf(userId);
+    public Set<DatePoll> getDatePollByCreator(@NonNull UserId userId) {
+        final UserDao targetUser = DaoOfModelUtil.userDaoOf(userRepository.load(userId).orElseThrow());
         final Set<DatePollDao> datePollDaosCreatedByUser = datePollJpaRepository
             .findByCreatorUserDao(targetUser);
         return datePollDaosCreatedByUser.stream()
