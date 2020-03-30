@@ -76,6 +76,7 @@ public class DatePollsFromUser {
         )));
         final Group group = createGroup(users);
 
+        groupRepository.save(group);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
@@ -84,7 +85,6 @@ public class DatePollsFromUser {
                 .participatingGroups(Set.of(group.getMetaInf().getId()))
                 .datePollLink(datePollLink)
                 .build();
-        groupRepository.save(group);
         return datePoll;
     }
 

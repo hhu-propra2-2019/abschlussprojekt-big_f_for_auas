@@ -85,6 +85,7 @@ public class DatabaseDatePollIntegrityTest {
                 new Timespan(LocalDateTime.now().plusDays(i), LocalDateTime.now().plusDays(10 + i))
         )));
 
+        groupRepository.save(group);
         datePoll = new DatePollBuilder()
                 .datePollMetaInf(datePollMetaInf)
                 .creator(creator)
@@ -93,7 +94,6 @@ public class DatabaseDatePollIntegrityTest {
                 .participatingGroups(Set.of(group.getMetaInf().getId()))
                 .datePollLink(datePollLink)
                 .build();
-        groupRepository.save(group);
     }
 
     @Test

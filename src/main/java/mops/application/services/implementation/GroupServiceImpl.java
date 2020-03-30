@@ -30,6 +30,6 @@ public class GroupServiceImpl implements GroupService {
     public boolean isUserInGroup(UserId userId, GroupId groupId) {
         final Group group = groupRepository.load(groupId).orElseThrow();
         return group.getUser().stream()
-                .anyMatch(id -> id.equals(userId));
+                .anyMatch(user -> user.getId().equals(userId));
     }
 }
