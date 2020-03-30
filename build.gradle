@@ -1,10 +1,12 @@
+import com.github.spotbugs.SpotBugsTask
+
 plugins {
 	id 'org.springframework.boot' version '2.2.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 	id 'checkstyle'
 	id 'pmd'
-	id "com.github.spotbugs" version "4.0.4"
+	id "com.github.spotbugs" version "3.0.0"
 }
 
 repositories {
@@ -95,6 +97,13 @@ dependencyManagement {
 
 test {
 	useJUnitPlatform()
+}
+
+tasks.withType(SpotBugsTask) {
+	reports {
+		xml.enabled = false
+		html.enabled = true
+	}
 }
 
 checkstyle {
