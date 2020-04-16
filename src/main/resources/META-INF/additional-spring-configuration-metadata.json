@@ -8,6 +8,20 @@
     {
       "name": "mops.gruppen2.api-root",
       "type": "java.lang.String",
-      "description": "Beispiel: http://localhost:8080/gruppen2"
+      "description": "Der Wurzelpfad des SCS: z.B. http://localhost:8081/gruppen2"
+    },
+    {
+      "name": "hhu.keycloak.issuer-uri",
+      "type": "java.lang.String",
+      "description": "Die URI ist für Keycloak z.B. https://keycloak.cs.hhu.de/auth/realms/MOPS"
+    },
+    {
+      "name": "hhu.keycloak.user-name-attribute",
+      "type": "java.lang.String",
+      "description": "In unserem Fall preferred_username"
+    },
+    {
+      "name": "application.name",
+      "type": "java.lang.String"
     }
   ] }

@@ -2,8 +2,8 @@ package mops.infrastructure.groupsync;
 
 import lombok.extern.log4j.Log4j2;
 import mops.domain.repositories.GroupRepository;
-import mops.infrastructure.groupsync.dto.GroupSyncInputDto;
-import mops.infrastructure.groupsync.dto.GroupSyncValidDto;
+import mops.infrastructure.groupsync.dto.JacksonInputDto;
+import mops.infrastructure.groupsync.dto.ValidatedInputDto;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Optional;
@@ -37,23 +37,24 @@ public final class GroupSyncService {
     public void syncGroups() {
         log.info("-------------------------------------------");
         log.info("Group Sync: Start scheduled synchronization");
-        final Optional<GroupSyncInputDto> groupSyncInputDto = syncController.getGroupSyncDto(lastStatus);
+        final Optional<JacksonInputDto> groupSyncInputDto = syncController.getGroupSyncDto(lastStatus);
         if (groupSyncInputDto.isPresent()) {
-            final GroupSyncValidDto groupSyncValidDto =
-                    syncValidator.validateAndKeepValid(groupSyncInputDto.get(), lastStatus);
-            groupSyncValidDto.getGroups().forEach(groupRepository::save);
+            final ValidatedInputDto validatedInputDto =
+                    syncValidator.validateAndKeepValid(groupSyncInputDto.get());
+            validatedInputDto.getGroups().forEach(groupRepository::save);
+            validatedInputDto.getDeletedGroups().forEach(groupRepository::deleteById);
             // Status nur updaten, wenn fehlerfrei eingelesen wurde. Andernfalls zwar die gültigen
             // Gruppen hinzufügen, aber das nächste Mal versuchen, wieder alle Gruppen zu parsen.
             // Ob dieses Verhalten gewünscht ist, kann ich nicht entscheiden.
             // Sorgt aber dafür, dass es zulasten von Overhead im Fall von Fehlern weniger wahrscheinlich ist,
             // dass eine Gruppe vorhanden ist, aber nicht synchronisiert wird.
-            if (groupSyncValidDto.isErrorsOccurred()) {
+            if (validatedInputDto.isErrorsOccurred()) {
                 log.warn("Group Sync: Attention: The JSON input was not valid. Invalid groups have been dropped.");
             } else {
-                lastStatus = groupSyncValidDto.getStatus();
+                lastStatus = validatedInputDto.getStatus();
             }
             log.info(String.format(
-                    "Result: %d groups have been read successfully.", groupSyncValidDto.getGroups().size()));
+                    "Result: %d groups have been read successfully.", validatedInputDto.getGroups().size()));
         }
         log.info("-------------------------------------------");
     }

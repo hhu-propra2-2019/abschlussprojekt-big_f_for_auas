@@ -6,6 +6,7 @@ import mops.infrastructure.database.daos.GroupDao;
 import mops.infrastructure.database.daos.UserDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.lang.NonNull;
 
 import java.util.Set;
 
@@ -14,6 +15,9 @@ public interface GroupJpaRepository extends JpaRepository<GroupDao, String> {
     boolean existsGroupDaoById(String id);
 
     Set<GroupDao> findAllByUserDaosContaining(UserDao userDao);
+
+    @Override
+    void deleteById(@NonNull String groupId);
 
     // Direkt zu Dto lesen, um nicht für eine Read-Operation ein Entity zu laden,
     // das gemanaged werden muss.

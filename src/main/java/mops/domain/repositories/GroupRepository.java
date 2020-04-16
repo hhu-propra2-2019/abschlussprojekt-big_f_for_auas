@@ -11,6 +11,7 @@ import java.util.Set;
 public interface GroupRepository {
     Optional<Group> load(GroupId groupId);
     void save(Group group);
+    void deleteById(GroupId groupId);
 
     boolean exists(GroupId groupId);
     Set<GroupMetaInf> getMetaInfForPublicGroups();
